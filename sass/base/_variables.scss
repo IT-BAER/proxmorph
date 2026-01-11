@@ -1,0 +1,30 @@
+// ProxMorph Base Variables
+// These are set by the theme template, with defaults as fallback
+
+// CSS Custom Properties output
+:root {
+  // Accent
+  --pm-accent: #{$accent};
+  --pm-accent-light: #{$accent-light};
+  --pm-accent-dark: #{$accent-dark};
+  
+  // Status
+  --pm-success: #{$success};
+  --pm-warning: #{$warning};
+  --pm-error: #{$error};
+  --pm-info: #{$info};
+  
+  // Backgrounds
+  --pm-bg-base: #{$bg-base};
+  --pm-bg-surface: #{$bg-surface};
+  --pm-bg-elevated: #{$bg-elevated};
+  
+  // Text
+  --pm-text: #{$text-primary};
+  --pm-text-dim: #{$text-secondary};
+  --pm-text-muted: #{$text-muted};
+  
+  // Borders
+  --pm-border: #{$border};
+  --pm-border-subtle: #{$border-subtle};
+}

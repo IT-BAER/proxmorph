@@ -1,0 +1,50 @@
+// ProxMorph Theme Base Template
+// Copy this file and modify the variables to create a new theme
+// Compile with: sass theme-name.scss theme-name.css
+
+// ============================================
+// THEME CONFIGURATION
+// ============================================
+
+// Theme Name (shown in Proxmox dropdown)
+// IMPORTANT: First line of compiled CSS must be: /*!Theme Name*/
+$theme-name: "My Theme";
+
+// Primary Accent Color
+$accent: #3b82f6;
+$accent-light: lighten($accent, 10%);
+$accent-dark: darken($accent, 10%);
+
+// Status Colors
+$success: #10b981;  // Running, Online
+$warning: #f59e0b;  // Paused, Pending
+$error: #ef4444;    // Stopped, Error
+$info: #06b6d4;     // Info
+
+// Background Colors (darkest to lightest)
+$bg-base: #0f172a;      // Main background
+$bg-surface: #1e293b;   // Panels, headers
+$bg-elevated: #334155;  // Hover states, inputs
+
+// Text Colors
+$text-primary: #f1f5f9;
+$text-secondary: #cbd5e1;
+$text-muted: #94a3b8;
+
+// Border Colors
+$border: #475569;
+$border-subtle: #334155;
+
+// ============================================
+// DO NOT EDIT BELOW (unless customizing)
+// ============================================
+
+// Import the base styles
+@import 'base/variables';
+@import 'base/panels';
+@import 'base/navigation';
+@import 'base/forms';
+@import 'base/tables';
+@import 'base/buttons';
+@import 'base/status';
+@import 'base/misc';

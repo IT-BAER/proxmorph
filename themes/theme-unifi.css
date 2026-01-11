@@ -1,0 +1,3367 @@
+/*!UniFi*/
+/*
+ * ProxMorph Theme: UniFi
+ * Authentic recreation of Ubiquiti UniFi Network Application UI
+ * Version: 5.36 - UniFi-authentic checkbox/radio button styling
+ * 
+ * UniFi Color Palette (extracted from live instance):
+ * 
+ * BACKGROUNDS:
+ * - Base/Body: #131416 (rgb 19,20,22) - main dark background
+ * - Header: #282B2F (rgb 40,43,47) - top navigation bar
+ * - Hover solid: #34383D (rgb 52,56,61) - button hover
+ * - Hover subtle: rgba(249, 250, 250, 0.02) - row hover
+ * - Hover medium: rgba(249, 250, 250, 0.04) - tertiary hover
+ * - Hover strong: rgba(249, 250, 250, 0.07) - input hover
+ * 
+ * TEXT COLORS:
+ * - Primary: #DEE0E3 (rgb 222,224,227) - main text
+ * - Secondary: #B7BCC2 (rgb 183,188,194) - labels
+ * - Bright: #F9FAFA (rgb 249,250,250) - headings/emphasis
+ * - Muted: rgba(255, 255, 255, 0.65) - sidebar text
+ * - Tertiary: #737C87 (rgb 115,124,135) - disabled/hints
+ * 
+ * ACCENT COLORS:
+ * - Primary Blue: #006EFF - links, active states
+ * - Blue Hover: #4797FF (rgb 71,151,255)
+ * - Success: #37BE5F (rgb 55,190,95)
+ * - Warning: #f5a623
+ * - Danger: #f03a3e
+ * 
+ * CSS VARIABLES (official Ubiquiti):
+ * - --ubnt-color-DN60: #151725 (darkest neutral)
+ * - --ubnt-color-DN50: #242635 (card background)
+ * - --ubnt-color-primary: #006fff
+ */
+
+/* =====================================================
+   CSS VARIABLES
+   ===================================================== */
+:root {
+    /* UniFi design tokens (excerpted from UniFi Network.html) */
+    --ubnt-color-DN60: #151725;
+    --ubnt-color-DN55: #1c1e2d;
+    --ubnt-color-DN50: #242635;
+    --ubnt-color-DN40: #333543;
+    --ubnt-color-DN30: #525461;
+    --ubnt-color-DN20: #7e8190;
+    --ubnt-color-DN10: #a4a7b5;
+    --ubnt-color-DN0: #c2c4ce;
+    --ubnt-color-N0: #fff;
+    --ubnt-color-N10: #fbfbfc;
+    --ubnt-color-N20: #f8f8f9;
+    --ubnt-color-N30: #f4f4f5;
+    --ubnt-color-N40: #f1f2f4;
+    --ubnt-color-N50: #e5e7ed;
+    --ubnt-color-N60: #d6d9e2;
+    --ubnt-color-N70: #c2c4ce;
+    --ubnt-color-BN0: #010a19;
+    --ubnt-color-BN10: #0b1527;
+    --ubnt-color-BN20: #101a2b;
+    --ubnt-color-BN30: #151f30;
+    --ubnt-color-BN40: #1a2535;
+    --ubnt-color-BN50: #1f2b3b;
+    --ubnt-color-P0: #003c9e;
+    --ubnt-color-P10: #0056c7;
+    --ubnt-color-P20: #006fff;
+    --ubnt-color-P25: #57a0ff;
+    --ubnt-color-P30: #46c7fd;
+    --ubnt-color-P40: #39cc64;
+    --ubnt-color-P50: #bfe041;
+    --ubnt-color-P55: #ffdb1a;
+    --ubnt-color-P60: #f5a623;
+    --ubnt-color-P70: #f03a3e;
+    --ubnt-color-P80: #a252e3;
+    --ubnt-color-P90: #6b34e0;
+    --ubnt-color-P100: #7e8190;
+    --ubnt-color-primary-D0: #0266e9;
+    --ubnt-color-primary-L0: #1a7dff;
+    --ubnt-color-primary-L10: #57a0ff;
+    --ubnt-color-primary-L20: #bfdbff;
+    --ubnt-color-primary-L30: #d9eaff;
+    --ubnt-color-primary-L40: #e5f0ff;
+    --ubnt-color-primary-L50: #f2f8ff;
+    --ubnt-color-primary-T5: rgba(0, 111, 255, 0.05);
+    --ubnt-color-primary-T20: rgba(0, 111, 255, 0.2);
+    --ubnt-color-primary-T40: rgba(0, 111, 255, 0.4);
+    --ubnt-color-primary-T50: rgba(0, 111, 255, 0.5);
+    --ubnt-color-success-T40: rgba(57, 204, 100, 0.4);
+    --ubnt-color-danger: #f03a3e;
+    --ubnt-color-warning: #f5a623;
+    --ubnt-color-success: #39cc64;
+    --ubnt-color-primary: #006fff;
+    --ubnt-color-text-link: #006fff;
+    --ubnt-color-text-link-hover: #57a0ff;
+
+    /* ProxMorph semantic variables */
+    --pm-accent: #006EFF;
+    --pm-accent-hover: #4797FF;
+    --pm-accent-active: #0058cc;
+
+    --pm-success: #37BE5F;
+    --pm-warning: var(--ubnt-color-warning);
+    --pm-error: var(--ubnt-color-danger);
+
+    /* Base palette tuned to Proxmox UI (keeps existing theme look) */
+    --pm-bg-base: #131416;
+    --pm-bg-surface: #282B2F;
+    --pm-bg-elevated: #34383D;
+
+    --pm-border: #34383D;
+    --pm-border-strong: #444444;
+
+    --pm-text: #DEE0E3;
+    --pm-text-dim: #B7BCC2;
+    --pm-text-muted: #B7BCC2;
+    --pm-text-disabled: #737C87;
+    --pm-text-bright: #F9FAFA;
+
+    --pm-hover-subtle: rgba(249, 250, 250, 0.02);
+    --pm-hover-medium: rgba(249, 250, 250, 0.04);
+    --pm-hover-strong: rgba(249, 250, 250, 0.07);
+
+    --pm-radius-sm: 4px;
+    --pm-radius-md: 6px;
+    --pm-radius-lg: 8px;
+    --pm-radius-xl: 12px;
+
+    --pm-focus-ring-color: rgba(0, 111, 255, 0.15);
+
+    /* Proxmox widget toolkit variables */
+    --pwt-panel-background: var(--pm-bg-base);
+    --pwt-text-color: var(--pm-text-dim);
+    --pwt-gauge-default: var(--pm-accent-hover);
+    --pwt-gauge-back: var(--pm-bg-elevated);
+    --pwt-gauge-warn: var(--pm-warning);
+    --pwt-gauge-crit: var(--pm-error);
+    --pwt-chart-primary: var(--pm-success);
+    --pwt-chart-grid-stroke: var(--pm-border);
+
+    color-scheme: dark;
+}
+
+/* =====================================================
+   GLOBAL BORDER-BOX ROUNDED CORNERS (UniFi style)
+   ===================================================== */
+.x-border-box,
+.x-border-box * {
+    border-radius: var(--pm-radius-lg);
+}
+
+/* Remove rounded corners from grids/tables/lists (Tasks, logs) */
+.x-grid,
+.x-grid *,
+.x-grid-header-ct,
+.x-grid-header-ct *,
+.x-grid-view,
+.x-grid-view *,
+.x-column-header,
+.x-column-header *,
+.x-grid-item,
+.x-grid-cell,
+.x-grid-cell-inner,
+.x-grid-row,
+table,
+table *,
+tr,
+td,
+th,
+/* Legend elements - no rounded corners */
+.x-legend,
+.x-legend *,
+.x-legend-container,
+.x-legend-container *,
+.x-legend-item,
+.x-legend-horizontal .x-legend-item,
+.x-legend-vertical .x-legend-item,
+.x-legend-horizontal .x-legend-item:first-child,
+.x-legend-horizontal .x-legend-item:last-child,
+.x-legend-vertical .x-legend-item:first-child,
+.x-legend-vertical .x-legend-item:last-child,
+/* Tool icons - no rounded corners */
+.x-tool,
+.x-tool-tool-el,
+.x-tool-default,
+.x-tool-img {
+    border-radius: 0 !important;
+}
+
+/* Form elements - exclude from global 8px, apply 4px (UniFi style) */
+/* Reset ALL form-related parent containers to prevent 8px inheritance */
+.x-form-item,
+.x-form-item-default,
+.x-form-item-body,
+.x-form-item-body-default,
+.x-form-text-field-body,
+.x-form-text-field-body-default,
+.x-form-fieldcontainer,
+.x-field,
+.x-field-default,
+.x-form-type-text {
+    border-radius: 0 !important;
+}
+
+/* Reset layout containers that clip form elements with overflow:hidden + 8px radius */
+.x-box-layout-ct,
+.x-panel-bodyWrap,
+.x-panel-bodyWrap-default,
+.x-autocontainer-innerCt,
+.x-autocontainer-outerCt,
+.x-panel.x-tabpanel-child,
+.x-panel.x-box-item,
+.x-box-inner,
+.x-box-target,
+.x-container,
+.x-container-default,
+/* Window/dialog inner bodies - prevent 8px clipping on form elements */
+.x-window .x-panel-body,
+.x-window .x-window-body,
+.x-window .x-window-bodyWrap {
+    border-radius: 0 !important;
+}
+
+.x-form-trigger-wrap,
+.x-form-trigger-wrap *,
+.x-form-text-wrap,
+.x-form-text-wrap *,
+.x-form-text,
+.x-form-trigger {
+    border-radius: 0 !important;
+}
+
+/* Form element containers - 4px radius (UniFi consistent) */
+.x-form-trigger-wrap,
+.x-form-trigger-wrap-default {
+    border-radius: 4px !important;
+    overflow: hidden !important;
+}
+
+/* Form text wrap - left side rounded */
+.x-form-text-wrap,
+.x-form-text-wrap-default {
+    border-radius: 4px 0 0 4px !important;
+}
+
+/* Form input text - left side rounded */
+.x-form-text,
+.x-form-text-default {
+    border-radius: 4px 0 0 4px !important;
+}
+
+/* Form trigger button - right side rounded */
+.x-form-trigger,
+.x-form-trigger-default,
+.x-form-arrow-trigger,
+.x-form-arrow-trigger-default {
+    border-radius: 0 4px 4px 0 !important;
+}
+
+/* Cursor styles for combobox/dropdown elements (pointer indicates clickable) */
+.x-form-trigger-wrap,
+.x-form-text-wrap,
+.x-form-field[role="combobox"],
+input.x-form-text[readonly],
+.x-form-trigger,
+.x-form-arrow-trigger {
+    cursor: pointer !important;
+}
+
+/* Cursor for dropdown list items */
+.x-boundlist-item,
+.x-boundlist-item-over,
+.x-boundlist-selected {
+    cursor: pointer !important;
+}
+
+/* =====================================================
+   BASE / BODY - Authentic UniFi dark background
+   ===================================================== */
+.x-body {
+    color: var(--pm-text);
+    background-color: var(--pm-bg-base);
+}
+
+.x-viewport>.x-body {
+    background-color: var(--pm-bg-base);
+}
+
+body.x-border-layout-ct,
+div.x-border-layout-ct {
+    background-color: var(--pm-bg-base);
+}
+
+/* =====================================================
+   LEGEND / CHARTS - Ensure chart visibility
+   ===================================================== */
+.x-legend-container {
+    background-color: var(--pm-bg-base);
+    border-radius: 0 !important;
+}
+
+.x-legend-horizontal .x-legend-item,
+.x-legend-item {
+    background-color: var(--pm-bg-base);
+    color: var(--pm-text-muted);
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Legend color marker (dot) - keep circular */
+.x-legend-item-marker {
+    border-radius: 50% !important;
+}
+
+/* Chart canvas and SVG visibility */
+.x-chart,
+.rrd-chart canvas,
+canvas.x-surface {
+    opacity: 1 !important;
+}
+
+/* Chart grid lines */
+.x-chart-grid-horizontal line,
+.x-chart-grid-vertical line {
+    stroke: #34383D !important;
+    stroke-opacity: 1 !important;
+}
+
+/* Chart axis text */
+.x-chart-axis-label {
+    fill: #B7BCC2 !important;
+}
+
+/* RRDTool charts (Proxmox specific) - ensure PNG charts are visible */
+img.rrdimage,
+.rrd-chart img,
+div[class*="rrd"] img {
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* =====================================================
+   MASKS & OVERLAYS
+   ===================================================== */
+.x-mask {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no black mask overlay) */
+.x-item-disabled.x-masked-relative > .x-mask {
+    background-color: transparent !important;
+}
+
+.x-tool .x-mask {
+    backdrop-filter: blur(4px);
+    background-color: #131416;
+    opacity: 0.6;
+}
+
+.x-css-shadow {
+    box-shadow: rgba(0, 0, 0, 0.6) 0 4px 20px !important;
+}
+
+/* =====================================================
+   ICONS - Inverted for dark mode
+   ===================================================== */
+/* General icons - gray color */
+.fa-database::before,
+.fa-tags::before,
+.fa-file-o::before,
+.fa-building::before,
+.x-action-col-icon::before,
+.fa-shield::before,
+.fa-file-text-o::before,
+.fa-clock-o::before,
+.x-tab-icon-el-default,
+.pve-icon-verify-lettering::after,
+.x-tree-icon-custom.lock-migrate::after,
+.x-grid-icon-custom.lock-migrate::after,
+.x-tree-icon-leaf:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before,
+.x-grid-filters-filtered-column .x-column-header-text::after {
+    color: #B7BCC2;
+}
+
+/* VM/CT icons - default gray, NOT green */
+.x-tree-icon-custom,
+.x-grid-icon-custom {
+    color: #B7BCC2;
+}
+
+.x-tree-icon-parent:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before {
+    filter: invert(90%);
+}
+
+.fa-ceph::before,
+.fa-sdn::before,
+.fa-network-wired::before,
+.pve-itype-treelist-item-icon-cdrom,
+.fa-chevron-right::before,
+.x-grid-row-console,
+.x-box-scroller-toolbar-default.x-box-scroller,
+.x-tree-elbow-img,
+.pve-itype-icon-qemu,
+.x-tree-node-computer,
+.x-grid-tree-node-expanded .x-tree-node-computer,
+.pbs-icon-tape,
+.pbs-icon-tape-drive,
+.x-tree-icon-leaf:not(.x-tree-icon-custom),
+.x-tree-icon-parent:not(.x-tree-icon-custom),
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom) {
+    filter: invert(90%);
+}
+
+.pve-itype-icon-cpu,
+.pve-itype-icon-cdrom,
+.pve-itype-icon-memory,
+.pve-itype-icon-pci,
+.pve-itype-icon-serial,
+.pve-itype-icon-die,
+.pmx-itype-icon-processor,
+.pmx-itype-icon-memory,
+.pve-itype-icon-storage,
+.x-tree-node-harddisk,
+.x-grid-tree-node-expanded .x-tree-node-harddisk {
+    filter: invert(90%);
+}
+
+.x-tree-icon-custom,
+.x-grid-icon-custom {
+    color: #B7BCC2;
+}
+
+/* Running VMs/CTs - type icon neutral; status indicator handled separately */
+.x-tree-icon-custom.running,
+.x-grid-icon-custom.running {
+    color: #B7BCC2;
+}
+
+.x-tree-icon-custom::after,
+.x-grid-icon-custom::after {
+    color: #B7BCC2;
+    text-shadow: none;
+}
+
+.x-tree-icon-custom.stopped,
+.x-tree-icon-custom.offline,
+.x-grid-icon-custom.stopped,
+.x-grid-icon-custom.offline {
+    color: #737C87;
+}
+
+.x-tree-icon-custom.lxc::after,
+.x-tree-icon-custom.qemu::after,
+.x-grid-icon-custom.lxc::after,
+.x-grid-icon-custom.qemu::after {
+    background-color: #131416;
+    color: #B7BCC2;
+}
+
+.x-tree-arrows .x-tree-expander {
+    filter: brightness(200%);
+}
+
+/* =====================================================
+   v5.6: Custom tree expander arrows (FontAwesome chevrons)
+   Replaces default sprite arrows with larger, animated icons
+   ===================================================== */
+
+/* Base expander styling - replace sprite with FA icon */
+.x-tree-expander {
+    background-image: none !important;
+    position: relative !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 4px !important;
+    vertical-align: middle !important;
+}
+
+/* Arrow icon using FontAwesome chevron-right */
+.x-tree-expander::before {
+    content: "\f054" !important;
+    /* FA chevron-right */
+    font-family: "FontAwesome" !important;
+    font-size: 11px !important;
+    color: #737C87 !important;
+    /* UniFi tertiary/muted color */
+    position: absolute !important;
+    top: -2px !important;
+    left: 3px !important;
+    transition: transform 0.2s ease, color 0.15s ease !important;
+}
+
+/* Expanded state - arrow rotates 90 degrees */
+.x-grid-tree-node-expanded .x-tree-expander::before {
+    transform: rotate(90deg) !important;
+    color: #B7BCC2 !important;
+    /* UniFi secondary text */
+}
+
+/* Collapsed state - no rotation */
+tr:not(.x-grid-tree-node-expanded) .x-tree-expander::before {
+    transform: rotate(0deg) !important;
+}
+
+/* Hover effect - UniFi blue accent */
+.x-tree-expander:hover::before {
+    color: #006EFF !important;
+}
+
+/* Gap before node icon */
+.x-tree-icon-parent,
+.x-tree-icon-leaf,
+.x-tree-icon {
+    margin-left: 2px !important;
+}
+
+/* Empty elbows - no extra margin */
+.x-tree-elbow-empty,
+.x-tree-elbow {
+    margin-right: 0 !important;
+}
+
+/* =====================================================
+   v5.36: CHECKBOXES & RADIO BUTTONS - UniFi Authentic
+   Extracted from live UniFi Network Application
+   ===================================================== */
+
+/* Remove the old filter-based styling */
+.x-form-checkbox-default,
+.x-form-radio-default,
+.x-column-header-checkbox .x-column-header-checkbox::after,
+.x-grid-checkcolumn::after,
+.x-menu-item-checked .x-menu-item-icon-default.x-menu-item-checkbox,
+.x-menu-item-unchecked .x-menu-item-icon-default.x-menu-item-checkbox {
+    filter: none !important;
+}
+
+/* The actual INPUT element that receives clicks - needs pointer cursor */
+.x-form-cb-input {
+    cursor: pointer !important;
+}
+
+/* CHECKBOXES - Base styling (SPAN element - visual display) */
+.x-form-checkbox,
+.x-form-checkbox-default {
+    display: inline-block !important;
+    width: 16px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    min-height: 16px !important;
+    border-radius: 4px !important;
+    border: 0.8px solid #737C87 !important;
+    background-color: rgba(0, 0, 0, 0.01) !important;
+    background-image: none !important;
+    cursor: pointer !important;
+    transition: border-color 0.2s linear, background-color 0.2s linear !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+}
+
+/* Checkbox - Checked state */
+.x-form-cb-checked .x-form-checkbox {
+    border-color: #4797FF !important;
+    background-color: #4797FF !important;
+    background-image: none !important;
+}
+
+/* Checkbox checkmark using ::after pseudo-element */
+.x-form-cb-checked .x-form-checkbox::after {
+    content: '✓' !important;
+    position: absolute !important;
+    color: white !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    pointer-events: none !important;
+}
+
+/* Checkbox - Hover state */
+.x-form-checkbox:hover,
+.x-form-cb:hover .x-form-checkbox,
+.x-form-cb-wrap:hover .x-form-checkbox {
+    border-color: #4797FF !important;
+}
+
+/* RADIO BUTTONS - Base styling */
+.x-form-radio,
+.x-form-radio-default {
+    display: inline-block !important;
+    width: 16px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    min-height: 16px !important;
+    border-radius: 50% !important;
+    border: 0.8px solid #737C87 !important;
+    background-color: rgba(0, 0, 0, 0.01) !important;
+    background-image: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: border-color 0.2s linear !important;
+    box-sizing: border-box !important;
+}
+
+/* Radio - Checked state border */
+.x-form-cb-checked .x-form-radio {
+    border-color: #4797FF !important;
+    background-color: rgba(0, 0, 0, 0.01) !important;
+    background-image: none !important;
+}
+
+/* Radio - Inner dot using ::after pseudo-element */
+.x-form-radio::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background-color: transparent !important;
+    transform: translate(-50%, -50%) scale(0) !important;
+    transition: transform 0.2s ease, background-color 0.2s ease !important;
+    pointer-events: none !important;
+}
+
+/* Radio - Checked inner dot */
+.x-form-cb-checked .x-form-radio::after {
+    background-color: #4797FF !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
+/* Radio - Hover state */
+.x-form-radio:hover,
+.x-form-cb-wrap:hover .x-form-radio {
+    border-color: #4797FF !important;
+}
+
+/* =====================================================
+   BUTTONS - Clean, minimal style (UniFi authentic)
+   Slightly smaller size with proper padding
+   ===================================================== */
+.x-btn-default-small {
+    background-color: #006EFF;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px !important;
+    min-height: 28px !important;
+}
+
+.x-btn-default-small .x-btn-inner {
+    color: #ffffff;
+    padding: 2px 4px !important;
+}
+
+.x-btn-default-small.x-btn-over,
+.x-keyboard-mode .x-btn-default-small.x-btn-focus {
+    background-color: #338BFF;
+}
+
+.x-btn-default-small.x-btn.x-btn-disabled {
+    background-color: #006EFF;
+    opacity: 0.4;
+}
+
+.x-btn-default-small.x-btn.x-btn-pressed {
+    background-color: #0052cc;
+}
+
+/* Toolbar buttons - subtle, minimal style */
+.x-btn-default-toolbar-small {
+    background-color: transparent;
+    border: 1px solid #34383D !important;
+    padding: 4px 8px !important;
+    border-radius: 4px;
+}
+
+.x-btn-default-toolbar-small .x-btn-inner-default-toolbar-small {
+    color: #B7BCC2;
+}
+
+.x-btn-default-toolbar-small .x-btn-icon-el-default-toolbar-small {
+    color: #B7BCC2;
+}
+
+/* v5.8: Toolbar button icon vertical centering fix */
+.x-btn-wrap.x-btn-wrap-default-toolbar-small {
+    align-items: center !important;
+}
+
+.x-btn-icon-el.x-btn-icon-el-default-toolbar-small {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 16px !important;
+    height: 16px !important;
+}
+
+.x-btn-inner.x-btn-inner-default-toolbar-small {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.x-btn-default-toolbar-small .x-btn-wrap-default-toolbar-small.x-btn-arrow-right::after,
+.x-btn-default-toolbar-small .x-btn-wrap-default-toolbar-small.x-btn-split-right::after {
+    filter: brightness(150%);
+}
+
+.x-btn-default-toolbar-small.x-btn-over,
+.x-keyboard-mode .x-btn-default-toolbar-small.x-btn-focus {
+    background-color: #34383D;
+}
+
+.x-btn-default-toolbar-small.x-btn.x-btn-disabled {
+    opacity: 0.4;
+}
+
+.x-btn-default-toolbar-small.x-btn.x-btn-menu-active,
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed {
+    background-color: #006EFF;
+}
+
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-toolbar-small,
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-icon-el-default-toolbar-small {
+    color: #ffffff;
+}
+
+/* Server View cogwheel button height - match adjacent combobox (28px) */
+.x-box-target:has(#view)>.x-btn {
+    height: 28px !important;
+    min-height: 28px !important;
+}
+
+/* Header buttons (Create VM, Create CT, root@pam) - consistent 28px height with vertical centering */
+/* v5.29: Exclude tag edit buttons (display:none when hidden, :has(.fa-check) for checkmark) */
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) {
+    height: 28px !important;
+    min-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 3px 8px !important;
+}
+
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) .x-btn-wrap {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) .x-btn-inner {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Fix dropdown arrows on split/arrow buttons */
+.x-btn-wrap.x-btn-arrow-right::after,
+.x-btn-wrap.x-btn-split-right::after {
+    height: 16px !important;
+    min-height: 16px !important;
+    width: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* v5.27: Fix icon-only buttons - hide &nbsp; inner element when button has no text */
+/* ExtJS adds x-btn-no-text class to buttons with only an icon */
+.x-btn-no-text .x-btn-inner,
+.x-btn-button.x-btn-no-text .x-btn-inner,
+.x-btn-button-default-toolbar-small.x-btn-no-text .x-btn-inner-default-toolbar-small,
+.x-btn-button-default-small.x-btn-no-text .x-btn-inner-default-small,
+.x-btn-button-default-small.x-btn-no-text > .x-btn-inner-default-small {
+    display: none !important;
+}
+
+/* =====================================================
+   v5.8: TOOLBOX SCROLL ARROWS FIX
+   ExtJS behavior: 
+   - Sets inline display:none when content NOT scrollable
+   - Adds x-box-scroller-disabled class at boundary
+   - No inline style when scrollable (show arrow)
+   ===================================================== */
+
+/* Hide disabled scrollers (at boundary) */
+.x-box-scroller.x-box-scroller-disabled {
+    display: none !important;
+}
+
+/* Hide scrollers when ExtJS sets inline display:none (not scrollable) */
+/* Note: ExtJS uses "display:none" without space, check both formats */
+.x-box-scroller.x-box-scroller-toolbar[style*="display:none"],
+.x-box-scroller.x-box-scroller-toolbar[style*="display: none"] {
+    display: none !important;
+}
+
+/* Show scrollers when content is scrollable (no inline display style, not disabled) */
+.x-toolbar-vertical .x-box-scroller-top:not(.x-box-scroller-disabled):not([style*="display"]),
+.x-toolbar-vertical .x-box-scroller-bottom:not(.x-box-scroller-disabled):not([style*="display"]) {
+    display: flex !important;
+}
+
+/* Style the vertical toolbar scrollers - arrow only, no background */
+.x-toolbar-vertical .x-box-scroller-top,
+.x-toolbar-vertical .x-box-scroller-bottom {
+    width: 100% !important;
+    height: 16px !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    filter: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+    z-index: 100 !important;
+    border: none !important;
+}
+
+.x-toolbar-vertical .x-box-scroller-top {
+    top: 0 !important;
+}
+
+.x-toolbar-vertical .x-box-scroller-bottom {
+    bottom: 0 !important;
+}
+
+/* Arrow icons */
+.x-toolbar-vertical .x-box-scroller-top::before {
+    content: '▲' !important;
+    font-size: 10px !important;
+    color: #B7BCC2 !important;
+}
+
+.x-toolbar-vertical .x-box-scroller-bottom::before {
+    content: '▼' !important;
+    font-size: 10px !important;
+    color: #B7BCC2 !important;
+}
+
+/* Hover states */
+.x-toolbar-vertical .x-box-scroller-top:hover::before,
+.x-toolbar-vertical .x-box-scroller-bottom:hover::before {
+    color: #F9FAFA !important;
+}
+
+/* Re-hide disabled scrollers after styling */
+.x-toolbar-vertical .x-box-scroller.x-box-scroller-disabled {
+    display: none !important;
+}
+
+/* =====================================================
+   FORM ELEMENTS - Clean inputs (UniFi authentic)
+   ===================================================== */
+.x-form-trigger-default {
+    background-color: transparent;
+}
+
+/* Boundlist dropdown popup - UniFi style 4px radius */
+.x-boundlist {
+    background-color: #282B2F;
+    border: 1px solid #34383D;
+    border-radius: 4px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    padding: 2px;
+}
+
+.x-boundlist-item {
+    background-color: transparent;
+    border: none;
+    border-radius: 4px !important;
+    color: #DEE0E3;
+    padding: 2px 8px;
+}
+
+.x-boundlist-selected {
+    background-color: rgba(249, 250, 250, 0.07);
+    color: #F9FAFA;
+}
+
+.x-boundlist-item-over {
+    background-color: rgba(249, 250, 250, 0.04);
+    color: #DEE0E3;
+}
+
+/* v5.38: Fix boundlist inner container inheriting 8px radius from global rule */
+.x-boundlist-list-ct {
+    border-radius: 4px !important;
+}
+
+/* Dropdown/floating grid pickers (e.g. ISO selector): readable column headers */
+.x-layer.x-grid .x-grid-header-ct,
+.x-layer.x-grid .x-column-header,
+.x-boundlist .x-grid-header-ct,
+.x-boundlist .x-column-header {
+    background-color: var(--pm-bg-surface) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.x-layer.x-grid .x-column-header-inner,
+.x-layer.x-grid .x-column-header-text,
+.x-layer.x-grid .x-column-header-text-inner,
+.x-layer.x-grid .x-column-header-text-default,
+.x-boundlist .x-column-header-inner,
+.x-boundlist .x-column-header-text,
+.x-boundlist .x-column-header-text-inner,
+.x-boundlist .x-column-header-text-default {
+    color: var(--pm-text-bright) !important;
+    font-weight: 700 !important;
+}
+
+.x-layer.x-grid .x-column-header-trigger,
+.x-boundlist .x-column-header-trigger {
+    border-left-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.x-form-display-field-default {
+    color: #B7BCC2;
+}
+
+.x-form-text-default {
+    background-color: transparent;
+    color: #F9FAFA;
+    border-radius: 4px 0 0 4px !important;
+    padding: 6px 10px !important;
+}
+
+.x-form-trigger-wrap-default {
+    border-color: var(--pm-border);
+    border-radius: 4px !important;
+    background-color: var(--pm-hover-medium);
+}
+
+.x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
+    border-color: var(--pm-accent);
+    box-shadow: 0 0 0 3px var(--pm-focus-ring-color);
+}
+
+.x-form-item-label-default {
+    color: #B7BCC2;
+}
+
+.x-form-spinner-default {
+    background-color: #282B2F;
+}
+
+.x-form-cb-label-default {
+    color: #B7BCC2;
+}
+
+/* v5.41: Reduce gap between checkbox/radio and label */
+/* Label after checkbox - reduce left padding */
+.x-form-cb-label-after {
+    padding-left: 6px !important;
+}
+
+/* Label before checkbox - reduce right padding */
+.x-form-cb-label-before {
+    padding-right: 6px !important;
+}
+
+.x-fieldset-default {
+    border-color: #34383D;
+}
+
+.x-fieldset-header-default>.x-fieldset-header-text {
+    color: #F9FAFA;
+}
+
+/* =====================================================
+   GRID / TABLE - UniFi authentic row hover
+   ===================================================== */
+.x-column-header {
+    border-color: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Header Text - Bright White */
+.x-column-header-inner,
+.x-column-header-text {
+    color: #F9FAFA !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+}
+
+.x-grid-item,
+.x-column-header-default,
+.x-grid-cell-row-numberer {
+    color: #DEE0E3 !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    font-size: 13px !important;
+}
+
+.x-column-header-trigger {
+    border-color: transparent !important;
+}
+
+.x-grid-cell-special {
+    border-color: transparent !important;
+}
+
+.x-grid-group-hd {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+.x-grid-group-title {
+    color: #F9FAFA !important;
+    font-weight: 700 !important;
+}
+
+.x-grid-header-ct {
+    border: none !important;
+    background-color: transparent !important;
+}
+
+/* Row separators (use td borders; more reliable than box-shadow on <tr>) */
+.x-grid td,
+.x-grid-td,
+.x-grid-cell,
+td.x-grid-cell {
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Keep rows themselves flat; separators handled above */
+.x-grid-item {
+    box-shadow: none !important;
+}
+
+/* Slightly roomier rows (matches UniFi table density) */
+.x-grid-cell-inner {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+/*
+   Tasks + Cluster Log: compact rows (validated via DevTools)
+   - Tasks: 4px top/bottom
+   - Cluster Log: 4.5px top/bottom
+   - Keep line-height stable and prevent action-column icons from inflating row height
+*/
+
+/* Tasks grid (bottom Tasks panel) */
+div[id^="pveTaskViewer-"] .x-grid-cell-inner,
+div[id^="pveClusterTasks-"] .x-grid-cell-inner,
+[aria-label="Tasks"] .x-grid-view .x-grid-cell-inner {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    line-height: 15px !important;
+}
+
+/* Tasks action-column (chevron) can inflate row height unless centered */
+div[id^="pveTaskViewer-"] .x-grid-cell-inner-action-col,
+div[id^="pveClusterTasks-"] .x-grid-cell-inner-action-col,
+[aria-label="Tasks"] .x-grid-view .x-grid-cell-inner-action-col {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    line-height: 15px !important;
+}
+
+/* Cluster Log grid */
+div[id^="pveClusterLog-"] .x-grid-cell-inner,
+div[id^="pveLogView-"] .x-grid-cell-inner,
+[aria-label="Cluster Log"] .x-grid-view .x-grid-cell-inner {
+    padding-top: 4.5px !important;
+    padding-bottom: 4.5px !important;
+    line-height: 15px !important;
+}
+
+.x-grid-item-alt {
+    background-color: transparent !important;
+}
+
+/* Ensure alternating rows have readable text */
+.x-grid-item-alt .x-grid-cell-inner,
+.x-grid-item-alt .x-grid-cell {
+    color: #DEE0E3 !important;
+}
+
+.x-grid-with-row-lines .x-grid-item {
+    border-bottom: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Optional: no trailing divider after the last row */
+.x-grid-with-row-lines .x-grid-item:last-child td.x-grid-cell,
+.x-grid-with-row-lines .x-grid-item:last-child .x-grid-td {
+    border-bottom: none !important;
+}
+
+.x-grid-with-row-lines .x-grid-item.x-grid-item-over {
+    background-color: var(--pm-hover-subtle) !important;
+    border: none !important;
+}
+
+.x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
+    background-color: rgba(0, 110, 255, 0.08) !important;
+    box-shadow: rgba(71, 151, 255, 0.1) 0px 0px 0px 1000px inset !important;
+    border: none !important;
+}
+
+.x-grid-item-over {
+    background-color: hsla(214, 8%, 98%, 0.02) !important;
+}
+
+.x-grid-item-over .x-grid-cell {
+    background-color: transparent !important;
+}
+
+/* Keep row separators stable on hover/selection (prevents 1px shift) */
+.x-grid-item-over .x-grid-cell,
+.x-grid-item-over .x-grid-td,
+.x-grid-item-over td.x-grid-cell,
+.x-grid-item-selected .x-grid-cell,
+.x-grid-item-selected .x-grid-td,
+.x-grid-item-selected td.x-grid-cell {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.x-grid-item-selected {
+    background-color: rgba(0, 110, 255, 0.08) !important;
+    box-shadow: rgba(71, 151, 255, 0.1) 0px 0px 0px 1000px inset !important;
+}
+
+.x-grid-item-selected .x-grid-cell-inner {
+    color: hsla(0, 0%, 100%, 1) !important;
+}
+
+/* v5.16: Remove background highlight from parent nodes (folders/servers) when focused/selected via arrow */
+/* Only leaf nodes (VMs/CTs) should show the selection/focus background */
+.x-grid-item:not(.x-grid-tree-node-leaf).x-grid-item-focused,
+.x-grid-item:not(.x-grid-tree-node-leaf).x-grid-item-selected {
+    background-color: transparent !important;
+}
+
+/* More visible hover state */
+.x-grid-item-over .x-grid-cell-inner,
+.x-grid-item-over .x-grid-cell {
+    color: #F9FAFA !important;
+}
+
+.x-column-header-over,
+.x-column-header-open {
+    background-color: #34383D;
+}
+
+.x-column-header-sort-ASC,
+.x-column-header-sort-DESC {
+    background-color: #1b384c;
+}
+
+.x-grid-row-summary .x-grid-cell,
+.x-grid-row-summary .x-grid-rowwrap,
+.x-grid-row-summary .x-grid-cell-rowbody {
+    background-color: #131416 !important;
+    border-color: #34383D;
+}
+
+.x-grid-with-col-lines .x-grid-cell,
+.x-grid-with-col-lines .x-grid-item-over .x-grid-cell,
+.x-grid-with-col-lines .x-grid-item-selected .x-grid-cell {
+    border-color: hsla(214, 8%, 98%, 0.07) !important;
+    border-right-color: transparent !important;
+}
+
+.x-dd-drag-proxy {
+    background-color: #282B2F;
+    border: 1px solid #34383D;
+    color: #B7BCC2;
+}
+
+.x-keyboard-mode .x-grid-item-focused {
+    background-color: rgba(249, 250, 250, 0.07);
+    color: #F9FAFA;
+}
+
+.x-keyboard-mode .x-grid-item-focused .x-grid-cell-inner::before {
+    border-color: #006EFF;
+}
+
+.x-grid-empty {
+    background-color: #131416;
+    color: #737C87;
+}
+
+/* =====================================================
+   MENUS - Floating, clean (UniFi authentic)
+   ===================================================== */
+.x-menu-default {
+    border: 1px solid #34383D;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.x-menu-body-default {
+    background-color: #282B2F;
+}
+
+.x-menu-header {
+    background-color: #006EFF;
+}
+
+.x-menu-item-default.x-menu-item-separator {
+    background-color: #282B2F;
+    border-color: #34383D;
+}
+
+.x-menu-item-default.x-menu-item-focus,
+.x-menu-item-default.x-menu-item-active {
+    background-color: rgba(249, 250, 250, 0.07) !important;
+    color: #F9FAFA;
+}
+
+.x-menu-item-text-default {
+    color: #DEE0E3;
+}
+
+.x-menu-item-icon-default {
+    color: #B7BCC2;
+}
+
+.x-menu-icon-separator-default {
+    background-color: transparent;
+    border-color: #34383D;
+}
+
+/* =====================================================
+   PANELS - Card-like containers (UniFi authentic)
+   ===================================================== */
+.x-panel-header-default {
+    background-color: #131416;
+    border: none;
+}
+
+.x-panel-header-default .x-tool-tool-el {
+    background-color: transparent;
+}
+
+.x-tool-img {
+    filter: brightness(175%);
+}
+
+.x-tool-over .x-tool-img {
+    filter: brightness(200%);
+}
+
+/* v5.39: Replace pixelated close button sprite with crisp FontAwesome icon */
+.x-tool-tool-el.x-tool-close,
+.x-tool-img.x-tool-close {
+    background-image: none !important;
+    font-family: "FontAwesome" !important;
+    font-size: 20px !important;
+    line-height: 16px !important;
+    text-align: center !important;
+    color: #737C87 !important;
+    transition: color 0.15s ease !important;
+    filter: none !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.x-tool-tool-el.x-tool-close::before,
+.x-tool-img.x-tool-close::before {
+    content: "\f00d" !important;
+}
+
+.x-tool:hover .x-tool-tool-el.x-tool-close,
+.x-tool:hover .x-tool-img.x-tool-close {
+    color: #DEE0E3 !important;
+}
+
+.x-panel-header-title-default {
+    color: #F9FAFA;
+}
+
+/* Panel header text (VM/Container titles in toolbar) */
+.x-panel-header-text,
+.x-panel-header-text-default,
+.x-panel-header-text.x-box-item,
+.x-toolbar .x-panel-header-text,
+.x-toolbar-item.x-panel-header-text {
+    color: #F9FAFA !important;
+}
+
+/* Title text general */
+.x-title-text,
+.x-title-text-default {
+    color: #F9FAFA !important;
+    overflow: visible !important;
+}
+
+/* Panel header container - ensure proper visibility */
+.x-panel-header,
+.x-panel-header-default {
+    overflow: visible !important;
+}
+
+.x-panel-body-default {
+    background-color: var(--pm-bg-base);
+    border-color: var(--pm-border);
+    color: var(--pm-text-muted);
+}
+
+div[id^="pveResourceTree-"][id$="-body"] {
+    border-color: var(--pm-bg-base);
+}
+
+/* =====================================================
+   PROGRESS BARS - Clean, rounded (UniFi authentic)
+   v5.17: Consolidated - removed duplicate section at end of file
+   ===================================================== */
+/* Fix: Widget containers need overflow visible to not clip progress bars */
+.x-container[id^="pmxInfoWidget"],
+.x-container.x-box-layout-ct {
+    overflow: visible !important;
+}
+
+/* v5.32: Add padding gap to progress bar rows (CPU/Memory/SWAP/Bootdisk)
+   Only targets containers with VISIBLE progress bars (excludes Status/HA State/Node/Unprivileged) */
+.x-container[id^="pmxInfoWidget"].x-box-layout-ct:has(.x-progress:not([style*="display: none"]):not([style*="display:none"])) {
+    padding: 5px 25px !important;
+}
+
+/* v5.22: Removed height:inherit - only min-height:auto is needed */
+/* height:inherit was breaking widget containers, ExtJS inline heights work without it */
+.x-container[id^="pmxInfoWidget"] .x-box-inner,
+.x-container.x-box-layout-ct .x-box-inner {
+    min-height: auto !important;
+}
+
+/* v5.22: Fix pmxInfoWidget container heights - need 24px to fit 8px progress bars */
+[id^="pmxInfoWidget"][id$="-innerCt"] {
+    min-height: 24px !important;
+    overflow: visible !important;
+}
+
+/* Progress bar outer container (track) */
+.x-progress,
+.x-progress-default {
+    height: 8px !important;
+    min-height: 8px !important;
+    max-height: 8px !important;
+    border-radius: 5px !important;
+    overflow: hidden !important;
+    background-color: var(--pwt-gauge-back) !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Progress bar inner fill - v5.31: Updated to UniFi blue #4797FF */
+.x-progress-bar,
+.x-progress-bar-default,
+.x-progress-default .x-progress-bar-default {
+    height: 8px !important;
+    min-height: 8px !important;
+    max-height: 8px !important;
+    border-radius: 5px !important;
+    border: none !important;
+    background-color: var(--pwt-gauge-default) !important;
+    background-image: none !important;
+}
+
+/* Hide progress text overlay */
+.x-progress-text,
+.x-progress-default .x-progress-text {
+    display: none !important;
+}
+
+/* Warning state */
+.x-progress.warning .x-progress-bar,
+.x-progress.warning .x-progress-bar-default {
+    background-color: var(--pwt-gauge-warn) !important;
+}
+
+/* Critical state */
+.x-progress.critical .x-progress-bar,
+.x-progress.critical .x-progress-bar-default {
+    background-color: var(--pwt-gauge-crit) !important;
+}
+
+/* =====================================================
+   SPLITTERS - Minimal
+   ===================================================== */
+.x-splitter {
+    background-color: var(--pm-bg-base);
+}
+
+/* Horizontal splitter (between main content and Tasks panel) - visible divider line */
+.x-splitter-horizontal,
+.x-splitter[aria-orientation="horizontal"] {
+    background-color: transparent !important;
+    border-top: 1px solid var(--pm-border) !important;
+}
+
+/* Vertical splitter (between left tree and content) - gap with visible line */
+.x-splitter-vertical {
+    width: 7px !important;
+    min-width: 7px !important;
+    background-color: transparent !important;
+    border-right: 1px solid #444444 !important;
+    z-index: 10 !important;
+}
+
+/* Push content panel to account for wider splitter */
+#content {
+    margin-left: 6px !important;
+}
+
+.x-keyboard-mode .x-splitter-focus::after {
+    border-color: #006EFF;
+}
+
+/* =====================================================
+   TABS - Clean, flat (UniFi authentic)
+   ===================================================== */
+.x-tab-bar-default {
+    background-color: #131416;
+}
+
+.x-tab-default.x-tab-over {
+    background-color: rgba(249, 250, 250, 0.04);
+    border: none;
+}
+
+.x-tab-default.x-tab.x-tab-active {
+    background-color: #006EFF;
+    border: none;
+}
+
+.x-tab-default.x-tab.x-tab-disabled {
+    background-color: transparent;
+    border: none;
+    color: #737C87;
+}
+
+.x-keyboard-mode .x-tab-default.x-tab-focus,
+.x-keyboard-mode .x-tab-default.x-tab-focus.x-tab-active {
+    background-color: #006EFF;
+    border: none;
+}
+
+.x-tab-default-top {
+    background-color: #131416;
+    border: none;
+}
+
+.x-tab-inner-default {
+    color: #B7BCC2;
+}
+
+.x-tab-active .x-tab-inner-default {
+    color: #ffffff;
+}
+
+/* =====================================================
+   TOOLTIPS (UniFi authentic)
+   ===================================================== */
+.x-tip-default {
+    background-color: #282B2F;
+    border: 1px solid #34383D;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.x-tip-body-default {
+    color: #DEE0E3;
+}
+
+.x-tip-form-invalid {
+    background-color: #282B2F;
+    border-color: #f03a3e;
+}
+
+.x-tip-body-form-invalid {
+    color: #f03a3e;
+}
+
+/* =====================================================
+   TOOLBARS - Minimal borders (UniFi authentic)
+   ===================================================== */
+.x-toolbar {
+    background-color: #131416;
+}
+
+.x-toolbar-default {
+    background-color: #131416;
+    border: none;
+}
+
+.x-toolbar-default.x-docked-top {
+    border: none;
+    border-bottom: 1px solid #282B2F;
+}
+
+.x-toolbar-default .x-toolbar-separator {
+    border-color: #34383D;
+}
+
+.x-toolbar-text-default {
+    color: #B7BCC2;
+}
+
+/* =====================================================
+   TREE LIST - Sidebar navigation (UniFi authentic)
+   ===================================================== */
+.x-treelist-item,
+.x-treelist-item-tool {
+    background-color: #131416;
+    border-radius: 4px !important;
+}
+
+/* Add spacing between tree items - v5.33: Reduced padding for compactness */
+.x-treelist-row,
+.x-tree-cell,
+.x-grid-cell-treecolumn {
+    padding: 0px 8px !important;
+}
+
+/* v5.9: UniFi-STYLE SELECTED ITEM (matching UniFi Controller)
+   Uses subtle background + blue icon AND text with ::before pseudo-element */
+
+.x-treelist-item-text,
+.x-treelist-item-icon {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Remove ALL old hover/selected background styles */
+.x-treelist-row,
+.x-treelist-row:hover,
+.x-treelist-row-over,
+.x-treelist-item-selected>.x-treelist-row,
+.x-treelist-item-selected>.x-treelist-row:hover,
+.x-treelist-item-expanded>.x-treelist-row,
+.x-treelist-item-expanded>.x-treelist-row-over,
+.x-treelist-item-expandable>.x-treelist-row,
+.x-treelist-item-expandable>.x-treelist-row-over {
+    background: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-left: none !important;
+    position: relative !important;
+    z-index: 1 !important;
+    border-radius: 4px !important;
+}
+
+/* Pseudo-element for ALL background effects */
+.x-treelist-row::before {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    opacity: 0 !important;
+    transform: scale(0.95) !important;
+    transition: opacity 0.15s ease, transform 0.15s ease !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+}
+
+/* Hover state - ONLY via :hover pseudo-class */
+.x-treelist-row:hover::before {
+    background: rgb(40, 43, 47) !important;
+    opacity: 0.5 !important;
+    transform: scale(1) !important;
+}
+
+/* DISABLE the x-treelist-row-over class effect (ExtJS adds this to parents) */
+.x-treelist-row-over::before {
+    opacity: 0 !important;
+}
+
+/* But if it's ALSO being hovered directly, show the effect */
+.x-treelist-row-over:hover::before {
+    background: rgb(40, 43, 47) !important;
+    opacity: 0.5 !important;
+    transform: scale(1) !important;
+}
+
+/* Selected state background */
+.x-treelist-item-selected>.x-treelist-row::before {
+    background: rgb(40, 43, 47) !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}
+
+/* Selected + hover - slightly lighter */
+.x-treelist-item-selected>.x-treelist-row:hover::before {
+    background: rgb(50, 53, 57) !important;
+    opacity: 1 !important;
+}
+
+/* Selected item text - BLUE like UniFi */
+.x-treelist-item-selected>.x-treelist-row .x-treelist-item-text {
+    color: rgb(71, 151, 255) !important;
+}
+
+/* Selected item icon - BLUE like UniFi */
+.x-treelist-item-selected>.x-treelist-row .x-treelist-item-icon {
+    color: rgb(71, 151, 255) !important;
+}
+
+/* Parent item containing selected child - WHITE text and icon */
+.x-treelist-item:has(.x-treelist-item-selected)>.x-treelist-row .x-treelist-item-text {
+    color: #F9FAFA !important;
+}
+
+.x-treelist-item:has(.x-treelist-item-selected)>.x-treelist-row .x-treelist-item-icon {
+    color: #F9FAFA !important;
+}
+
+/* Reset non-selected child items */
+.x-treelist-item-selected .x-treelist-item:not(.x-treelist-item-selected):not(:has(.x-treelist-item-selected))>.x-treelist-row::before {
+    opacity: 0 !important;
+}
+
+.x-treelist-item-selected .x-treelist-item:not(.x-treelist-item-selected):not(:has(.x-treelist-item-selected))>.x-treelist-row:hover::before {
+    opacity: 0.5 !important;
+}
+
+.x-treelist-item-selected .x-treelist-item:not(.x-treelist-item-selected):not(:has(.x-treelist-item-selected)) .x-treelist-item-text,
+.x-treelist-item-selected .x-treelist-item:not(.x-treelist-item-selected):not(:has(.x-treelist-item-selected)) .x-treelist-item-icon {
+    color: #B7BCC2 !important;
+}
+
+.x-treelist-pve-nav {
+    background-color: #131416;
+    border: none;
+}
+
+/* =====================================================
+   WINDOWS / DIALOGS (UniFi authentic)
+   ===================================================== */
+.x-window-default {
+    background-color: #131416;
+    border: 1px solid #34383D;
+    border-radius: 8px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.x-window-header-default {
+    background-color: #282B2F;
+    border: none;
+    border-radius: 8px 8px 0 0;
+}
+
+.x-window-header-default .x-mask {
+    background-color: rgba(40, 43, 47, 0.7);
+}
+
+.x-window-header-title-default {
+    color: #F9FAFA;
+}
+
+.x-window-body-default {
+    background-color: #131416;
+    border: none;
+    color: #B7BCC2;
+}
+
+.x-window-ghost {
+    background-color: #131416;
+}
+
+.x-window-header-default .x-tool-img {
+    background-color: transparent;
+}
+
+.x-message-box .x-window-body {
+    background-color: #282B2F;
+}
+
+/* =====================================================
+   v5.17 FIX: Dialog button overlap fix
+   ExtJS uses absolute positioning for buttons, but theme's
+   display:flex !important was overriding inline display:none
+   on hidden buttons (OK/Cancel in Yes/No dialogs)
+   ===================================================== */
+/* Respect ExtJS inline display:none on hidden dialog buttons */
+.x-message-box .x-btn.x-btn-default-small[style*="display: none"],
+.x-message-box .x-btn.x-btn-default-small[style*="display:none"],
+.x-window .x-toolbar-footer .x-btn[style*="display: none"],
+.x-window .x-toolbar-footer .x-btn[style*="display:none"] {
+    display: none !important;
+}
+
+/* =====================================================
+   v5.37 FIX: Create Wizard footer clipping
+   Some wizards position their footer toolbar with inline top/height.
+   If theme tweaks change control heights/padding, the footer can extend
+   past the window bottom and get clipped (the window has overflow:hidden).
+   Anchor wizard footers to bottom to keep Back/Next/Advanced visible.
+   ===================================================== */
+.x-window[id^="pveQemuCreateWizard-"] .x-toolbar-footer,
+.x-window[id^="pveLxcCreateWizard-"] .x-toolbar-footer {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+    padding: 8px 16px !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Dialog footer - use flexbox for proper button spacing */
+.x-message-box .x-toolbar-footer {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 12px 16px !important;
+}
+
+.x-message-box .x-toolbar-footer .x-box-inner,
+.x-message-box .x-toolbar-footer .x-box-inner {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+.x-message-box .x-toolbar-footer .x-box-target,
+.x-message-box .x-toolbar-footer .x-box-target {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 8px !important;
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Override absolute positioning on dialog buttons */
+.x-message-box .x-toolbar-footer .x-btn,
+.x-message-box .x-toolbar-footer .x-btn {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 !important;
+}
+
+/* =====================================================
+   PROXMOX LOGO - Invert for dark
+   ===================================================== */
+img[id^="proxmoxlogo-"][id$="-img"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+img[id^="proxmoxLogoSvg-"][id$="-img"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+div[id^="versioninfo-"]+div[id^="panel-"]>div[id^="panel-"][id$="-bodyWrap"]>div,
+div.eol-notice+div[id^="panel-"]>div[id^="panel-"][id$="-bodyWrap"]>div {
+    background-color: transparent;
+    border: none;
+}
+
+/* =====================================================
+   PROXMOX SPECIFIC (UniFi authentic)
+   ===================================================== */
+.proxmox-invalid-row {
+    background-color: rgba(240, 58, 62, 0.15);
+}
+
+.x-keyboard-mode .proxmox-invalid-row .x-grid-item-focused {
+    background-color: rgba(240, 58, 62, 0.25);
+}
+
+.proxmox-warning-row {
+    background-color: rgba(245, 166, 35, 0.15);
+}
+
+.proxmox-disabled-row td {
+    color: #737C87;
+}
+
+.pmx-hint {
+    background-color: rgba(245, 166, 35, 0.15);
+}
+
+.pmx-hint a {
+    color: #006EFF;
+}
+
+.proxmox-inline-button {
+    background-color: #34383D;
+    border: none;
+    color: #B7BCC2;
+}
+
+.proxmox-inline-button.x-btn-over {
+    background-color: rgba(249, 250, 250, 0.07);
+}
+
+.proxmox-inline-button .x-btn-inner,
+.proxmox-inline-button .x-btn-icon-el {
+    color: #B7BCC2;
+}
+
+/* Loading indicators */
+.x-grid-row-loading,
+.x-treelist-item-loading .x-treelist-item-icon,
+.x-mask-msg-text,
+.x-grid-tree-loading .x-tree-icon {
+    filter: invert(90%);
+}
+
+.x-mask-msg {
+    background-color: #282B2F;
+    border: 1px solid #34383D;
+    border-radius: 8px;
+}
+
+/* Markdown content */
+.pmx-md code {
+    background-color: #131416;
+}
+
+.pmx-md pre code {
+    border-color: #34383D;
+}
+
+.pmx-md tbody tr td {
+    border-color: #34383D;
+}
+
+.pmx-md tbody tr:nth-of-type(2n) {
+    background-color: rgba(249, 250, 250, 0.02);
+}
+
+.pmx-md tbody tr:hover td {
+    background-color: rgba(249, 250, 250, 0.04);
+}
+
+.pmx-md a {
+    color: #006EFF;
+}
+
+/* APT repos */
+.proxmox-apt-repos .x-grid-group-hd {
+    background-color: #131416;
+    border: none;
+}
+
+.proxmox-apt-repos .x-grid-group-title {
+    color: #F9FAFA;
+}
+
+/* Status colors */
+.info-blue {
+    color: #006EFF !important;
+}
+
+.critical {
+    color: #f03a3e !important;
+}
+
+/* Tags - Native contrast detection with proper visibility */
+.pve-edit-tag.editable span {
+    background-color: #282B2F;
+    color: #B7BCC2;
+    border-color: #34383D;
+}
+
+/* Tags with LIGHT text (dark backgrounds like blue tags) */
+.pve-edit-tag.proxmox-tag-light,
+.pve-edit-tag.proxmox-tag-light span {
+    color: #FFFFFF !important;
+}
+
+/* Tags with DARK text (bright backgrounds like pink/yellow tags) */
+.pve-edit-tag.proxmox-tag-dark,
+.pve-edit-tag.proxmox-tag-dark span {
+    color: #1C1E21 !important;
+}
+
+/* Individual tag styling */
+.pve-edit-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 2px 8px !important;
+    border-radius: 6px !important;
+}
+
+/* v5.30: Tree view tags - match header tag styling */
+.x-tree-node-text .proxmox-tag-dark, 
+.x-tree-node-text .proxmox-tag-light, 
+.x-grid-cell-inner .proxmox-tag-dark, 
+.x-grid-cell-inner .proxmox-tag-light,
+span.proxmox-tag-dark,
+span.proxmox-tag-light {
+    border-radius: 6px !important;
+    padding: 2px 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Pencil button for editing tags */
+/* v5.28: Removed display override - let Proxmox control visibility via inline style */
+.pve-tag-inline-button {
+    /* display controlled by inline style (none when not hovering, flex when editing) */
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    background: transparent !important;
+    cursor: pointer !important;
+}
+
+.pve-tag-inline-button .fa-pencil,
+.pve-tag-inline-button .x-fa.fa-pencil {
+    color: #8A919A !important;
+}
+
+.pve-tag-inline-button:hover .fa-pencil {
+    color: #F9FAFA !important;
+}
+
+/* v5.29: Checkmark button in tag edit - match toolbar button size */
+/* The checkmark has x-btn-default-small (not toolbar-small) so we need specific sizing */
+.x-btn.x-btn-default-small:has(.fa-check) {
+    min-height: 24px !important;
+    height: 24px !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    background-color: #006EFF !important;
+    border: none !important;
+}
+
+/* Disabled checkmark - gray/transparent */
+.x-btn.x-btn-default-small:has(.fa-check).x-btn-disabled {
+    background-color: transparent !important;
+    border: 1px solid #34383D !important;
+    opacity: 0.5 !important;
+}
+
+/* Checkmark icon - white when enabled */
+.x-btn.x-btn-default-small:has(.fa-check) .fa-check {
+    color: #ffffff !important;
+}
+
+/* Disabled checkmark icon - gray */
+.x-btn.x-btn-default-small:has(.fa-check).x-btn-disabled .fa-check {
+    color: #737C87 !important;
+}
+
+/* Checkmark button hover - lighter blue */
+.x-btn.x-btn-default-small:has(.fa-check):not(.x-btn-disabled):hover {
+    background-color: #338BFF !important;
+}
+
+/* Hide the &nbsp; inner element on checkmark button */
+.x-btn.x-btn-default-small:has(.fa-check) .x-btn-inner {
+    display: none !important;
+}
+
+.proxmox-tags-full .proxmox-tag-light,
+.proxmox-tags-full .proxmox-tag-dark,
+.proxmox-tags-circle .proxmox-tag-light,
+.proxmox-tags-circle .proxmox-tag-dark {
+    outline: 1px solid rgba(52, 56, 61, 0.3);
+}
+
+/* =====================================================
+   DATE PICKER (UniFi authentic)
+   ===================================================== */
+.x-datepicker,
+.x-datepicker-column-header,
+.x-monthpicker {
+    background-color: #131416;
+    color: #B7BCC2;
+    border: none;
+}
+
+.x-datepicker-month .x-btn-over.x-btn-default-small {
+    background-color: #34383D;
+}
+
+.x-monthpicker-months {
+    border-color: #34383D;
+}
+
+.x-datepicker-header {
+    background-color: #131416;
+}
+
+.x-datepicker-date,
+.x-monthpicker-item-inner {
+    color: #B7BCC2;
+}
+
+.x-datepicker-prevday .x-datepicker-date,
+.x-datepicker-nextday .x-datepicker-date {
+    color: #737C87;
+}
+
+.x-datepicker-footer,
+.x-monthpicker-buttons {
+    background-color: #131416;
+}
+
+.x-datepicker-selected div.x-datepicker-date,
+.x-monthpicker-item a.x-monthpicker-selected,
+a.x-monthpicker-item-inner:hover,
+div.x-datepicker-date:hover {
+    background-color: #006EFF;
+    color: #fff;
+}
+
+/* =====================================================
+   USAGE BARS - UniFi authentic style
+   ===================================================== */
+/* v5.31: Reduced border-radius, removed wrapper padding for full-width fill */
+.usage-wrapper {
+    border: none !important;
+    border-radius: 2px !important;
+    background-color: #34383D !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+
+.usage-negative {
+    background-color: transparent !important;
+    width: 100% !important;
+}
+
+.usage {
+    background-color: #37BE5F !important;
+    border-radius: 2px !important;
+    width: 100% !important;
+}
+
+/* =====================================================
+   CONSOLE / TERMINAL
+   ===================================================== */
+div.monitor {
+    border-color: #34383D;
+}
+
+.install-mask {
+    background-color: #131416;
+    color: #B7BCC2;
+}
+
+.x-window.install-mask {
+    box-shadow: rgba(0, 0, 0, 0.5) 0 4px 20px !important;
+}
+
+/* =====================================================
+   OSD TABLE
+   ===================================================== */
+table.osds tr {
+    border-color: var(--pm-border);
+}
+
+table.osds td {
+    border-color: var(--pm-border);
+}
+
+/* =====================================================
+   LINKS - UniFi Blue (authentic)
+   ===================================================== */
+a {
+    color: var(--pm-accent);
+}
+
+a:hover {
+    color: var(--pm-accent-hover);
+}
+
+/* =====================================================
+   STATUS DOTS (like UniFi - authentic)
+   ===================================================== */
+/* Proxmox uses ::before for the type icon and ::after for the status glyph.
+   UniFi style: keep type icon neutral and show a green dot for "running". */
+.x-tree-icon-custom.running::before,
+.x-grid-icon-custom.running::before {
+    color: #B7BCC2 !important;
+}
+
+.x-tree-icon-custom.running::after,
+.x-grid-icon-custom.running::after {
+    content: "\f111" !important; /* FontAwesome circle */
+    font-family: "FontAwesome" !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    color: var(--pm-success) !important;
+    background: transparent !important;
+    text-shadow: none !important;
+}
+
+/* Align CT/LXC running dot with VM running dot (cube glyph is slightly narrower) */
+.x-tree-icon-custom.fa-cube.running::after,
+.x-grid-icon-custom.fa-cube.running::after {
+    left: -3.8px !important;
+    right: 3.8px !important;
+}
+
+.x-tree-icon-custom.stopped::before,
+.x-grid-icon-custom.stopped::before {
+    color: var(--pm-text-disabled);
+}
+
+/* =====================================================
+   SCROLLBARS - Minimal, dark (UniFi authentic)
+   ===================================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #131416;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #34383D;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(249, 250, 250, 0.07);
+}
+
+/* =====================================================
+   FIX: Button sizing - slightly larger
+   ===================================================== */
+.x-btn-default-small {
+    padding: 6px 14px !important;
+    min-height: 30px !important;
+}
+
+.x-btn-default-toolbar-small {
+    padding: 5px 12px !important;
+    min-height: 28px !important;
+}
+
+.x-btn-inner-default-small,
+.x-btn-inner-default-toolbar-small {
+    font-size: 13px !important;
+}
+
+/* =====================================================
+   FIX: Labels and grid text - UniFi authentic colors
+   ===================================================== */
+.x-grid-cell-inner,
+.x-grid-cell,
+.x-form-display-field,
+.x-form-display-field-default,
+td,
+.x-panel-body-default,
+.x-grid-item {
+    color: #DEE0E3 !important;
+}
+
+/* Column headers should be brighter */
+.x-column-header-text,
+.x-column-header-text-inner,
+.x-column-header-text-default {
+    color: var(--pm-text-bright) !important;
+}
+
+/* Fix specific grid/table text */
+.x-grid-cell-inner span,
+.x-grid-cell-inner div {
+    color: #DEE0E3;
+}
+
+/* Resource panel labels */
+.x-form-item-label-inner {
+    color: #DEE0E3 !important;
+}
+
+/* =====================================================
+   FIX: Summary/Stats panels - add borders/cards
+   ===================================================== */
+.pveStatusPanel,
+.x-panel-default-framed,
+.x-panel-body-default-framed {
+    background-color: #131416 !important;
+    border: 1px solid #34383D !important;
+    border-radius: 12px !important;
+}
+
+/* Stats panel body (Status, CPU, Memory, etc) - match Notes panel rounded corners */
+[id^="pveGuestStatusView-"][id$="-body"],
+[id^="pmxNotesView-"] .x-panel-body {
+    border-radius: 8px !important;
+}
+
+/* Panel headers in summary */
+.x-panel-header-default-framed {
+    background-color: #282B2F !important;
+    border: none !important;
+    border-bottom: 1px solid #34383D !important;
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Summary status grid - the table with CPU/Memory/etc */
+/* FIX v5.18: Removed overflow:hidden to restore content visibility */
+.pve-info-grid,
+.x-panel-default .x-grid,
+.x-container .x-grid-view {
+    border-radius: 12px !important;
+}
+
+/* Form display fields in summary (status fields) */
+.x-form-display-field-default {
+    border-radius: 6px !important;
+}
+
+/* Graph containers - ensure visibility */
+.pve-rrdview,
+.rrdview {
+    background-color: #131416 !important;
+    border: 1px solid #34383D !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+}
+
+/* Chart/RRD panel specific - canvas should be transparent for chart lines to show */
+div[id*="rrdchart"],
+.pve-rrddatastore,
+.pmx-panel-rrd {
+    background-color: #131416 !important;
+}
+
+/* Canvas elements - don't set background, let charts be visible */
+.proxmox-rrd-panel canvas,
+.proxmox-widget-toolkit canvas,
+canvas.x-surface,
+.x-surface canvas {
+    background-color: transparent !important;
+    opacity: 1 !important;
+}
+
+/* Proxmox RRD chart widget - ensure visibility */
+.proxmox-rrd-panel,
+.proxmox-rrd-chart {
+    background-color: #131416 !important;
+}
+
+/* Chart text/labels */
+.x-surface text,
+svg text {
+    fill: #DEE0E3 !important;
+}
+
+/* Summary status panel */
+.pve-summary-status,
+.x-container .pve-status {
+    background-color: #131416 !important;
+    border: 1px solid #34383D !important;
+    border-radius: 8px !important;
+}
+
+/* Notes panel */
+.x-panel-default[id*="notes"],
+.pve-notes-view {
+    background-color: #131416 !important;
+    border: 1px solid #34383D !important;
+    border-radius: 8px !important;
+}
+
+/* =====================================================
+   FIX: Fieldset and form sections
+   ===================================================== */
+.x-fieldset {
+    background-color: #131416 !important;
+    border: 1px solid #34383D !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+}
+
+.x-fieldset-header-text {
+    color: #F9FAFA !important;
+    font-weight: 500 !important;
+}
+
+/* =====================================================
+   FIX: UniFi-style rounded corners on hover/selection
+   ===================================================== */
+
+/* Grid row hover/selection - rounded corners */
+.x-grid-item-over,
+.x-grid-item-selected,
+.x-grid-with-row-lines .x-grid-item.x-grid-item-over,
+.x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
+    border-radius: 6px !important;
+}
+
+/* Menu items - rounded corners */
+.x-menu-item-default.x-menu-item-focus,
+.x-menu-item-default.x-menu-item-active,
+.x-menu-item:hover {
+    border-radius: 6px !important;
+}
+
+/* Treelist/sidebar items - rounded corners (v5.9: 4px to match UniFi) */
+/* Background now handled by ::before pseudo-element in treelist section */
+
+/* Boundlist dropdown items - rounded corners (v5.10: 4px to match UniFi) */
+.x-boundlist-item-over,
+.x-boundlist-selected {
+    border-radius: 4px !important;
+}
+
+/* Tab hover - rounded corners */
+.x-tab-default.x-tab-over,
+.x-tab-default.x-tab.x-tab-active {
+    border-radius: 6px 6px 0 0 !important;
+}
+
+/* =====================================================
+   FIX: Remove underlines from column headers
+   ===================================================== */
+.x-column-header-over,
+.x-column-header-open,
+.x-column-header-sort-ASC,
+.x-column-header-sort-DESC,
+.x-column-header-last .x-column-header-over .x-column-header-trigger {
+    border-bottom: none !important;
+    text-decoration: none !important;
+}
+
+/* Column header text - no underline */
+.x-column-header-text,
+.x-column-header-text-inner {
+    text-decoration: none !important;
+    border-bottom: none !important;
+}
+
+/* Selected grid cells - no underlines */
+.x-grid-item-selected .x-grid-cell-inner,
+.x-grid-item-over .x-grid-cell-inner {
+    text-decoration: none !important;
+}
+
+/* =====================================================
+   FIX: Data view and resource lists
+   ===================================================== */
+.x-dataview-item {
+    color: #DEE0E3 !important;
+}
+
+/* Resource grid specific */
+.pve-resource-grid .x-grid-cell-inner {
+    color: #DEE0E3 !important;
+}
+
+/* Override any remaining dark text */
+.x-form-item-body,
+.x-form-item {
+    color: hsla(214, 8%, 88%, 1) !important;
+}
+
+/* Tree node text */
+.x-tree-node-text {
+    color: hsla(214, 8%, 88%, 1) !important;
+}
+
+.x-treelist-item-text {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Selected items should be white */
+.x-grid-item-selected .x-grid-cell-inner,
+.x-treelist-item-selected .x-treelist-item-text,
+.x-tree-selected .x-tree-node-text {
+    color: #ffffff !important;
+}
+
+/* =====================================================
+   FIX: Tab text readability
+   ===================================================== */
+.x-tab-inner-default {
+    color: #B7BCC2 !important;
+}
+
+.x-tab-active .x-tab-inner-default {
+    color: #ffffff !important;
+}
+
+/* =====================================================
+   SMOOTH TRANSITIONS - UniFi-style animations
+   ===================================================== */
+
+/* Base transition for all interactive elements */
+.x-btn,
+.x-btn-default-small,
+.x-btn-default-toolbar-small,
+.x-menu-item,
+.x-grid-item,
+.x-grid-row,
+.x-treelist-item,
+.x-treelist-row,
+.x-tab,
+.x-boundlist-item,
+.x-tree-node,
+.x-dataview-item,
+.x-column-header,
+.x-form-trigger,
+.x-tool,
+.x-panel-header {
+    transition: background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease !important;
+}
+
+/* Form elements transitions */
+.x-form-trigger-wrap,
+.x-form-trigger-wrap-default,
+.x-form-text,
+.x-form-text-default,
+.x-form-field {
+    transition: border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease !important;
+}
+
+/* Button hover glow effect */
+.x-btn-default-small:hover,
+.x-btn-default-small.x-btn-over {
+    box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3) !important;
+}
+
+/* Toolbar buttons smooth fade */
+.x-btn-default-toolbar-small:hover,
+.x-btn-default-toolbar-small.x-btn-over {
+    background-color: #22252d !important;
+}
+
+/* Grid row hover - smooth background change */
+.x-grid-item:hover,
+.x-grid-item.x-grid-item-over {
+    background-color: var(--pm-hover-subtle) !important;
+}
+
+/* Tree item hover - handled by ::before pseudo-element in treelist section */
+
+/* Menu item hover */
+.x-menu-item:hover,
+.x-menu-item-active {
+    background-color: #22252d !important;
+}
+
+/* Tab hover */
+.x-tab:hover,
+.x-tab.x-tab-over {
+    background-color: #1a1c22 !important;
+}
+
+/* Dropdown item hover - UniFi style */
+.x-boundlist-item:hover,
+.x-boundlist-item-over {
+    background-color: rgba(249, 250, 250, 0.04) !important;
+    color: #F9FAFA !important;
+}
+
+/* Panel tool icons */
+.x-tool:hover {
+    opacity: 1 !important;
+}
+
+.x-tool {
+    opacity: 0.7 !important;
+}
+
+/* Links hover */
+a {
+    transition: color 0.2s ease !important;
+}
+
+/* Input focus glow */
+.x-form-trigger-wrap-focus,
+.x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
+    box-shadow: 0 0 0 3px var(--pm-focus-ring-color) !important;
+}
+
+/* Selected/active states should also transition smoothly */
+.x-grid-item-selected,
+.x-treelist-item-selected>.x-treelist-row,
+.x-tab-active {
+    transition: background-color 0.15s ease !important;
+}
+
+/* Scrollbar smooth transition */
+::-webkit-scrollbar-thumb {
+    transition: background-color 0.2s ease !important;
+}
+
+/* Progress bar animation */
+.x-progress-bar,
+.x-progress-bar-default {
+    transition: width 0.3s ease !important;
+}
+
+/* Splitter hover */
+.x-splitter {
+    transition: background-color 0.2s ease !important;
+}
+
+.x-splitter:hover {
+    background-color: #2a2d36 !important;
+}
+
+/* Window/dialog fade */
+.x-window {
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+}
+
+/* Tooltip fade */
+.x-tip,
+.x-tip-default {
+    transition: opacity 0.15s ease !important;
+}
+
+/* Mask fade */
+.x-mask {
+    transition: opacity 0.2s ease !important;
+}
+
+/* =====================================================
+   v5.1 FIX: Segmented buttons (Day/Hour dropdown)
+   Only parent should have border-radius, not children
+   ===================================================== */
+.x-segmented-button {
+    border-radius: 6px !important;
+    overflow: visible !important;
+    display: flex !important;
+    gap: 5px !important;
+}
+
+.x-segmented-button .x-btn,
+.x-segmented-button .x-btn-default-small,
+.x-segmented-button .x-btn-inner,
+.x-segmented-button .x-btn-wrap {
+    border-radius: 6px !important;
+}
+
+/* v5.24: Fix segmented buttons - use flex for horizontal alignment with gap */
+.x-segmented-button .proxmox-inline-button,
+.x-segmented-button .x-btn {
+    display: flex !important;
+}
+
+/* v5.25: Pressed segmented button text should be white for visibility on blue background */
+.x-segmented-button .x-btn.x-btn-pressed .x-btn-inner {
+    color: #ffffff !important;
+}
+
+/* =====================================================
+   v5.1 FIX: Progress bars - increase container height
+   The bars were getting cut off at bottom
+   ===================================================== */
+.pve-widget-chart-container,
+.proxmox-gauge-chart,
+.pve-resource-chart,
+div[class*="chart-container"],
+div[class*="gauge"] {
+    overflow: visible !important;
+}
+
+/* =====================================================
+   v5.1 FIX: Separator between left panel sections
+   Line between server list (left) and options menu (right)
+   ===================================================== */
+/* Remove individual item borders */
+.x-treelist-item,
+.x-grid-item {
+    border-bottom: none !important;
+}
+
+/* v5.3 FIX: Single separator between resource tree and content panel */
+/* Remove double separator - only use the splitter */
+#content,
+.x-container.x-border-item.x-container-default[id="content"] {
+    border-left: none !important;
+}
+
+/* Vertical splitter styling moved to line ~920 (v5.14) */
+
+/* =====================================================
+   v5.1 FIX: Server view dropdown - smaller and styled
+   ===================================================== */
+.x-btn-default-toolbar-small.x-btn-menu-active,
+.x-btn.x-btn-arrow.x-btn-default-small {
+    padding: 4px 10px !important;
+    min-height: 26px !important;
+    font-size: 12px !important;
+}
+
+/* View mode combo/dropdown */
+.x-form-trigger-wrap-default,
+.x-form-trigger-wrap {
+    height: 28px !important;
+}
+
+/* =====================================================
+   v5.1 FIX: Header buttons and search bar - smaller
+   ===================================================== */
+/* Reduce header button sizes */
+.x-btn-default-small {
+    padding: 5px 10px !important;
+    min-height: 26px !important;
+}
+
+/* Toolbar buttons even smaller */
+.x-btn-default-toolbar-small {
+    padding: 3px 8px !important;
+    min-height: 24px !important;
+}
+
+/* Search bar sizing */
+.x-form-text-default,
+.x-form-trigger-wrap-default {
+    height: 26px !important;
+    min-height: 26px !important;
+}
+
+.x-form-text-default {
+    padding: 4px 8px !important;
+}
+
+/* Button text sizing */
+.x-btn-inner-default-small,
+.x-btn-inner-default-toolbar-small {
+    font-size: 12px !important;
+}
+
+/* =====================================================
+   v5.2 FIX: Toolbar buttons - ensure border-radius applies
+   ===================================================== */
+.x-btn-default-toolbar-small,
+.x-btn.x-btn-default-toolbar-small,
+.x-toolbar .x-btn-default-toolbar-small {
+    border-radius: 6px !important;
+    background-color: transparent !important;
+    border: 1px solid #34383D !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease !important;
+}
+
+/* Hover state for toolbar buttons */
+.x-btn-default-toolbar-small:hover,
+.x-btn-default-toolbar-small.x-btn-over {
+    background-color: #34383D !important;
+    border-color: #4A4F56 !important;
+}
+
+/* Pressed/active state for toolbar buttons */
+.x-btn-default-toolbar-small.x-btn-pressed,
+.x-btn-default-toolbar-small.x-btn-menu-active {
+    background-color: #006EFF !important;
+    border-color: #006EFF !important;
+}
+
+/* Disabled state for toolbar buttons */
+.x-btn-default-toolbar-small.x-btn-disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+}
+
+/* =====================================================
+   v5.2 FIX: Pointer cursor on tree items (entire item)
+   ===================================================== */
+.x-tree-node-text,
+.x-grid-item,
+.x-grid-cell,
+.x-grid-cell-inner,
+.x-tree-elbow-img,
+.x-tree-icon,
+#pveResourceTree .x-grid-item,
+#pveResourceTree .x-grid-row,
+.x-treelist-item,
+.x-treelist-row,
+.x-treelist-item-wrap,
+.x-treelist-item-text,
+.x-treelist-item-icon,
+.x-treelistitem {
+    cursor: pointer !important;
+}
+
+/* =====================================================
+   v5.2 FIX: Navigation tree - reduced gaps & centered icons
+   ===================================================== */
+.x-treelist-item,
+.x-treelistitem {
+    min-height: 28px !important;
+    height: auto !important;
+}
+
+.x-treelist-row {
+    min-height: 28px !important;
+    padding: 2px 0 !important;
+    margin-right: 4px !important;
+    /* v5.7: symmetric spacing */
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* v5.33: Reduce margin between toolbox navigation items */
+.x-treelist-pve-nav .x-treelist-row {
+    margin-top: 2px !important;
+}
+
+.x-treelist-item-text {
+    line-height: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Center icons vertically in tree list */
+.x-treelist-item-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: inherit !important;
+}
+
+.x-treelist-item-wrap {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* =====================================================
+   v5.7 FIX: Toolbox tree expand/collapse animation
+   v5.18 FIX: Only apply animation to child containers, not main nav
+   ===================================================== */
+/* Main navigation container - must be visible */
+.x-treelist-pve-nav .x-treelist-container {
+    display: block !important;
+    overflow: visible !important;
+    overflow-y: auto !important;
+}
+
+/* Child containers for expand/collapse animation */
+.x-treelist-item > .x-treelist-container {
+    overflow: hidden !important;
+    transition: max-height 0.25s ease-out, opacity 0.2s ease-out !important;
+}
+
+/* Expanded state - show children */
+.x-treelist-item-expanded>.x-treelist-container {
+    max-height: 500px !important;
+    opacity: 1 !important;
+}
+
+/* Collapsed state - hide children with animation */
+.x-treelist-item-collapsed>.x-treelist-container {
+    max-height: 0 !important;
+    opacity: 0 !important;
+}
+
+/* =====================================================
+   v5.9 FIX: Consistent 4px border-radius on treelist items (UniFi-style)
+   Note: Treelist hover/selected now handled by ::before pseudo-element
+   ===================================================== */
+
+/* Resource tree selections - consistent 8px */
+.x-grid-item-selected,
+.x-grid-item-focused,
+.x-grid-item-over {
+    border-radius: 8px !important;
+}
+
+/* v5.5 FIX: Symmetric wrap padding for treelist items */
+.x-treelist-item-wrap {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+/* v5.5 FIX: Same symmetric padding for selected items (no longer needs compensation) */
+.x-treelist-item-selected>.x-treelist-row .x-treelist-item-wrap {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+/* v5.5 FIX: Add left margin to icon for visual balance */
+.x-treelist-item-icon {
+    margin-left: 4px !important;
+}
+
+/* =====================================================
+   v5.2 FIX: Remove blue focus box on grid items
+   ===================================================== */
+.x-keyboard-mode .x-grid-cell-inner::before,
+.x-grid-item-focused .x-grid-cell-inner::before,
+.x-grid-cell-inner::before {
+    content: none !important;
+    border: none !important;
+    display: none !important;
+}
+
+/* Remove focus outline */
+.x-grid-item-focused,
+.x-grid-item-focused .x-grid-cell,
+.x-grid-item-focused .x-grid-cell-inner {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* =====================================================
+   v5.2 FIX: Font weight for Datacenter and Node items only
+   ===================================================== */
+.fa-server~.x-tree-node-text,
+.fa-building~.x-tree-node-text {
+    font-weight: 600 !important;
+}
+
+/* =====================================================
+   v5.2 FIX: Global smooth scrolling
+   ===================================================== */
+html {
+    scroll-behavior: smooth !important;
+}
+
+.x-panel-body-default {
+    scroll-behavior: smooth !important;
+}
+
+/* =====================================================
+   v5.4 FIX: Child items styling when parent is selected
+   ===================================================== */
+/* Reset text/icon color for non-selected children of selected parent */
+.x-treelist-item-selected .x-treelist-item:not(.x-treelist-item-selected) .x-treelist-item-text,
+.x-treelist-item-selected .x-treelist-item:not(.x-treelist-item-selected) .x-treelist-item-icon {
+    color: #B7BCC2 !important;
+}
+
+/* =====================================================
+   v5.4 FIX: Remove double separator between panels
+   ===================================================== */
+#pveResourceTree-1011-body,
+.pve-resource-tree .x-panel-body,
+.x-panel-body.x-grid-body {
+    border-right: none !important;
+}
+
+/* =====================================================
+   v5.4 FIX: Hover state for tree items
+   ===================================================== */
+/* Hover background for normal items */
+.x-treelist-item-over>.x-treelist-row {
+    background-color: #23262A !important;
+}
+
+/* Hover background for child items inside selected parent - higher specificity */
+.x-treelist-item-selected .x-treelist-item.x-treelist-item-over:not(.x-treelist-item-selected)>.x-treelist-row {
+    background-color: #23262A !important;
+}
+
+/* Hover text/icon color */
+.x-treelist-item-over>.x-treelist-row .x-treelist-item-text,
+.x-treelist-item-over>.x-treelist-row .x-treelist-item-icon,
+.x-treelist-item-selected .x-treelist-item.x-treelist-item-over:not(.x-treelist-item-selected)>.x-treelist-row .x-treelist-item-text,
+.x-treelist-item-selected .x-treelist-item.x-treelist-item-over:not(.x-treelist-item-selected)>.x-treelist-row .x-treelist-item-icon {
+    color: #FFFFFF !important;
+}
+
+/* =====================================================
+   v5.4 FIX: Resource tree (grid) - left sidebar styling
+   ===================================================== */
+/* Server View resource tree is not a table: disable table row separators */
+[id^="pveResourceTree-"].x-tree-panel td.x-grid-cell,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-td,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-cell {
+    border-bottom: none !important;
+}
+
+/* Server View resource tree: compact VM/CT leaf rows (verified via DevTools) */
+[id^="pveResourceTree-"].x-tree-panel tr.x-grid-row.x-grid-tree-node-leaf .x-grid-cell-inner,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-item.x-grid-tree-node-leaf .x-grid-cell-inner {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+/* Server View resource tree: prevent last-leaf indent shift (x-tree-elbow-end has extra margin) */
+[id^="pveResourceTree-"].x-tree-panel .x-tree-elbow-end {
+    margin-right: 0 !important;
+}
+
+[id^="pveResourceTree-"].x-tree-panel tr.x-grid-row.x-grid-tree-node-leaf .x-tree-node-text,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-item.x-grid-tree-node-leaf .x-tree-node-text {
+    line-height: 17px !important;
+}
+
+/* Non-selected items should show gray text */
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .x-tree-node-text {
+    color: #B7BCC2 !important;
+}
+
+/* Non-selected item icons should be gray */
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .x-tree-icon,
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .fa {
+    color: #B7BCC2 !important;
+}
+
+/* Selected item text should be white */
+.x-grid-item-selected .x-tree-node-text,
+.x-grid-item-focused .x-tree-node-text {
+    color: #FFFFFF !important;
+}
+
+/* Selected item icons should be blue */
+.x-grid-item-selected .x-tree-icon,
+.x-grid-item-selected .fa,
+.x-grid-item-focused .x-tree-icon,
+.x-grid-item-focused .fa {
+    color: #3B8BEB !important;
+}
+
+/* Hover state for grid items - text stays primary color */
+.x-grid-item-over:not(.x-grid-item-selected) .x-tree-node-text {
+    color: #DEE0E3 !important;
+}
+
+/* Hover state for grid items - icons color */
+.x-grid-item-over:not(.x-grid-item-selected) .x-tree-icon,
+.x-grid-item-over:not(.x-grid-item-selected) .fa {
+    color: #DEE0E3 !important;
+}
+
+/* =====================================================
+   v5.5 FIX: Preserve parent icon color when children are hovered
+   ===================================================== */
+/* The selected parent row should ALWAYS have blue icon, regardless of child hover state */
+.x-treelist-item-selected.x-treelist-item-expanded>.x-treelist-row .x-treelist-item-icon {
+    color: #006EFF !important;
+}
+
+/* Even when entire treelist has hover somewhere, selected parent icon stays blue */
+.x-treelist-item-selected>.x-treelist-row .x-treelist-item-icon {
+    color: #006EFF !important;
+}
+
+/* =====================================================
+   v5.14 FINAL OVERRIDES - These must come last to ensure precedence
+   Fixes for: dropdown border-radius, splitter spacing, button alignment
+   ===================================================== */
+
+/* Force 4px border-radius on form/dropdown containers */
+.x-form-trigger-wrap,
+.x-form-trigger-wrap-default {
+    border-radius: 4px !important;
+    overflow: hidden !important;
+}
+
+.x-form-text-wrap,
+.x-form-text-wrap-default {
+    border-radius: 4px 0 0 4px !important;
+}
+
+.x-form-text,
+.x-form-text-default {
+    border-radius: 4px 0 0 4px !important;
+}
+
+.x-form-trigger,
+.x-form-trigger-default,
+.x-form-arrow-trigger,
+.x-form-arrow-trigger-default {
+    border-radius: 0 4px 4px 0 !important;
+}
+
+/* Layout containers must have 0 radius to prevent clipping */
+.x-box-layout-ct,
+.x-box-inner,
+.x-box-target,
+.x-container,
+.x-container-default {
+    border-radius: 0 !important;
+}
+
+/* Vertical splitter - gap with visible line */
+.x-splitter-vertical {
+    width: 7px !important;
+    min-width: 7px !important;
+    background-color: transparent !important;
+    border-right: 1px solid #444444 !important;
+    z-index: 10 !important;
+}
+
+/* Content panel margin for splitter spacing */
+#content {
+    margin-left: 6px !important;
+}
+
+/* =====================================================
+   CHARTS - Remove border-radius from data area only
+   (Outer panel container keeps its rounded corners)
+   ===================================================== */
+/* Remove border-radius from chart canvas/data area ONLY */
+canvas.x-surface-canvas,
+.x-surface-canvas,
+.x-draw-component canvas,
+.proxmox-rrd-chart canvas {
+    border-radius: 0 !important;
+}
+
+/* SVG surface if used */
+svg.x-surface {
+    border-radius: 0 !important;
+}
+
+/* Draw container that holds the canvas */
+.x-draw-container,
+.x-surface {
+    border-radius: 0 !important;
+}
+
+/* =====================================================
+   HEADER BUTTONS - Vertical centering fix
+   ===================================================== */
+/* Button container uses flexbox */
+.x-btn.x-btn-default-small .x-btn-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Icon - only justify-content */
+.x-btn.x-btn-default-small .x-btn-icon-el {
+    justify-content: center !important;
+}
+
+/* Text element */
+.x-btn.x-btn-default-small .x-btn-inner {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Documentation button */
+.proxmox-inline-button {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Specific fix for fa-desktop icon (Create VM) - visually bottom-heavy */
+.x-btn-icon-el.fa-desktop {
+    transform: translateY(1.1px) !important;
+}
+
+/* v5.27: Fix icon-only button width (hide &nbsp; inner element) - MUST be at end to override earlier rules */
+/* ExtJS adds x-btn-no-text class to buttons with only an icon */
+.x-btn-no-text .x-btn-inner,
+.x-btn-button.x-btn-no-text .x-btn-inner,
+.x-btn-button-default-toolbar-small.x-btn-no-text .x-btn-inner-default-toolbar-small,
+.x-btn-button-default-small.x-btn-no-text .x-btn-inner-default-small,
+.x-btn-button-default-small.x-btn-no-text > .x-btn-inner-default-small,
+.x-btn.x-btn-default-small .x-btn-button.x-btn-no-text .x-btn-inner {
+    display: none !important;
+}
+
+/* =====================================================
+   v5.18 FIX: Scroll and overflow fixes for content visibility
+   ===================================================== */
+/* FIX 1: Remove overflow:hidden from grid containers to restore content visibility */
+.pve-info-grid,
+.x-panel-default .x-grid,
+.x-container .x-grid-view {
+    overflow: visible !important;
+    overflow-y: auto !important;
+}
+
+/* FIX 2: Vertical toolbar scrolling with hidden scrollbar */
+.x-toolbar.x-vertical .x-box-scroller-body-vertical {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+/* Hide scrollbar for Chrome/Safari/Opera */
+.x-toolbar.x-vertical .x-box-scroller-body-vertical::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+}
+
+/* FIX 3: Make sure the vertical toolbar doesn't hide overflow */
+.x-toolbar.x-vertical {
+    overflow: visible !important;
+    overflow-y: visible !important;
+}
+
+/* =====================================================
+   v5.35 FIX: Reposition "More" button in IPs section
+   Move button next to "IPs" label for better accessibility
+   Center label and button vertically with IP addresses content
+   ===================================================== */
+/* IPs label - center vertically with IP addresses */
+[id^="pveIPViewLXC-"] > .x-box-inner > .x-box-target > [id^="box-"] {
+    transform: translateY(9px) !important;
+}
+
+/* More button - move from right side to next to IPs label, vertically centered */
+[id^="pveIPViewLXC-"] [id^="button-"].x-btn {
+    transform: translate(-408px, -29px) !important;
+}
+
+/* =====================================================
+   v5.18 FIX: CRITICAL - Restore grid/tree content visibility
+   These must be at the END of the file to override earlier rules
+   ===================================================== */
+/* Remove overflow:hidden that was hiding grid content */
+.pve-info-grid,
+.x-panel-default .x-grid,
+.x-container .x-grid-view,
+.x-tree-view,
+.x-tree-panel .x-panel-body,
+.x-grid-view {
+    overflow: visible !important;
+}
+
+/* Tree/grid scroll containers */
+.x-tree-view.x-fit-item,
+.x-grid-view.x-fit-item {
+    overflow: auto !important;
+}
+
+/* Grid item containers must be visible */
+.x-grid-item-container {
+    overflow: visible !important;
+}
+
+/* Tree navigation container */
+.x-treelist-pve-nav .x-treelist-container {
+    overflow: visible !important;
+    overflow-y: auto !important;
+}
+
+/* =====================================================
+   v5.40: Fix floating grid picker border-radius
+   Storage dropdown, ISO selector, etc. use grid layers
+   Should match 4px boundlist style, not 12px summary panels
+   ===================================================== */
+.x-layer.x-grid .x-grid-view,
+.x-panel.x-layer.x-grid .x-grid-view {
+    border-radius: 4px !important;
+}
+
+.x-panel.x-layer.x-grid,
+.x-layer.x-panel.x-grid {
+    border-radius: 4px !important;
+}
+
+/* Grid items in floating pickers - 4px radius (matches boundlist style) */
+.x-layer.x-grid .x-grid-item-over,
+.x-layer.x-grid .x-grid-item-selected,
+.x-panel.x-layer.x-grid .x-grid-item-over,
+.x-panel.x-layer.x-grid .x-grid-item-selected {
+    border-radius: 4px !important;
+}
+
+/* TD cells have their own background - reset and apply only to first/last */
+.x-layer.x-grid .x-grid-item-over td,
+.x-layer.x-grid .x-grid-item-selected td,
+.x-layer.x-grid .x-grid-item-over .x-grid-cell,
+.x-layer.x-grid .x-grid-item-selected .x-grid-cell,
+.x-panel.x-layer.x-grid .x-grid-item-over td,
+.x-panel.x-layer.x-grid .x-grid-item-selected td,
+.x-panel.x-layer.x-grid .x-grid-item-over .x-grid-cell,
+.x-panel.x-layer.x-grid .x-grid-item-selected .x-grid-cell {
+    border-radius: 0 !important;
+}
+
+/* First cell gets left radius, last cell gets right radius */
+.x-layer.x-grid .x-grid-item-over td:first-child,
+.x-layer.x-grid .x-grid-item-selected td:first-child,
+.x-panel.x-layer.x-grid .x-grid-item-over td:first-child,
+.x-panel.x-layer.x-grid .x-grid-item-selected td:first-child {
+    border-radius: 4px 0 0 4px !important;
+}
+
+.x-layer.x-grid .x-grid-item-over td:last-child,
+.x-layer.x-grid .x-grid-item-selected td:last-child,
+.x-panel.x-layer.x-grid .x-grid-item-over td:last-child,
+.x-panel.x-layer.x-grid .x-grid-item-selected td:last-child {
+    border-radius: 0 4px 4px 0 !important;
+}
+
+/* =====================================================
+   v5.42: Fix Bulk Actions dropdown button issues
+   Button was growing larger (24px → 26px) and text was gray instead of white
+   ===================================================== */
+
+/* Issue 1: Text should be white when menu is active (same as pressed state) */
+.x-btn-default-toolbar-small.x-btn.x-btn-menu-active .x-btn-inner-default-toolbar-small,
+.x-btn-default-toolbar-small.x-btn.x-btn-menu-active .x-btn-icon-el-default-toolbar-small {
+    color: #ffffff !important;
+}
+
+/* Issue 2: Keep button size consistent (override line 2607 rules that cause growth) */
+.x-btn-default-toolbar-small.x-btn-menu-active {
+    padding: 3px 8px !important;
+    min-height: 24px !important;
+}
+
+/* =====================================================
+   v5.43: Compact tab bar for Tasks/Cluster log panel
+   Reduces wasted vertical space in bottom panel tabs
+   Tab bar height: 36px → 26px, padding: 6px → 3px
+   ===================================================== */
+
+/* Reduce tab bar height for south panel (Tasks/Cluster log) */
+.x-panel.x-border-item .x-tab-bar.x-docked.x-tab-bar-default-horizontal {
+    height: 26px !important;
+}
+
+/* Reduce inner body padding */
+.x-panel.x-border-item .x-tab-bar.x-docked .x-box-inner {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+
+/* Adjust panel body position to account for smaller tab bar */
+.x-panel.x-border-item .x-panel-body.x-panel-body-default {
+    top: 26px !important;
+}
+
+/* =====================================================
+   v5.45: Fix modal dialog/wizard content being cut off
+   The v5.43 rule above (top: 26px) is for the main UI's south panel
+   tab bar compaction, but it incorrectly applies to ALL nested panels
+   including those inside dialogs/wizards.
+   
+   Fix: Reset all window panel bodies to 0, then specifically restore
+   tabpanel bodies (x-fit-item) to 26px for tab bar clearance.
+   ===================================================== */
+
+/* Reset: All panel bodies inside windows to 0 */
+.x-window .x-panel .x-panel-body.x-panel-body-default {
+    top: 0px !important;
+}
+
+/* Restore: Tabpanel bodies (x-fit-item) back to 26px for tab bar clearance */
+.x-window .x-panel.x-fit-item > .x-panel-bodyWrap > .x-panel-body.x-panel-body-default {
+    top: 26px !important;
+}
+
+/* =====================================================
+   v5.46: Remove white focus border from tabs
+   Removes the visible outline/border that appears when
+   clicking or focusing on tabs in dialogs and main UI
+   ===================================================== */
+.x-tab:focus,
+.x-tab.x-tab-focus,
+.x-tab.x-tab-active:focus,
+.x-keyboard-mode .x-tab:focus,
+.x-keyboard-mode .x-tab-focus,
+.x-keyboard-mode .x-tab-active.x-tab-focus,
+.x-tab-default:focus,
+.x-tab-default.x-tab-focus,
+.x-tab-bar .x-tab:focus,
+.x-tab-bar .x-tab.x-tab-focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+/* Tab pseudo-elements - remove focus indicators */
+.x-tab:focus::before,
+.x-tab:focus::after,
+.x-tab.x-tab-focus::before,
+.x-tab.x-tab-focus::after,
+.x-keyboard-mode .x-tab:focus::before,
+.x-keyboard-mode .x-tab:focus::after {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* =====================================================
+   v5.47: Restore right border on disk list panel in wizards
+   The v5.4 rule ".x-panel-body.x-grid-body { border-right: none }"
+   was too broad - it also removed borders from wizard dialogs.
+   This restores the right border for grids inside windows/dialogs.
+   ===================================================== */
+.x-window .x-panel-body.x-grid-body {
+    border-right: 1px solid #34383D !important;
+}
+
+/* =====================================================
+   v5.48: MODAL ANIMATIONS - Open Animation + Background Blur
+   CSS-ONLY implementation (no JavaScript required)
+   
+   Features:
+   - Smooth fade-in + scale animation when modals/dialogs open
+   - Subtle backdrop blur effect for modern look
+   - Menu/dropdown slide-in animation
+   
+   NOTE: Close animations are NOT possible with pure CSS because
+   ExtJS removes the window from the DOM immediately on close.
+   This is a pure CSS theme - no JavaScript modifications.
+   ===================================================== */
+
+/* Opening animation keyframe */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Menu slide animation keyframe */
+@keyframes menuSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Background mask - blur effect for modern look */
+.x-mask {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Window/Dialog - open animation */
+.x-window,
+.x-window-default {
+    animation: modalFadeIn 0.2s ease-out forwards !important;
+    transform-origin: center top !important;
+}
+
+/* Message boxes - centered origin */
+.x-message-box {
+    animation: modalFadeIn 0.2s ease-out forwards !important;
+    transform-origin: center center !important;
+}
+
+/* Menus and dropdowns - slide animation */
+.x-menu,
+.x-menu-default,
+.x-boundlist {
+    animation: menuSlideIn 0.12s ease-out forwards !important;
+    transform-origin: top center !important;
+}

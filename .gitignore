@@ -1,0 +1,53 @@
+# ProxMorph .gitignore
+
+# Context/conversation files
+context.md
+references/
+
+# Archive folder - old theme versions
+themes/_archive/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor/IDE files (VS Code settings are kept)
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+.github/instructions/
+.github/*.md
+
+# Compiled SASS (if any)
+*.css.map
+sass/.sass-cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node.js (if ever used for build)
+node_modules/
+package-lock.json
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Test files
+test-*.css
+*-test.css

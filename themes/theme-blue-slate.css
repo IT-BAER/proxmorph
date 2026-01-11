@@ -1,0 +1,332 @@
+/*!Blue Slate*/
+/* --------------------------------------------------------------------
+   ProxMorph Theme: Blue Slate
+   Part of the ProxMorph Theme Collection for Proxmox VE
+   
+   A clean, modern dark theme with blue accents.
+   Based on Tailwind CSS Slate color palette.
+   
+   Author: ProxMorph Project
+   Version: 1.0
+   Tested on: PVE 8.x, 9.x
+   --------------------------------------------------------------------*/
+
+/* ===== Color Variables ===== */
+:root {
+  /* Primary Accent */
+  --pm-accent: #3b82f6;
+  --pm-accent-light: #60a5fa;
+  --pm-accent-dark: #2563eb;
+  
+  /* Status Colors */
+  --pm-success: #10b981;
+  --pm-warning: #f59e0b;
+  --pm-error: #ef4444;
+  --pm-info: #06b6d4;
+  
+  /* Backgrounds (Slate palette) */
+  --pm-bg-base: #0f172a;
+  --pm-bg-surface: #1e293b;
+  --pm-bg-elevated: #334155;
+  
+  /* Text */
+  --pm-text: #f1f5f9;
+  --pm-text-dim: #cbd5e1;
+  --pm-text-muted: #94a3b8;
+  
+  /* Borders */
+  --pm-border: #475569;
+  --pm-border-subtle: #334155;
+}
+
+/* ===== Base ===== */
+body {
+  background-color: var(--pm-bg-base) !important;
+  color: var(--pm-text) !important;
+}
+
+/* ===== Panels ===== */
+.x-panel,
+.x-panel-body,
+.x-panel-body-default,
+.x-window-body,
+.x-grid-body {
+  background-color: var(--pm-bg-base) !important;
+  color: var(--pm-text) !important;
+  border-color: var(--pm-border-subtle) !important;
+}
+
+/* ===== Headers ===== */
+.x-toolbar,
+.x-tab-bar,
+.x-tab-bar-default,
+.x-panel-header,
+.x-panel-header-default,
+.x-window-header,
+.x-header {
+  background-color: var(--pm-bg-surface) !important;
+  border-color: var(--pm-border) !important;
+}
+
+.x-panel-header-title,
+.x-panel-header-title-default,
+.x-window-header-title-default {
+  color: var(--pm-text) !important;
+}
+
+/* ===== Tabs ===== */
+.x-tab,
+.x-tab-default {
+  background-color: var(--pm-bg-surface) !important;
+  border-color: var(--pm-border) !important;
+  color: var(--pm-text-dim) !important;
+}
+
+.x-tab-active,
+.x-tab.x-tab-active {
+  background-color: var(--pm-bg-base) !important;
+  border-bottom-color: var(--pm-accent) !important;
+}
+
+.x-tab-active .x-tab-inner,
+.x-tab.x-tab-active .x-tab-inner-default {
+  color: var(--pm-accent-light) !important;
+}
+
+/* ===== Buttons ===== */
+.x-btn,
+.x-btn-default-small,
+.x-btn-default-toolbar-small {
+  background-color: var(--pm-bg-surface) !important;
+  border-color: var(--pm-border) !important;
+}
+
+.x-btn-inner,
+.x-btn-inner-default-small,
+.x-btn-inner-default-toolbar-small {
+  color: var(--pm-text) !important;
+}
+
+.x-btn:hover,
+.x-btn-over {
+  background-color: var(--pm-bg-elevated) !important;
+}
+
+.x-btn:hover .x-btn-inner {
+  color: var(--pm-accent-light) !important;
+}
+
+.x-btn-pressed {
+  background-color: var(--pm-accent) !important;
+  border-color: var(--pm-accent-dark) !important;
+}
+
+.x-btn-pressed .x-btn-inner {
+  color: #fff !important;
+}
+
+/* ===== Navigation Tree ===== */
+.x-treelist-pve-nav {
+  background-color: var(--pm-bg-surface) !important;
+}
+
+.x-treelist-item-text,
+.x-treelist-item-icon {
+  color: var(--pm-text) !important;
+}
+
+.x-treelist-row-over {
+  background-color: var(--pm-bg-elevated) !important;
+}
+
+.x-treelist-row-over .x-treelist-item-text,
+.x-treelist-row-over .x-treelist-item-icon {
+  color: var(--pm-accent-light) !important;
+}
+
+.x-treelist-item-selected,
+.x-treelist-item-selected > .x-treelist-row {
+  background-color: var(--pm-accent-dark) !important;
+}
+
+.x-treelist-item-selected .x-treelist-item-text,
+.x-treelist-item-selected .x-treelist-item-icon {
+  color: #fff !important;
+}
+
+/* ===== Grid/Tables ===== */
+.x-grid-item {
+  background-color: var(--pm-bg-base) !important;
+  color: var(--pm-text) !important;
+}
+
+.x-grid-item-alt {
+  background-color: var(--pm-bg-surface) !important;
+}
+
+.x-grid-item-over {
+  background-color: var(--pm-bg-elevated) !important;
+}
+
+.x-grid-item-selected {
+  background-color: var(--pm-accent-dark) !important;
+  color: #fff !important;
+}
+
+.x-grid-header-ct,
+.x-column-header {
+  background-color: var(--pm-bg-surface) !important;
+  border-color: var(--pm-border) !important;
+}
+
+.x-column-header-text {
+  color: var(--pm-text-dim) !important;
+}
+
+/* ===== Forms ===== */
+.x-form-text,
+.x-form-field,
+.x-form-trigger-wrap {
+  background-color: var(--pm-bg-elevated) !important;
+  border-color: var(--pm-border) !important;
+  color: var(--pm-text) !important;
+}
+
+.x-form-text:focus,
+.x-form-field:focus {
+  border-color: var(--pm-accent) !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25) !important;
+}
+
+.x-form-item-label {
+  color: var(--pm-text-dim) !important;
+}
+
+/* ===== Menus ===== */
+.x-menu {
+  background-color: var(--pm-bg-surface) !important;
+  border-color: var(--pm-border) !important;
+}
+
+.x-menu-item {
+  color: var(--pm-text) !important;
+}
+
+.x-menu-item-active {
+  background-color: var(--pm-bg-elevated) !important;
+}
+
+/* ===== Windows ===== */
+.x-window {
+  background-color: var(--pm-bg-base) !important;
+  border-color: var(--pm-border) !important;
+}
+
+/* ===== Splitter ===== */
+.x-splitter {
+  background-color: var(--pm-bg-elevated) !important;
+}
+
+/* ===== Progress Bars ===== */
+.x-progress-bar {
+  background-color: var(--pm-accent) !important;
+}
+
+.x-progress.critical .x-progress-bar {
+  background-color: var(--pm-error) !important;
+}
+
+.x-progress.warning .x-progress-bar {
+  background-color: var(--pm-warning) !important;
+}
+
+/* ===== Status Icons ===== */
+.x-tree-icon-custom.running:after,
+.x-grid-icon-custom.running:after,
+.x-tree-icon-custom.online:after,
+.x-grid-icon-custom.online:after {
+  color: var(--pm-success) !important;
+}
+
+.x-tree-icon-custom.stopped:after,
+.x-grid-icon-custom.stopped:after,
+.x-tree-icon-custom.error:after,
+.x-grid-icon-custom.error:after {
+  color: var(--pm-error) !important;
+}
+
+.x-tree-icon-custom.paused:after,
+.x-grid-icon-custom.paused:after,
+.x-tree-icon-custom.pending:after,
+.x-grid-icon-custom.pending:after {
+  color: var(--pm-warning) !important;
+}
+
+/* ===== Tooltips ===== */
+.x-tip {
+  background-color: var(--pm-bg-elevated) !important;
+  border-color: var(--pm-border) !important;
+  color: var(--pm-text) !important;
+}
+
+/* ===== Masks ===== */
+.x-mask-msg {
+  background-color: var(--pm-bg-surface) !important;
+  border-color: var(--pm-border) !important;
+  color: var(--pm-text) !important;
+}
+
+/* ===== Tools ===== */
+.x-tool {
+  color: var(--pm-text-dim) !important;
+}
+
+.x-tool:hover {
+  color: var(--pm-accent-light) !important;
+}
+
+/* ===== Boundlist (Dropdowns) ===== */
+.x-boundlist {
+  background-color: var(--pm-bg-surface) !important;
+  border-color: var(--pm-border) !important;
+}
+
+.x-boundlist-item {
+  color: var(--pm-text) !important;
+}
+
+.x-boundlist-item-over {
+  background-color: var(--pm-bg-elevated) !important;
+}
+
+.x-boundlist-selected {
+  background-color: var(--pm-accent-dark) !important;
+  color: #fff !important;
+}
+
+/* ===== Scrollbars ===== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pm-bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pm-border);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pm-text-muted);
+}
+
+/* ===== Selection ===== */
+::selection {
+  background: var(--pm-accent);
+  color: #fff;
+}
+
+/* End of Blue Slate Theme */
