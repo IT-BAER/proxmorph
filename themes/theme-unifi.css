@@ -460,6 +460,14 @@ div[class*="rrd"] img {
     color: #B7BCC2;
 }
 
+/* v5.55: Fix LXC/QEMU icon ::after in treelist navigation */
+.x-treelist-item-icon.lxc::after,
+.x-treelist-item-icon.qemu::after {
+    background-color: transparent !important;
+    color: #B7BCC2 !important;
+    margin-top: 4px !important;
+}
+
 .x-tree-arrows .x-tree-expander {
     filter: brightness(200%);
 }
@@ -3245,6 +3253,16 @@ svg.x-surface {
     overflow: visible !important;
 }
 
+/* =====================================================
+   v5.57: Fix summary page widget panels border-radius
+   Column-layout panels (Health, Guests, Resources, etc.)
+   have visible borders that need rounded corners to
+   match the parent panel's 8px radius.
+   ===================================================== */
+.x-panel.x-column > .x-panel-bodyWrap > .x-panel-body.x-panel-body-default {
+    border-radius: 8px !important;
+}
+
 /* Tree navigation container */
 .x-treelist-pve-nav .x-treelist-container {
     overflow: visible !important;
@@ -3336,7 +3354,8 @@ svg.x-surface {
 }
 
 /* Adjust panel body position to account for smaller tab bar */
-.x-panel.x-border-item .x-panel-body.x-panel-body-default {
+/* v5.56: Exclude grids - they need ExtJS inline positioning for proper header display */
+.x-panel.x-border-item:not(.x-grid) .x-panel-body.x-panel-body-default {
     top: 26px !important;
 }
 
