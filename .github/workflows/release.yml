@@ -50,7 +50,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: ProxMorph v${{ steps.version.outputs.VERSION }}
+          name: v${{ steps.version.outputs.VERSION }}
           body: ${{ steps.changelog.outputs.BODY }}
           files: |
             proxmorph-${{ steps.version.outputs.VERSION }}.tar.gz
