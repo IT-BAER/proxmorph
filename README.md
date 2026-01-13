@@ -18,7 +18,13 @@ A theme collection for Proxmox VE that integrates with the native Color Theme se
 
 ## Installation
 
-### Quick Install
+### One-Liner Install
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/IT-BAER/proxmorph/main/install.sh) update
+```
+
+### Manual Install
 
 ```bash
 git clone https://github.com/IT-BAER/proxmorph.git
