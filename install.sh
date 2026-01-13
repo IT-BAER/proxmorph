@@ -224,11 +224,6 @@ install_themes() {
         fi
     done
     
-    # Restart pveproxy
-    print_info "Restarting pveproxy service..."
-    systemctl restart pveproxy
-    print_status "pveproxy restarted"
-    
     echo ""
     print_status "ProxMorph themes installed successfully!"
     echo ""
@@ -236,6 +231,10 @@ install_themes() {
     print_info "  1. Clear your browser cache (Ctrl+Shift+R)"
     print_info "  2. Click your username → Color Theme"
     print_info "  3. Select a ProxMorph theme from the dropdown"
+    
+    # Restart pveproxy in background
+    print_info "Restarting pveproxy service in background..."
+    nohup systemctl restart pveproxy &>/dev/null &
 }
 
 # Install a specific theme
@@ -257,8 +256,9 @@ install_single_theme() {
     chmod 644 "${THEMES_DIR}/$(basename "$theme_file")"
     patch_theme_map "$theme_key" "$theme_title"
     
-    systemctl restart pveproxy
     print_status "Theme '${theme_title}' installed!"
+    print_info "Restarting pveproxy service in background..."
+    nohup systemctl restart pveproxy &>/dev/null &
 }
 
 # Reinstall themes (after PVE update)
