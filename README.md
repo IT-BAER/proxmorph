@@ -17,6 +17,12 @@ A theme collection for Proxmox VE that integrates with the native Color Theme se
 | **Blue Slate** | Modern dark theme with blue accents (Tailwind Slate palette) |
 | **GitHub Dark** | Dark theme based on GitHub's dark mode colors |
 
+## Screenshot
+
+Comparison between default Proxmox Dark theme and UniFi theme:
+
+![Proxmox Dark vs UniFi Theme](Screenshot.png)
+
 ## Installation
 
 ### One-Liner Install

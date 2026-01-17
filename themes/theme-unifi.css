@@ -2,7 +2,7 @@
 /*
  * ProxMorph Theme: UniFi
  * Authentic recreation of Ubiquiti UniFi Network Application UI
- * Version: 5.82
+ * Version: 5.83
  * Author: N.E.S.T. / Dr. Dranglog
  * 
  * UniFi Color Palette (extracted from live instance):
@@ -1745,6 +1745,13 @@ div[id^="pveResourceTree-"][id$="-body"] {
 .x-treelist-item-tool {
     background-color: #131416;
     border-radius: 4px !important;
+}
+
+/* v5.83: Fix horizontal scrollbar in resource tree
+   ExtJS sets inline 'overflow: hidden auto' which causes 1px horizontal scroll.
+   Force overflow-x: hidden while preserving vertical scroll. */
+[id^="pveResourceTree"] .x-tree-view {
+    overflow-x: hidden !important;
 }
 
 /* Add spacing between tree items - v5.33: Reduced padding for compactness */
