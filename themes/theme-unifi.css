@@ -2,7 +2,8 @@
 /*
  * ProxMorph Theme: UniFi
  * Authentic recreation of Ubiquiti UniFi Network Application UI
- * Version: 5.70 - Fixed column panel gap in dialogs (padding-left: 25px on right column)
+ * Version: 5.82
+ * Author: N.E.S.T. / Dr. Dranglog
  * 
  * UniFi Color Palette (extracted from live instance):
  * 
@@ -220,6 +221,63 @@ th,
     border-radius: 0 !important;
 }
 
+/* =====================================================
+   v5.73: WINDOW/MODAL BORDER-RADIUS CONSISTENCY
+   Reset all children to 0, then re-apply specific radii
+   to ensure consistent 8px corners on login/modals
+   ===================================================== */
+
+/* 1. Reset everything inside windows to 0 - overrides global x-border-box rule */
+.x-window *,
+.x-window .x-autocontainer-innerCt,
+.x-window .x-autocontainer-outerCt,
+.x-window .x-form-layout-wrap,
+.x-window .x-form-layout-auto-label,
+.x-window .x-form-layout-colgroup,
+.x-window .x-form-layout-column,
+.x-window .x-field,
+.x-window .x-form-item,
+.x-window .x-form-item-body {
+    border-radius: 0 !important;
+}
+
+/* 2. Window container - consistent 8px with overflow hidden */
+.x-window {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+/* 3. Window header - top corners only */
+.x-window-header,
+.x-window-header-default {
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* 4. Re-apply button styling inside windows (6px) */
+.x-window .x-btn {
+    border-radius: 6px !important;
+}
+
+/* 5. Re-apply checkbox styling inside windows (4px) */
+.x-window .x-form-checkbox {
+    border-radius: 4px !important;
+}
+
+/* 6. Re-apply form inputs inside windows (4px with split corners) */
+.x-window .x-form-trigger-wrap,
+.x-window .x-form-trigger-wrap-default {
+    border-radius: 4px !important;
+}
+
+.x-window .x-form-text-wrap,
+.x-window .x-form-text {
+    border-radius: 4px 0 0 4px !important;
+}
+
+.x-window .x-form-arrow-trigger {
+    border-radius: 0 4px 4px 0 !important;
+}
+
 .x-form-trigger-wrap,
 .x-form-trigger-wrap *,
 .x-form-text-wrap,
@@ -346,7 +404,7 @@ div[class*="rrd"] img {
 }
 
 /* Disabled field-groups: keep the native "reduced opacity" look (no black mask overlay) */
-.x-item-disabled.x-masked-relative > .x-mask {
+.x-item-disabled.x-masked-relative>.x-mask {
     background-color: transparent !important;
 }
 
@@ -881,7 +939,7 @@ tr:not(.x-grid-tree-node-expanded) .x-tree-expander::before {
 .x-btn-button.x-btn-no-text .x-btn-inner,
 .x-btn-button-default-toolbar-small.x-btn-no-text .x-btn-inner-default-toolbar-small,
 .x-btn-button-default-small.x-btn-no-text .x-btn-inner-default-small,
-.x-btn-button-default-small.x-btn-no-text > .x-btn-inner-default-small {
+.x-btn-button-default-small.x-btn-no-text>.x-btn-inner-default-small {
     display: none !important;
 }
 
@@ -1081,11 +1139,11 @@ tr:not(.x-grid-tree-node-expanded) .x-tree-expander::before {
     display: block !important;
 }
 
-/* v5.62: Dialog form field alignment - normalize trigger-wrap widths to match native theme (174px) */
+/* v5.64: Dialog form field alignment - let ExtJS handle natural sizing */
 .x-window .x-container .x-form-trigger-wrap,
 .x-window .x-form-item-body .x-form-trigger-wrap {
-    width: 174px !important;
-    max-width: 174px !important;
+    width: 100% !important;
+    max-width: none !important;
 }
 
 /* Ensure input fills the trigger wrap */
@@ -1940,50 +1998,14 @@ div[id^="pveResourceTree-"][id$="-body"] {
           of ~580px. Force direct child panels to use full available width.
    ===================================================== */
 
-/* Override inline width on window form panel body */
-.x-window .x-panel-body {
-    width: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
-}
+/* =====================================================
+   v5.74: DIALOG LAYOUT FIXES - REMOVED OVERRIDES
+   Removed all forced width/padding rules for panel bodies 
+   and inner containers. ExtJS calculates these precisely.
+   Forcing them causes cutoff/overflow in multi-column layouts.
+   ===================================================== */
 
-/* Ensure form containers use full width */
-.x-window .x-autocontainer-outerCt {
-    width: 100% !important;
-}
-
-/* v5.65: Force main form panels to use full available width.
-   ExtJS sets inline width based on pre-CSS parent dimensions.
-   This overrides that to use actual available space.
-   v5.66: Changed to width:100% - parent's border-box padding already
-          provides the 10px offset on each side.
-   v5.67: Also force nested x-box-inner containers and child panels
-          to use full width - ExtJS calculates all levels at render time.
-   v5.68: Added targeting for .x-container.x-box-item (container-NNNN)
-          which is the intermediate container with width: 549px inline. */
-.x-window .x-autocontainer-innerCt > .x-panel {
-    width: 100% !important;
-}
-
-/* v5.68: Force nested containers to use full width (not column panels) */
-.x-window .x-panel .x-box-inner,
-.x-window .x-panel .x-box-target,
-.x-window .x-panel .x-container.x-box-item {
-    width: 100% !important;
-}
-
-/* v5.70: Let column panels inside .x-box-target use their ExtJS-calculated widths
-   These are the two-column layout panels (e.g., Name/MAC on left, IPv4/IPv6 on right) */
-.x-window .x-panel .x-box-target > .x-panel.x-box-item {
-    width: auto !important;
-}
-
-/* v5.70: Add extra left padding to right column for visible gap between columns */
-.x-window .x-panel .x-box-target > .x-panel.x-box-item:last-child {
-    padding-left: 25px !important;
-}
-
-/* Footer toolbar - take full width with right padding */
+/* Only ensure the footer toolbar behaves correctly */
 .x-window .x-toolbar-footer {
     width: 100% !important;
     padding-right: 10px !important;
@@ -2018,6 +2040,12 @@ div[id^="pveResourceTree-"][id$="-body"] {
 /* Auto-width for checkbox label in footer */
 .x-window .x-toolbar-footer .x-form-type-checkbox .x-form-item-label {
     width: auto !important;
+}
+
+/* v5.75: Fix Help button alignment in dialog footers */
+/* The help button is an inline button and should be on the left */
+.x-window .x-toolbar-footer .proxmox-inline-button:first-child {
+    margin-right: auto !important;
 }
 
 /* =====================================================
@@ -2165,9 +2193,9 @@ div.eol-notice+div[id^="panel-"]>div[id^="panel-"][id$="-bodyWrap"]>div {
 }
 
 /* v5.30: Tree view tags - match header tag styling */
-.x-tree-node-text .proxmox-tag-dark, 
-.x-tree-node-text .proxmox-tag-light, 
-.x-grid-cell-inner .proxmox-tag-dark, 
+.x-tree-node-text .proxmox-tag-dark,
+.x-tree-node-text .proxmox-tag-light,
+.x-grid-cell-inner .proxmox-tag-dark,
 .x-grid-cell-inner .proxmox-tag-light,
 span.proxmox-tag-dark,
 span.proxmox-tag-light {
@@ -2374,7 +2402,8 @@ a:hover {
 
 .x-tree-icon-custom.running::after,
 .x-grid-icon-custom.running::after {
-    content: "\f111" !important; /* FontAwesome circle */
+    content: "\f111" !important;
+    /* FontAwesome circle */
     font-family: "FontAwesome" !important;
     font-size: 9px !important;
     line-height: 1 !important;
@@ -3030,7 +3059,7 @@ div[class*="gauge"] {
 }
 
 /* Child containers for expand/collapse animation */
-.x-treelist-item > .x-treelist-container {
+.x-treelist-item>.x-treelist-container {
     overflow: hidden !important;
     transition: max-height 0.25s ease-out, opacity 0.2s ease-out !important;
 }
@@ -3354,7 +3383,7 @@ svg.x-surface {
 .x-btn-button.x-btn-no-text .x-btn-inner,
 .x-btn-button-default-toolbar-small.x-btn-no-text .x-btn-inner-default-toolbar-small,
 .x-btn-button-default-small.x-btn-no-text .x-btn-inner-default-small,
-.x-btn-button-default-small.x-btn-no-text > .x-btn-inner-default-small,
+.x-btn-button-default-small.x-btn-no-text>.x-btn-inner-default-small,
 .x-btn.x-btn-default-small .x-btn-button.x-btn-no-text .x-btn-inner {
     display: none !important;
 }
@@ -3396,7 +3425,7 @@ svg.x-surface {
    Center label and button vertically with IP addresses content
    ===================================================== */
 /* IPs label - center vertically with IP addresses */
-[id^="pveIPViewLXC-"] > .x-box-inner > .x-box-target > [id^="box-"] {
+[id^="pveIPViewLXC-"]>.x-box-inner>.x-box-target>[id^="box-"] {
     transform: translateY(9px) !important;
 }
 
@@ -3431,7 +3460,7 @@ svg.x-surface {
    have visible borders that need rounded corners to
    match the parent panel's 8px radius.
    ===================================================== */
-.x-panel.x-column > .x-panel-bodyWrap > .x-panel-body.x-panel-body-default {
+.x-panel.x-column>.x-panel-bodyWrap>.x-panel-body.x-panel-body-default {
     border-radius: 8px !important;
 }
 
@@ -3527,28 +3556,57 @@ svg.x-surface {
 
 /* Adjust panel body position to account for smaller tab bar */
 /* v5.56: Exclude grids - they need ExtJS inline positioning for proper header display */
-.x-panel.x-border-item:not(.x-grid) .x-panel-body.x-panel-body-default {
+/* .x-panel.x-border-item:not(.x-grid) .x-panel-body.x-panel-body-default {
     top: 26px !important;
-}
+} */
 
 /* =====================================================
-   v5.45: Fix modal dialog/wizard content being cut off
-   The v5.43 rule above (top: 26px) is for the main UI's south panel
-   tab bar compaction, but it incorrectly applies to ALL nested panels
-   including those inside dialogs/wizards.
+   v5.72: COMPREHENSIVE MODAL SPACING & CLIPPING FIX
    
-   Fix: Reset all window panel bodies to 0, then specifically restore
-   tabpanel bodies (x-fit-item) to 26px for tab bar clearance.
+   Problem: The v5.43 rule (top: 26px for south panel tabs) cascaded
+   to ALL panel bodies inside dialogs/windows, creating 52-70px gaps
+   between title/tabs and tabs/content, plus content clipping.
+   
+   Solution: Reset ALL panel bodies to 0, then restore 26px ONLY for
+   the body that immediately follows a tab bar (using sibling selector).
+   Uses ultra-high specificity with 'body' prefix to win CSS battles.
    ===================================================== */
 
-/* Reset: All panel bodies inside windows to 0 */
-.x-window .x-panel .x-panel-body.x-panel-body-default {
+/* STEP 2: Remove gap between window header and content body - REMOVED
+   This rule forced top:0 on all panel bodies, which caused grid content 
+   to underlap grid headers (e.g., in Confirm tab). ExtJS correctly positions
+   grid bodies below headers, so we shouldn't override 'top'. */
+/* body .x-window .x-panel-body.x-panel-body-default {
     top: 0px !important;
+} */
+
+/* STEP 2: Restore 26px ONLY for the panel body that immediately follows a tab bar */
+/* This is the ONLY element that needs offset (to clear the tab bar) */
+body .x-window .x-panel .x-panel-bodyWrap>.x-tab-bar+.x-panel-body.x-panel-body-default {
+    top: 26px !important;
 }
 
-/* v5.57: Only restore 26px offset for actual tabpanels (with tab bar), not regular form panels */
-.x-window .x-panel.x-fit-item.x-tabpanel > .x-panel-bodyWrap > .x-panel-body.x-panel-body-default {
-    top: 26px !important;
+/* STEP 3: Zero out padding in bodyWraps that could cause extra gaps */
+.x-window .x-panel-bodyWrap {
+    padding: 0 !important;
+}
+
+/* STEP 4: Standardized form content padding - REMOVED
+   ExtJS handles padding internally. Forcing 10px here causes
+   cutoff in multi-column layouts because width calculations
+   don't account for this extra forced padding. */
+/* .x-window .x-autocontainer-innerCt {
+    padding: 10px !important;
+} */
+
+/* STEP 5: Fix overflow clipping - allow visible overflow in modal panels */
+.x-window .x-panel-body {
+    overflow: visible !important;
+}
+
+/* But keep auto overflow on the main window body for scrolling */
+.x-window .x-window-body {
+    overflow: auto !important;
 }
 
 /* =====================================================
@@ -3560,7 +3618,7 @@ svg.x-surface {
    ===================================================== */
 /* Force autocontainer to inherit parent width */
 .x-window .x-autocontainer-outerCt {
-    width: inherit !important;
+    /* width: inherit !important; v5.78: REMOVED to fix Login/Dialog layouts */
     max-width: 100% !important;
 }
 
@@ -3628,6 +3686,7 @@ svg.x-surface {
         opacity: 0;
         transform: scale(0.95) translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -3640,6 +3699,7 @@ svg.x-surface {
         opacity: 0;
         transform: translateY(-5px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -3672,4 +3732,74 @@ svg.x-surface {
 .x-boundlist {
     animation: menuSlideIn 0.12s ease-out forwards !important;
     transform-origin: top center !important;
+}
+
+/* =====================================================
+   v5.77: TREE SETTINGS DIALOG FIX
+   Force layout recalculation and visibility for tree settings
+   ===================================================== */
+.x-window[id^="pveTreeSettingsEdit"] .x-panel-body {
+    width: 100% !important;
+    min-width: 300px !important;
+}
+
+.x-window[id^="pveTreeSettingsEdit"] .x-autocontainer-innerCt {
+    width: 100% !important;
+    display: block !important;
+}
+
+.x-window[id^="pveTreeSettingsEdit"] .x-window-body {
+    overflow: visible !important;
+    height: auto !important;
+}
+
+.x-window[id^="pveTreeSettingsEdit"] input {
+    width: 100% !important;
+    visibility: visible !important;
+    display: block !important;
+    opacity: 1 !important;
+}
+
+.x-window[id^="pveTreeSettingsEdit"] .x-form-item-body,
+.x-window[id^="pveTreeSettingsEdit"] .x-form-trigger-wrap,
+.x-window[id^="pveTreeSettingsEdit"] .x-form-text-wrap {
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+/* v5.82: Fix Tree Settings Dialog Width (Force full width on containers) */
+.x-window[id^="pveTreeSettingsEdit"] .x-panel[id^="inputpanel"],
+.x-window[id^="pveTreeSettingsEdit"] .x-panel[id^="inputpanel"] .x-panel-body,
+.x-window[id^="pveTreeSettingsEdit"] .x-panel[id^="inputpanel"] .x-box-inner,
+.x-window[id^="pveTreeSettingsEdit"] .x-panel[id^="inputpanel"] .x-box-target,
+.x-window[id^="pveTreeSettingsEdit"] .x-panel[id^="inputpanel"] .x-container,
+.x-window[id^="pveTreeSettingsEdit"] .x-panel[id^="inputpanel"] .x-field {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* =====================================================
+   v5.78: LOGIN DIALOG FIXES
+   1. Remove inner panel borders for cleaner "direct on window" look
+   2. Rely on ExtJS natural sizing (facilitated by removing the 
+      width:inherit rule above)
+   ===================================================== */
+.x-window:has(#pveloginrealm) .x-panel-body {
+    border: none !important;
+    background: transparent !important;
+    width: auto !important;
+}
+
+/* =====================================================
+   v5.81: VM WIZARD WIDTH FIX (REVISED)
+   1. Keep window borders (user preference).
+   2. Force internal elements to fit the measured content width
+      (718.4px) instead of overflowing at fixed 720px.
+   ===================================================== */
+.x-window[id^="pveQemuCreateWizard"] .x-window-body,
+.x-window[id^="pveQemuCreateWizard"] .x-window-body>.x-panel,
+.x-window[id^="pveQemuCreateWizard"] .x-panel-bodyWrap,
+.x-window[id^="pveQemuCreateWizard"] .x-panel-body {
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
