@@ -185,12 +185,16 @@ install_themes() {
         THEMES_SOURCE="${INSTALL_DIR}/themes"
     else
         SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        # Handle piped execution (e.g., bash <(curl ...)) where BASH_SOURCE is /dev/fd/*
+        if [[ "$SCRIPT_DIR" == /dev/fd* || "$SCRIPT_DIR" == /proc/* ]]; then
+            SCRIPT_DIR=""
+        fi
         THEMES_SOURCE="${SCRIPT_DIR}/themes"
     fi
     
     if [[ ! -d "$THEMES_SOURCE" ]]; then
         print_error "Themes directory not found: $THEMES_SOURCE"
-        print_info "Run with 'update' to download from GitHub releases"
+        print_info "Run with 'update' to download themes from GitHub releases first"
         exit 1
     fi
     
@@ -273,7 +277,16 @@ uninstall_themes() {
     print_info "Uninstalling ProxMorph themes..."
     
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    THEMES_SOURCE="${SCRIPT_DIR}/themes"
+    # Handle piped execution (e.g., bash <(curl ...)) where BASH_SOURCE is /dev/fd/*
+    if [[ "$SCRIPT_DIR" == /dev/fd* || "$SCRIPT_DIR" == /proc/* ]]; then
+        SCRIPT_DIR=""
+    fi
+    # Prefer INSTALL_DIR for themes source
+    if [[ -d "${INSTALL_DIR}/themes" ]]; then
+        THEMES_SOURCE="${INSTALL_DIR}/themes"
+    else
+        THEMES_SOURCE="${SCRIPT_DIR}/themes"
+    fi
     
     # Remove CSS files
     for css_file in "$THEMES_SOURCE"/theme-*.css; do
@@ -304,11 +317,15 @@ list_themes() {
         THEMES_SOURCE="${INSTALL_DIR}/themes"
     else
         SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        # Handle piped execution (e.g., bash <(curl ...)) where BASH_SOURCE is /dev/fd/*
+        if [[ "$SCRIPT_DIR" == /dev/fd* || "$SCRIPT_DIR" == /proc/* ]]; then
+            SCRIPT_DIR=""
+        fi
         THEMES_SOURCE="${SCRIPT_DIR}/themes"
     fi
     
     if [[ ! -d "$THEMES_SOURCE" ]]; then
-        print_error "Themes directory not found"
+        print_error "Themes directory not found. Run 'update' first to download themes."
         return 1
     fi
     
@@ -354,6 +371,10 @@ show_status() {
         THEMES_SOURCE="${INSTALL_DIR}/themes"
     else
         SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        # Handle piped execution (e.g., bash <(curl ...)) where BASH_SOURCE is /dev/fd/*
+        if [[ "$SCRIPT_DIR" == /dev/fd* || "$SCRIPT_DIR" == /proc/* ]]; then
+            SCRIPT_DIR=""
+        fi
         THEMES_SOURCE="${SCRIPT_DIR}/themes"
     fi
     
