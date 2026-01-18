@@ -5,6 +5,17 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-01-18
+
+### Added
+- **JavaScript Chart Patching**:
+  - Implemented `unifi-charts.js` to dynamically patch Proxmox RRD charts
+  - Adds true UniFi color palette validation (Green/Blue) to charts
+  - Solves "Network Traffic" chart blending issues by layering areas correctly
+- **Installation**:
+  - `install.sh` now installs JavaScript patches to `/usr/share/pve-manager/js/proxmorph/`
+  - persistence across PVE updates via APT hook (post-update re-patching)
+
 ## [2.1.1] - 2026-01-18
 
 ### Fixed

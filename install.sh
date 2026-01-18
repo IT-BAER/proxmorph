@@ -34,6 +34,8 @@ NC='\033[0m' # No Color
 
 PVE_MANAGER_DIR="/usr/share/pve-manager"
 
+VERSION="2.2.0"
+
 WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
 
 THEMES_DIR="${WIDGET_TOOLKIT_DIR}/themes"
@@ -354,6 +356,89 @@ patch_theme_map() {
 
 
 
+# JavaScript Patches Configuration
+JS_PATCHES_DIR="${PVE_MANAGER_DIR}/js/proxmorph"
+INDEX_HTML_TPL="${PVE_MANAGER_DIR}/index.html.tpl"
+JS_PATCH_MARKER="<!-- ProxMorph JS Patches -->"
+
+# Install JavaScript patches
+install_js_patches() {
+    local patches_source="${1:-}"
+    
+    if [[ -z "$patches_source" ]]; then
+        # Try to find patches directory
+        local themes_source=$(get_themes_source)
+        if [[ -n "$themes_source" ]] && [[ -d "${themes_source}/patches" ]]; then
+            patches_source="${themes_source}/patches"
+        fi
+    fi
+    
+    if [[ -z "$patches_source" ]] || [[ ! -d "$patches_source" ]]; then
+        print_info "No JavaScript patches found (optional)"
+        return 0
+    fi
+    
+    local js_count=$(find "$patches_source" -name "*.js" 2>/dev/null | wc -l)
+    if [[ $js_count -eq 0 ]]; then
+        print_info "No JavaScript patches to install"
+        return 0
+    fi
+    
+    print_info "Installing $js_count JavaScript patch(es)..."
+    
+    # Create JS patches directory
+    mkdir -p "$JS_PATCHES_DIR"
+    
+    # Copy JS files
+    for js_file in "$patches_source"/*.js; do
+        if [[ -f "$js_file" ]]; then
+            cp "$js_file" "${JS_PATCHES_DIR}/"
+            chmod 644 "${JS_PATCHES_DIR}/$(basename "$js_file")"
+            print_theme "Installed: $(basename "$js_file")"
+        fi
+    done
+    
+    # Patch index.html.tpl to load JS files
+    if [[ -f "$INDEX_HTML_TPL" ]]; then
+        # Check if already patched
+        if grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL"; then
+            print_info "index.html.tpl already patched for JS"
+        else
+            # Build script tags for all JS patches
+            local script_tags="$JS_PATCH_MARKER"
+            for js_file in "${JS_PATCHES_DIR}"/*.js; do
+                if [[ -f "$js_file" ]]; then
+                    local js_name=$(basename "$js_file")
+                    script_tags="${script_tags}\n<script src=\"/pve2/js/proxmorph/${js_name}\"></script>"
+                fi
+            done
+            script_tags="${script_tags}\n<!-- /ProxMorph JS Patches -->"
+            
+            # Insert before </body>
+            sed -i "s|</body>|${script_tags}\n</body>|" "$INDEX_HTML_TPL"
+            print_status "Patched index.html.tpl with JS loader"
+        fi
+    else
+        print_warning "index.html.tpl not found - JS patches may not load"
+    fi
+}
+
+# Remove JavaScript patches
+remove_js_patches() {
+    # Remove JS files directory
+    if [[ -d "$JS_PATCHES_DIR" ]]; then
+        rm -rf "$JS_PATCHES_DIR"
+        print_info "Removed JS patches directory"
+    fi
+    
+    # Remove patch from index.html.tpl
+    if [[ -f "$INDEX_HTML_TPL" ]] && grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL"; then
+        # Remove the ProxMorph JS block
+        sed -i "/$JS_PATCH_MARKER/,/<!-- \/ProxMorph JS Patches -->/d" "$INDEX_HTML_TPL"
+        print_info "Removed JS patch from index.html.tpl"
+    fi
+}
+
 # APT hook configuration for persistence across updates
 
 APT_HOOK_FILE="/etc/apt/apt.conf.d/99proxmorph"
@@ -380,7 +465,7 @@ install_apt_hook() {
 
 #!/bin/bash
 
-# ProxMorph post-update hook - automatically re-patches proxmoxlib.js after PVE updates
+# ProxMorph post-update hook - automatically re-patches after PVE updates
 
 
 
@@ -388,9 +473,17 @@ INSTALL_DIR="/opt/proxmorph"
 
 PROXMOXLIB_JS="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
 
+WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
+
+INDEX_HTML_TPL="/usr/share/pve-manager/index.html.tpl"
+
 THEMES_SOURCE="${INSTALL_DIR}/themes"
 
+JS_PATCHES_DIR="/usr/share/pve-manager/js/proxmorph"
+
 LOG_FILE="/var/log/proxmorph.log"
+
+JS_PATCH_MARKER="<!-- ProxMorph JS Patches -->"
 
 
 
@@ -412,11 +505,33 @@ fi
 
 
 
+needs_repatch=false
+
+
+
 # Check if proxmoxlib.js needs patching (our themes not registered)
 
 if ! grep -q "blue-slate\|unifi\|github-dark" "$PROXMOXLIB_JS" 2>/dev/null; then
 
-    log "Detected widget-toolkit update, re-applying ProxMorph patch..."
+    needs_repatch=true
+
+fi
+
+
+
+# Check if index.html.tpl needs JS patch
+
+if [[ -d "${THEMES_SOURCE}/patches" ]] && ! grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL" 2>/dev/null; then
+
+    needs_repatch=true
+
+fi
+
+
+
+if [[ "$needs_repatch" == "true" ]]; then
+
+    log "Detected PVE update, re-applying ProxMorph patches..."
 
     
 
@@ -452,11 +567,63 @@ if ! grep -q "blue-slate\|unifi\|github-dark" "$PROXMOXLIB_JS" 2>/dev/null; then
 
     
 
+    # Re-apply JavaScript patches
+
+    if [[ -d "${THEMES_SOURCE}/patches" ]]; then
+
+        mkdir -p "$JS_PATCHES_DIR"
+
+        for js_file in "${THEMES_SOURCE}/patches"/*.js; do
+
+            if [[ -f "$js_file" ]]; then
+
+                cp "$js_file" "${JS_PATCHES_DIR}/"
+
+                chmod 644 "${JS_PATCHES_DIR}/$(basename "$js_file")"
+
+                log "Installed JS patch: $(basename "$js_file")"
+
+            fi
+
+        done
+
+        
+
+        # Patch index.html.tpl if needed
+
+        if [[ -f "$INDEX_HTML_TPL" ]] && ! grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL"; then
+
+            script_tags="$JS_PATCH_MARKER"
+
+            for js_file in "${JS_PATCHES_DIR}"/*.js; do
+
+                if [[ -f "$js_file" ]]; then
+
+                    js_name=$(basename "$js_file")
+
+                    script_tags="${script_tags}\n<script src=\"/pve2/js/proxmorph/${js_name}\"></script>"
+
+                fi
+
+            done
+
+            script_tags="${script_tags}\n<!-- /ProxMorph JS Patches -->"
+
+            sed -i "s|</body>|${script_tags}\n</body>|" "$INDEX_HTML_TPL"
+
+            log "Patched index.html.tpl with JS loader"
+
+        fi
+
+    fi
+
+    
+
     # Restart pveproxy to apply changes
 
     systemctl restart pveproxy 2>/dev/null || true
 
-    log "ProxMorph patch re-applied successfully"
+    log "ProxMorph patches re-applied successfully"
 
 fi
 
@@ -662,6 +829,15 @@ install_themes() {
 
     
 
+    # Install JavaScript patches (chart colors, etc.)
+
+    install_js_patches
+
+    
+
+    # Write version file
+    echo "$VERSION" > "${INSTALL_DIR}/.version"
+
     echo ""
 
     print_status "ProxMorph themes installed successfully!"
@@ -783,6 +959,12 @@ uninstall_themes() {
         fi
 
     done
+
+    
+
+    # Remove JavaScript patches
+
+    remove_js_patches
 
     
 
