@@ -2,7 +2,11 @@
 /*
  * ProxMorph Theme: GitHub Dark
  * Authentic recreation of GitHub's Dark Mode using Primer Design System
- * Version: 2.0.0
+ * Version: 2.1.3
+ * 
+ * v2.1.3: Toolbox tree active item uses GitHub green instead of blue
+ * v2.1.2: Vertical usage bars (storage progress) use Proxmox default color #e6e6e6
+ * v2.1.1: Resource tree icons use Proxmox default colors (green=running, red=error, etc.)
  * 
  * GitHub Primer Dark Mode Color Palette:
  * 
@@ -122,9 +126,13 @@ div.x-border-layout-ct {
 }
 
 /* =====================================================
-   ICONS - Inverted for dark mode
+   ICONS - Using Proxmox default colors for dark mode
+   v2.1.1: Restored PVE base color scheme
    ===================================================== */
+
+/* General icon colors - visible gray for dark backgrounds */
 .x-tree-icon-custom,
+.x-grid-icon-custom,
 .fa-database::before,
 .fa-tags::before,
 .fa-file-o::before,
@@ -135,20 +143,20 @@ div.x-border-layout-ct {
 .fa-clock-o::before,
 .x-tab-icon-el-default,
 .pve-icon-verify-lettering::after,
-.x-tree-icon-custom.lock-migrate::after,
-.x-grid-icon-custom.lock-migrate::after,
 .x-tree-icon-leaf:not(.x-tree-icon-custom)::before,
 .x-tree-icon-parent:not(.x-tree-icon-custom)::before,
 .x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before,
 .x-grid-filters-filtered-column .x-column-header-text::after {
-    color: var(--gh-fg-muted) !important;
+    color: #aaaaaa !important;
 }
 
+/* Folder icons - invert for dark mode */
 .x-tree-icon-parent:not(.x-tree-icon-custom)::before,
 .x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before {
     filter: invert(90%);
 }
 
+/* Various image-based icons - invert for visibility */
 .fa-ceph::before,
 .fa-sdn::before,
 .fa-network-wired::before,
@@ -168,6 +176,7 @@ div.x-border-layout-ct {
     filter: invert(90%);
 }
 
+/* Hardware icons */
 .pve-itype-icon-cpu,
 .pve-itype-icon-cdrom,
 .pve-itype-icon-memory,
@@ -182,48 +191,112 @@ div.x-border-layout-ct {
     filter: invert(90%);
 }
 
-.x-tree-icon-custom,
-.x-grid-icon-custom {
-    color: var(--gh-fg-muted) !important;
-}
-
+/* Icon overlays - default styling */
 .x-tree-icon-custom::after,
 .x-grid-icon-custom::after {
-    color: var(--gh-fg-muted) !important;
-    text-shadow: -1px 0 1px var(--gh-canvas-default);
+    color: #aaaaaa !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
-/* RUNNING VMs/CTs - Green status indicator */
+/* RUNNING VMs/CTs - Green status indicator (PVE default) */
 .x-tree-icon-custom.running::after,
 .x-grid-icon-custom.running::after,
 .x-treelist-item-icon.running::after {
-    color: var(--gh-success-fg) !important;
-    text-shadow: -1px 0 1px var(--gh-canvas-default);
+    color: rgb(33, 191, 75) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
+/* ONLINE state - Green */
+.x-tree-icon-custom.online::after,
+.x-grid-icon-custom.online::after {
+    color: rgb(33, 191, 75) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Stopped/offline - Muted gray */
 .x-tree-icon-custom.stopped,
 .x-tree-icon-custom.offline,
-.x-tree-icon-custom.unknown::after,
 .x-grid-icon-custom.stopped,
-.x-grid-icon-custom.offline,
-.x-grid-icon-custom.unknown::after {
-    color: var(--gh-fg-subtle) !important;
+.x-grid-icon-custom.offline {
+    color: #888888 !important;
 }
 
+/* Unknown state - Gray */
+.x-tree-icon-custom.unknown::after,
+.x-grid-icon-custom.unknown::after {
+    color: #888888 !important;
+}
+
+/* ERROR states - Red (PVE default) */
+.x-tree-icon-custom.error::after,
+.x-tree-icon-custom.offline::after,
+.x-tree-icon-custom.ha-error::after,
+.x-grid-icon-custom.error::after,
+.x-grid-icon-custom.offline::after,
+.x-grid-icon-custom.ha-error::after {
+    color: rgb(204, 24, 0) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* PAUSED/SUSPENDED - Amber (PVE default) */
+.x-tree-icon-custom.paused::after,
+.x-tree-icon-custom.suspended::after,
+.x-tree-icon-custom.lock-suspending::after,
+.x-grid-icon-custom.paused::after,
+.x-grid-icon-custom.suspended::after,
+.x-grid-icon-custom.lock-suspending::after {
+    color: rgb(204, 142, 0) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* PENDING/WARNING states - Yellow (PVE default) */
+.x-tree-icon-custom.pending::after,
+.x-tree-icon-custom.io-error::after,
+.x-tree-icon-custom.internal-error::after,
+.x-tree-icon-custom.guest-panicked::after,
+.x-grid-icon-custom.pending::after,
+.x-grid-icon-custom.io-error::after,
+.x-grid-icon-custom.internal-error::after,
+.x-grid-icon-custom.guest-panicked::after {
+    color: rgb(255, 204, 0) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* HA MAINTENANCE - Blue (PVE default) */
+.x-tree-icon-custom.ha-maintenance::after,
+.x-grid-icon-custom.ha-maintenance::after {
+    color: rgb(56, 146, 212) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Locked icons */
+.x-tree-icon-custom.locked::after,
+.x-tree-icon-custom.lock-backup::after,
+.x-tree-icon-custom.lock-migrate::after,
+.x-tree-icon-custom.lock-suspended::after,
+.x-grid-icon-custom.locked::after,
+.x-grid-icon-custom.lock-backup::after,
+.x-grid-icon-custom.lock-migrate::after,
+.x-grid-icon-custom.lock-suspended::after {
+    color: #aaaaaa !important;
+}
+
+/* LXC/QEMU type indicators */
 .x-tree-icon-custom.lxc::after,
 .x-tree-icon-custom.qemu::after,
 .x-grid-icon-custom.lxc::after,
 .x-grid-icon-custom.qemu::after {
-    background-color: var(--gh-canvas-default);
-    color: var(--gh-fg-muted) !important;
+    background-color: transparent;
+    color: #888888 !important;
 }
 
 .x-treelist-item-icon.lxc::after,
 .x-treelist-item-icon.qemu::after {
-    background-color: var(--gh-canvas-default);
-    color: var(--gh-fg-muted) !important;
+    background-color: transparent;
+    color: #888888 !important;
 }
 
+/* Tree expander arrows */
 .x-tree-arrows .x-tree-expander {
     filter: brightness(200%);
 }
@@ -310,17 +383,32 @@ div[id^="pveResourceTree-"][id$="-body"] {
     border-color: var(--gh-canvas-default) !important;
 }
 
+/* Resource tree: remove row separators/borders */
+[id^="pveResourceTree-"].x-tree-panel td.x-grid-cell,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-td,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-cell {
+    border-bottom: none !important;
+}
+
+/* Resource tree: slightly increased row spacing */
+div[id^="pveResourceTree"] .x-grid-cell {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+
 .x-panel-bodyWrap {
     overflow: visible !important;
 }
 
 /* =====================================================
    SPLITTERS / SEPARATORS
+   v2.1.1: Fixed double border issue
    ===================================================== */
 .x-splitter-vertical {
-    background-color: var(--gh-canvas-inset) !important;
+    background-color: transparent !important;
     border-left: 1px solid var(--gh-border-default) !important;
-    border-right: 1px solid var(--gh-border-default) !important;
+    border-right: none !important;
+    width: 1px !important;
 }
 
 .x-splitter-horizontal {
@@ -401,7 +489,7 @@ div[id^="pveResourceTree-"][id$="-body"] {
 
 .x-btn-default-toolbar-small .x-btn-inner-default-toolbar-small,
 .x-btn-default-toolbar-small .x-btn-icon-el-default-toolbar-small {
-    color: var(--gh-fg-muted) !important;
+    color: #f0f6fc !important; /* GitHub Primer default button text color */
 }
 
 .x-btn-default-toolbar-small .x-btn-wrap-default-toolbar-small.x-btn-arrow-right::after,
@@ -553,7 +641,7 @@ div[id^="pveResourceTree-"][id$="-body"] {
 }
 
 .x-grid-item-alt {
-    background-color: var(--gh-canvas-muted) !important;
+    background-color: #0b0f14 !important; /* Slightly darker than canvas-default */
 }
 
 .x-grid-with-row-lines .x-grid-item {
@@ -698,10 +786,6 @@ div[id^="pveResourceTree-"][id$="-body"] {
     border-top: 1px solid var(--gh-border-default) !important;
 }
 
-.x-splitter-vertical {
-    border-right: 1px solid var(--gh-border-default) !important;
-}
-
 .x-keyboard-mode .x-splitter-focus::after {
     border-color: var(--gh-accent-emphasis) !important;
 }
@@ -796,9 +880,12 @@ div[id^="pveResourceTree-"][id$="-body"] {
     border-radius: var(--gh-radius-md) !important;
 }
 
+/* Toolbox tree items - increased visibility */
 .x-treelist-item-text,
-.x-treelist-item-icon {
-    color: var(--gh-fg-muted) !important;
+.x-treelist-item-icon,
+.x-treelist.x-treelist-pve-nav .x-treelist-item-text,
+.x-treelist.x-treelist-pve-nav .x-treelist-item-icon {
+    color: #b1bac4 !important; /* Brighter than --gh-fg-muted */
 }
 
 .x-treelist-row-over,
@@ -808,8 +895,13 @@ div[id^="pveResourceTree-"][id$="-body"] {
     color: var(--gh-fg-default) !important;
 }
 
+/* Toolbox tree - selected/active item uses GitHub green */
 .x-treelist-item-selected>.x-treelist-row {
-    background-color: var(--gh-accent-emphasis) !important;
+    background-color: var(--gh-success-emphasis) !important;
+}
+
+.x-treelist-item-selected>.x-treelist-row:hover {
+    background-color: var(--gh-success-active) !important;
 }
 
 .x-treelist-item-selected .x-treelist-item-text,
@@ -914,20 +1006,29 @@ img[id^="proxmoxLogoSvg-"][id$="-img"] {
     color: var(--gh-danger-fg) !important;
 }
 
-/* Inline buttons */
+/* Inline buttons (Documentation, Help) - GitHub Primer dark secondary button style */
 .proxmox-inline-button {
-    background-color: var(--gh-fg-muted) !important;
-    border-color: var(--gh-border-default) !important;
-    color: var(--gh-canvas-default) !important;
+    background-color: #21262d !important;
+    border: 1px solid #3d444d !important;
+    border-radius: 6px !important;
+    color: #f0f6fc !important;
+    transition: background 0.08s cubic-bezier(0.33, 1, 0.68, 1) !important;
 }
 
+.proxmox-inline-button:hover,
 .proxmox-inline-button.x-btn-over {
-    background-color: var(--gh-fg-default) !important;
+    background-color: #262c36 !important;
+    border-color: #6e7681 !important;
+}
+
+.proxmox-inline-button:active,
+.proxmox-inline-button.x-btn-pressed {
+    background-color: #2a313c !important;
 }
 
 .proxmox-inline-button .x-btn-inner,
 .proxmox-inline-button .x-btn-icon-el {
-    color: var(--gh-canvas-default) !important;
+    color: #f0f6fc !important;
 }
 
 /* Loading states */
@@ -989,4 +1090,47 @@ a.x-monthpicker-item-inner:hover,
 div.x-datepicker-date:hover {
     background-color: var(--gh-hover-overlay) !important;
     color: var(--gh-fg-on-emphasis) !important;
+}
+
+/* =====================================================
+   SCROLLBARS - Modern minimal styling
+   v2.1.1: Reduced width, GitHub Dark colors
+   ===================================================== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gh-canvas-default);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gh-border-default);
+    border-radius: 3px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gh-border-muted);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--gh-canvas-default);
+}
+
+/* Firefox scrollbar styling */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gh-border-default) var(--gh-canvas-default);
+}
+
+/* =====================================================
+   USAGE BARS (Vertical progress indicators)
+   v2.1.2: Using Proxmox dark theme default #e6e6e6
+   ===================================================== */
+.usage {
+    background-color: #e6e6e6 !important;
 }

@@ -201,31 +201,97 @@ th,
 .x-window {
     border-radius: 8px !important;
     overflow: hidden !important;
-    min-width: 295px !important;
-    /* v5.85: Match Proxmox default to prevent scrollbars */
+    /* v5.87: Removed min-width:295px - let ExtJS size windows naturally based on content */
 }
 
-/* v5.86: Fix dialog header/body not matching dialog width when min-width is applied
-   Root cause: ExtJS sets inline width on header/body that's smaller than min-width forces.
-   Solution: Force header/body to use 100% width so they inherit parent's computed width. */
-.x-window > .x-window-header,
-.x-window > .x-window-body,
-.x-window > .x-window-bodyWrap,
-.x-window-bodyWrap > .x-window-body {
+/* v5.87: Only header needs width:100% - body uses auto to prevent scrollbar issues
+   Root cause: width:100% on body elements causes scrollbars when combined with borders/padding */
+.x-window>.x-window-header {
     width: 100% !important;
+}
+
+/* Body elements use auto width - let ExtJS handle sizing naturally */
+.x-window>.x-window-body,
+.x-window>.x-window-bodyWrap,
+.x-window-bodyWrap>.x-window-body {
+    width: auto !important;
+}
+
+/* v5.87: Message box dialog fixes */
+.x-message-box {
+    min-width: 262px !important;
+}
+
+.x-message-box .x-window-body {
+    background-color: var(--pm-bg-base) !important;
+    overflow: hidden !important;
+    height: auto !important;
+}
+
+/* Message box checkbox alignment - ensure inline display */
+.x-message-box .x-form-type-checkbox {
+    position: relative !important;
+    top: auto !important;
+    margin-top: 16px !important;
+}
+
+.x-message-box .x-form-cb-wrap-inner {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.x-message-box .x-form-cb-label {
+    white-space: nowrap !important;
+    margin-left: 2px !important;
+    font-size: 12px !important;
+    letter-spacing: -0.2px !important;
+    padding-right: 0 !important;
+}
+
+.x-message-box .x-form-item-body {
+    padding: 0 !important;
 }
 
 /* Ensure box containers inside header use full width */
-.x-window-header > .x-box-inner,
-.x-window-header > .x-box-inner > .x-box-target {
+.x-window-header>.x-box-inner {
     width: 100% !important;
 }
 
-/* Header title should expand appropriately */
+/* v5.87: Layout fix for window header - properly align close tool to right 
+   Using flexbox on the inner target allows title to grow and pushes tool to the end.
+   We must override ExtJS absolute positioning (top/left) for this to work. */
+.x-window-header .x-box-target {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
 .x-window-header-title {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
     width: auto !important;
     flex: 1 !important;
-    max-width: calc(100% - 30px) !important;
+}
+
+.x-window-header .x-tool {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    margin-left: 8px !important;
+}
+
+/* v5.88: Fix alignment of "More" button in Guest Summary Panel.
+   By default it floats to the right or gets misaligned. We force it to the left 
+   of its container to sit next to the "IPs" label. */
+div[id^="pveGuestSummary"] .x-container .x-btn:not(.x-toolbar-item):not(.x-segmented-button-item) {
+    position: absolute !important;
+    left: 10px !important;
+    top: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: translateY(4px) !important;
 }
 
 /* 3. Window header - top corners only */
