@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# ProxMorph Theme Collection Installer for Proxmox VE
+# ProxMorph Theme Collection Installer for Proxmox VE and Proxmox Backup Server
 
-# Supports: PVE 8.x, 9.x
+# Supports: PVE 8.x/9.x, PBS 3.x/4.x
 
 # Integrates with native Proxmox theme selector
 
@@ -32,9 +32,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 
-PVE_MANAGER_DIR="/usr/share/pve-manager"
-
-VERSION="2.2.0"
+VERSION="2.2.2"
 
 WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
 
@@ -50,11 +48,49 @@ INSTALL_DIR="/opt/proxmorph"
 
 
 
+# PVE-specific paths
+
+PVE_MANAGER_DIR="/usr/share/pve-manager"
+
+PVE_INDEX_TPL="${PVE_MANAGER_DIR}/index.html.tpl"
+
+PVE_JS_PATCHES_DIR="${PVE_MANAGER_DIR}/js/proxmorph"
+
+PVE_SERVICE="pveproxy"
+
+
+
+# PBS-specific paths
+
+PBS_MANAGER_DIR="/usr/share/javascript/proxmox-backup"
+
+PBS_INDEX_HBS="${PBS_MANAGER_DIR}/index.hbs"
+
+PBS_JS_PATCHES_DIR="${PBS_MANAGER_DIR}/js/proxmorph"
+
+PBS_SERVICE="proxmox-backup-proxy"
+
+
+
+# Product detection (set by check_product)
+
+PRODUCT=""
+
+PRODUCT_VERSION=""
+
+INDEX_TEMPLATE=""
+
+JS_PATCHES_DIR=""
+
+PROXY_SERVICE=""
+
+
+
 echo -e "${CYAN}"
 
 echo "╔═══════════════════════════════════════════════════════════╗"
 
-echo "║        ProxMorph Theme Collection for Proxmox VE          ║"
+echo "║    ProxMorph Theme Collection for Proxmox VE and PBS      ║"
 
 echo "╚═══════════════════════════════════════════════════════════╝"
 
@@ -96,17 +132,75 @@ check_root() {
 
 check_pve() {
 
-    if ! command -v pveversion &> /dev/null; then
+    if command -v pveversion &> /dev/null; then
 
-        print_error "Proxmox VE not detected. This script is for PVE only."
+        PRODUCT="PVE"
+
+        PRODUCT_VERSION=$(pveversion --verbose | head -1)
+
+        INDEX_TEMPLATE="$PVE_INDEX_TPL"
+
+        JS_PATCHES_DIR="$PVE_JS_PATCHES_DIR"
+
+        PROXY_SERVICE="$PVE_SERVICE"
+
+        return 0
+
+    fi
+
+    return 1
+
+}
+
+
+
+# Check if Proxmox Backup Server is installed
+
+check_pbs() {
+
+    if command -v proxmox-backup-manager &> /dev/null; then
+
+        PRODUCT="PBS"
+
+        PRODUCT_VERSION=$(proxmox-backup-manager version 2>/dev/null | head -1)
+
+        INDEX_TEMPLATE="$PBS_INDEX_HBS"
+
+        JS_PATCHES_DIR="$PBS_JS_PATCHES_DIR"
+
+        PROXY_SERVICE="$PBS_SERVICE"
+
+        return 0
+
+    fi
+
+    return 1
+
+}
+
+
+
+# Detect which Proxmox product is installed
+
+check_product() {
+
+    if check_pve; then
+
+        print_info "Detected: $PRODUCT_VERSION"
+
+    elif check_pbs; then
+
+        print_info "Detected: $PRODUCT_VERSION"
+
+    else
+
+        print_error "Neither Proxmox VE nor Proxmox Backup Server detected."
+
+        print_error "This script requires PVE 8.x/9.x or PBS 3.x/4.x."
 
         exit 1
 
     fi
-
-    PVE_VERSION=$(pveversion --verbose | head -1)
-
-    print_info "Detected: $PVE_VERSION"
 
 }
 
@@ -356,10 +450,9 @@ patch_theme_map() {
 
 
 
-# JavaScript Patches Configuration
-JS_PATCHES_DIR="${PVE_MANAGER_DIR}/js/proxmorph"
-INDEX_HTML_TPL="${PVE_MANAGER_DIR}/index.html.tpl"
+# JavaScript Patches Configuration (Dynamic markers)
 JS_PATCH_MARKER="<!-- ProxMorph JS Patches -->"
+JS_PATCH_MARKER_END="<!-- /ProxMorph JS Patches -->"
 
 # Install JavaScript patches
 install_js_patches() {
@@ -384,7 +477,7 @@ install_js_patches() {
         return 0
     fi
     
-    print_info "Installing $js_count JavaScript patch(es)..."
+    print_info "Installing $js_count JavaScript patch(es) for ${PRODUCT}..."
     
     # Create JS patches directory
     mkdir -p "$JS_PATCHES_DIR"
@@ -398,28 +491,36 @@ install_js_patches() {
         fi
     done
     
-    # Patch index.html.tpl to load JS files
-    if [[ -f "$INDEX_HTML_TPL" ]]; then
+    # Patch index template to load JS files
+    if [[ -f "$INDEX_TEMPLATE" ]]; then
         # Check if already patched
-        if grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL"; then
-            print_info "index.html.tpl already patched for JS"
+        if grep -q "$JS_PATCH_MARKER" "$INDEX_TEMPLATE"; then
+            print_info "$(basename "$INDEX_TEMPLATE") already patched for JS"
         else
             # Build script tags for all JS patches
             local script_tags="$JS_PATCH_MARKER"
+            local js_web_path=""
+            
+            if [[ "$PRODUCT" == "PVE" ]]; then
+                js_web_path="/pve2/js/proxmorph"
+            else
+                js_web_path="/js/proxmorph"
+            fi
+            
             for js_file in "${JS_PATCHES_DIR}"/*.js; do
                 if [[ -f "$js_file" ]]; then
                     local js_name=$(basename "$js_file")
-                    script_tags="${script_tags}\n<script src=\"/pve2/js/proxmorph/${js_name}\"></script>"
+                    script_tags="${script_tags}\n<script src=\"${js_web_path}/${js_name}\"></script>"
                 fi
             done
-            script_tags="${script_tags}\n<!-- /ProxMorph JS Patches -->"
+            script_tags="${script_tags}\n${JS_PATCH_MARKER_END}"
             
             # Insert before </body>
-            sed -i "s|</body>|${script_tags}\n</body>|" "$INDEX_HTML_TPL"
-            print_status "Patched index.html.tpl with JS loader"
+            sed -i "s|</body>|${script_tags}\n</body>|" "$INDEX_TEMPLATE"
+            print_status "Patched $(basename "$INDEX_TEMPLATE") with JS loader"
         fi
     else
-        print_warning "index.html.tpl not found - JS patches may not load"
+        print_warning "$(basename "$INDEX_TEMPLATE") not found - JS patches may not load"
     fi
 }
 
@@ -431,11 +532,11 @@ remove_js_patches() {
         print_info "Removed JS patches directory"
     fi
     
-    # Remove patch from index.html.tpl
-    if [[ -f "$INDEX_HTML_TPL" ]] && grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL"; then
+    # Remove patch from template
+    if [[ -f "$INDEX_TEMPLATE" ]] && grep -q "$JS_PATCH_MARKER" "$INDEX_TEMPLATE"; then
         # Remove the ProxMorph JS block
-        sed -i "/$JS_PATCH_MARKER/,/<!-- \/ProxMorph JS Patches -->/d" "$INDEX_HTML_TPL"
-        print_info "Removed JS patch from index.html.tpl"
+        sed -i "/$JS_PATCH_MARKER/,/$JS_PATCH_MARKER_END/d" "$INDEX_TEMPLATE"
+        print_info "Removed JS patch from $(basename "$INDEX_TEMPLATE")"
     fi
 }
 
@@ -449,204 +550,116 @@ POST_INVOKE_SCRIPT="${INSTALL_DIR}/post-update.sh"
 
 
 
-# Install apt hook for automatic re-patching after proxmox-widget-toolkit updates
-
+# Install apt hook for automatic re-patching after updates
 install_apt_hook() {
-
     print_info "Installing apt hook for automatic re-patching..."
-
     
-
     # Create post-update script
-
     mkdir -p "${INSTALL_DIR}"
-
-    cat > "${POST_INVOKE_SCRIPT}" << 'SCRIPT'
-
+    cat > "${POST_INVOKE_SCRIPT}" << SCRIPT
 #!/bin/bash
+# ProxMorph post-update hook - automatically re-patches after updates
 
-# ProxMorph post-update hook - automatically re-patches after PVE updates
-
-
-
-INSTALL_DIR="/opt/proxmorph"
-
-PROXMOXLIB_JS="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
-
-WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
-
-INDEX_HTML_TPL="/usr/share/pve-manager/index.html.tpl"
-
-THEMES_SOURCE="${INSTALL_DIR}/themes"
-
-JS_PATCHES_DIR="/usr/share/pve-manager/js/proxmorph"
-
+PRODUCT="${PRODUCT}"
+INSTALL_DIR="${INSTALL_DIR}"
+PROXMOXLIB_JS="${PROXMOXLIB_JS}"
+WIDGET_TOOLKIT_DIR="${WIDGET_TOOLKIT_DIR}"
+INDEX_TEMPLATE="${INDEX_TEMPLATE}"
+THEMES_SOURCE="\${INSTALL_DIR}/themes"
+JS_PATCHES_DIR="${JS_PATCHES_DIR}"
+PROXY_SERVICE="${PROXY_SERVICE}"
 LOG_FILE="/var/log/proxmorph.log"
-
-JS_PATCH_MARKER="<!-- ProxMorph JS Patches -->"
-
-
+JS_PATCH_MARKER="${JS_PATCH_MARKER}"
+JS_PATCH_MARKER_END="${JS_PATCH_MARKER_END}"
 
 log() {
-
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"
-
+    echo "[\$(date '+%Y-%m-%d %H:%M:%S')] \$1" >> "\$LOG_FILE"
 }
 
-
-
 # Only proceed if themes are installed
-
-if [ ! -d "$THEMES_SOURCE" ]; then
-
+if [ ! -d "\$THEMES_SOURCE" ]; then
     exit 0
-
 fi
-
-
 
 needs_repatch=false
 
-
-
 # Check if proxmoxlib.js needs patching (our themes not registered)
-
-if ! grep -q "blue-slate\|unifi\|github-dark" "$PROXMOXLIB_JS" 2>/dev/null; then
-
+if ! grep -q "blue-slate\|unifi\|github-dark" "\$PROXMOXLIB_JS" 2>/dev/null; then
     needs_repatch=true
-
 fi
 
-
-
-# Check if index.html.tpl needs JS patch
-
-if [ -d "${THEMES_SOURCE}/patches" ] && ! grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL" 2>/dev/null; then
-
+# Check if template needs JS patch
+if [ -d "\${THEMES_SOURCE}/patches" ] && ! grep -q "\$JS_PATCH_MARKER" "\$INDEX_TEMPLATE" 2>/dev/null; then
     needs_repatch=true
-
 fi
 
-
-
-if [ "$needs_repatch" = "true" ]; then
-
-    log "Detected PVE update, re-applying ProxMorph patches..."
-
+if [ "\$needs_repatch" = "true" ]; then
+    log "Detected \$PRODUCT update, re-applying ProxMorph patches..."
     
-
     # Re-register all themes
-
-    for css_file in "${THEMES_SOURCE}"/theme-*.css; do
-
-        if [ -f "$css_file" ]; then
-
-            theme_key=$(basename "$css_file" .css | sed 's/^theme-//')
-
-            theme_title=$(head -1 "$css_file" | sed -n 's|^/\*!\(.*\)\*/.*|\1|p')
-
-            if [ -z "$theme_title" ]; then
-
-                theme_title=$(echo "$theme_key" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
-
+    for css_file in "\${THEMES_SOURCE}"/theme-*.css; do
+        if [ -f "\$css_file" ]; then
+            theme_key=\$(basename "\$css_file" .css | sed 's/^theme-//')
+            theme_title=\$(head -1 "\$css_file" | sed -n 's|^/\*!\(.*\)\*/.*|\1|p')
+            if [ -z "\$theme_title" ]; then
+                theme_title=\$(echo "\$theme_key" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
             fi
-
             
-
-            if ! grep -q "\"${theme_key}\":" "$PROXMOXLIB_JS"; then
-
-                sed -i "s/theme_map: {/theme_map: {\n\t\"${theme_key}\": \"${theme_title}\",/" "$PROXMOXLIB_JS"
-
-                log "Registered theme: ${theme_title}"
-
+            if ! grep -q "\"\${theme_key}\":" "\$PROXMOXLIB_JS"; then
+                sed -i "s/theme_map: {/theme_map: {\n\t\"\${theme_key}\": \"\${theme_title}\",/" "\$PROXMOXLIB_JS"
+                log "Registered theme: \${theme_title}"
             fi
-
         fi
-
     done
-
     
-
     # Re-apply JavaScript patches
-
-    if [ -d "${THEMES_SOURCE}/patches" ]; then
-
-        mkdir -p "$JS_PATCHES_DIR"
-
-        for js_file in "${THEMES_SOURCE}/patches"/*.js; do
-
-            if [ -f "$js_file" ]; then
-
-                cp "$js_file" "${JS_PATCHES_DIR}/"
-
-                chmod 644 "${JS_PATCHES_DIR}/$(basename "$js_file")"
-
-                log "Installed JS patch: $(basename "$js_file")"
-
+    if [ -d "\${THEMES_SOURCE}/patches" ]; then
+        mkdir -p "\$JS_PATCHES_DIR"
+        for js_file in "\${THEMES_SOURCE}/patches"/*.js; do
+            if [ -f "\$js_file" ]; then
+                cp "\$js_file" "\$JS_PATCHES_DIR/"
+                chmod 644 "\$JS_PATCHES_DIR/\$(basename "\$js_file")"
+                log "Installed JS patch: \$(basename "\$js_file")"
             fi
-
         done
-
         
-
-        # Patch index.html.tpl if needed
-
-        if [ -f "$INDEX_HTML_TPL" ] && ! grep -q "$JS_PATCH_MARKER" "$INDEX_HTML_TPL"; then
-
-            script_tags="$JS_PATCH_MARKER"
-
-            for js_file in "${JS_PATCHES_DIR}"/*.js; do
-
-                if [ -f "$js_file" ]; then
-
-                    js_name=$(basename "$js_file")
-
-                    script_tags="${script_tags}\n<script src=\"/pve2/js/proxmorph/${js_name}\"></script>"
-
+        # Patch template if needed
+        if [ -f "\$INDEX_TEMPLATE" ] && ! grep -q "\$JS_PATCH_MARKER" "\$INDEX_TEMPLATE"; then
+            script_tags="\$JS_PATCH_MARKER"
+            js_web_path=""
+            if [[ "\$PRODUCT" == "PVE" ]]; then
+                js_web_path="/pve2/js/proxmorph"
+            else
+                js_web_path="/js/proxmorph"
+            fi
+            
+            for js_file in "\$JS_PATCHES_DIR"/*.js; do
+                if [ -f "\$js_file" ]; then
+                    js_name=\$(basename "\$js_file")
+                    script_tags="\${script_tags}\n<script src=\"\${js_web_path}/\${js_name}\"></script>"
                 fi
-
             done
-
-            script_tags="${script_tags}\n<!-- /ProxMorph JS Patches -->"
-
-            sed -i "s|</body>|${script_tags}\n</body>|" "$INDEX_HTML_TPL"
-
-            log "Patched index.html.tpl with JS loader"
-
+            script_tags="\${script_tags}\n\$JS_PATCH_MARKER_END"
+            
+            sed -i "s|</body>|\${script_tags}\n</body>|" "\$INDEX_TEMPLATE"
+            log "Patched \$(basename "\$INDEX_TEMPLATE") with JS loader"
         fi
-
     fi
-
     
-
-    # Restart pveproxy to apply changes
-
-    systemctl restart pveproxy 2>/dev/null || true
-
+    # Restart proxy service to apply changes
+    systemctl restart "\$PROXY_SERVICE" 2>/dev/null || true
     log "ProxMorph patches re-applied successfully"
-
 fi
-
 SCRIPT
-
     chmod +x "${POST_INVOKE_SCRIPT}"
-
     
-
-    # Create apt hook that triggers after proxmox-widget-toolkit is configured
-
+    # Create apt hook
     cat > "${APT_HOOK_FILE}" << HOOK
-
-// ProxMorph: Automatically re-patch proxmoxlib.js after widget-toolkit updates
-
+// ProxMorph: Automatically re-patch after updates
 DPkg::Post-Invoke { "if [ -x ${POST_INVOKE_SCRIPT} ]; then ${POST_INVOKE_SCRIPT}; fi"; };
-
 HOOK
-
     
-
-    print_status "Apt hook installed - themes will persist across PVE updates"
-
+    print_status "Apt hook installed - themes will persist across ${PRODUCT} updates"
 }
 
 
@@ -854,12 +867,9 @@ install_themes() {
 
     
 
-    # Restart pveproxy in background
-
-    print_info "Restarting pveproxy service in background..."
-
-    nohup systemctl restart pveproxy &>/dev/null &
-
+    # Restart proxy service in background
+    print_info "Restarting ${PROXY_SERVICE} service in background..."
+    nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
 }
 
 
@@ -903,11 +913,8 @@ install_single_theme() {
     
 
     print_status "Theme '${theme_title}' installed!"
-
-    print_info "Restarting pveproxy service in background..."
-
-    nohup systemctl restart pveproxy &>/dev/null &
-
+    print_info "Restarting ${PROXY_SERVICE} service in background..."
+    nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
 }
 
 
@@ -1141,15 +1148,10 @@ show_status() {
     
 
     # Apt hook status (persistence)
-
     if check_apt_hook; then
-
-        echo -e "  Auto-patch: ${GREEN}Enabled${NC} (persists across PVE updates)"
-
+        echo -e "  Auto-patch: ${GREEN}Enabled${NC} (persists across ${PRODUCT} updates)"
     else
-
         echo -e "  Auto-patch: ${YELLOW}Not installed${NC}"
-
     fi
 
     
@@ -1174,7 +1176,7 @@ show_menu() {
 
     echo "  2) Update from GitHub (latest release)"
 
-    echo "  3) Reinstall themes (after PVE update)"
+    echo "  3) Reinstall themes (after update)"
 
     echo "  4) Uninstall themes"
 
@@ -1219,8 +1221,7 @@ show_menu() {
 main() {
 
     check_root
-
-    check_pve
+    check_product
 
     
 

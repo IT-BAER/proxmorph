@@ -5,6 +5,16 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.2] - 2026-01-20
+
+### Added
+- **Proxmox Backup Server (PBS) Support**:
+  - The installer now officially supports PBS (v3.x/4.x)
+  - Auto-detects product (PVE or PBS) and adjusts paths automatically
+  - Native integration with PBS theme selector
+  - Persistence across PBS updates via apt hook
+  - JavaScript patches support for PBS template format (.hbs)
+
 ## [2.2.1] - 2026-01-20
 
 ### Fixed

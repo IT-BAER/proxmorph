@@ -1,13 +1,13 @@
 # ProxMorph
 
-Custom themes for Proxmox VE that integrate with the native Color Theme selector.
+Custom themes for Proxmox VE (PVE) and Proxmox Backup Server (PBS) that integrate with the native Color Theme selector.
 
 ## ✨ Features
 
-- **Native Integration** - Themes appear in Proxmox's built-in Color Theme dropdown
-- **Auto-Patch on Updates** - Automatically re-applies themes after Proxmox package updates
+- **Native Integration** - Themes appear in built-in Color Theme dropdown (PVE and PBS)
+- **Auto-Patch on Updates** - Automatically re-applies themes after product updates
 - **Hybrid Engine** - CSS for styling + JavaScript for dynamic chart patching
-- **Easy Installation** - Single command installation
+- **Easy Installation** - Single command installation for both PVE and PBS
 
 ## 📸 Screenshot
 
@@ -80,16 +80,16 @@ Theme files must start with `/*!Display Name*/` - this sets the name in Proxmox'
 
 ## ℹ️ How It Works
 
-1. Theme CSS files are copied to `/usr/share/javascript/proxmox-widget-toolkit/themes/`
-2. JavaScript patches (for charts) are installed to `/usr/share/pve-manager/js/proxmorph/`
-3. `proxmoxlib.js` is patched to register themes, and `index.html.tpl` loads the JS patches
-4. An apt hook automatically re-patches after `proxmox-widget-toolkit` or `pve-manager` updates
-5. Themes appear in Proxmox's native Color Theme selector
+1. Theme CSS files are copied to shared `/usr/share/javascript/proxmox-widget-toolkit/themes/`
+2. JavaScript patches (for charts) are installed to product-specific JS directories
+3. `proxmoxlib.js` is patched to register themes, and product index templates (`.tpl` or `.hbs`) are patched to load JS patches
+4. An apt hook automatically re-patches after product updates (widget-toolkit, pve-manager, or proxmox-backup-server)
+5. Themes appear in the native Color Theme selector of both PVE and PBS
 
 ## 📦 Supported Versions
 
-- Proxmox VE 9.x
-- Proxmox VE 8.x
+- Proxmox VE 9.x / 8.x
+- Proxmox Backup Server 4.x / 3.x
 
 ## 📄 License
 
