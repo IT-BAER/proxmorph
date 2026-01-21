@@ -2,7 +2,7 @@
 /*
  * ProxMorph Theme: UniFi
  * Authentic recreation of Ubiquiti UniFi Network Application UI
- * Version: 5.87
+ * Version: 5.88
  * Author: N.E.S.T. / Dr. Dranglog
  * 
  * UniFi Color Palette (extracted from live instance):
@@ -552,13 +552,14 @@ i.pmx-itype-icon-memory::before,
     font-size: 14px !important;
 }
 
-/* v5.87: Fix "More" button position in IPs section of Summary panel
+/* v5.88: Fix "More" button position in IPs section of Summary panel
    Move button next to "IPs" label, vertically centered with IP addresses.
    Parent containers need overflow:visible because transform moves button outside bounds.
    
-   Key insight: ExtJS sets button's `top` based on container height (17px for 1 IP, 34px for 2 IPs).
-   Solution: Anchor to top: 0, then use consistent transform for fine positioning.
-   This works regardless of how many IP addresses are displayed. */
+   Key insight: ExtJS positions button at container's right edge (after IP addresses).
+   Solution: Anchor to top: 0, then use transform to shift button left to "IPs" label.
+   Value -242px moves button from right edge to just after the 35px "IPs" label.
+   NOTE: This value may need adjustment if Proxmox UI layout changes. */
 [id^="pveIPViewLXC-"] .x-box-inner,
 [id^="pveIPViewLXC-"] > .x-box-inner {
     overflow: visible !important;
@@ -566,7 +567,7 @@ i.pmx-itype-icon-memory::before,
 
 [id^="pveIPViewLXC-"] [id^="button-"].x-btn {
     top: 0 !important;
-    transform: translate(-430px, 5px) !important;
+    transform: translate(-242px, 5px) !important;
 }
 
 /* Cell inner content alignment */
@@ -811,6 +812,12 @@ tr:not(.x-grid-tree-node-expanded) .x-tree-expander::before {
 /* =====================================================
    BUTTONS - Clean, minimal style (UniFi authentic)
    ===================================================== */
+/* v5.88: Respect inline display:none - Proxmox hides buttons dynamically and !important was overriding */
+.x-btn-default-small[style*="display: none"],
+.x-btn-default-small[style*="display:none"] {
+    display: none !important;
+}
+
 .x-btn-default-small {
     background-color: #006EFF;
     border: none;
@@ -2226,10 +2233,16 @@ div.eol-notice+div[id^="panel-"]>div[id^="panel-"][id$="-bodyWrap"]>div {
     color: #FFFFFF !important;
 }
 
-/* Tags with DARK text (bright backgrounds like pink/yellow tags) */
-.pve-edit-tag.proxmox-tag-dark,
-.pve-edit-tag.proxmox-tag-dark span {
+/* Tags with DARK text (bright backgrounds like pink/yellow tags) - non-edit mode only */
+.pve-edit-tag.proxmox-tag-dark:not(.editable),
+.pve-edit-tag.proxmox-tag-dark:not(.editable) span {
     color: #1C1E21 !important;
+}
+
+/* v5.88: In edit mode, force light text on ALL tags for better visibility */
+.pve-edit-tag.editable.proxmox-tag-dark,
+.pve-edit-tag.editable.proxmox-tag-dark span {
+    color: #F9FAFA !important;
 }
 
 /* Individual tag styling */

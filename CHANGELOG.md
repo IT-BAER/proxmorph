@@ -5,6 +5,18 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- **UniFi Theme (v5.88)**:
+  - Fixed "Finish Edit" checkmark button appearing on tags when not in edit mode
+  - Root cause: `.x-btn-default-small { display: flex !important }` overrode Proxmox's inline `display: none`
+  - Solution: Added rule to respect inline `display: none` styles for dynamically hidden buttons
+  - Fixed dark text on tags in edit mode (e.g., teal `testesteste` tag had black text)
+  - Tags now always use light text (#F9FAFA) when in edit mode, regardless of `proxmox-tag-dark` classification
+  - Fixed "More" button position in IPs section not visible (was positioned off-screen)
+  - Corrected transform value from -430px to -242px to align with current PVE 9.x layout
+
 ## [2.2.3] - 2026-01-20
 
 ### Fixed
