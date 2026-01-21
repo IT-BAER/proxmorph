@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **UniFi Theme (v5.89)**:
+  - Fixed delete dialog warning text "Referenced disks will always be destroyed." being cut off
+  - Root cause: ExtJS box layout set narrow container width (236px) causing text wrap, then 0px height due to absolute positioning
+  - Solution: Added `white-space: nowrap` to `.pmx-hint` to keep text on single line
+
 ## [2.2.4] - 2026-01-21
 
 ### Fixed

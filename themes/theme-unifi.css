@@ -2,7 +2,7 @@
 /*
  * ProxMorph Theme: UniFi
  * Authentic recreation of Ubiquiti UniFi Network Application UI
- * Version: 5.88
+ * Version: 5.89
  * Author: N.E.S.T. / Dr. Dranglog
  * 
  * UniFi Color Palette (extracted from live instance):
@@ -2141,6 +2141,12 @@ div.eol-notice+div[id^="panel-"]>div[id^="panel-"][id$="-bodyWrap"]>div {
 
 .pmx-hint {
     background-color: rgba(245, 166, 35, 0.15);
+    white-space: nowrap !important;
+}
+
+/* Allow pmx-hint text to expand beyond parent container width */
+.x-container:has(> .x-box-inner > .x-box-target > .pmx-hint) .x-box-inner {
+    overflow: visible !important;
 }
 
 .pmx-hint a {
