@@ -66,6 +66,7 @@ chmod +x install.sh
 |---------|-------------|
 | `./install.sh install` | Install themes |
 | `./install.sh uninstall` | Remove themes |
+| `./install.sh update` | Updates (latest from Githubh) and install the latest themes |
 | `./install.sh status` | Show installation status |
 
 ## 🛠️ Creating Themes
