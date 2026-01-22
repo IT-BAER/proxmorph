@@ -32,7 +32,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 
-VERSION="2.2.3"
+VERSION="2.2.4"
 
 WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
 
@@ -534,8 +534,13 @@ remove_js_patches() {
     
     # Remove patch from template
     if [[ -f "$INDEX_TEMPLATE" ]] && grep -q "$JS_PATCH_MARKER" "$INDEX_TEMPLATE"; then
-        # Remove the ProxMorph JS block
-        sed -i "/$JS_PATCH_MARKER/,/$JS_PATCH_MARKER_END/d" "$INDEX_TEMPLATE"
+        # Use a different delimiter (|) to avoid issues with / in the pattern
+        # Escape special regex characters for sed
+        local escaped_start=$(printf '%s\n' "$JS_PATCH_MARKER" | sed 's/[]\/$*.^[]/\\&/g')
+        local escaped_end=$(printf '%s\n' "$JS_PATCH_MARKER_END" | sed 's/[]\/$*.^[]/\\&/g')
+        
+        # Remove the ProxMorph JS block using | as delimiter
+        sed -i "\|${escaped_start}|,\|${escaped_end}|d" "$INDEX_TEMPLATE"
         print_info "Removed JS patch from $(basename "$INDEX_TEMPLATE")"
     fi
 }

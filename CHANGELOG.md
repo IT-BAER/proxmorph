@@ -5,6 +5,30 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- **UniFi Theme (v5.89)**:
+  - Fixed delete dialog warning text "Referenced disks will always be destroyed." being cut off
+  - Root cause: ExtJS box layout set narrow container width (236px) causing text wrap, then 0px height due to absolute positioning
+  - Solution: Added `white-space: nowrap` to `.pmx-hint` to keep text on single line
+
+## [2.2.4] - 2026-01-21
+
+### Fixed
+- **Installer**:
+  - Fixed `sed` delimiter issue during uninstall that caused "extra characters after command" error (PR #6 by @jiriteach)
+  - Root cause: Marker text `<!-- /ProxMorph JS Patches -->` contained `/` which conflicted with sed's default delimiter
+  - Solution: Use `|` as alternate delimiter and properly escape special regex characters
+- **UniFi Theme (v5.88)**:
+  - Fixed "Finish Edit" checkmark button appearing on tags when not in edit mode
+  - Root cause: `.x-btn-default-small { display: flex !important }` overrode Proxmox's inline `display: none`
+  - Solution: Added rule to respect inline `display: none` styles for dynamically hidden buttons
+  - Fixed dark text on tags in edit mode (e.g., teal `testesteste` tag had black text)
+  - Tags now always use light text (#F9FAFA) when in edit mode, regardless of `proxmox-tag-dark` classification
+  - Fixed "More" button position in IPs section not visible (was positioned off-screen)
+  - Corrected transform value from -430px to -242px to align with current PVE 9.x layout
+
 ## [2.2.3] - 2026-01-20
 
 ### Fixed
