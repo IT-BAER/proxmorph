@@ -2,8 +2,46 @@
 /*
  * ProxMorph Theme: GitHub Dark
  * Authentic recreation of GitHub's Dark Mode using Primer Design System
- * Version: 2.2.14
- * 
+ * Version: 2.2.23
+ *
+ * v2.2.23: Redesign tab indicator — position ::after at bottom:0 (inside tab box)
+ *         instead of bottom:-2px (outside, clipped by ExtJS containers). Remove
+ *         margin-bottom:-2px hack that caused layout shifts on click. Add overflow:
+ *         visible on .x-box-inner/.x-box-target within .x-tab-bar to prevent clipping.
+ *         pointer-events:none on indicator for clean click-through.
+ * v2.2.22: Fix ExtJS tab click outline effect — aggressively remove outline and box-shadow
+ *         from all tab focus and pressed states (.x-tab-focus, .x-tab-pressed, etc.).
+ * v2.2.21: Fix GitHub tab underline — switch from border-bottom to ::after pseudo-element
+ *         (ExtJS overrides border-bottom: none, but cannot override ::after). Add
+ *         overflow:visible on .x-tab-bar-body (ExtJS default clips the indicator).
+ *         Fix white focus outline on tab click (outline:none on .x-tab and focus states).
+ * v2.2.20: GitHub underline-nav tab style — flat tabs, muted inactive text (#848d97),
+ *         bold white active text (#e6edf3), coral underline indicator (#f47067, 2px)
+ *         via border-bottom + margin-bottom: -2px overlap trick. Tab bar gets
+ *         1px bottom border (#21262d) matching GitHub's separator. Overflow: visible
+ *         on tabs for the border to render past the bar edge.
+ * v2.2.19: Polish checkbox/radio appearance — brighter unchecked state (bg #161b22,
+ *         border #6e7681 at 1.5px) to match GitHub's actual Primer control look;
+ *         enlarge to 16×16 for crisp circle rendering; translateZ(0) on radios
+ *         for GPU-accelerated anti-aliasing; inner dot 7px to match new size.
+ * v2.2.18: GitHub Primer checkboxes & radios — replace sprite-inversion approach with
+ *         native CSS custom controls. Checkbox: 14×14 rounded square, blue fill + SVG
+ *         checkmark when checked. Radio: 14×14 circle, blue inner dot via ::after when
+ *         selected. Hover highlights border in #388bfd. Includes github-dark-init.js patch
+ *         to detect ExtJS initial-state (bgPos:-15px) and add .x-form-cb-checked class.
+ * v2.2.17: Fix System tab dropdown fields clipped on right side in Create VM dialog
+ *         Root cause: padding: 12px 16px on .x-autocontainer-innerCt shifts form items rightward
+ *         by 16px, but ExtJS uses offsetWidth (not clientWidth) so form items are sized to full
+ *         column width AND shifted — overflowing 16px past column boundary. Right column panel body
+ *         (bg: #0d1117) starts at exact column edge, painting over the overflow trigger buttons.
+ *         Solution: Remove horizontal innerCt padding; add overflow:visible on .x-window .x-panel-body;
+ *         add 0 4px on column panel bodies for breathing room (ExtJS reads getPaddingInfo here).
+ * v2.2.16: Fix nav tree right border cut-off where Edit/Revert toolbar overlaps
+ *         Root cause: content toolbar (z-index:2) renders on top of nav's right border (same z-index)
+ *         Solution: raise .pve-toolbar-bg to z-index:3 so border paints above overlapping content
+ * v2.2.15: Fix nav tree right border not extending full panel height
+ *         Root cause: border was on .x-treelist (only item-height tall) not the full sidebar toolbar
+ *         Solution: Move border to .pve-toolbar-bg which spans the full docked toolbar height
  * v2.2.14: Force dropdown icons left (order override)
  * v2.2.13: Fix dropdown icon/text line breaks
  * v2.2.12: Fix dropdown icon/text line wrapping
@@ -187,9 +225,26 @@ div.x-border-layout-ct {
     border-radius: 0 !important;
 }
 
-/* v2.2.0: Dialog form content padding - prevent content flushing against edges */
+/* v2.2.0: Dialog form content padding - vertical only (horizontal causes ExtJS layout overflow).
+   Root cause: ExtJS uses offsetWidth for layout → CSS horizontal padding shifts form items
+   rightward but doesn't narrow their computed width, causing trigger wraps to overflow 16px past
+   the column boundary where the adjacent column's opaque background covers them. */
 .x-window .x-tabpanel-child .x-autocontainer-innerCt {
-    padding: 12px 16px !important;
+    padding: 12px 0 !important;
+}
+
+/* v2.2.17: Allow column panel bodies to show overflowed form content (e.g. trigger wraps).
+   overflow:visible prevents the panel's own clipping from hiding elements that extend
+   slightly past the panel boundary during ExtJS layout calculation. */
+.x-window .x-panel-body {
+    overflow: visible !important;
+}
+
+/* v2.2.17: 4px side padding on column panel bodies for visual breathing room.
+   ExtJS reads getPaddingInfo() on panel-body when sizing child form items, so this
+   correctly reduces item widths by 8px total without causing any overflow. */
+.x-window .x-panel.x-box-item .x-panel-body {
+    padding: 0 4px !important;
 }
 
 /* Re-apply button styling inside windows (6px) */
@@ -493,13 +548,14 @@ canvas.x-surface,
     filter: brightness(200%);
 }
 
+/* v2.2.18: cancel old sprite-inversion; custom CSS controls handle appearance now */
 .x-form-checkbox-default,
 .x-form-radio-default,
 .x-column-header-checkbox .x-column-header-checkbox::after,
 .x-grid-checkcolumn::after,
 .x-menu-item-checked .x-menu-item-icon-default.x-menu-item-checkbox,
 .x-menu-item-unchecked .x-menu-item-icon-default.x-menu-item-checkbox {
-    filter: invert(90%) hue-rotate(180deg) brightness(125%);
+    filter: none !important;
 }
 
 /* =====================================================
@@ -618,16 +674,17 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* Toolbox tree (pve-nav) right border - full height */
-.x-treelist.x-treelist-pve-nav {
+/* Fix: border must be on .pve-toolbar-bg (the full-height docked toolbar),
+   not on .x-treelist which only stretches to cover its items.
+   z-index: 3 needed because content toolbar (z-index: 2, same as nav) renders
+   on top (later in DOM), covering the nav right border. */
+.pve-toolbar-bg {
     border-right: 1px solid var(--gh-border-default) !important;
+    z-index: 3 !important;
 }
 
-.x-treelist-pve-nav-ct,
-.x-panel:has(.x-treelist-pve-nav),
-.x-panel-body:has(.x-treelist-pve-nav),
-.x-panel-default:has(.x-treelist-pve-nav),
-.x-panel-body-default:has(.x-treelist-pve-nav) {
-    border-right: 1px solid var(--gh-border-default) !important;
+.x-treelist.x-treelist-pve-nav {
+    border-right: none !important;
 }
 
 /* =====================================================
@@ -1034,49 +1091,132 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* =====================================================
-    TABS (6px radius for tabs, 8px for bar)
+    TABS — GitHub UnderlineNav style (v2.2.21)
+    Flat tabs, coral ::after underline on active tab.
+    Uses ::after (not border-bottom — ExtJS overrides it).
     ===================================================== */
 .x-tab-bar,
 .x-tab-bar-default {
     background-color: var(--gh-canvas-default) !important;
-    border-radius: var(--gh-radius-lg) var(--gh-radius-lg) 0 0 !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #21262d !important;
+    padding-bottom: 0 !important;
 }
 
+/* v2.2.23: overflow visible on ALL containers within tab bar to prevent clipping */
+.x-tab-bar .x-box-inner,
+.x-tab-bar .x-box-target,
+.x-tab-bar-body,
+.x-tab-bar-body-default {
+    overflow: visible !important;
+}
+
+/* Base tab — no margin-bottom hack, position relative, no outlines */
 .x-tab,
 .x-tab-default,
 .x-tab-default-top {
-    background-color: var(--gh-canvas-default) !important;
-    border-color: transparent !important;
-    border-radius: var(--gh-radius-md) var(--gh-radius-md) 0 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 8px 16px 8px !important;
+    position: relative !important;
+    overflow: visible !important;
+    margin-bottom: 0 !important;
+    transition: color .12s ease !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove ::after from inactive tabs */
+.x-tab::after {
+    display: none !important;
 }
 
 .x-tab-inner-default {
-    color: var(--gh-fg-muted) !important;
+    color: #848d97 !important;
+    font-size: 13px !important;
 }
 
 .x-tab-default.x-tab-over {
-    background-color: var(--gh-hover-overlay) !important;
+    background-color: transparent !important;
+}
+.x-tab-default.x-tab-over .x-tab-inner-default {
+    color: #e6edf3 !important;
 }
 
+/* Active tab */
 .x-tab-default.x-tab.x-tab-active {
-    background-color: var(--gh-accent-emphasis) !important;
-    border-color: var(--gh-accent-emphasis) !important;
+    background-color: transparent !important;
+    border: none !important;
+    overflow: visible !important;
+    margin-bottom: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* v2.2.23: coral underline INSIDE the tab at bottom:0 — immune to parent clipping */
+.x-tab-default.x-tab.x-tab-active::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: #f47067 !important;
+    z-index: 10 !important;
+    border-radius: 0 !important;
+    pointer-events: none !important;
 }
 
 .x-tab-active .x-tab-inner-default {
-    color: var(--gh-fg-on-emphasis) !important;
+    color: #e6edf3 !important;
+    font-weight: 600 !important;
 }
 
 .x-tab-default.x-tab.x-tab-disabled {
-    background-color: var(--gh-canvas-default) !important;
-    border-color: transparent;
+    background-color: transparent !important;
+    border: none !important;
     color: var(--gh-fg-subtle) !important;
+    margin-bottom: 0 !important;
 }
 
+/* Keyboard mode focus: keep the same indicator, no outline */
 .x-keyboard-mode .x-tab-default.x-tab-focus,
 .x-keyboard-mode .x-tab-default.x-tab-focus.x-tab-active {
-    background-color: var(--gh-accent-emphasis) !important;
-    border-color: var(--gh-accent-emphasis) !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+}
+.x-keyboard-mode .x-tab-default.x-tab-focus.x-tab-active::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: #f47067 !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}
+
+/* Kill ALL interaction outlines/shadows — every possible state */
+.x-tab:focus,
+.x-tab *:focus,
+.x-tab-focus,
+.x-tab-active.x-tab-focus,
+.x-tab-inner-focus,
+.x-tab-button-focus,
+.x-tab-pressed,
+.x-tab-active.x-tab-pressed,
+.x-tab-over,
+.x-tab:active,
+.x-tab *:active {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .x-tabpanel-child {
@@ -1736,19 +1876,83 @@ th,
     border-radius: 50% !important;
 }
 
-/* Checkboxes & radios */
-.x-form-checkbox,
-.x-form-checkbox-default {
-    border-radius: 4px !important;
+/* =====================================================
+    CHECKBOXES & RADIOS — GitHub Primer (v2.2.18)
+    ===================================================== */
+
+/* Base: remove sprite, styled as clean custom control */
+.x-form-checkbox, .x-form-checkbox-default,
+.x-form-radio, .x-form-radio-default {
+    background-image: none !important;
+    background-color: #161b22 !important;
+    border: 1.5px solid #6e7681 !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    transition: border-color .12s ease, background-color .12s ease !important;
 }
 
-.x-form-radio,
-.x-form-radio-default {
+/* Checkbox: rounded square */
+.x-form-checkbox, .x-form-checkbox-default {
+    border-radius: 3px !important;
+}
+
+/* Radio: circle + ::after inner dot */
+.x-form-radio, .x-form-radio-default {
     border-radius: 50% !important;
+    position: relative !important;
+    transform: translateZ(0) !important;
+    box-shadow: inset 0 0 0 0 transparent !important;
 }
 
 .x-form-radio::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 7px !important;
+    height: 7px !important;
     border-radius: 50% !important;
+    background: transparent !important;
+    transform: translate(-50%, -50%) scale(0) !important;
+    transition: transform .15s ease, background .15s ease !important;
+    pointer-events: none !important;
+}
+
+/* Hover */
+.x-form-checkbox:hover, .x-form-checkbox-default:hover,
+.x-form-cb-wrap:hover .x-form-checkbox {
+    border-color: #388bfd !important;
+}
+
+.x-form-radio:hover, .x-form-radio-default:hover,
+.x-form-cb-wrap:hover .x-form-radio {
+    border-color: #388bfd !important;
+}
+
+/* CHECKED checkbox — .x-form-cb-checked lives on the .x-form-item ancestor */
+.x-form-cb-checked .x-form-checkbox,
+.x-form-cb-checked .x-form-checkbox-default {
+    background-color: #1f6feb !important;
+    border-color: #1f6feb !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 9px 7px !important;
+}
+
+/* SELECTED radio */
+.x-form-cb-checked .x-form-radio,
+.x-form-cb-checked .x-form-radio-default {
+    border-color: #1f6feb !important;
+    background-color: #0d1117 !important;
+}
+
+.x-form-cb-checked .x-form-radio::after {
+    background: #1f6feb !important;
+    transform: translate(-50%, -50%) scale(1) !important;
 }
 
 /* Buttons */
