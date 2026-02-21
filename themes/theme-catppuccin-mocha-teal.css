@@ -1,0 +1,2069 @@
+﻿/*!Catppuccin Mocha Teal*/
+/*
+ * ProxMorph Theme: Catppuccin Mocha Teal
+ * Soothing pastel theme for Proxmox VE â€” the dark flavor with Teal accent of Catppuccin
+ * Version: 1.0.0
+ * Author: ProxMorph / Catppuccin Community Palette
+ *
+ * v1.0.0: Initial release - accent variant (generated from Mocha v1.3.0)
+ *         Catppuccin Mocha palette, border-radius architecture (ported from UniFi),
+ *         custom checkboxes/radios, full grid styling, progress bar states,
+ *         tags, markdown, date picker, usage bars, Firefox scrollbar.
+ *
+ * Catppuccin Mocha Teal Color Palette:
+ *
+ * ACCENT COLORS:
+ * - Rosewater: #f5e0dc    - Flamingo: #f2cdcd
+ * - Pink: #f5c2e7         - Mauve: #cba6f7    (Primary Accent)
+ * - Red: #f38ba8          - Maroon: #eba0ac
+ * - Peach: #fab387        - Yellow: #f9e2af
+ * - Green: #a6e3a1        - Teal: #94e2d5
+ * - Sky: #89dceb          - Sapphire: #74c7ec
+ * - Blue: #89b4fa         - Lavender: #b4befe
+ *
+ * NEUTRALS:
+ * - Text: #cdd6f4         - Subtext 1: #bac2de
+ * - Subtext 0: #a6adc8    - Overlay 2: #9399b2
+ * - Overlay 1: #7f849c    - Overlay 0: #6c7086
+ * - Surface 2: #585b70    - Surface 1: #45475a
+ * - Surface 0: #313244    - Base: #1e1e2e
+ * - Mantle: #181825       - Crust: #11111b
+ */
+
+/* =====================================================
+   CSS VARIABLES
+   ===================================================== */
+:root {
+    /* Catppuccin Mocha Tokens */
+    --ctp-rosewater: #f5e0dc;
+    --ctp-flamingo: #f2cdcd;
+    --ctp-pink: #f5c2e7;
+    --ctp-mauve: #cba6f7;
+    --ctp-red: #f38ba8;
+    --ctp-maroon: #eba0ac;
+    --ctp-peach: #fab387;
+    --ctp-yellow: #f9e2af;
+    --ctp-green: #a6e3a1;
+    --ctp-teal: #94e2d5;
+    --ctp-sky: #89dceb;
+    --ctp-sapphire: #74c7ec;
+    --ctp-blue: #89b4fa;
+    --ctp-lavender: #b4befe;
+
+    --ctp-text: #cdd6f4;
+    --ctp-subtext1: #bac2de;
+    --ctp-subtext0: #a6adc8;
+    --ctp-overlay2: #9399b2;
+    --ctp-overlay1: #7f849c;
+    --ctp-overlay0: #6c7086;
+    --ctp-surface2: #585b70;
+    --ctp-surface1: #45475a;
+    --ctp-surface0: #313244;
+    --ctp-base: #1e1e2e;
+    --ctp-mantle: #181825;
+    --ctp-crust: #11111b;
+
+    /* ProxMorph Semantic Variables */
+    --pm-accent: var(--ctp-teal);
+    --pm-bg-base: var(--ctp-base);
+    --pm-bg-surface: var(--ctp-surface0);
+    --pm-bg-elevated: var(--ctp-surface1);
+    --pm-text: var(--ctp-text);
+    --pm-text-dim: var(--ctp-subtext1);
+    --pm-success: var(--ctp-green);
+    --pm-warning: var(--ctp-yellow);
+    --pm-error: var(--ctp-red);
+    --pm-border: var(--ctp-surface1);
+    --pm-radius-sm: 4px;
+    --pm-radius-md: 6px;
+    --pm-radius-lg: 8px;
+
+    /* Proxmox Widget Toolkit Mappings (REQUIRED) */
+    --pwt-panel-background: var(--ctp-base);
+    --pwt-text-color: var(--ctp-text);
+    --pwt-gauge-default: var(--ctp-teal);
+    --pwt-gauge-back: var(--ctp-surface1);
+    --pwt-gauge-warn: var(--ctp-yellow);
+    --pwt-gauge-crit: var(--ctp-red);
+    --pwt-chart-primary: var(--ctp-teal);
+    --pwt-chart-grid-stroke: var(--ctp-surface1);
+
+    /* On Accent text â€” style guide mandates Base for text on colored backgrounds */
+    --ctp-on-accent: var(--ctp-base);
+
+    /* Hover overlay â€” Overlay2@12% (neutral, per Catppuccin port conventions) */
+    --ctp-hover-overlay: rgba(147, 153, 178, 0.12);
+    /* Selection overlay â€” Overlay2@25% (style guide: Selection Background â†’ Overlay2 20-30%) */
+    --ctp-select-overlay: rgba(147, 153, 178, 0.25);
+    /* Accent muted (for focus rings) */
+    --ctp-accent-muted: rgba(148, 226, 213, 0.4);
+    --ctp-accent-subtle: rgba(148, 226, 213, 0.15);
+
+    color-scheme: dark;
+}
+
+/* =====================================================
+   GLOBAL BORDER-RADIUS ARCHITECTURE
+   (Ported from UniFi theme â€” reset everything, selectively re-apply)
+   ===================================================== */
+.x-border-box,
+.x-border-box * {
+    border-radius: var(--pm-radius-lg);
+}
+
+/* Remove rounded corners from grids/tables/lists */
+.x-grid,
+.x-grid *,
+.x-grid-header-ct,
+.x-grid-header-ct *,
+.x-grid-view,
+.x-grid-view *,
+.x-column-header,
+.x-column-header *,
+.x-grid-item,
+.x-grid-cell,
+.x-grid-cell-inner,
+.x-grid-row,
+table,
+table *,
+tr,
+td,
+th,
+.x-legend,
+.x-legend *,
+.x-legend-container,
+.x-legend-container *,
+.x-legend-item,
+.x-legend-horizontal .x-legend-item,
+.x-legend-vertical .x-legend-item,
+.x-legend-horizontal .x-legend-item:first-child,
+.x-legend-horizontal .x-legend-item:last-child,
+.x-legend-vertical .x-legend-item:first-child,
+.x-legend-vertical .x-legend-item:last-child,
+.x-tool,
+.x-tool-tool-el,
+.x-tool-default,
+.x-tool-img {
+    border-radius: 0 !important;
+}
+
+/* Form elements - exclude from global radius */
+.x-form-item,
+.x-form-item-default,
+.x-form-item-body,
+.x-form-item-body-default,
+.x-form-text-field-body,
+.x-form-text-field-body-default,
+.x-form-fieldcontainer,
+.x-field,
+.x-field-default,
+.x-form-type-text {
+    border-radius: 0 !important;
+}
+
+/* Reset layout containers that clip elements with overflow:hidden + radius */
+.x-box-layout-ct,
+.x-panel-bodyWrap,
+.x-panel-bodyWrap-default,
+.x-autocontainer-innerCt,
+.x-autocontainer-outerCt,
+.x-panel.x-tabpanel-child,
+.x-panel.x-box-item,
+.x-box-inner,
+.x-box-target,
+.x-container,
+.x-container-default,
+.x-window .x-panel-body,
+.x-window .x-window-body,
+.x-window .x-window-bodyWrap {
+    border-radius: 0 !important;
+}
+
+/* Reset everything inside windows to 0 â€” then re-apply specific radii */
+.x-window *,
+.x-window .x-autocontainer-innerCt,
+.x-window .x-autocontainer-outerCt,
+.x-window .x-form-layout-wrap,
+.x-window .x-form-layout-auto-label,
+.x-window .x-form-layout-colgroup,
+.x-window .x-form-layout-column,
+.x-window .x-field,
+.x-window .x-form-item,
+.x-window .x-form-item-body {
+    border-radius: 0 !important;
+}
+
+/* Chart canvas â€” no radius on data area */
+.x-chart-grid,
+.x-chart-axis,
+canvas.x-surface,
+.x-chart canvas,
+canvas.x-surface-canvas,
+.x-surface-canvas,
+.x-draw-component canvas,
+.proxmox-rrd-chart canvas,
+svg.x-surface,
+.x-draw-container,
+.x-surface {
+    border-radius: 0 !important;
+}
+
+/* Legend color marker (dot) â€” keep circular */
+.x-legend-item-marker {
+    border-radius: 50% !important;
+}
+
+/* =====================================================
+   RE-APPLY BORDER RADII (selective)
+   ===================================================== */
+
+/* Windows */
+.x-window,
+.x-window-default {
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-window-header,
+.x-window-header-default {
+    border-radius: var(--pm-radius-lg) var(--pm-radius-lg) 0 0 !important;
+}
+
+.x-window .x-window-body,
+.x-window-body-default {
+    border-radius: 0 !important;
+}
+
+/* Buttons inside windows */
+.x-window .x-btn {
+    border-radius: var(--pm-radius-md) !important;
+}
+
+/* Checkboxes inside windows */
+.x-window .x-form-checkbox {
+    border-radius: 3px !important;
+}
+
+/* Form inputs inside windows */
+.x-window .x-form-trigger-wrap,
+.x-window .x-form-trigger-wrap-default {
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+.x-window .x-form-text-wrap,
+.x-window .x-form-text {
+    border-radius: var(--pm-radius-sm) 0 0 var(--pm-radius-sm) !important;
+}
+
+.x-window .x-form-arrow-trigger {
+    border-radius: 0 var(--pm-radius-sm) var(--pm-radius-sm) 0 !important;
+}
+
+/* Form trigger/text wrap â€” reset and re-apply */
+.x-form-trigger-wrap,
+.x-form-trigger-wrap *,
+.x-form-text-wrap,
+.x-form-text-wrap *,
+.x-form-text,
+.x-form-trigger {
+    border-radius: 0 !important;
+}
+
+.x-form-trigger-wrap,
+.x-form-trigger-wrap-default {
+    border-radius: var(--pm-radius-sm) !important;
+    overflow: hidden !important;
+}
+
+.x-form-text-wrap,
+.x-form-text-wrap-default {
+    border-radius: var(--pm-radius-sm) 0 0 var(--pm-radius-sm) !important;
+}
+
+.x-form-text,
+.x-form-text-default {
+    border-radius: var(--pm-radius-sm) 0 0 var(--pm-radius-sm) !important;
+}
+
+.x-form-trigger,
+.x-form-trigger-default,
+.x-form-arrow-trigger,
+.x-form-arrow-trigger-default {
+    border-radius: 0 var(--pm-radius-sm) var(--pm-radius-sm) 0 !important;
+}
+
+/* Dialog form content padding â€” vertical only (horizontal causes ExtJS overflow) */
+.x-window .x-tabpanel-child .x-autocontainer-innerCt {
+    padding: 12px 0 !important;
+}
+
+/* Allow column panel bodies to show overflowed form content */
+.x-window .x-panel-body {
+    overflow: visible !important;
+}
+
+/* Side padding on column panel bodies inside windows */
+.x-window .x-panel.x-box-item .x-panel-body {
+    padding: 0 4px !important;
+}
+
+/* Constrain autocontainer width inside windows */
+.x-window .x-autocontainer-outerCt {
+    max-width: 100% !important;
+}
+
+/* Fix window header/body width consistency */
+.x-window > .x-window-header,
+.x-window > .x-window-body,
+.x-window > .x-window-bodyWrap,
+.x-window-bodyWrap > .x-window-body {
+    width: 100% !important;
+}
+
+.x-window-header > .x-box-inner,
+.x-window-header > .x-box-inner > .x-box-target {
+    width: 100% !important;
+}
+
+.x-window-header-title {
+    width: auto !important;
+    flex: 1 !important;
+    max-width: calc(100% - 30px) !important;
+}
+
+/* Boundlists */
+.x-boundlist {
+    border-radius: var(--pm-radius-md) !important;
+    overflow: hidden !important;
+}
+
+/* =====================================================
+   BASE / BODY
+   ===================================================== */
+.x-body,
+.x-viewport > .x-body,
+body.x-border-layout-ct,
+div.x-border-layout-ct {
+    background-color: var(--ctp-base) !important;
+    color: var(--ctp-text) !important;
+}
+
+/* =====================================================
+   MASKS & OVERLAYS
+   ===================================================== */
+.x-mask {
+    background-color: rgba(17, 17, 27, 0.6) !important;
+    backdrop-filter: blur(4px);
+}
+
+.x-mask-msg {
+    background-color: var(--ctp-mantle) !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-mask-msg-text {
+    color: var(--ctp-subtext0) !important;
+    filter: none !important;
+}
+
+.x-css-shadow {
+    box-shadow: 0 8px 24px rgba(17, 17, 27, 0.6) !important;
+}
+
+/* Loading indicators */
+.x-grid-row-loading,
+.x-treelist-item-loading .x-treelist-item-icon,
+.x-grid-tree-loading .x-tree-icon {
+    filter: invert(90%);
+}
+
+/* =====================================================
+   ICONS â€” Proxmox default colors for dark mode
+   ===================================================== */
+
+/* General icon colors â€” neutral gray for dark backgrounds */
+.x-tree-icon-custom,
+.x-grid-icon-custom,
+.fa-database::before,
+.fa-tags::before,
+.fa-file-o::before,
+.fa-building::before,
+.x-action-col-icon::before,
+.fa-shield::before,
+.fa-file-text-o::before,
+.fa-clock-o::before,
+.x-tab-icon-el-default,
+.pve-icon-verify-lettering::after,
+.x-tree-icon-leaf:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before,
+.x-grid-filters-filtered-column .x-column-header-text::after {
+    color: var(--ctp-overlay2) !important;
+}
+
+/* Folder icons â€” invert for dark mode */
+.x-tree-icon-parent:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before {
+    filter: invert(90%);
+}
+
+/* Various image-based icons â€” invert for visibility */
+.fa-ceph::before,
+.fa-sdn::before,
+.fa-network-wired::before,
+.pve-itype-treelist-item-icon-cdrom,
+.fa-chevron-right::before,
+.x-grid-row-console,
+.x-box-scroller-toolbar-default.x-box-scroller,
+.x-tree-elbow-img,
+.pve-itype-icon-qemu,
+.x-tree-node-computer,
+.x-grid-tree-node-expanded .x-tree-node-computer,
+.pbs-icon-tape,
+.pbs-icon-tape-drive,
+.x-tree-icon-leaf:not(.x-tree-icon-custom),
+.x-tree-icon-parent:not(.x-tree-icon-custom),
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom) {
+    filter: invert(90%);
+}
+
+/* Hardware icons */
+.pve-itype-icon-cpu,
+.pve-itype-icon-cdrom,
+.pve-itype-icon-memory,
+.pve-itype-icon-pci,
+.pve-itype-icon-serial,
+.pve-itype-icon-die,
+.pmx-itype-icon-processor,
+.pmx-itype-icon-memory,
+.pve-itype-icon-storage,
+.x-tree-node-harddisk,
+.x-grid-tree-node-expanded .x-tree-node-harddisk {
+    filter: invert(90%);
+}
+
+/* Icon overlays â€” default */
+.x-tree-icon-custom::after,
+.x-grid-icon-custom::after {
+    color: var(--ctp-overlay2) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* RUNNING VMs/CTs â€” Catppuccin Green */
+.x-tree-icon-custom.running::after,
+.x-grid-icon-custom.running::after,
+.x-treelist-item-icon.running::after {
+    color: var(--ctp-green) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* ONLINE state â€” Green */
+.x-tree-icon-custom.online::after,
+.x-grid-icon-custom.online::after {
+    color: var(--ctp-green) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Stopped/offline â€” Overlay1 (muted gray) */
+.x-tree-icon-custom.stopped,
+.x-tree-icon-custom.offline,
+.x-grid-icon-custom.stopped,
+.x-grid-icon-custom.offline {
+    color: var(--ctp-overlay1) !important;
+}
+
+/* Unknown state â€” Overlay1 */
+.x-tree-icon-custom.unknown::after,
+.x-grid-icon-custom.unknown::after {
+    color: var(--ctp-overlay1) !important;
+}
+
+/* ERROR states â€” Catppuccin Red */
+.x-tree-icon-custom.error::after,
+.x-tree-icon-custom.offline::after,
+.x-tree-icon-custom.ha-error::after,
+.x-grid-icon-custom.error::after,
+.x-grid-icon-custom.offline::after,
+.x-grid-icon-custom.ha-error::after {
+    color: var(--ctp-red) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* PAUSED/SUSPENDED â€” Catppuccin Peach */
+.x-tree-icon-custom.paused::after,
+.x-tree-icon-custom.suspended::after,
+.x-tree-icon-custom.lock-suspending::after,
+.x-grid-icon-custom.paused::after,
+.x-grid-icon-custom.suspended::after,
+.x-grid-icon-custom.lock-suspending::after {
+    color: var(--ctp-peach) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* PENDING/WARNING states â€” Catppuccin Yellow */
+.x-tree-icon-custom.pending::after,
+.x-tree-icon-custom.io-error::after,
+.x-tree-icon-custom.internal-error::after,
+.x-tree-icon-custom.guest-panicked::after,
+.x-grid-icon-custom.pending::after,
+.x-grid-icon-custom.io-error::after,
+.x-grid-icon-custom.internal-error::after,
+.x-grid-icon-custom.guest-panicked::after {
+    color: var(--ctp-yellow) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* HA MAINTENANCE â€” Catppuccin Sky */
+.x-tree-icon-custom.ha-maintenance::after,
+.x-grid-icon-custom.ha-maintenance::after {
+    color: var(--ctp-sky) !important;
+    text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Locked icons */
+.x-tree-icon-custom.locked::after,
+.x-tree-icon-custom.lock-backup::after,
+.x-tree-icon-custom.lock-migrate::after,
+.x-tree-icon-custom.lock-suspended::after,
+.x-grid-icon-custom.locked::after,
+.x-grid-icon-custom.lock-backup::after,
+.x-grid-icon-custom.lock-migrate::after,
+.x-grid-icon-custom.lock-suspended::after {
+    color: var(--ctp-overlay2) !important;
+}
+
+/* LXC/QEMU type indicators */
+.x-tree-icon-custom.lxc::after,
+.x-tree-icon-custom.qemu::after,
+.x-grid-icon-custom.lxc::after,
+.x-grid-icon-custom.qemu::after {
+    background-color: transparent;
+    color: var(--ctp-overlay1) !important;
+}
+
+.x-treelist-item-icon.lxc::after,
+.x-treelist-item-icon.qemu::after {
+    background-color: transparent;
+    color: var(--ctp-overlay1) !important;
+}
+
+/* Tree expander arrows */
+.x-tree-arrows .x-tree-expander {
+    filter: brightness(200%);
+}
+
+/* Cancel sprite-inversion on custom controls (checkboxes/radios handled via CSS) */
+.x-form-checkbox-default,
+.x-form-radio-default,
+.x-column-header-checkbox .x-column-header-checkbox::after,
+.x-grid-checkcolumn::after,
+.x-menu-item-checked .x-menu-item-icon-default.x-menu-item-checkbox,
+.x-menu-item-unchecked .x-menu-item-icon-default.x-menu-item-checkbox {
+    filter: none !important;
+}
+
+/* =====================================================
+   PANELS & HEADERS
+   ===================================================== */
+.x-panel,
+.x-panel-default {
+    border-radius: var(--pm-radius-lg) !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+
+/* Column panels â€” gaps + max-width prevents scrollbar-induced sub-pixel overflow */
+.x-panel.x-column {
+    padding: 5px !important;
+    margin: 5px !important;
+    max-width: calc(50% - 10px) !important;
+    box-sizing: border-box !important;
+}
+
+/* Column panel card styling â€” borders for summary + chart panels */
+.x-panel.x-panel-default.x-column {
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-lg) !important;
+    overflow: hidden !important;
+}
+
+/* Guest status + Notes panel borders */
+[id^="pveGuestStatusView-"].x-panel,
+[id^="pveLxcStatusView-"].x-panel,
+[id^="pveQemuStatusView-"].x-panel,
+[id^="pmxNotesView-"].x-panel {
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-panel-body,
+.x-panel-body-default {
+    background-color: var(--ctp-base) !important;
+    color: var(--ctp-text) !important;
+    border: none !important;
+}
+
+/* Panel headers â€” bottom border only */
+.x-panel-header,
+.x-panel-header-default {
+    background-color: var(--ctp-mantle) !important;
+    border: none !important;
+    border-bottom: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-lg) var(--pm-radius-lg) 0 0 !important;
+    margin: 0 !important;
+    padding: 8px 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.x-panel-bodyWrap,
+.x-panel-bodyWrap-default {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+/* Remove borders from nested panels */
+.x-panel-body > .x-box-layout-ct,
+.x-panel-body > .x-container,
+.x-panel-body > .x-box-inner,
+[id*="pmxGauge"] {
+    border: none !important;
+}
+
+.x-panel-header-title-default,
+.x-window-header-title-default {
+    color: var(--ctp-text) !important;
+}
+
+.x-panel-header-default .x-tool-tool-el {
+    background-color: transparent;
+}
+
+.x-tool-img {
+    filter: brightness(175%);
+}
+
+.x-tool-over .x-tool-img {
+    filter: brightness(200%);
+}
+
+/* Resource tree â€” panel body border */
+div[id^="pveResourceTree-"][id$="-body"] {
+    border-color: var(--ctp-base) !important;
+}
+
+/* Resource tree â€” remove row separators */
+[id^="pveResourceTree-"].x-tree-panel td.x-grid-cell,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-td,
+[id^="pveResourceTree-"].x-tree-panel .x-grid-cell {
+    border-bottom: none !important;
+}
+
+/* Resource tree â€” row spacing */
+div[id^="pveResourceTree"] .x-grid-cell {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+
+/* Summary/stats panel radius overrides */
+.pveStatusPanel,
+.x-panel-default-framed,
+.x-panel-body-default-framed {
+    border-radius: 12px !important;
+}
+
+.x-panel-header-default-framed {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Column widget panel radius */
+.x-panel.x-column > .x-panel-bodyWrap > .x-panel-body.x-panel-body-default {
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+/* =====================================================
+   SPLITTERS / SEPARATORS
+   ===================================================== */
+.x-splitter-vertical {
+    background-color: transparent !important;
+    border-left: 1px solid var(--ctp-surface1) !important;
+    border-right: none !important;
+    width: 1px !important;
+}
+
+.x-splitter-horizontal {
+    background-color: var(--ctp-crust) !important;
+    border-top: 1px solid var(--ctp-surface1) !important;
+}
+
+.x-splitter {
+    background-color: var(--ctp-crust) !important;
+}
+
+.x-keyboard-mode .x-splitter-focus::after {
+    border-color: var(--ctp-teal) !important;
+}
+
+.x-layout-split-bottom {
+    opacity: 0.7;
+}
+
+/* Toolbox tree (pve-nav) right border â€” full height */
+.pve-toolbar-bg {
+    border-right: 1px solid var(--ctp-surface1) !important;
+    z-index: 3 !important;
+}
+
+.x-treelist.x-treelist-pve-nav {
+    border-right: none !important;
+}
+
+/* =====================================================
+   TOOLBARS
+   ===================================================== */
+.x-toolbar,
+.x-toolbar-default {
+    background-color: var(--ctp-base) !important;
+    border-color: var(--ctp-surface1) !important;
+}
+
+.x-toolbar-default.x-docked-top {
+    border: none !important;
+    border-bottom: 1px solid var(--ctp-surface1) !important;
+}
+
+.x-toolbar-default .x-toolbar-separator {
+    border-color: var(--ctp-surface1);
+}
+
+.x-toolbar-text-default {
+    color: var(--ctp-subtext0);
+}
+
+/* =====================================================
+   PRIMARY BUTTONS â€” Catppuccin Mauve
+   ===================================================== */
+.x-btn-default-small {
+    background-color: var(--ctp-teal) !important;
+    border: 1px solid rgba(148, 226, 213, 0.4) !important;
+    border-radius: var(--pm-radius-md) !important;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.x-btn-default-small .x-btn-inner {
+    color: var(--ctp-on-accent) !important;
+    font-weight: 600 !important;
+}
+
+.x-btn-default-small .x-btn-icon-el {
+    color: var(--ctp-on-accent) !important;
+}
+
+.x-btn-default-small.x-btn-over,
+.x-keyboard-mode .x-btn-default-small.x-btn-focus {
+    background-color: #a7e9de !important;
+    box-shadow: 0 0 0 3px var(--ctp-accent-subtle) !important;
+}
+
+.x-btn-default-small.x-btn.x-btn-disabled {
+    background-color: var(--ctp-teal) !important;
+    opacity: 0.4;
+}
+
+.x-btn-default-small.x-btn.x-btn-pressed {
+    background-color: #81d3c6 !important;
+}
+
+/* Button height consistency â€” 28px with vertical centering */
+/* Exclude tag edit buttons (display:none when hidden, :has(.fa-check) for checkmark) */
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) {
+    height: 28px !important;
+    min-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 3px 8px !important;
+}
+
+/* =====================================================
+   SECONDARY / TOOLBAR BUTTONS
+   ===================================================== */
+.x-btn-default-toolbar-small {
+    background-color: var(--ctp-surface0) !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-md) !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease !important;
+}
+
+.x-btn-default-toolbar-small .x-btn-inner-default-toolbar-small,
+.x-btn-default-toolbar-small .x-btn-icon-el-default-toolbar-small {
+    color: var(--ctp-text) !important;
+}
+
+.x-btn-default-toolbar-small .x-btn-wrap-default-toolbar-small.x-btn-arrow-right::after,
+.x-btn-default-toolbar-small .x-btn-wrap-default-toolbar-small.x-btn-split-right::after {
+    filter: brightness(150%);
+}
+
+.x-btn-default-toolbar-small.x-btn-over,
+.x-keyboard-mode .x-btn-default-toolbar-small.x-btn-focus {
+    background-color: var(--ctp-surface1) !important;
+    border-color: var(--ctp-surface2) !important;
+}
+
+.x-btn-default-toolbar-small.x-btn.x-btn-disabled {
+    background-color: var(--ctp-surface0) !important;
+    opacity: 0.4;
+}
+
+.x-btn-default-toolbar-small.x-btn.x-btn-menu-active,
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed {
+    background-color: var(--ctp-teal) !important;
+    border-color: var(--ctp-teal) !important;
+}
+
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-toolbar-small,
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-icon-el-default-toolbar-small,
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-small,
+.x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-icon-el-default-small {
+    color: var(--ctp-on-accent) !important;
+}
+
+/* Segmented buttons */
+.x-segmented-button {
+    border-radius: var(--pm-radius-md) !important;
+}
+
+.x-segmented-button .x-btn,
+.x-segmented-button .x-btn-default-small,
+.x-segmented-button .x-btn-inner,
+.x-segmented-button .x-btn-wrap {
+    border-radius: var(--pm-radius-md) !important;
+}
+
+/* Inline buttons (Documentation, Help) */
+.proxmox-inline-button {
+    background-color: var(--ctp-surface0) !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-md) !important;
+    color: var(--ctp-text) !important;
+    transition: background-color 0.15s ease !important;
+}
+
+.proxmox-inline-button:hover,
+.proxmox-inline-button.x-btn-over {
+    background-color: var(--ctp-surface1) !important;
+    border-color: var(--ctp-overlay0) !important;
+}
+
+.proxmox-inline-button:active,
+.proxmox-inline-button.x-btn-pressed {
+    background-color: var(--ctp-surface2) !important;
+}
+
+.proxmox-inline-button .x-btn-inner,
+.proxmox-inline-button .x-btn-icon-el {
+    color: var(--ctp-text) !important;
+}
+
+/* Pressed/active inline buttons get accent bg from toolbar rules â€” use on-accent text */
+.proxmox-inline-button.x-btn-pressed .x-btn-inner,
+.proxmox-inline-button.x-btn-pressed .x-btn-icon-el,
+.proxmox-inline-button.x-btn-menu-active .x-btn-inner,
+.proxmox-inline-button.x-btn-menu-active .x-btn-icon-el {
+    color: var(--ctp-on-accent) !important;
+}
+
+/* =====================================================
+   FORM ELEMENTS
+   ===================================================== */
+.x-form-trigger-default {
+    background-color: var(--ctp-surface0) !important;
+}
+
+.x-form-text-default {
+    background-color: var(--ctp-surface0) !important;
+    color: var(--ctp-text) !important;
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+.x-form-trigger-wrap,
+.x-form-trigger-wrap-default {
+    border-color: var(--ctp-surface1) !important;
+    background-color: var(--ctp-surface0) !important;
+    border-radius: var(--pm-radius-sm) !important;
+    transition: border-color 0.15s ease !important;
+}
+
+.x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
+    border-color: var(--ctp-teal) !important;
+    box-shadow: 0 0 0 3px var(--ctp-accent-subtle) !important;
+}
+
+.x-form-item-label-default,
+.x-form-cb-label-default {
+    color: var(--ctp-text) !important;
+}
+
+.x-form-display-field-default {
+    color: var(--ctp-subtext0) !important;
+    border-radius: var(--pm-radius-md) !important;
+}
+
+.x-form-spinner-default {
+    background-color: var(--ctp-surface0) !important;
+}
+
+.x-fieldset,
+.x-fieldset-default {
+    border-color: var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-fieldset-header-default > .x-fieldset-header-text {
+    color: var(--ctp-text) !important;
+}
+
+/* =====================================================
+   CHECKBOXES & RADIOS â€” Catppuccin styled
+   ===================================================== */
+
+/* Base: remove sprite, styled as custom control */
+.x-form-checkbox, .x-form-checkbox-default,
+.x-form-radio, .x-form-radio-default {
+    background-image: none !important;
+    background-color: var(--ctp-surface0) !important;
+    border: 1.5px solid var(--ctp-overlay0) !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: inline-block !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    transition: border-color 0.12s ease, background-color 0.12s ease !important;
+}
+
+/* Checkbox: rounded square */
+.x-form-checkbox, .x-form-checkbox-default {
+    border-radius: 3px !important;
+}
+
+/* Radio: circle + ::after inner dot */
+.x-form-radio, .x-form-radio-default {
+    border-radius: 50% !important;
+    position: relative !important;
+    transform: translateZ(0) !important;
+    box-shadow: inset 0 0 0 0 transparent !important;
+}
+
+.x-form-radio::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 7px !important;
+    height: 7px !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    transform: translate(-50%, -50%) scale(0) !important;
+    transition: transform 0.15s ease, background 0.15s ease !important;
+    pointer-events: none !important;
+}
+
+/* Hover */
+.x-form-checkbox:hover, .x-form-checkbox-default:hover,
+.x-form-cb-wrap:hover .x-form-checkbox {
+    border-color: var(--ctp-teal) !important;
+}
+
+.x-form-radio:hover, .x-form-radio-default:hover,
+.x-form-cb-wrap:hover .x-form-radio {
+    border-color: var(--ctp-teal) !important;
+}
+
+/* CHECKED checkbox â€” Mauve fill + white SVG checkmark */
+.x-form-cb-checked .x-form-checkbox,
+.x-form-cb-checked .x-form-checkbox-default {
+    background-color: var(--ctp-teal) !important;
+    border-color: var(--ctp-teal) !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' fill='none' stroke='%231e1e2e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 9px 7px !important;
+}
+
+/* SELECTED radio â€” Mauve dot */
+.x-form-cb-checked .x-form-radio,
+.x-form-cb-checked .x-form-radio-default {
+    border-color: var(--ctp-teal) !important;
+    background-color: var(--ctp-base) !important;
+}
+
+.x-form-cb-checked .x-form-radio::after {
+    background: var(--ctp-teal) !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
+/* =====================================================
+   BOUNDLIST / DROPDOWNS
+   ===================================================== */
+.x-boundlist {
+    background-color: var(--ctp-mantle) !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-md) !important;
+    box-shadow: 0 8px 24px rgba(17, 17, 27, 0.7) !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+}
+
+.x-boundlist-item {
+    background-color: transparent !important;
+    color: var(--ctp-text) !important;
+    border-radius: var(--pm-radius-sm) !important;
+    padding: 6px 10px !important;
+    line-height: 20px !important;
+    border: 1px solid transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.x-boundlist-selected {
+    background-color: var(--ctp-select-overlay) !important;
+    color: var(--ctp-text) !important;
+}
+
+.x-boundlist-item-over {
+    background-color: var(--ctp-hover-overlay) !important;
+}
+
+/* =====================================================
+   GRIDS / TABLES
+   ===================================================== */
+.x-grid,
+.x-grid-view {
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-column-header {
+    border-color: var(--ctp-surface1) !important;
+    background-color: transparent !important;
+}
+
+.x-column-header-inner,
+.x-column-header-text {
+    color: var(--ctp-text) !important;
+    font-weight: 600 !important;
+}
+
+.x-column-header-trigger {
+    border-color: var(--ctp-surface1) !important;
+}
+
+.x-grid-item,
+.x-column-header-default,
+.x-grid-cell-row-numberer {
+    color: var(--ctp-text) !important;
+    background-color: var(--ctp-base) !important;
+}
+
+.x-grid-cell-special {
+    border-color: var(--ctp-surface1) !important;
+}
+
+.x-grid-group-hd {
+    background-color: var(--ctp-base) !important;
+    border-color: var(--ctp-surface1) !important;
+}
+
+.x-grid-group-title {
+    color: var(--ctp-text) !important;
+}
+
+.x-grid-header-ct {
+    background-color: var(--ctp-mantle) !important;
+    border: 1px solid var(--ctp-surface0) !important;
+    border-radius: var(--pm-radius-lg) var(--pm-radius-lg) 0 0 !important;
+}
+
+.x-grid-item-alt {
+    background-color: var(--ctp-crust) !important;
+}
+
+.x-grid-with-row-lines .x-grid-item {
+    border-color: var(--ctp-surface0) !important;
+}
+
+.x-grid-cell {
+    border-bottom: 1px solid rgba(69, 71, 90, 0.4) !important;
+}
+
+.x-grid-item-over,
+.x-grid-with-row-lines .x-grid-item.x-grid-item-over {
+    background-color: var(--ctp-hover-overlay) !important;
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-grid-item-selected,
+.x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
+    background-color: var(--ctp-select-overlay) !important;
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-column-header-over,
+.x-column-header-open {
+    background-color: var(--ctp-hover-overlay) !important;
+}
+
+.x-column-header-sort-ASC,
+.x-column-header-sort-DESC {
+    background-color: var(--ctp-hover-overlay) !important;
+}
+
+.x-grid-row-summary .x-grid-cell,
+.x-grid-row-summary .x-grid-rowwrap,
+.x-grid-row-summary .x-grid-cell-rowbody {
+    background-color: var(--ctp-base) !important;
+    border-color: var(--ctp-surface1);
+}
+
+.x-grid-with-col-lines .x-grid-cell,
+.x-grid-with-col-lines .x-grid-item-over .x-grid-cell,
+.x-grid-with-col-lines .x-grid-item-selected .x-grid-cell {
+    border-color: var(--ctp-surface1) !important;
+}
+
+.x-dd-drag-proxy {
+    background-color: var(--ctp-mantle);
+    border-color: var(--ctp-surface1);
+    color: var(--ctp-text);
+}
+
+.x-keyboard-mode .x-grid-item-focused {
+    background-color: var(--ctp-hover-overlay) !important;
+    color: var(--ctp-text) !important;
+}
+
+/* Remove blue outline from focused/selected items in resource tree */
+.x-keyboard-mode .x-grid-item-focused .x-grid-cell-inner::before,
+.x-keyboard-mode .x-grid-item-selected .x-grid-cell-inner::before,
+.x-grid-item-selected .x-grid-cell-inner::before,
+.x-grid-item-focused .x-grid-cell-inner::before,
+[id^="pveResourceTree"] .x-grid-item-selected .x-grid-cell-inner::before,
+[id^="pveResourceTree"] .x-grid-item-focused .x-grid-cell-inner::before {
+    content: none !important;
+    display: none !important;
+    border: none !important;
+}
+
+.x-grid-empty {
+    background-color: var(--ctp-base) !important;
+    color: var(--ctp-subtext0) !important;
+}
+
+/* Grid info (pve-info-grid) and RRD view */
+.pve-info-grid,
+.x-panel-default .x-grid,
+.x-container .x-grid-view {
+    border-radius: 12px !important;
+}
+
+.pve-rrdview,
+.rrdview {
+    border-radius: 12px !important;
+}
+
+.pve-summary-status,
+.x-container .pve-status {
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+[id^="pveGuestStatusView-"][id$="-body"],
+[id^="pmxNotesView-"] .x-panel-body {
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+.x-panel-default[id*="notes"],
+.pve-notes-view {
+    border-radius: var(--pm-radius-lg) !important;
+}
+
+/* Floating grid pickers (storage/ISO selectors) */
+.x-layer.x-grid .x-grid-view,
+.x-panel.x-layer.x-grid .x-grid-view,
+.x-panel.x-layer.x-grid,
+.x-layer.x-panel.x-grid {
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+.x-layer.x-grid .x-grid-item-over,
+.x-layer.x-grid .x-grid-item-selected,
+.x-panel.x-layer.x-grid .x-grid-item-over,
+.x-panel.x-layer.x-grid .x-grid-item-selected {
+    border-radius: var(--pm-radius-sm) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.x-layer.x-grid .x-grid-item-over td,
+.x-layer.x-grid .x-grid-item-selected td,
+.x-layer.x-grid .x-grid-item-over .x-grid-cell,
+.x-layer.x-grid .x-grid-item-selected .x-grid-cell,
+.x-panel.x-layer.x-grid .x-grid-item-over td,
+.x-panel.x-layer.x-grid .x-grid-item-selected td,
+.x-panel.x-layer.x-grid .x-grid-item-over .x-grid-cell,
+.x-panel.x-layer.x-grid .x-grid-item-selected .x-grid-cell {
+    border-radius: 0 !important;
+}
+
+.x-layer.x-grid .x-grid-item-over td:first-child,
+.x-layer.x-grid .x-grid-item-selected td:first-child,
+.x-panel.x-layer.x-grid .x-grid-item-over td:first-child,
+.x-panel.x-layer.x-grid .x-grid-item-selected td:first-child {
+    border-radius: var(--pm-radius-sm) 0 0 var(--pm-radius-sm) !important;
+}
+
+.x-layer.x-grid .x-grid-item-over td:last-child,
+.x-layer.x-grid .x-grid-item-selected td:last-child,
+.x-panel.x-layer.x-grid .x-grid-item-over td:last-child,
+.x-panel.x-layer.x-grid .x-grid-item-selected td:last-child {
+    border-radius: 0 var(--pm-radius-sm) var(--pm-radius-sm) 0 !important;
+}
+
+/* =====================================================
+   MENUS
+   ===================================================== */
+.x-menu,
+.x-menu-default {
+    background-color: var(--ctp-crust) !important;
+    border: 1px solid var(--ctp-surface0) !important;
+    border-radius: var(--pm-radius-lg) !important;
+    box-shadow: 0 8px 24px rgba(17, 17, 27, 0.8) !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+}
+
+.x-menu-body-default {
+    background-color: transparent !important;
+    padding: 4px !important;
+}
+
+.x-menu-header {
+    background-color: transparent !important;
+    color: var(--ctp-text) !important;
+}
+
+/* Menu icon separator â€” hide */
+.x-menu-icon-separator-default {
+    display: none !important;
+}
+
+/* Menu item layout (flexbox reordering) */
+.x-menu-item-link-default {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    min-height: 28px !important;
+    border-radius: var(--pm-radius-md) !important;
+    padding: 6px 10px !important;
+    line-height: 20px !important;
+    border: 1px solid transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+}
+
+.x-menu-item-text-default {
+    color: var(--ctp-text) !important;
+    font-size: 14px !important;
+    order: 1 !important;
+    margin-left: 0 !important;
+    text-align: left !important;
+    line-height: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    white-space: nowrap !important;
+}
+
+.x-menu-item-icon-default {
+    color: var(--ctp-subtext0) !important;
+    order: -1 !important;
+    position: relative !important;
+    float: none !important;
+    margin-right: 8px !important;
+    margin-left: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    width: 16px !important;
+    text-align: center !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 20px !important;
+    line-height: 20px !important;
+    vertical-align: middle !important;
+    flex: 0 0 16px !important;
+    align-self: center !important;
+}
+
+.x-menu-item-arrow,
+.x-menu-item-arrow-default {
+    order: 2 !important;
+    margin-left: auto !important;
+}
+
+.x-menu-item-default.x-menu-item-separator {
+    background-color: var(--ctp-surface0) !important;
+    border: none !important;
+    height: 1px !important;
+    margin: 6px 4px !important;
+}
+
+.x-menu-item-default.x-menu-item-focus,
+.x-menu-item-default.x-menu-item-active,
+.x-menu-item:hover {
+    background-color: var(--ctp-surface0) !important;
+    color: var(--ctp-text) !important;
+    border-radius: var(--pm-radius-md) !important;
+}
+
+.x-menu-item-active .x-menu-item-text-default,
+.x-menu-item-focus .x-menu-item-text-default {
+    color: var(--ctp-text) !important;
+}
+
+.x-menu-item-active .x-menu-item-icon-default,
+.x-menu-item-focus .x-menu-item-icon-default {
+    color: var(--ctp-lavender) !important;
+}
+
+/* =====================================================
+   PROGRESS BARS
+   ===================================================== */
+
+/* Fix: Widget containers need overflow visible to not clip progress bars */
+.x-container[id^="pmxInfoWidget"],
+.x-container.x-box-layout-ct {
+    overflow: visible !important;
+}
+
+.x-progress,
+.x-progress-default {
+    background-color: var(--ctp-surface0) !important;
+    border-radius: 5px !important;
+}
+
+.x-progress-default .x-progress-bar-default {
+    background-color: var(--ctp-teal) !important;
+    border-radius: 5px !important;
+    transition: width 0.4s ease !important;
+}
+
+.x-progress-default .x-progress-text {
+    color: var(--ctp-text) !important;
+}
+
+/* Text overlaid on the progress bar fill â€” use on-accent for contrast against Mauve/Yellow/Red fills */
+.x-progress-bar .x-progress-text {
+    color: var(--ctp-on-accent) !important;
+}
+
+.x-progress.warning .x-progress-bar {
+    background-color: var(--ctp-yellow) !important;
+}
+
+.x-progress.critical .x-progress-bar {
+    background-color: var(--ctp-red) !important;
+}
+
+/* =====================================================
+   TABS â€” Catppuccin underline style
+   Flat tabs with Mauve underline on active tab
+   ===================================================== */
+.x-tab-bar,
+.x-tab-bar-default {
+    background-color: var(--ctp-base) !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid var(--ctp-surface1) !important;
+    padding-bottom: 0 !important;
+}
+
+/* Overflow visible for the underline indicator */
+.x-tab-bar .x-box-inner,
+.x-tab-bar .x-box-target,
+.x-tab-bar-body,
+.x-tab-bar-body-default {
+    overflow: visible !important;
+}
+
+/* Base tab */
+.x-tab,
+.x-tab-default,
+.x-tab-default-top {
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: var(--pm-radius-md) var(--pm-radius-md) 0 0 !important;
+    padding: 8px 16px 8px !important;
+    position: relative !important;
+    overflow: visible !important;
+    margin-bottom: 0 !important;
+    transition: color 0.15s ease !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove ::after from inactive tabs */
+.x-tab::after {
+    display: none !important;
+}
+
+.x-tab-inner-default {
+    color: var(--ctp-subtext0) !important;
+    font-size: 13px !important;
+}
+
+.x-tab-default.x-tab-over {
+    background-color: transparent !important;
+}
+
+.x-tab-default.x-tab-over .x-tab-inner-default {
+    color: var(--ctp-text) !important;
+}
+
+/* Active tab */
+.x-tab-default.x-tab.x-tab-active {
+    background-color: transparent !important;
+    border: none !important;
+    overflow: visible !important;
+    margin-bottom: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Mauve underline indicator on active tab */
+.x-tab-default.x-tab.x-tab-active::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: var(--ctp-teal) !important;
+    z-index: 10 !important;
+    border-radius: 2px 2px 0 0 !important;
+    pointer-events: none !important;
+}
+
+.x-tab-active .x-tab-inner-default {
+    color: var(--ctp-text) !important;
+    font-weight: 600 !important;
+}
+
+.x-tab-default.x-tab.x-tab-disabled {
+    background-color: transparent !important;
+    border: none !important;
+    color: var(--ctp-overlay0) !important;
+    margin-bottom: 0 !important;
+}
+
+/* Focus states â€” no outline */
+.x-keyboard-mode .x-tab-default.x-tab-focus,
+.x-keyboard-mode .x-tab-default.x-tab-focus.x-tab-active {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+}
+
+.x-keyboard-mode .x-tab-default.x-tab-focus.x-tab-active::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: var(--ctp-teal) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+}
+
+/* Kill ALL tab interaction outlines/shadows */
+.x-tab:focus,
+.x-tab *:focus,
+.x-tab-focus,
+.x-tab-active.x-tab-focus,
+.x-tab-inner-focus,
+.x-tab-button-focus,
+.x-tab-pressed,
+.x-tab-active.x-tab-pressed,
+.x-tab-over,
+.x-tab:active,
+.x-tab *:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.x-tabpanel-child {
+    border-radius: 0 0 var(--pm-radius-lg) var(--pm-radius-lg) !important;
+}
+
+/* Tab hover/active corners */
+.x-tab-default.x-tab-over,
+.x-tab-default.x-tab.x-tab-active {
+    border-radius: var(--pm-radius-md) var(--pm-radius-md) 0 0 !important;
+}
+
+/* =====================================================
+   TOOLTIPS
+   ===================================================== */
+.x-tip,
+.x-tip-default {
+    background-color: var(--ctp-mantle) !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-md) !important;
+    box-shadow: 0 4px 12px rgba(17, 17, 27, 0.5);
+}
+
+.x-tip-body-default {
+    color: var(--ctp-text) !important;
+}
+
+.x-tip-form-invalid {
+    background-color: var(--ctp-mantle) !important;
+    border-color: var(--ctp-red) !important;
+}
+
+.x-tip-body-form-invalid {
+    color: var(--ctp-red) !important;
+}
+
+/* =====================================================
+   TREE NAVIGATION (Sidebar)
+   ===================================================== */
+.x-treelist-item {
+    background-color: var(--ctp-base) !important;
+    border-radius: var(--pm-radius-md) !important;
+}
+
+/* Pseudo-element approach for hover/selected highlighting */
+.x-treelist-row {
+    border-radius: var(--pm-radius-md) !important;
+    background-color: transparent !important;
+    position: relative !important;
+    z-index: 0 !important;
+}
+
+.x-treelist-row::before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    left: 0;
+    right: 4px;
+    border-radius: var(--pm-radius-md);
+    background-color: transparent;
+    z-index: -1;
+    pointer-events: none;
+    transition: background-color 0.15s ease;
+}
+
+/* Fix toolbox tree item text overlapping icons */
+.x-treelist-item-text {
+    margin-left: 28px !important;
+}
+
+/* Toolbox tree items â€” bright text */
+.x-treelist-item-text,
+.x-treelist-item-icon,
+.x-treelist.x-treelist-pve-nav .x-treelist-item-text,
+.x-treelist.x-treelist-pve-nav .x-treelist-item-icon {
+    color: var(--ctp-subtext1) !important;
+}
+
+/* Hover state â€” apply to pseudo-element */
+.x-treelist-row-over {
+    background-color: transparent !important;
+}
+
+.x-treelist-row-over::before {
+    background-color: var(--ctp-hover-overlay) !important;
+}
+
+.x-treelist-row-over .x-treelist-item-icon,
+.x-treelist-row-over .x-treelist-item-text {
+    background-color: transparent !important;
+    color: var(--ctp-text) !important;
+}
+
+/* Selected/active item â€” Mauve highlight */
+.x-treelist-item-selected > .x-treelist-row {
+    background-color: transparent !important;
+}
+
+.x-treelist-item-selected > .x-treelist-row::before,
+.x-treelist-item-selected > .x-treelist-row:hover::before {
+    background-color: var(--ctp-teal) !important;
+}
+
+.x-treelist-item-selected .x-treelist-item-text,
+.x-treelist-item-selected .x-treelist-item-icon,
+.x-treelist.x-treelist-pve-nav .x-treelist-item-selected .x-treelist-item-text,
+.x-treelist.x-treelist-pve-nav .x-treelist-item-selected .x-treelist-item-icon {
+    color: var(--ctp-on-accent) !important;
+}
+
+.x-treelist-pve-nav {
+    background-color: var(--ctp-base) !important;
+    border-color: var(--ctp-surface1) !important;
+}
+
+/* Tree navigation radius overrides */
+.x-treelist-item,
+.x-treelist-item-tool {
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+.x-treelist-row,
+.x-treelist-row:hover,
+.x-treelist-row-over,
+.x-treelist-item-selected > .x-treelist-row,
+.x-treelist-item-selected > .x-treelist-row:hover,
+.x-treelist-item-expanded > .x-treelist-row,
+.x-treelist-item-expanded > .x-treelist-row-over,
+.x-treelist-item-expandable > .x-treelist-row,
+.x-treelist-item-expandable > .x-treelist-row-over {
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+.x-treelist-row::before {
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+.x-treelist-item-wrap,
+.x-treelist-item-text,
+.x-treelist-row,
+.x-treelist-container,
+.x-treelist-root-container,
+.x-treelist,
+.x-treelist-pve-nav {
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+/* Cursor pointer for interactive tree/grid items */
+.x-grid-cell,
+.x-grid-cell-inner,
+.x-tree-elbow-img,
+.x-tree-icon,
+.x-treelist-item,
+.x-treelist-row,
+.x-treelist-item-wrap,
+.x-treelist-item-text,
+.x-treelist-item-icon {
+    cursor: pointer !important;
+}
+
+/* =====================================================
+   WINDOWS / MODALS
+   ===================================================== */
+.x-window,
+.x-window-default {
+    background-color: var(--ctp-crust) !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: var(--pm-radius-lg) !important;
+    box-shadow: 0 8px 24px rgba(17, 17, 27, 0.6) !important;
+    overflow: hidden !important;
+}
+
+.x-window .x-window-header,
+.x-window-header-default {
+    background-color: var(--ctp-mantle) !important;
+    border-color: transparent !important;
+    border-radius: var(--pm-radius-lg) var(--pm-radius-lg) 0 0 !important;
+}
+
+.x-window-header-default .x-mask {
+    background-color: rgba(17, 17, 27, 0.7);
+}
+
+.x-window .x-window-body,
+.x-window-body-default {
+    background-color: var(--ctp-base) !important;
+    border-color: var(--ctp-surface1) !important;
+    color: var(--ctp-text) !important;
+    border-radius: 0 0 var(--pm-radius-lg) var(--pm-radius-lg) !important;
+}
+
+.x-window-ghost {
+    background-color: var(--ctp-base) !important;
+}
+
+.x-window-header-default .x-tool-img {
+    background-color: transparent;
+}
+
+.x-message-box .x-window-body {
+    background-color: var(--ctp-mantle) !important;
+}
+
+/* Respect ExtJS inline display:none on hidden dialog buttons */
+.x-message-box .x-btn.x-btn-default-small[style*="display: none"],
+.x-message-box .x-btn.x-btn-default-small[style*="display:none"],
+.x-window .x-toolbar-footer .x-btn[style*="display: none"],
+.x-window .x-toolbar-footer .x-btn[style*="display:none"] {
+    display: none !important;
+}
+
+/* Login dialog â€” clean inner panel borders */
+.x-window:has(#pveloginrealm) .x-panel-body {
+    border: none !important;
+    background: transparent !important;
+    width: auto !important;
+}
+
+/* =====================================================
+   CONSOLE / TERMINAL
+   ===================================================== */
+div.monitor {
+    border-color: var(--ctp-surface1);
+}
+
+.install-mask {
+    background-color: var(--ctp-crust);
+    color: var(--ctp-subtext0);
+}
+
+.x-window.install-mask {
+    box-shadow: rgba(17, 17, 27, 0.5) 0 4px 20px !important;
+}
+
+/* =====================================================
+   LEGEND / CHARTS
+   ===================================================== */
+.x-legend-container {
+    background-color: var(--ctp-base) !important;
+}
+
+.x-legend-horizontal .x-legend-item {
+    background-color: var(--ctp-mantle) !important;
+    color: var(--ctp-text) !important;
+    border: 1px solid var(--ctp-surface0) !important;
+}
+
+/* Chart/RRD panel backgrounds */
+div[id*="rrdchart"],
+.pve-rrddatastore,
+.pmx-panel-rrd {
+    background-color: var(--ctp-base) !important;
+}
+
+.proxmox-rrd-panel canvas,
+.proxmox-widget-toolkit canvas,
+canvas.x-surface,
+.x-surface canvas {
+    background-color: transparent !important;
+    opacity: 1 !important;
+}
+
+.proxmox-rrd-panel,
+.proxmox-rrd-chart {
+    background-color: var(--ctp-base) !important;
+}
+
+/* Chart text/labels */
+.x-surface text,
+svg text {
+    fill: var(--ctp-text) !important;
+}
+
+/* =====================================================
+   PROXMOX-SPECIFIC OVERRIDES
+   ===================================================== */
+
+/* Logo inversion */
+img[id^="proxmoxlogo-"][id$="-img"],
+img[id^="proxmoxLogoSvg-"][id$="-img"] {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* Invalid/warning/disabled rows */
+.proxmox-invalid-row {
+    background-color: rgba(243, 139, 168, 0.15) !important;
+}
+
+.proxmox-warning-row {
+    background-color: rgba(250, 179, 135, 0.15) !important;
+}
+
+.proxmox-disabled-row td {
+    color: var(--ctp-overlay0) !important;
+}
+
+/* Hints */
+.pmx-hint {
+    background-color: rgba(250, 179, 135, 0.15) !important;
+    white-space: nowrap !important;
+}
+
+.pmx-hint a {
+    color: var(--ctp-blue) !important;
+}
+
+/* Status text colors â€” style guide: Information â†’ Teal */
+.info-blue {
+    color: var(--ctp-teal) !important;
+}
+
+.critical {
+    color: var(--ctp-red) !important;
+}
+
+/* Links */
+a {
+    color: var(--ctp-blue) !important;
+}
+
+/* Markdown content */
+.pmx-md code {
+    background-color: var(--ctp-mantle) !important;
+    color: var(--ctp-rosewater) !important;
+    border-radius: var(--pm-radius-sm) !important;
+}
+
+.pmx-md pre code {
+    border-color: var(--ctp-surface1) !important;
+    background-color: var(--ctp-crust) !important;
+}
+
+.pmx-md a {
+    color: var(--ctp-blue) !important;
+}
+
+.pmx-md table {
+    border-color: var(--ctp-surface1) !important;
+}
+
+.pmx-md th {
+    background-color: var(--ctp-mantle) !important;
+    border-color: var(--ctp-surface1) !important;
+}
+
+.pmx-md td {
+    border-color: var(--ctp-surface1) !important;
+}
+
+/* APT repos */
+.proxmox-apt-repos .x-grid-group-hd {
+    background-color: var(--ctp-base) !important;
+    border: none !important;
+}
+
+.proxmox-apt-repos .x-grid-group-title {
+    color: var(--ctp-text) !important;
+}
+
+/* Tags */
+.pve-edit-tag {
+    border-radius: var(--pm-radius-md) !important;
+}
+
+.pve-edit-tag.editable span {
+    background-color: var(--ctp-mantle) !important;
+    color: var(--ctp-text) !important;
+    border-color: var(--ctp-surface1) !important;
+}
+
+.x-tree-node-text .proxmox-tag-dark,
+.x-tree-node-text .proxmox-tag-light,
+.x-grid-cell-inner .proxmox-tag-dark,
+.x-grid-cell-inner .proxmox-tag-light,
+span.proxmox-tag-dark,
+span.proxmox-tag-light {
+    border-radius: var(--pm-radius-md) !important;
+}
+
+/* Checkmark button in tag edit â€” match toolbar button size */
+.x-btn.x-btn-default-small:has(.fa-check) {
+    min-height: 24px !important;
+    height: 24px !important;
+    padding: 3px 8px !important;
+    border-radius: var(--pm-radius-sm) !important;
+    background-color: var(--ctp-teal) !important;
+    border: none !important;
+}
+
+.x-btn.x-btn-default-small:has(.fa-check).x-btn-disabled {
+    background-color: transparent !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    opacity: 0.5 !important;
+}
+
+.x-btn.x-btn-default-small:has(.fa-check) .fa-check {
+    color: var(--ctp-on-accent) !important;
+}
+
+.x-btn.x-btn-default-small:has(.fa-check).x-btn-disabled .fa-check {
+    color: var(--ctp-overlay1) !important;
+}
+
+.x-btn.x-btn-default-small:has(.fa-check):not(.x-btn-disabled):hover {
+    background-color: #a7e9de !important;
+}
+
+.x-btn.x-btn-default-small:has(.fa-check) .x-btn-inner {
+    display: none !important;
+}
+
+/* Date picker */
+.x-datepicker,
+.x-datepicker-column-header,
+.x-monthpicker {
+    background-color: var(--ctp-base) !important;
+    color: var(--ctp-text) !important;
+    border-color: transparent !important;
+}
+
+.x-datepicker-header,
+.x-datepicker-footer,
+.x-monthpicker-buttons {
+    background-color: var(--ctp-mantle) !important;
+}
+
+.x-datepicker-date,
+.x-monthpicker-item-inner {
+    color: var(--ctp-text) !important;
+}
+
+.x-datepicker-selected div.x-datepicker-date,
+.x-monthpicker-item a.x-monthpicker-selected,
+a.x-monthpicker-item-inner:hover,
+div.x-datepicker-date:hover {
+    background-color: var(--ctp-hover-overlay) !important;
+    color: var(--ctp-text) !important;
+}
+
+.x-datepicker-today .x-datepicker-date {
+    border-color: var(--ctp-teal) !important;
+}
+
+.x-datepicker-disabled .x-datepicker-date {
+    color: var(--ctp-overlay0) !important;
+}
+
+.x-datepicker-prev-day .x-datepicker-date,
+.x-datepicker-next-day .x-datepicker-date {
+    color: var(--ctp-overlay0) !important;
+}
+
+/* Usage bars */
+.usage-wrapper,
+.usage {
+    border-radius: 2px !important;
+}
+
+.usage {
+    background-color: var(--ctp-overlay2) !important;
+}
+
+/* =====================================================
+   SCROLLBARS
+   ===================================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--ctp-base);
+    border-radius: var(--pm-radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--ctp-surface2);
+    border-radius: var(--pm-radius-sm);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    transition: background 0.15s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ctp-overlay0);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--ctp-base);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ctp-surface2) var(--ctp-base);
+}
+
+/* =====================================================
+   SELECTION HIGHLIGHT
+   ===================================================== */
+::selection {
+    background-color: rgba(147, 153, 178, 0.3);
+    color: var(--ctp-text);
+}
+
+/* =====================================================
+   TRANSITIONS (smooth interactions)
+   ===================================================== */
+
+/* Grid row transitions */
+.x-grid-item {
+    transition: background-color 0.15s ease !important;
+}
+
+/* Tree pseudo-element transitions */
+.x-treelist-row::before {
+    transition: background-color 0.15s ease !important;
+}
+
+/* Menu item transitions */
+.x-menu-item-link-default {
+    transition: background-color 0.12s ease !important;
+}
+
+/* Boundlist item transitions */
+.x-boundlist-item {
+    transition: background-color 0.12s ease !important;
+}
+
+/* Tab transitions */
+.x-tab {
+    transition: color 0.15s ease !important;
+}
+
+/* Splitter transition */
+.x-splitter {
+    transition: background-color 0.15s ease !important;
+}
+
+/* Tooltip transition */
+.x-tip {
+    transition: opacity 0.15s ease !important;
+}
+
+/* Progress bar width transition */
+.x-progress-bar {
+    transition: width 0.4s ease !important;
+}
+
+/* Scrollbar thumb transition */
+::-webkit-scrollbar-thumb {
+    transition: background 0.15s ease !important;
+}
+
+/* Window close tool transition */
+.x-tool-img {
+    transition: filter 0.15s ease !important;
+}

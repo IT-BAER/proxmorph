@@ -568,11 +568,18 @@ canvas.x-surface,
     padding: 0 !important;
 }
 
-/* Summary panels (Health, Guests, Resources) - with gap */
+/* Column panels — gaps + max-width prevents scrollbar-induced sub-pixel overflow */
+.x-panel.x-column {
+    padding: 5px !important;
+    margin: 5px !important;
+    max-width: calc(50% - 10px) !important;
+    box-sizing: border-box !important;
+}
+
+/* Column panel card styling — borders for summary + chart panels */
 .x-panel.x-panel-default.x-column {
     border: 1px solid var(--gh-border-default) !important;
     border-radius: var(--gh-radius-lg) !important;
-    margin: 8px !important;
     overflow: hidden !important;
 }
 

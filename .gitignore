@@ -51,3 +51,5 @@ package-lock.json
 # Test files
 test-*.css
 *-test.css
+generate-variants.ps1
+docs/component-inventory.md
