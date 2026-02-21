@@ -197,7 +197,6 @@ get_theme_title() {
 # Extract theme key from filename
 get_theme_key() {
     local css_file="$1"
-    # theme-blue-slate.css -> blue-slate
     basename "$css_file" .css | sed 's/^theme-//'
 }
 
@@ -233,7 +232,6 @@ install_js_patches() {
     local patches_source="${1:-}"
     
     if [[ -z "$patches_source" ]]; then
-        # Try to find patches directory
         local themes_source=$(get_themes_source)
         if [[ -n "$themes_source" ]] && [[ -d "${themes_source}/patches" ]]; then
             patches_source="${themes_source}/patches"
@@ -267,11 +265,9 @@ install_js_patches() {
     
     # Patch index template to load JS files
     if [[ -f "$INDEX_TEMPLATE" ]]; then
-        # Check if already patched
         if grep -q "$JS_PATCH_MARKER" "$INDEX_TEMPLATE"; then
             print_info "$(basename "$INDEX_TEMPLATE") already patched for JS"
         else
-            # Build script tags for all JS patches
             local script_tags="$JS_PATCH_MARKER"
             local js_web_path=""
             
@@ -300,20 +296,14 @@ install_js_patches() {
 
 # Remove JavaScript patches
 remove_js_patches() {
-    # Remove JS files directory
     if [[ -d "$JS_PATCHES_DIR" ]]; then
         rm -rf "$JS_PATCHES_DIR"
         print_info "Removed JS patches directory"
     fi
     
-    # Remove patch from template
     if [[ -f "$INDEX_TEMPLATE" ]] && grep -q "$JS_PATCH_MARKER" "$INDEX_TEMPLATE"; then
-        # Use a different delimiter (|) to avoid issues with / in the pattern
-        # Escape special regex characters for sed
         local escaped_start=$(printf '%s\n' "$JS_PATCH_MARKER" | sed 's/[]\/$*.^[]/\\&/g')
         local escaped_end=$(printf '%s\n' "$JS_PATCH_MARKER_END" | sed 's/[]\/$*.^[]/\\&/g')
-        
-        # Remove the ProxMorph JS block using | as delimiter
         sed -i "\|${escaped_start}|,\|${escaped_end}|d" "$INDEX_TEMPLATE"
         print_info "Removed JS patch from $(basename "$INDEX_TEMPLATE")"
     fi
@@ -321,14 +311,12 @@ remove_js_patches() {
 
 # APT hook configuration for persistence across updates
 APT_HOOK_FILE="/etc/apt/apt.conf.d/99proxmorph"
-DPKG_HOOK_DIR="/etc/dpkg/dpkg.cfg.d"
 POST_INVOKE_SCRIPT="${INSTALL_DIR}/post-update.sh"
 
 # Install apt hook for automatic re-patching after updates
 install_apt_hook() {
     print_info "Installing apt hook for automatic re-patching..."
     
-    # Create post-update script
     mkdir -p "${INSTALL_DIR}"
     cat > "${POST_INVOKE_SCRIPT}" << SCRIPT
 #!/bin/bash
@@ -461,15 +449,9 @@ check_apt_hook() {
     return 1
 }
 
-# Get themes source directory - prioritizes /opt/proxmorph, then script directory
+# Get themes source directory - prioritizes local script directory, then /opt/proxmorph
 get_themes_source() {
-    # 1. Check /opt/proxmorph
-    if [[ -d "${INSTALL_DIR}/themes" ]]; then
-        echo "${INSTALL_DIR}/themes"
-        return 0
-    fi
-    
-    # 2. Check script directory
+    # 1. Check local script directory (prioritize local execution/development)
     local script_dir=""
     if [[ -n "${BASH_SOURCE[0]}" ]]; then
         script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd 2>/dev/null)"
@@ -478,6 +460,12 @@ get_themes_source() {
     # Handle piped execution where BASH_SOURCE might be /dev/fd/*
     if [[ -n "$script_dir" && "$script_dir" != /dev/fd* && "$script_dir" != /proc/* && -d "${script_dir}/themes" ]]; then
         echo "${script_dir}/themes"
+        return 0
+    fi
+
+    # 2. Check /opt/proxmorph (fallback to installed cache)
+    if [[ -d "${INSTALL_DIR}/themes" ]]; then
+        echo "${INSTALL_DIR}/themes"
         return 0
     fi
     
@@ -515,6 +503,7 @@ install_themes() {
     
     # Create themes directory if not exists
     mkdir -p "$THEMES_DIR"
+    mkdir -p "${INSTALL_DIR}/themes"
     
     # Process each theme
     for css_file in "$themes_source"/theme-*.css; do
@@ -522,14 +511,25 @@ install_themes() {
             theme_key=$(get_theme_key "$css_file")
             theme_title=$(get_theme_title "$css_file")
             
-            # Copy CSS file
+            # Copy CSS file to live Proxmox web directory
             cp "$css_file" "${THEMES_DIR}/"
             chmod 644 "${THEMES_DIR}/$(basename "$css_file")"
+            
+            # Sync to local cache so apt hook uses the newest files on update
+            if [[ "$themes_source" != "${INSTALL_DIR}/themes" ]]; then
+                cp "$css_file" "${INSTALL_DIR}/themes/"
+            fi
             
             # Register in theme_map
             patch_theme_map "$theme_key" "$theme_title"
         fi
     done
+    
+    # Sync JavaScript patches to cache if installing locally
+    if [[ -d "${themes_source}/patches" && "$themes_source" != "${INSTALL_DIR}/themes" ]]; then
+        mkdir -p "${INSTALL_DIR}/themes/patches"
+        cp "${themes_source}/patches"/*.js "${INSTALL_DIR}/themes/patches/" 2>/dev/null || true
+    fi
     
     # Install apt hook for persistence across updates
     install_apt_hook
