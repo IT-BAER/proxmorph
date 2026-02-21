@@ -32,7 +32,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 
-VERSION="2.2.4"
+VERSION="2.3.0"
 
 WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
 

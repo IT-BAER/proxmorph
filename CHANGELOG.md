@@ -5,6 +5,32 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2025-07-14
+
+### Added
+- **Catppuccin Theme Collection** (5 themes):
+  - Catppuccin Mocha — darkest flavor with mauve accent
+  - Catppuccin Macchiato — mid-dark flavor with blue-tinted base
+  - Catppuccin Frappé — lightest dark flavor with muted blue base
+  - Catppuccin Latte — official light variant with purple accent
+  - Catppuccin Mocha Teal — Mocha palette with teal accent
+- **Dracula Theme Collection** (6 themes):
+  - Dracula — classic dark with purple accent
+  - Dracula Pink — pink accent variant
+  - Dracula Cyan — cyan accent variant
+  - Dracula Midnight — near-black backgrounds from Dracula UI spec
+  - Dracula Green — forest-tinted backgrounds with green accent
+  - Dracula Orange — warm-tinted backgrounds with orange accent
+- **Variant Generator** (`generate-variants.ps1`) for creating theme variants from templates
+- Screenshots for all 14 themes in README gallery
+
+### Fixed
+- **Chart Layout** (all new themes + GitHub Dark):
+  - Fixed RRD chart panels stacking in single column instead of 2-column grid
+  - Root cause: `padding: 0 !important` on `.x-panel` overrode ExtJS inline `padding: 5px`, triggering a scrollbar-induced sub-pixel overflow feedback loop (2×790px panels > 1579.6px container)
+  - Solution: Added `.x-panel.x-column` rule with `max-width: calc(50% - 10px)`, `margin: 5px`, and `padding: 5px` to prevent overflow
+  - Removed `:not(.x-draw-container)` from column border selector — chart panels (proxmoxRRDChart) have the `.x-draw-container` class and were incorrectly excluded from card styling
+
 ## [2.2.5] - 2025-01-26
 
 ### Fixed
