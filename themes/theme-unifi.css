@@ -2990,8 +2990,8 @@ div[class*="gauge"] {
 }
 
 /* View mode combo/dropdown */
-.x-form-trigger-wrap-default,
-.x-form-trigger-wrap {
+.x-form-trigger-wrap-default:not([id^="textarea-"]),
+.x-form-trigger-wrap:not([id^="textarea-"]) {
     height: 28px !important;
 }
 
