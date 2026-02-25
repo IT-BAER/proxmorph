@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **7 New Theme Collections** (contributed by @W0CHP):
+- **7 New Theme Collections** — contributed by [@W0CHP](https://github.com/W0CHP) ([PR #12](https://github.com/IT-BAER/proxmorph/pull/12)):
   - Gruvbox Dark — warm retro groove colors with yellow accent
   - Gruvbox Light — light variant of Gruvbox palette
   - Nord Dark — arctic, bluish-cold palette from Nord
@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Tokyo Night — dark theme inspired by Tokyo's neon lights
 
 ### Changed
-- **Installer** (`install.sh`):
+- **Installer** (`install.sh`) — contributed by [@W0CHP](https://github.com/W0CHP):
   - Now prioritizes local script directory over `/opt/proxmorph` cache for development workflows
   - Syncs themes and JS patches to `/opt/proxmorph/` cache when installing from local source
   - Improved theme discovery for dynamic registration
