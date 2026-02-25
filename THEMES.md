@@ -2,7 +2,7 @@
 
 Complete gallery of all available ProxMorph themes for Proxmox VE and PBS.
 
-**Quick Links:** [Installation](README.md#-installation) | [Creating Themes](README.md#️-creating-themes) | [Troubleshooting](README.md#-troubleshooting)
+**Quick Links:** [Installation](README.md#-installation) | [Creating Themes](README.md#-creating-themes) | [Troubleshooting](README.md#-troubleshooting)
 
 ---
 
@@ -220,6 +220,6 @@ Precision colors designed for machines and humans, based on [Solarized](https://
 
 ## Contributing Themes
 
-Want to add your own theme? See the [Creating Themes](README.md#️-creating-themes) section in the README.
+Want to add your own theme? See the [Creating Themes](README.md#-creating-themes) section in the README.
 
 New theme contributions are welcome via Pull Request!
