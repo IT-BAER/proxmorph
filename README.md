@@ -176,6 +176,29 @@ chmod +x install.sh
 
 Theme files must start with `/*!Display Name*/` - this sets the name in Proxmox's dropdown.
 
+## ❓ Troubleshooting
+
+### Themes not appearing in Color Theme dropdown
+
+If themes don't appear after installation:
+
+1. **Clear browser cache** — Press Ctrl+Shift+R (hard refresh)
+2. **Check installation status** — Run `./install.sh status`
+3. **Restart proxy service** — Run `systemctl restart pveproxy` (PVE) or `systemctl restart proxmox-backup-proxy` (PBS)
+
+### Cloudflare Tunnel caching issues
+
+If you access Proxmox through a **Cloudflare Tunnel**, themes may not load due to aggressive caching. To fix:
+
+1. Log in to [Cloudflare Dashboard](https://dash.cloudflare.com/) and select your domain
+2. Navigate to **Caching → Cache Rules**
+3. Click **Create rule**
+4. Set **Hostname** to your Proxmox subdomain (e.g., `proxmox.example.com`)
+5. Set **Cache eligibility** to **Bypass cache**
+6. Save and deploy the rule
+
+See [Issue #13](https://github.com/IT-BAER/proxmorph/issues/13) for more details — thanks to [@gioxx](https://github.com/gioxx) for the solution!
+
 ## ℹ️ How It Works
 
 1. Theme CSS files are copied to shared `/usr/share/javascript/proxmox-widget-toolkit/themes/`
