@@ -17,96 +17,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 
 ## 🎨 Themes
 
-### Catppuccin Collection
-
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <h3>Catppuccin Mocha</h3>
-      <img src="screenshots/catppuccin-mocha.png" alt="Catppuccin Mocha Theme" width="100%">
-      <br>
-      <i>Darkest Catppuccin flavor — deep warm tones with mauve accent</i>
-    </td>
-    <td width="50%" align="center">
-      <h3>Catppuccin Mocha Teal</h3>
-      <img src="screenshots/catppuccin-mocha-teal.png" alt="Catppuccin Mocha Teal Theme" width="100%">
-      <br>
-      <i>Mocha palette with teal accent</i>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <h3>Catppuccin Macchiato</h3>
-      <img src="screenshots/catppuccin-macchiato.png" alt="Catppuccin Macchiato Theme" width="100%">
-      <br>
-      <i>Mid-dark Catppuccin flavor with blue-tinted base</i>
-    </td>
-    <td width="50%" align="center">
-      <h3>Catppuccin Frappé</h3>
-      <img src="screenshots/catppuccin-frappe.png" alt="Catppuccin Frappé Theme" width="100%">
-      <br>
-      <i>Lightest dark Catppuccin flavor with muted blue base</i>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <h3>Catppuccin Latte</h3>
-      <img src="screenshots/catppuccin-latte.png" alt="Catppuccin Latte Theme" width="100%">
-      <br>
-      <i>Official light variant — warm off-white with purple accent</i>
-    </td>
-    <td width="50%"></td>
-  </tr>
-</table>
-
-### Dracula Collection
-
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <h3>Dracula</h3>
-      <img src="screenshots/dracula.png" alt="Dracula Theme" width="100%">
-      <br>
-      <i>Classic Dracula dark with purple accent</i>
-    </td>
-    <td width="50%" align="center">
-      <h3>Dracula Midnight</h3>
-      <img src="screenshots/dracula-midnight.png" alt="Dracula Midnight Theme" width="100%">
-      <br>
-      <i>Near-black backgrounds from the Dracula UI spec</i>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <h3>Dracula Pink</h3>
-      <img src="screenshots/dracula-pink.png" alt="Dracula Pink Theme" width="100%">
-      <br>
-      <i>Dracula palette with pink accent</i>
-    </td>
-    <td width="50%" align="center">
-      <h3>Dracula Cyan</h3>
-      <img src="screenshots/dracula-cyan.png" alt="Dracula Cyan Theme" width="100%">
-      <br>
-      <i>Dracula palette with cyan accent</i>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <h3>Dracula Green</h3>
-      <img src="screenshots/dracula-green.png" alt="Dracula Green Theme" width="100%">
-      <br>
-      <i>Forest-tinted backgrounds with green accent</i>
-    </td>
-    <td width="50%" align="center">
-      <h3>Dracula Orange</h3>
-      <img src="screenshots/dracula-orange.png" alt="Dracula Orange Theme" width="100%">
-      <br>
-      <i>Warm-tinted backgrounds with orange accent</i>
-    </td>
-  </tr>
-</table>
-
-### Other Themes
+**21 themes** across 9 collections. Featured themes below — [**View Full Gallery →**](THEMES.md)
 
 <table>
   <tr>
@@ -117,22 +28,44 @@ Comparison between default Proxmox Dark theme and UniFi theme:
       <i>Inspired by Ubiquiti UniFi Network Application</i>
     </td>
     <td width="50%" align="center">
-      <h3>GitHub Dark</h3>
-      <img src="screenshots/github-dark.png" alt="GitHub Dark Theme" width="100%">
+      <h3>Dracula</h3>
+      <img src="screenshots/dracula.png" alt="Dracula Theme" width="100%">
       <br>
-      <i>Based on GitHub Dark Dimmed theme</i>
+      <i>Classic Dracula dark with purple accent</i>
     </td>
   </tr>
   <tr>
     <td width="50%" align="center">
-      <h3>Blue Slate</h3>
-      <img src="screenshots/blue-slate.png" alt="Blue Slate Theme" width="100%">
+      <h3>Catppuccin Mocha</h3>
+      <img src="screenshots/catppuccin-mocha.png" alt="Catppuccin Mocha Theme" width="100%">
       <br>
-      <i>Cool blue-gray tones with slate accent</i>
+      <i>Darkest Catppuccin flavor — deep warm tones</i>
     </td>
-    <td width="50%"></td>
+    <td width="50%" align="center">
+      <h3>Nord Dark</h3>
+      <img src="screenshots/nord-dark.png" alt="Nord Dark Theme" width="100%">
+      <br>
+      <i>Arctic dark palette with polar blue accent</i>
+    </td>
   </tr>
 </table>
+
+<details>
+<summary><strong>All Available Collections</strong></summary>
+
+| Collection | Themes |
+|------------|--------|
+| Catppuccin | Mocha, Mocha Teal, Macchiato, Frappé, Latte |
+| Dracula | Classic, Midnight, Pink, Cyan, Green, Orange |
+| Nord | Dark, Light |
+| Gruvbox | Dark, Light |
+| Solarized | Dark, Light |
+| Tokyo Night | — |
+| UniFi | — |
+| GitHub Dark | — |
+| Blue Slate | — |
+
+</details>
 
 ## 🚀 Installation
 
