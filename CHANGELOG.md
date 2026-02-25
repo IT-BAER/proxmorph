@@ -5,7 +5,7 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.4.0] - 2026-02-25
 
 ### Added
 - **7 New Theme Collections** — contributed by [@W0CHP](https://github.com/W0CHP) ([PR #12](https://github.com/IT-BAER/proxmorph/pull/12)):
