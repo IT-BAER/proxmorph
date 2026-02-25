@@ -5,7 +5,33 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.3.0] - 2025-07-14
+## [Unreleased]
+
+### Added
+- **7 New Theme Collections** (contributed by @W0CHP):
+  - Gruvbox Dark — warm retro groove colors with yellow accent
+  - Gruvbox Light — light variant of Gruvbox palette
+  - Nord Dark — arctic, bluish-cold palette from Nord
+  - Nord Light — light variant of Nord palette
+  - Solarized Dark — dark variant of precision colors for machines
+  - Solarized Light — light variant of Solarized palette
+  - Tokyo Night — dark theme inspired by Tokyo's neon lights
+
+### Changed
+- **Installer** (`install.sh`):
+  - Now prioritizes local script directory over `/opt/proxmorph` cache for development workflows
+  - Syncs themes and JS patches to `/opt/proxmorph/` cache when installing from local source
+  - Improved theme discovery for dynamic registration
+
+### Fixed
+- **Light Themes** (Nord/Gruvbox/Solarized Light):
+  - Removed dark mode icon inversions (`filter: invert(90%)`) that caused icons to appear washed out
+  - Removed logo inversion (`filter: invert(1) hue-rotate(180deg)`) for proper display on light backgrounds
+  - Removed brightness filters designed for dark backgrounds
+- **Variable Prefixes** (all new themes):
+  - Replaced inherited `--drac-*` prefix with theme-specific prefixes (`--grv-*`, `--nord-*`, `--sol-*`, `--tn-*`)
+
+## [2.3.0] - 2026-02-21
 
 ### Added
 - **Catppuccin Theme Collection** (5 themes):
@@ -31,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Solution: Added `.x-panel.x-column` rule with `max-width: calc(50% - 10px)`, `margin: 5px`, and `padding: 5px` to prevent overflow
   - Removed `:not(.x-draw-container)` from column border selector — chart panels (proxmoxRRDChart) have the `.x-draw-container` class and were incorrectly excluded from card styling
 
-## [2.2.5] - 2025-01-26
+## [2.2.5] - 2026-01-26
 
 ### Fixed
 - **UniFi Theme (v5.93)**:
@@ -139,7 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed window header close icon positioning
   - Fixed checkbox label visibility and alignment in dialogs
 
-## [2.0.2] - 2025-01-14
+## [2.0.2] - 2026-01-14
 
 ### Fixed
 - Column panel gap in dialog forms (Edit Network Device, etc.)
@@ -147,7 +173,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed width override that was forcing columns to full width
   - Removed padding reset that was eliminating the gap
 
-## [2.0.1] - 2025-01-14
+## [2.0.1] - 2026-01-13
 
 ### Fixed
 - Resource grid labels (Memory, Cores) no longer appear dark gray
@@ -171,14 +197,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `build.sh` - No longer needed
 - Emerald Night theme (deprecated)
 
-## [1.1.1] - 2025-01-12
+## [1.1.1] - 2026-01-13
 
 ### Fixed
 - LXC/QEMU container icons in treelist navigation now have transparent background
 - Grid table headers no longer clipped on panels with title bars (VNets, etc.)
 - Summary page widget panels (Health, Guests, Resources) now have rounded borders
 
-## [1.1.0] - 2025-01-12
+## [1.1.0] - 2026-01-12
 
 ### Added
 - Modal dialog open animations with background blur effect
@@ -206,7 +232,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bulk Actions dropdown button styling
 - Floating grid picker border-radius
 
-## [1.0.0] - 2025-01-08
+## [1.0.0] - 2026-01-08
 
 ### Added
 - Initial release of ProxMorph theme collection
