@@ -29,33 +29,33 @@
     --pwt-chart-primary: var(--pm-accent);
     --pwt-chart-grid-stroke: var(--pm-bg-elevated);
 
-    /* Map Dracula specific variables from the template so the rest of the file works completely untouched */
-    --drac-text: var(--pm-text);
-    --drac-subtext0: var(--pm-text-dim);
-    --drac-subtext1: var(--pm-text-dim);
-    --drac-overlay0: var(--pm-border);
-    --drac-overlay1: var(--pm-text-dim);
-    --drac-overlay2: var(--pm-text-dim);
-    --drac-surface0: var(--pm-bg-surface);
-    --drac-surface1: var(--pm-bg-elevated);
-    --drac-surface2: var(--pm-bg-elevated);
-    --drac-base: var(--pm-bg-base);
-    --drac-mantle: #16161e;
-    --drac-crust: #16161e;
+    /* Tokyo Night theme internal variables (based on Dracula template structure) */
+    --tn-text: var(--pm-text);
+    --tn-subtext0: var(--pm-text-dim);
+    --tn-subtext1: var(--pm-text-dim);
+    --tn-overlay0: var(--pm-border);
+    --tn-overlay1: var(--pm-text-dim);
+    --tn-overlay2: var(--pm-text-dim);
+    --tn-surface0: var(--pm-bg-surface);
+    --tn-surface1: var(--pm-bg-elevated);
+    --tn-surface2: var(--pm-bg-elevated);
+    --tn-base: var(--pm-bg-base);
+    --tn-mantle: #16161e;
+    --tn-crust: #16161e;
 
-    --drac-on-accent: #1a1b26;
-    --drac-hover-overlay: rgba(128, 128, 128, 0.12);
-    --drac-select-overlay: rgba(128, 128, 128, 0.25);
-    --drac-accent-muted: rgba(128, 128, 128, 0.4);
-    --drac-accent-subtle: rgba(128, 128, 128, 0.15);
+    --tn-on-accent: #1a1b26;
+    --tn-hover-overlay: rgba(128, 128, 128, 0.12);
+    --tn-select-overlay: rgba(128, 128, 128, 0.25);
+    --tn-accent-muted: rgba(128, 128, 128, 0.4);
+    --tn-accent-subtle: rgba(128, 128, 128, 0.15);
 
-    --drac-cyan: var(--pm-accent);
-    --drac-green: var(--pm-success);
-    --drac-orange: var(--pm-warning);
-    --drac-pink: var(--pm-accent);
-    --drac-purple: var(--pm-accent);
-    --drac-red: var(--pm-error);
-    --drac-yellow: var(--pm-warning);
+    --tn-cyan: var(--pm-accent);
+    --tn-green: var(--pm-success);
+    --tn-orange: var(--pm-warning);
+    --tn-pink: var(--pm-accent);
+    --tn-purple: var(--pm-accent);
+    --tn-red: var(--pm-error);
+    --tn-yellow: var(--pm-warning);
 
     color-scheme: dark;
 }
@@ -301,8 +301,8 @@ svg.x-surface,
 .x-viewport > .x-body,
 body.x-border-layout-ct,
 div.x-border-layout-ct {
-    background-color: var(--drac-base) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-base) !important;
+    color: var(--tn-text) !important;
 }
 
 /* =====================================================
@@ -314,13 +314,13 @@ div.x-border-layout-ct {
 }
 
 .x-mask-msg {
-    background-color: var(--drac-mantle) !important;
-    border: 1px solid var(--drac-surface1) !important;
+    background-color: var(--tn-mantle) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-mask-msg-text {
-    color: var(--drac-subtext0) !important;
+    color: var(--tn-subtext0) !important;
     filter: none !important;
 }
 
@@ -356,7 +356,7 @@ div.x-border-layout-ct {
 .x-tree-icon-parent:not(.x-tree-icon-custom)::before,
 .x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before,
 .x-grid-filters-filtered-column .x-column-header-text::after {
-    color: var(--drac-overlay2) !important;
+    color: var(--tn-overlay2) !important;
 }
 
 /* Folder icons — invert for dark mode */
@@ -403,7 +403,7 @@ div.x-border-layout-ct {
 /* Icon overlays — default */
 .x-tree-icon-custom::after,
 .x-grid-icon-custom::after {
-    color: var(--drac-overlay2) !important;
+    color: var(--tn-overlay2) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -411,14 +411,14 @@ div.x-border-layout-ct {
 .x-tree-icon-custom.running::after,
 .x-grid-icon-custom.running::after,
 .x-treelist-item-icon.running::after {
-    color: var(--drac-green) !important;
+    color: var(--tn-green) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
 /* ONLINE state — Green */
 .x-tree-icon-custom.online::after,
 .x-grid-icon-custom.online::after {
-    color: var(--drac-green) !important;
+    color: var(--tn-green) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -427,13 +427,13 @@ div.x-border-layout-ct {
 .x-tree-icon-custom.offline,
 .x-grid-icon-custom.stopped,
 .x-grid-icon-custom.offline {
-    color: var(--drac-overlay1) !important;
+    color: var(--tn-overlay1) !important;
 }
 
 /* Unknown state — Overlay1 */
 .x-tree-icon-custom.unknown::after,
 .x-grid-icon-custom.unknown::after {
-    color: var(--drac-overlay1) !important;
+    color: var(--tn-overlay1) !important;
 }
 
 /* ERROR states — Dracula Red */
@@ -443,7 +443,7 @@ div.x-border-layout-ct {
 .x-grid-icon-custom.error::after,
 .x-grid-icon-custom.offline::after,
 .x-grid-icon-custom.ha-error::after {
-    color: var(--drac-red) !important;
+    color: var(--tn-red) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -454,7 +454,7 @@ div.x-border-layout-ct {
 .x-grid-icon-custom.paused::after,
 .x-grid-icon-custom.suspended::after,
 .x-grid-icon-custom.lock-suspending::after {
-    color: var(--drac-orange) !important;
+    color: var(--tn-orange) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -467,14 +467,14 @@ div.x-border-layout-ct {
 .x-grid-icon-custom.io-error::after,
 .x-grid-icon-custom.internal-error::after,
 .x-grid-icon-custom.guest-panicked::after {
-    color: var(--drac-yellow) !important;
+    color: var(--tn-yellow) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
 /* HA MAINTENANCE — Dracula Cyan */
 .x-tree-icon-custom.ha-maintenance::after,
 .x-grid-icon-custom.ha-maintenance::after {
-    color: var(--drac-cyan) !important;
+    color: var(--tn-cyan) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -487,7 +487,7 @@ div.x-border-layout-ct {
 .x-grid-icon-custom.lock-backup::after,
 .x-grid-icon-custom.lock-migrate::after,
 .x-grid-icon-custom.lock-suspended::after {
-    color: var(--drac-overlay2) !important;
+    color: var(--tn-overlay2) !important;
 }
 
 /* LXC/QEMU type indicators */
@@ -496,13 +496,13 @@ div.x-border-layout-ct {
 .x-grid-icon-custom.lxc::after,
 .x-grid-icon-custom.qemu::after {
     background-color: transparent;
-    color: var(--drac-overlay1) !important;
+    color: var(--tn-overlay1) !important;
 }
 
 .x-treelist-item-icon.lxc::after,
 .x-treelist-item-icon.qemu::after {
     background-color: transparent;
-    color: var(--drac-overlay1) !important;
+    color: var(--tn-overlay1) !important;
 }
 
 /* Tree expander arrows */
@@ -540,7 +540,7 @@ div.x-border-layout-ct {
 
 /* Column panel card styling — borders for summary + chart panels */
 .x-panel.x-panel-default.x-column {
-    border: 1px solid var(--drac-surface1) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-lg) !important;
     overflow: hidden !important;
 }
@@ -550,23 +550,23 @@ div.x-border-layout-ct {
 [id^="pveLxcStatusView-"].x-panel,
 [id^="pveQemuStatusView-"].x-panel,
 [id^="pmxNotesView-"].x-panel {
-    border: 1px solid var(--drac-surface1) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-panel-body,
 .x-panel-body-default {
-    background-color: var(--drac-base) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-base) !important;
+    color: var(--tn-text) !important;
     border: none !important;
 }
 
 /* Panel headers — bottom border only */
 .x-panel-header,
 .x-panel-header-default {
-    background-color: var(--drac-mantle) !important;
+    background-color: var(--tn-mantle) !important;
     border: none !important;
-    border-bottom: 1px solid var(--drac-surface1) !important;
+    border-bottom: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-lg) var(--pm-radius-lg) 0 0 !important;
     margin: 0 !important;
     padding: 8px 12px !important;
@@ -591,7 +591,7 @@ div.x-border-layout-ct {
 
 .x-panel-header-title-default,
 .x-window-header-title-default {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-panel-header-default .x-tool-tool-el {
@@ -608,7 +608,7 @@ div.x-border-layout-ct {
 
 /* Resource tree — panel body border */
 div[id^="pveResourceTree-"][id$="-body"] {
-    border-color: var(--drac-base) !important;
+    border-color: var(--tn-base) !important;
 }
 
 /* Resource tree — remove row separators */
@@ -645,22 +645,22 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-splitter-vertical {
     background-color: transparent !important;
-    border-left: 1px solid var(--drac-surface1) !important;
+    border-left: 1px solid var(--tn-surface1) !important;
     border-right: none !important;
     width: 1px !important;
 }
 
 .x-splitter-horizontal {
-    background-color: var(--drac-crust) !important;
-    border-top: 1px solid var(--drac-surface1) !important;
+    background-color: var(--tn-crust) !important;
+    border-top: 1px solid var(--tn-surface1) !important;
 }
 
 .x-splitter {
-    background-color: var(--drac-crust) !important;
+    background-color: var(--tn-crust) !important;
 }
 
 .x-keyboard-mode .x-splitter-focus::after {
-    border-color: var(--drac-purple) !important;
+    border-color: var(--tn-purple) !important;
 }
 
 .x-layout-split-bottom {
@@ -669,7 +669,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 /* Toolbox tree (pve-nav) right border — full height */
 .pve-toolbar-bg {
-    border-right: 1px solid var(--drac-surface1) !important;
+    border-right: 1px solid var(--tn-surface1) !important;
     z-index: 3 !important;
 }
 
@@ -682,50 +682,50 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-toolbar,
 .x-toolbar-default {
-    background-color: var(--drac-base) !important;
-    border-color: var(--drac-surface1) !important;
+    background-color: var(--tn-base) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .x-toolbar-default.x-docked-top {
     border: none !important;
-    border-bottom: 1px solid var(--drac-surface1) !important;
+    border-bottom: 1px solid var(--tn-surface1) !important;
 }
 
 .x-toolbar-default .x-toolbar-separator {
-    border-color: var(--drac-surface1);
+    border-color: var(--tn-surface1);
 }
 
 .x-toolbar-text-default {
-    color: var(--drac-subtext0);
+    color: var(--tn-subtext0);
 }
 
 /* =====================================================
    PRIMARY BUTTONS — Dracula Purple
    ===================================================== */
 .x-btn-default-small {
-    background-color: var(--drac-purple) !important;
+    background-color: var(--tn-purple) !important;
     border: 1px solid rgba(189, 147, 249, 0.4) !important;
     border-radius: var(--pm-radius-md) !important;
     transition: background-color 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 .x-btn-default-small .x-btn-inner {
-    color: var(--drac-on-accent) !important;
+    color: var(--tn-on-accent) !important;
     font-weight: 600 !important;
 }
 
 .x-btn-default-small .x-btn-icon-el {
-    color: var(--drac-on-accent) !important;
+    color: var(--tn-on-accent) !important;
 }
 
 .x-btn-default-small.x-btn-over,
 .x-keyboard-mode .x-btn-default-small.x-btn-focus {
     background-color: #caa9fa !important;
-    box-shadow: 0 0 0 3px var(--drac-accent-subtle) !important;
+    box-shadow: 0 0 0 3px var(--tn-accent-subtle) !important;
 }
 
 .x-btn-default-small.x-btn.x-btn-disabled {
-    background-color: var(--drac-purple) !important;
+    background-color: var(--tn-purple) !important;
     opacity: 0.4;
 }
 
@@ -747,15 +747,15 @@ div[id^="pveResourceTree"] .x-grid-cell {
    SECONDARY / TOOLBAR BUTTONS
    ===================================================== */
 .x-btn-default-toolbar-small {
-    background-color: var(--drac-surface0) !important;
-    border: 1px solid var(--drac-surface1) !important;
+    background-color: var(--tn-surface0) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-md) !important;
     transition: background-color 0.15s ease, border-color 0.15s ease !important;
 }
 
 .x-btn-default-toolbar-small .x-btn-inner-default-toolbar-small,
 .x-btn-default-toolbar-small .x-btn-icon-el-default-toolbar-small {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-btn-default-toolbar-small .x-btn-wrap-default-toolbar-small.x-btn-arrow-right::after,
@@ -765,26 +765,26 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-btn-default-toolbar-small.x-btn-over,
 .x-keyboard-mode .x-btn-default-toolbar-small.x-btn-focus {
-    background-color: var(--drac-surface1) !important;
-    border-color: var(--drac-surface2) !important;
+    background-color: var(--tn-surface1) !important;
+    border-color: var(--tn-surface2) !important;
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-disabled {
-    background-color: var(--drac-surface0) !important;
+    background-color: var(--tn-surface0) !important;
     opacity: 0.4;
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-menu-active,
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed {
-    background-color: var(--drac-purple) !important;
-    border-color: var(--drac-purple) !important;
+    background-color: var(--tn-purple) !important;
+    border-color: var(--tn-purple) !important;
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-toolbar-small,
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-icon-el-default-toolbar-small,
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-small,
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-icon-el-default-small {
-    color: var(--drac-on-accent) !important;
+    color: var(--tn-on-accent) !important;
 }
 
 /* Segmented buttons */
@@ -801,27 +801,27 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 /* Inline buttons (Documentation, Help) */
 .proxmox-inline-button {
-    background-color: var(--drac-surface0) !important;
-    border: 1px solid var(--drac-surface1) !important;
+    background-color: var(--tn-surface0) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-md) !important;
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
     transition: background-color 0.15s ease !important;
 }
 
 .proxmox-inline-button:hover,
 .proxmox-inline-button.x-btn-over {
-    background-color: var(--drac-surface1) !important;
-    border-color: var(--drac-overlay0) !important;
+    background-color: var(--tn-surface1) !important;
+    border-color: var(--tn-overlay0) !important;
 }
 
 .proxmox-inline-button:active,
 .proxmox-inline-button.x-btn-pressed {
-    background-color: var(--drac-surface2) !important;
+    background-color: var(--tn-surface2) !important;
 }
 
 .proxmox-inline-button .x-btn-inner,
 .proxmox-inline-button .x-btn-icon-el {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 /* Pressed/active inline buttons — use on-accent text */
@@ -829,57 +829,57 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .proxmox-inline-button.x-btn-pressed .x-btn-icon-el,
 .proxmox-inline-button.x-btn-menu-active .x-btn-inner,
 .proxmox-inline-button.x-btn-menu-active .x-btn-icon-el {
-    color: var(--drac-on-accent) !important;
+    color: var(--tn-on-accent) !important;
 }
 
 /* =====================================================
    FORM ELEMENTS
    ===================================================== */
 .x-form-trigger-default {
-    background-color: var(--drac-surface0) !important;
+    background-color: var(--tn-surface0) !important;
 }
 
 .x-form-text-default {
-    background-color: var(--drac-surface0) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-surface0) !important;
+    color: var(--tn-text) !important;
     border-radius: var(--pm-radius-sm) !important;
 }
 
 .x-form-trigger-wrap,
 .x-form-trigger-wrap-default {
-    border-color: var(--drac-surface1) !important;
-    background-color: var(--drac-surface0) !important;
+    border-color: var(--tn-surface1) !important;
+    background-color: var(--tn-surface0) !important;
     border-radius: var(--pm-radius-sm) !important;
     transition: border-color 0.15s ease !important;
 }
 
 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
-    border-color: var(--drac-purple) !important;
-    box-shadow: 0 0 0 3px var(--drac-accent-subtle) !important;
+    border-color: var(--tn-purple) !important;
+    box-shadow: 0 0 0 3px var(--tn-accent-subtle) !important;
 }
 
 .x-form-item-label-default,
 .x-form-cb-label-default {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-form-display-field-default {
-    color: var(--drac-subtext0) !important;
+    color: var(--tn-subtext0) !important;
     border-radius: var(--pm-radius-md) !important;
 }
 
 .x-form-spinner-default {
-    background-color: var(--drac-surface0) !important;
+    background-color: var(--tn-surface0) !important;
 }
 
 .x-fieldset,
 .x-fieldset-default {
-    border-color: var(--drac-surface1) !important;
+    border-color: var(--tn-surface1) !important;
     border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-fieldset-header-default > .x-fieldset-header-text {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 /* =====================================================
@@ -890,8 +890,8 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-checkbox, .x-form-checkbox-default,
 .x-form-radio, .x-form-radio-default {
     background-image: none !important;
-    background-color: var(--drac-surface0) !important;
-    border: 1.5px solid var(--drac-overlay0) !important;
+    background-color: var(--tn-surface0) !important;
+    border: 1.5px solid var(--tn-overlay0) !important;
     width: 16px !important;
     height: 16px !important;
     display: inline-block !important;
@@ -930,19 +930,19 @@ div[id^="pveResourceTree"] .x-grid-cell {
 /* Hover */
 .x-form-checkbox:hover, .x-form-checkbox-default:hover,
 .x-form-cb-wrap:hover .x-form-checkbox {
-    border-color: var(--drac-purple) !important;
+    border-color: var(--tn-purple) !important;
 }
 
 .x-form-radio:hover, .x-form-radio-default:hover,
 .x-form-cb-wrap:hover .x-form-radio {
-    border-color: var(--drac-purple) !important;
+    border-color: var(--tn-purple) !important;
 }
 
 /* CHECKED checkbox — Purple fill + dark SVG checkmark */
 .x-form-cb-checked .x-form-checkbox,
 .x-form-cb-checked .x-form-checkbox-default {
-    background-color: var(--drac-purple) !important;
-    border-color: var(--drac-purple) !important;
+    background-color: var(--tn-purple) !important;
+    border-color: var(--tn-purple) !important;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' fill='none' stroke='%231a1b26' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
@@ -952,12 +952,12 @@ div[id^="pveResourceTree"] .x-grid-cell {
 /* SELECTED radio — Purple dot */
 .x-form-cb-checked .x-form-radio,
 .x-form-cb-checked .x-form-radio-default {
-    border-color: var(--drac-purple) !important;
-    background-color: var(--drac-base) !important;
+    border-color: var(--tn-purple) !important;
+    background-color: var(--tn-base) !important;
 }
 
 .x-form-cb-checked .x-form-radio::after {
-    background: var(--drac-purple) !important;
+    background: var(--tn-purple) !important;
     transform: translate(-50%, -50%) scale(1) !important;
 }
 
@@ -965,8 +965,8 @@ div[id^="pveResourceTree"] .x-grid-cell {
    BOUNDLIST / DROPDOWNS
    ===================================================== */
 .x-boundlist {
-    background-color: var(--drac-mantle) !important;
-    border: 1px solid var(--drac-surface1) !important;
+    background-color: var(--tn-mantle) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-md) !important;
     box-shadow: 0 8px 24px rgba(30, 31, 41, 0.7) !important;
     padding: 4px !important;
@@ -975,7 +975,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-boundlist-item {
     background-color: transparent !important;
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
     border-radius: var(--pm-radius-sm) !important;
     padding: 6px 10px !important;
     line-height: 20px !important;
@@ -985,12 +985,12 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-boundlist-selected {
-    background-color: var(--drac-select-overlay) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-select-overlay) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-boundlist-item-over {
-    background-color: var(--drac-hover-overlay) !important;
+    background-color: var(--tn-hover-overlay) !important;
 }
 
 /* =====================================================
@@ -1002,52 +1002,52 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-column-header {
-    border-color: var(--drac-surface1) !important;
+    border-color: var(--tn-surface1) !important;
     background-color: transparent !important;
 }
 
 .x-column-header-inner,
 .x-column-header-text {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
     font-weight: 600 !important;
 }
 
 .x-column-header-trigger {
-    border-color: var(--drac-surface1) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .x-grid-item,
 .x-column-header-default,
 .x-grid-cell-row-numberer {
-    color: var(--drac-text) !important;
-    background-color: var(--drac-base) !important;
+    color: var(--tn-text) !important;
+    background-color: var(--tn-base) !important;
 }
 
 .x-grid-cell-special {
-    border-color: var(--drac-surface1) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .x-grid-group-hd {
-    background-color: var(--drac-base) !important;
-    border-color: var(--drac-surface1) !important;
+    background-color: var(--tn-base) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .x-grid-group-title {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-grid-header-ct {
-    background-color: var(--drac-mantle) !important;
-    border: 1px solid var(--drac-surface0) !important;
+    background-color: var(--tn-mantle) !important;
+    border: 1px solid var(--tn-surface0) !important;
     border-radius: var(--pm-radius-lg) var(--pm-radius-lg) 0 0 !important;
 }
 
 .x-grid-item-alt {
-    background-color: var(--drac-crust) !important;
+    background-color: var(--tn-crust) !important;
 }
 
 .x-grid-with-row-lines .x-grid-item {
-    border-color: var(--drac-surface0) !important;
+    border-color: var(--tn-surface0) !important;
 }
 
 .x-grid-cell {
@@ -1056,48 +1056,48 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-grid-item-over,
 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
-    background-color: var(--drac-hover-overlay) !important;
+    background-color: var(--tn-hover-overlay) !important;
     border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-grid-item-selected,
 .x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
-    background-color: var(--drac-select-overlay) !important;
+    background-color: var(--tn-select-overlay) !important;
     border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-column-header-over,
 .x-column-header-open {
-    background-color: var(--drac-hover-overlay) !important;
+    background-color: var(--tn-hover-overlay) !important;
 }
 
 .x-column-header-sort-ASC,
 .x-column-header-sort-DESC {
-    background-color: var(--drac-hover-overlay) !important;
+    background-color: var(--tn-hover-overlay) !important;
 }
 
 .x-grid-row-summary .x-grid-cell,
 .x-grid-row-summary .x-grid-rowwrap,
 .x-grid-row-summary .x-grid-cell-rowbody {
-    background-color: var(--drac-base) !important;
-    border-color: var(--drac-surface1);
+    background-color: var(--tn-base) !important;
+    border-color: var(--tn-surface1);
 }
 
 .x-grid-with-col-lines .x-grid-cell,
 .x-grid-with-col-lines .x-grid-item-over .x-grid-cell,
 .x-grid-with-col-lines .x-grid-item-selected .x-grid-cell {
-    border-color: var(--drac-surface1) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .x-dd-drag-proxy {
-    background-color: var(--drac-mantle);
-    border-color: var(--drac-surface1);
-    color: var(--drac-text);
+    background-color: var(--tn-mantle);
+    border-color: var(--tn-surface1);
+    color: var(--tn-text);
 }
 
 .x-keyboard-mode .x-grid-item-focused {
-    background-color: var(--drac-hover-overlay) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-hover-overlay) !important;
+    color: var(--tn-text) !important;
 }
 
 /* Remove blue outline from focused/selected items in resource tree */
@@ -1113,8 +1113,8 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-grid-empty {
-    background-color: var(--drac-base) !important;
-    color: var(--drac-subtext0) !important;
+    background-color: var(--tn-base) !important;
+    color: var(--tn-subtext0) !important;
 }
 
 /* Grid info (pve-info-grid) and RRD view */
@@ -1191,8 +1191,8 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-menu,
 .x-menu-default {
-    background-color: var(--drac-crust) !important;
-    border: 1px solid var(--drac-surface0) !important;
+    background-color: var(--tn-crust) !important;
+    border: 1px solid var(--tn-surface0) !important;
     border-radius: var(--pm-radius-lg) !important;
     box-shadow: 0 8px 24px rgba(30, 31, 41, 0.8) !important;
     padding: 4px !important;
@@ -1206,7 +1206,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-menu-header {
     background-color: transparent !important;
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 /* Menu icon separator — hide */
@@ -1234,7 +1234,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-menu-item-text-default {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
     font-size: 14px !important;
     order: 1 !important;
     margin-left: 0 !important;
@@ -1248,7 +1248,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-menu-item-icon-default {
-    color: var(--drac-subtext0) !important;
+    color: var(--tn-subtext0) !important;
     order: -1 !important;
     position: relative !important;
     float: none !important;
@@ -1275,7 +1275,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-menu-item-default.x-menu-item-separator {
-    background-color: var(--drac-surface0) !important;
+    background-color: var(--tn-surface0) !important;
     border: none !important;
     height: 1px !important;
     margin: 6px 4px !important;
@@ -1284,19 +1284,19 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-menu-item-default.x-menu-item-focus,
 .x-menu-item-default.x-menu-item-active,
 .x-menu-item:hover {
-    background-color: var(--drac-surface0) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-surface0) !important;
+    color: var(--tn-text) !important;
     border-radius: var(--pm-radius-md) !important;
 }
 
 .x-menu-item-active .x-menu-item-text-default,
 .x-menu-item-focus .x-menu-item-text-default {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-menu-item-active .x-menu-item-icon-default,
 .x-menu-item-focus .x-menu-item-icon-default {
-    color: var(--drac-cyan) !important;
+    color: var(--tn-cyan) !important;
 }
 
 /* =====================================================
@@ -1311,31 +1311,31 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-progress,
 .x-progress-default {
-    background-color: var(--drac-surface0) !important;
+    background-color: var(--tn-surface0) !important;
     border-radius: 5px !important;
 }
 
 .x-progress-default .x-progress-bar-default {
-    background-color: var(--drac-purple) !important;
+    background-color: var(--tn-purple) !important;
     border-radius: 5px !important;
     transition: width 0.4s ease !important;
 }
 
 .x-progress-default .x-progress-text {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 /* Text overlaid on the progress bar fill — use on-accent for contrast */
 .x-progress-bar .x-progress-text {
-    color: var(--drac-on-accent) !important;
+    color: var(--tn-on-accent) !important;
 }
 
 .x-progress.warning .x-progress-bar {
-    background-color: var(--drac-yellow) !important;
+    background-color: var(--tn-yellow) !important;
 }
 
 .x-progress.critical .x-progress-bar {
-    background-color: var(--drac-red) !important;
+    background-color: var(--tn-red) !important;
 }
 
 /* =====================================================
@@ -1344,9 +1344,9 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-tab-bar,
 .x-tab-bar-default {
-    background-color: var(--drac-base) !important;
+    background-color: var(--tn-base) !important;
     border-radius: 0 !important;
-    border-bottom: 1px solid var(--drac-surface1) !important;
+    border-bottom: 1px solid var(--tn-surface1) !important;
     padding-bottom: 0 !important;
 }
 
@@ -1380,7 +1380,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-tab-inner-default {
-    color: var(--drac-subtext0) !important;
+    color: var(--tn-subtext0) !important;
     font-size: 13px !important;
 }
 
@@ -1389,7 +1389,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-tab-default.x-tab-over .x-tab-inner-default {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 /* Active tab */
@@ -1411,21 +1411,21 @@ div[id^="pveResourceTree"] .x-grid-cell {
     left: 0 !important;
     right: 0 !important;
     height: 2px !important;
-    background: var(--drac-purple) !important;
+    background: var(--tn-purple) !important;
     z-index: 10 !important;
     border-radius: 2px 2px 0 0 !important;
     pointer-events: none !important;
 }
 
 .x-tab-active .x-tab-inner-default {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
     font-weight: 600 !important;
 }
 
 .x-tab-default.x-tab.x-tab-disabled {
     background-color: transparent !important;
     border: none !important;
-    color: var(--drac-overlay0) !important;
+    color: var(--tn-overlay0) !important;
     margin-bottom: 0 !important;
 }
 
@@ -1447,7 +1447,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     left: 0 !important;
     right: 0 !important;
     height: 2px !important;
-    background: var(--drac-purple) !important;
+    background: var(--tn-purple) !important;
     z-index: 10 !important;
     pointer-events: none !important;
 }
@@ -1483,30 +1483,30 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-tip,
 .x-tip-default {
-    background-color: var(--drac-mantle) !important;
-    border: 1px solid var(--drac-surface1) !important;
+    background-color: var(--tn-mantle) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-md) !important;
     box-shadow: 0 4px 12px rgba(30, 31, 41, 0.5);
 }
 
 .x-tip-body-default {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-tip-form-invalid {
-    background-color: var(--drac-mantle) !important;
-    border-color: var(--drac-red) !important;
+    background-color: var(--tn-mantle) !important;
+    border-color: var(--tn-red) !important;
 }
 
 .x-tip-body-form-invalid {
-    color: var(--drac-red) !important;
+    color: var(--tn-red) !important;
 }
 
 /* =====================================================
    TREE NAVIGATION (Sidebar)
    ===================================================== */
 .x-treelist-item {
-    background-color: var(--drac-base) !important;
+    background-color: var(--tn-base) !important;
     border-radius: var(--pm-radius-md) !important;
 }
 
@@ -1542,7 +1542,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-treelist-item-icon,
 .x-treelist.x-treelist-pve-nav .x-treelist-item-text,
 .x-treelist.x-treelist-pve-nav .x-treelist-item-icon {
-    color: var(--drac-subtext1) !important;
+    color: var(--tn-subtext1) !important;
 }
 
 /* Hover state — apply to pseudo-element */
@@ -1551,13 +1551,13 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-treelist-row-over::before {
-    background-color: var(--drac-hover-overlay) !important;
+    background-color: var(--tn-hover-overlay) !important;
 }
 
 .x-treelist-row-over .x-treelist-item-icon,
 .x-treelist-row-over .x-treelist-item-text {
     background-color: transparent !important;
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 /* Selected/active item — Purple highlight */
@@ -1567,19 +1567,19 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-treelist-item-selected > .x-treelist-row::before,
 .x-treelist-item-selected > .x-treelist-row:hover::before {
-    background-color: var(--drac-purple) !important;
+    background-color: var(--tn-purple) !important;
 }
 
 .x-treelist-item-selected .x-treelist-item-text,
 .x-treelist-item-selected .x-treelist-item-icon,
 .x-treelist.x-treelist-pve-nav .x-treelist-item-selected .x-treelist-item-text,
 .x-treelist.x-treelist-pve-nav .x-treelist-item-selected .x-treelist-item-icon {
-    color: var(--drac-on-accent) !important;
+    color: var(--tn-on-accent) !important;
 }
 
 .x-treelist-pve-nav {
-    background-color: var(--drac-base) !important;
-    border-color: var(--drac-surface1) !important;
+    background-color: var(--tn-base) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 /* Tree navigation radius overrides */
@@ -1632,8 +1632,8 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-window,
 .x-window-default {
-    background-color: var(--drac-crust) !important;
-    border: 1px solid var(--drac-surface1) !important;
+    background-color: var(--tn-crust) !important;
+    border: 1px solid var(--tn-surface1) !important;
     border-radius: var(--pm-radius-lg) !important;
     box-shadow: 0 8px 24px rgba(30, 31, 41, 0.6) !important;
     overflow: hidden !important;
@@ -1641,7 +1641,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-window .x-window-header,
 .x-window-header-default {
-    background-color: var(--drac-mantle) !important;
+    background-color: var(--tn-mantle) !important;
     border-color: transparent !important;
     border-radius: var(--pm-radius-lg) var(--pm-radius-lg) 0 0 !important;
 }
@@ -1652,14 +1652,14 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-window .x-window-body,
 .x-window-body-default {
-    background-color: var(--drac-base) !important;
-    border-color: var(--drac-surface1) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-base) !important;
+    border-color: var(--tn-surface1) !important;
+    color: var(--tn-text) !important;
     border-radius: 0 0 var(--pm-radius-lg) var(--pm-radius-lg) !important;
 }
 
 .x-window-ghost {
-    background-color: var(--drac-base) !important;
+    background-color: var(--tn-base) !important;
 }
 
 .x-window-header-default .x-tool-img {
@@ -1667,7 +1667,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-message-box .x-window-body {
-    background-color: var(--drac-mantle) !important;
+    background-color: var(--tn-mantle) !important;
 }
 
 /* Respect ExtJS inline display:none on hidden dialog buttons */
@@ -1689,12 +1689,12 @@ div[id^="pveResourceTree"] .x-grid-cell {
    CONSOLE / TERMINAL
    ===================================================== */
 div.monitor {
-    border-color: var(--drac-surface1);
+    border-color: var(--tn-surface1);
 }
 
 .install-mask {
-    background-color: var(--drac-crust);
-    color: var(--drac-subtext0);
+    background-color: var(--tn-crust);
+    color: var(--tn-subtext0);
 }
 
 .x-window.install-mask {
@@ -1705,20 +1705,20 @@ div.monitor {
    LEGEND / CHARTS
    ===================================================== */
 .x-legend-container {
-    background-color: var(--drac-base) !important;
+    background-color: var(--tn-base) !important;
 }
 
 .x-legend-horizontal .x-legend-item {
-    background-color: var(--drac-mantle) !important;
-    color: var(--drac-text) !important;
-    border: 1px solid var(--drac-surface0) !important;
+    background-color: var(--tn-mantle) !important;
+    color: var(--tn-text) !important;
+    border: 1px solid var(--tn-surface0) !important;
 }
 
 /* Chart/RRD panel backgrounds */
 div[id*="rrdchart"],
 .pve-rrddatastore,
 .pmx-panel-rrd {
-    background-color: var(--drac-base) !important;
+    background-color: var(--tn-base) !important;
 }
 
 .proxmox-rrd-panel canvas,
@@ -1731,13 +1731,13 @@ canvas.x-surface,
 
 .proxmox-rrd-panel,
 .proxmox-rrd-chart {
-    background-color: var(--drac-base) !important;
+    background-color: var(--tn-base) !important;
 }
 
 /* Chart text/labels */
 .x-surface text,
 svg text {
-    fill: var(--drac-text) !important;
+    fill: var(--tn-text) !important;
 }
 
 /* =====================================================
@@ -1760,7 +1760,7 @@ img[id^="proxmoxLogoSvg-"][id$="-img"] {
 }
 
 .proxmox-disabled-row td {
-    color: var(--drac-overlay0) !important;
+    color: var(--tn-overlay0) !important;
 }
 
 /* Hints */
@@ -1770,60 +1770,60 @@ img[id^="proxmoxLogoSvg-"][id$="-img"] {
 }
 
 .pmx-hint a {
-    color: var(--drac-cyan) !important;
+    color: var(--tn-cyan) !important;
 }
 
 /* Status text colors — Information → Cyan */
 .info-blue {
-    color: var(--drac-cyan) !important;
+    color: var(--tn-cyan) !important;
 }
 
 .critical {
-    color: var(--drac-red) !important;
+    color: var(--tn-red) !important;
 }
 
 /* Links */
 a {
-    color: var(--drac-cyan) !important;
+    color: var(--tn-cyan) !important;
 }
 
 /* Markdown content */
 .pmx-md code {
-    background-color: var(--drac-mantle) !important;
-    color: var(--drac-pink) !important;
+    background-color: var(--tn-mantle) !important;
+    color: var(--tn-pink) !important;
     border-radius: var(--pm-radius-sm) !important;
 }
 
 .pmx-md pre code {
-    border-color: var(--drac-surface1) !important;
-    background-color: var(--drac-crust) !important;
+    border-color: var(--tn-surface1) !important;
+    background-color: var(--tn-crust) !important;
 }
 
 .pmx-md a {
-    color: var(--drac-cyan) !important;
+    color: var(--tn-cyan) !important;
 }
 
 .pmx-md table {
-    border-color: var(--drac-surface1) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .pmx-md th {
-    background-color: var(--drac-mantle) !important;
-    border-color: var(--drac-surface1) !important;
+    background-color: var(--tn-mantle) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .pmx-md td {
-    border-color: var(--drac-surface1) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 /* APT repos */
 .proxmox-apt-repos .x-grid-group-hd {
-    background-color: var(--drac-base) !important;
+    background-color: var(--tn-base) !important;
     border: none !important;
 }
 
 .proxmox-apt-repos .x-grid-group-title {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 /* Tags */
@@ -1832,9 +1832,9 @@ a {
 }
 
 .pve-edit-tag.editable span {
-    background-color: var(--drac-mantle) !important;
-    color: var(--drac-text) !important;
-    border-color: var(--drac-surface1) !important;
+    background-color: var(--tn-mantle) !important;
+    color: var(--tn-text) !important;
+    border-color: var(--tn-surface1) !important;
 }
 
 .x-tree-node-text .proxmox-tag-dark,
@@ -1852,22 +1852,22 @@ span.proxmox-tag-light {
     height: 24px !important;
     padding: 3px 8px !important;
     border-radius: var(--pm-radius-sm) !important;
-    background-color: var(--drac-purple) !important;
+    background-color: var(--tn-purple) !important;
     border: none !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check).x-btn-disabled {
     background-color: transparent !important;
-    border: 1px solid var(--drac-surface1) !important;
+    border: 1px solid var(--tn-surface1) !important;
     opacity: 0.5 !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check) .fa-check {
-    color: var(--drac-on-accent) !important;
+    color: var(--tn-on-accent) !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check).x-btn-disabled .fa-check {
-    color: var(--drac-overlay1) !important;
+    color: var(--tn-overlay1) !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check):not(.x-btn-disabled):hover {
@@ -1882,41 +1882,41 @@ span.proxmox-tag-light {
 .x-datepicker,
 .x-datepicker-column-header,
 .x-monthpicker {
-    background-color: var(--drac-base) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-base) !important;
+    color: var(--tn-text) !important;
     border-color: transparent !important;
 }
 
 .x-datepicker-header,
 .x-datepicker-footer,
 .x-monthpicker-buttons {
-    background-color: var(--drac-mantle) !important;
+    background-color: var(--tn-mantle) !important;
 }
 
 .x-datepicker-date,
 .x-monthpicker-item-inner {
-    color: var(--drac-text) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-datepicker-selected div.x-datepicker-date,
 .x-monthpicker-item a.x-monthpicker-selected,
 a.x-monthpicker-item-inner:hover,
 div.x-datepicker-date:hover {
-    background-color: var(--drac-hover-overlay) !important;
-    color: var(--drac-text) !important;
+    background-color: var(--tn-hover-overlay) !important;
+    color: var(--tn-text) !important;
 }
 
 .x-datepicker-today .x-datepicker-date {
-    border-color: var(--drac-purple) !important;
+    border-color: var(--tn-purple) !important;
 }
 
 .x-datepicker-disabled .x-datepicker-date {
-    color: var(--drac-overlay0) !important;
+    color: var(--tn-overlay0) !important;
 }
 
 .x-datepicker-prev-day .x-datepicker-date,
 .x-datepicker-next-day .x-datepicker-date {
-    color: var(--drac-overlay0) !important;
+    color: var(--tn-overlay0) !important;
 }
 
 /* Usage bars */
@@ -1926,7 +1926,7 @@ div.x-datepicker-date:hover {
 }
 
 .usage {
-    background-color: var(--drac-overlay2) !important;
+    background-color: var(--tn-overlay2) !important;
 }
 
 /* =====================================================
@@ -1938,12 +1938,12 @@ div.x-datepicker-date:hover {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--drac-base);
+    background: var(--tn-base);
     border-radius: var(--pm-radius-sm);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--drac-surface2);
+    background: var(--tn-surface2);
     border-radius: var(--pm-radius-sm);
     border: 1px solid transparent;
     background-clip: padding-box;
@@ -1951,17 +1951,17 @@ div.x-datepicker-date:hover {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--drac-overlay0);
+    background: var(--tn-overlay0);
 }
 
 ::-webkit-scrollbar-corner {
-    background: var(--drac-base);
+    background: var(--tn-base);
 }
 
 /* Firefox scrollbar */
 * {
     scrollbar-width: thin;
-    scrollbar-color: var(--drac-surface2) var(--drac-base);
+    scrollbar-color: var(--tn-surface2) var(--tn-base);
 }
 
 /* =====================================================
@@ -1969,7 +1969,7 @@ div.x-datepicker-date:hover {
    ===================================================== */
 ::selection {
     background-color: rgba(98, 114, 164, 0.3);
-    color: var(--drac-text);
+    color: var(--tn-text);
 }
 
 /* =====================================================
