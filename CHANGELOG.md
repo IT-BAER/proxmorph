@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Documentation/Help inline buttons (`proxmox-inline-button`) were 24px while Create VM/CT/root buttons were 28px — added explicit `height: 28px`, `display: flex`, `align-items: center`, and consistent padding to `.proxmox-inline-button` across all themes
 - **All Themes (19 files)** — Issue [#23](https://github.com/IT-BAER/proxmorph/issues/23):
   - Fixed summary panel data values (Status, CPU, Memory, etc.) being invisible on node/VM/storage summary pages — removed `max-width: calc(50% - 10px)` constraint on `.x-panel.x-column` that clipped ExtJS-calculated inner widths, restoring native stacked vertical layout
+- **UniFi Theme** — Issue [#19](https://github.com/IT-BAER/proxmorph/issues/19), Issue [#20](https://github.com/IT-BAER/proxmorph/issues/20):
+  - Fixed Maximum/Average segmented toggle buttons having incorrect rounded interior corners and hover border overlapping adjacent button
+  - Fixed hover glow effect on Max/Avg toggle being cut off due to missing padding/overflow
+- **Blue Slate Theme** — Issue [#26](https://github.com/IT-BAER/proxmorph/issues/26):
+  - Fixed inconsistent dotted borders between dropdown list elements
 - **UniFi Theme** (v5.94) — Issue [#11](https://github.com/IT-BAER/proxmorph/issues/11):
   - Fixed PBS summary panel clipping after "Boot Mode" row — reduced widget padding (5px→3px) and added PBS-specific body padding rule
   - Fixed CPU/RAM icons not loading on PBS — changed absolute paths (`/pve2/`, `/pwt/`) to relative paths (`../images/`) for PVE+PBS compatibility
@@ -69,6 +74,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Screenshots for all 14 themes in README gallery
 
 ### Fixed
+- **UniFi Theme** — Issue [#9](https://github.com/IT-BAER/proxmorph/issues/9):
+  - Fixed shrunken text boxes in Notes edit and other input fields (PR [#10](https://github.com/IT-BAER/proxmorph/pull/10) by [@drafty46](https://github.com/drafty46))
 - **Chart Layout** (all new themes + GitHub Dark):
   - Fixed RRD chart panels stacking in single column instead of 2-column grid
   - Root cause: `padding: 0 !important` on `.x-panel` overrode ExtJS inline `padding: 5px`, triggering a scrollbar-induced sub-pixel overflow feedback loop (2×790px panels > 1579.6px container)
