@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.1] - 2026-02-26
+
 ### Added
 - **All Themes (19 files)** — Ported FontAwesome tool icon replacements from UniFi v5.86:
   - Replaced sprite-based ExtJS tool icons (close, gear, refresh, collapse/expand, maximize/restore, zoom) with crisp FontAwesome glyphs
