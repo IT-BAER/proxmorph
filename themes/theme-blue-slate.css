@@ -370,6 +370,26 @@ div.x-border-layout-ct {
   color: #fff !important;
 }
 
+/* Inline buttons (Documentation, Help) */
+.proxmox-inline-button {
+  height: 28px !important;
+  min-height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 3px 8px !important;
+  background-color: var(--pm-bg-surface) !important;
+  border: 1px solid var(--pm-border) !important;
+  border-radius: 6px !important;
+  color: var(--pm-text) !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.proxmox-inline-button:hover,
+.proxmox-inline-button.x-btn-over {
+  background-color: var(--pm-bg-elevated) !important;
+  border-color: var(--pm-border) !important;
+}
+
 /* ===== Forms - with GitHub-style rounded corners ===== */
 .x-form-text,
 .x-form-field,

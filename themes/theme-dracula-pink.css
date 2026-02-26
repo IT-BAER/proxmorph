@@ -1,4 +1,4 @@
-﻿/*!Dracula Pink*/
+/*!Dracula Pink*/
 /*
  * ProxMorph Theme: Dracula Pink
  * The canonical dark theme with Pink accent â€” ported from the Dracula specification
@@ -839,6 +839,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 /* Inline buttons (Documentation, Help) */
 .proxmox-inline-button {
+    height: 28px !important;
+    min-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 3px 8px !important;
     background-color: var(--drac-surface0) !important;
     border: 1px solid var(--drac-surface1) !important;
     border-radius: var(--pm-radius-md) !important;

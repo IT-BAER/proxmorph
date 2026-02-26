@@ -1425,6 +1425,11 @@ img[id^="proxmoxLogoSvg-"][id$="-img"] {
 
 /* Inline buttons (Documentation, Help) - GitHub Primer dark secondary button style */
 .proxmox-inline-button {
+    height: 28px !important;
+    min-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 3px 8px !important;
     background-color: #21262d !important;
     border: 1px solid #3d444d !important;
     border-radius: var(--gh-radius-md) !important;

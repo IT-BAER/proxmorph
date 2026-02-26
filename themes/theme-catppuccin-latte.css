@@ -1,4 +1,4 @@
-﻿/*!Catppuccin Latte*/
+/*!Catppuccin Latte*/
 /*
  * ProxMorph Theme: Catppuccin Latte
  * Soothing pastel theme for Proxmox VE â€” the official light flavor of Catppuccin
@@ -843,6 +843,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 /* Inline buttons (Documentation, Help) */
 .proxmox-inline-button {
+    height: 28px !important;
+    min-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 3px 8px !important;
     background-color: var(--ctp-surface0) !important;
     border: 1px solid var(--ctp-surface1) !important;
     border-radius: var(--pm-radius-md) !important;

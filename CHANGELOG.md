@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added hover, disabled, and inline FontAwesome states for consistent tool icon theming
 
 ### Fixed
+- **All Themes (21 files)** — Fixed Documentation button height mismatch:
+  - Documentation/Help inline buttons (`proxmox-inline-button`) were 24px while Create VM/CT/root buttons were 28px — added explicit `height: 28px`, `display: flex`, `align-items: center`, and consistent padding to `.proxmox-inline-button` across all themes
 - **All Themes (19 files)** — Issue [#23](https://github.com/IT-BAER/proxmorph/issues/23):
   - Fixed summary panel data values (Status, CPU, Memory, etc.) being invisible on node/VM/storage summary pages — removed `max-width: calc(50% - 10px)` constraint on `.x-panel.x-column` that clipped ExtJS-calculated inner widths, restoring native stacked vertical layout
 - **UniFi Theme** (v5.94):

@@ -3374,8 +3374,11 @@ svg.x-surface {
 
 /* Documentation button */
 .proxmox-inline-button {
+    height: 28px !important;
+    min-height: 28px !important;
     display: flex !important;
     align-items: center !important;
+    padding: 3px 8px !important;
 }
 
 /* Specific fix for fa-desktop icon (Create VM) - visually bottom-heavy */
