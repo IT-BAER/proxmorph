@@ -571,8 +571,8 @@ div.x-border-layout-ct {
 /* Column panels â€” gaps + max-width prevents scrollbar-induced sub-pixel overflow */
 .x-panel.x-column {
     padding: 5px !important;
-    margin: 5px !important;
-    max-width: calc(50% - 10px) !important;
+    margin: 0 !important;
+    max-width: none !important;
     box-sizing: border-box !important;
 }
 
@@ -2062,4 +2062,173 @@ div.x-datepicker-date:hover {
 /* Window close tool transition */
 .x-tool-img {
     transition: filter 0.15s ease !important;
+}
+
+/* =====================================================
+   TOOL ICONS - FontAwesome Replacements
+   (Ported from UniFi v5.86)
+   Replace sprite-based ExtJS tool icons with crisp
+   FontAwesome icons for better consistency and clarity
+   ===================================================== */
+
+/* Base styling for all tool icons - remove sprite backgrounds */
+.x-tool-tool-el.x-tool-minus,
+.x-tool-img.x-tool-minus,
+.x-tool-tool-el.x-tool-collapse-right,
+.x-tool-img.x-tool-collapse-right,
+.x-tool-tool-el.x-tool-collapse-left,
+.x-tool-img.x-tool-collapse-left,
+.x-tool-tool-el.x-tool-expand-right,
+.x-tool-img.x-tool-expand-right,
+.x-tool-tool-el.x-tool-expand-left,
+.x-tool-img.x-tool-expand-left,
+.x-tool-tool-el.x-tool-maximize,
+.x-tool-img.x-tool-maximize,
+.x-tool-tool-el.x-tool-restore,
+.x-tool-img.x-tool-restore,
+.x-tool-tool-el.x-tool-gear,
+.x-tool-img.x-tool-gear,
+.x-tool-tool-el.x-tool-refresh,
+.x-tool-img.x-tool-refresh,
+.x-tool-tool-el.x-tool-close,
+.x-tool-img.x-tool-close {
+    background-image: none !important;
+    font-family: "FontAwesome" !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+    text-align: center !important;
+    color: var(--pm-text-dim) !important;
+    transition: color 0.15s ease !important;
+    filter: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Close button - slightly larger */
+.x-tool-tool-el.x-tool-close,
+.x-tool-img.x-tool-close {
+    font-size: 20px !important;
+}
+
+/* Individual glyph assignments */
+.x-tool-tool-el.x-tool-minus::before,
+.x-tool-img.x-tool-minus::before {
+    content: "\f010" !important;  /* fa-search-minus (zoom out) */
+}
+
+.x-tool-tool-el.x-tool-collapse-right::before,
+.x-tool-img.x-tool-collapse-right::before {
+    content: "\f054" !important;  /* fa-chevron-right */
+}
+
+.x-tool-tool-el.x-tool-expand-left::before,
+.x-tool-img.x-tool-expand-left::before {
+    content: "\f053" !important;  /* fa-chevron-left */
+}
+
+.x-tool-tool-el.x-tool-collapse-left::before,
+.x-tool-img.x-tool-collapse-left::before {
+    content: "\f053" !important;  /* fa-chevron-left */
+}
+
+.x-tool-tool-el.x-tool-expand-right::before,
+.x-tool-img.x-tool-expand-right::before {
+    content: "\f054" !important;  /* fa-chevron-right */
+}
+
+.x-tool-tool-el.x-tool-maximize::before,
+.x-tool-img.x-tool-maximize::before {
+    content: "\f065" !important;  /* fa-expand */
+}
+
+.x-tool-tool-el.x-tool-restore::before,
+.x-tool-img.x-tool-restore::before {
+    content: "\f066" !important;  /* fa-compress */
+}
+
+.x-tool-tool-el.x-tool-gear::before,
+.x-tool-img.x-tool-gear::before {
+    content: "\f013" !important;  /* fa-cog */
+}
+
+.x-tool-tool-el.x-tool-refresh::before,
+.x-tool-img.x-tool-refresh::before {
+    content: "\f021" !important;  /* fa-refresh */
+}
+
+.x-tool-tool-el.x-tool-close::before,
+.x-tool-img.x-tool-close::before {
+    content: "\f00d" !important;  /* fa-times */
+}
+
+/* Hover state - all tool icons */
+.x-tool:hover .x-tool-tool-el.x-tool-minus,
+.x-tool:hover .x-tool-img.x-tool-minus,
+.x-tool:hover .x-tool-tool-el.x-tool-collapse-right,
+.x-tool:hover .x-tool-img.x-tool-collapse-right,
+.x-tool:hover .x-tool-tool-el.x-tool-collapse-left,
+.x-tool:hover .x-tool-img.x-tool-collapse-left,
+.x-tool:hover .x-tool-tool-el.x-tool-expand-right,
+.x-tool:hover .x-tool-img.x-tool-expand-right,
+.x-tool:hover .x-tool-tool-el.x-tool-expand-left,
+.x-tool:hover .x-tool-img.x-tool-expand-left,
+.x-tool:hover .x-tool-tool-el.x-tool-maximize,
+.x-tool:hover .x-tool-img.x-tool-maximize,
+.x-tool:hover .x-tool-tool-el.x-tool-restore,
+.x-tool:hover .x-tool-img.x-tool-restore,
+.x-tool:hover .x-tool-tool-el.x-tool-gear,
+.x-tool:hover .x-tool-img.x-tool-gear,
+.x-tool:hover .x-tool-tool-el.x-tool-refresh,
+.x-tool:hover .x-tool-img.x-tool-refresh,
+.x-tool:hover .x-tool-tool-el.x-tool-close,
+.x-tool:hover .x-tool-img.x-tool-close {
+    color: var(--pm-text) !important;
+}
+
+/* Disabled state */
+.x-tool-disabled .x-tool-tool-el,
+.x-tool-disabled .x-tool-img {
+    opacity: 0.4 !important;
+    cursor: default !important;
+}
+
+/* Inline FontAwesome tools (PVE-injected) */
+.x-tool-tool-el[style*="font-family:FontAwesome"],
+.x-tool-tool-el[style*="font-family: FontAwesome"] {
+    color: var(--pm-text-dim) !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 16px !important;
+    height: 16px !important;
+    transition: color 0.15s ease !important;
+    background-image: none !important;
+    background-color: transparent !important;
+}
+
+.x-tool:not(.x-tool-disabled) .x-tool-tool-el[style*="font-family:FontAwesome"],
+.x-tool:not(.x-tool-disabled) .x-tool-tool-el[style*="font-family: FontAwesome"] {
+    cursor: pointer !important;
+}
+
+.x-tool.x-tool-disabled .x-tool-tool-el[style*="font-family:FontAwesome"],
+.x-tool.x-tool-disabled .x-tool-tool-el[style*="font-family: FontAwesome"] {
+    cursor: default !important;
+    opacity: 0.4 !important;
+}
+
+.x-tool .x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    pointer-events: none !important;
+}
+
+.x-tool:not(.x-tool-disabled):hover .x-tool-tool-el[style*="font-family:FontAwesome"],
+.x-tool:not(.x-tool-disabled):hover .x-tool-tool-el[style*="font-family: FontAwesome"] {
+    color: var(--pm-text) !important;
 }

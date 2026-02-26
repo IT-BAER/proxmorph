@@ -5,6 +5,22 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **All Themes (19 files)** — Ported FontAwesome tool icon replacements from UniFi v5.86:
+  - Replaced sprite-based ExtJS tool icons (close, gear, refresh, collapse/expand, maximize/restore, zoom) with crisp FontAwesome glyphs
+  - Added hover, disabled, and inline FontAwesome states for consistent tool icon theming
+
+### Fixed
+- **All Themes (19 files)** — Issue [#23](https://github.com/IT-BAER/proxmorph/issues/23):
+  - Fixed summary panel data values (Status, CPU, Memory, etc.) being invisible on node/VM/storage summary pages — removed `max-width: calc(50% - 10px)` constraint on `.x-panel.x-column` that clipped ExtJS-calculated inner widths, restoring native stacked vertical layout
+- **UniFi Theme** (v5.94):
+  - Fixed PBS summary panel clipping after "Boot Mode" row — reduced widget padding (5px→3px) and added PBS-specific body padding rule
+  - Fixed CPU/RAM icons not loading on PBS — changed absolute paths (`/pve2/`, `/pwt/`) to relative paths (`../images/`) for PVE+PBS compatibility
+  - Fixed grid status icons (`.good`/`.warning`/`.critical`) showing grey instead of green/yellow/red — added specificity-matched color overrides after the broad `.fa` color rule
+  - Increased navigation tree icon-to-label gap (margin-left 20px→28px) for better readability
+
 ## [2.4.0] - 2026-02-25
 
 ### Added

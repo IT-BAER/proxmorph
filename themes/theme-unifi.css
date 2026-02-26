@@ -2,7 +2,7 @@
 /*
  * ProxMorph Theme: UniFi
  * Authentic recreation of Ubiquiti UniFi Network Application UI
- * Version: 5.93
+ * Version: 5.94
  * Author: N.E.S.T. / Dr. Dranglog
  * 
  * UniFi Color Palette (extracted from live instance):
@@ -527,14 +527,17 @@ i.pmx-itype-icon-memory,
     position: static !important;
 }
 
+/* v5.94: Use relative paths for PVE+PBS compatibility
+   PVE serves from /pwt/themes/ → ../images/ resolves to /pwt/images/
+   PBS serves from /widgettoolkit/themes/ → ../images/ resolves to /widgettoolkit/images/ */
 i.pmx-itype-icon-processor,
 .pmx-icon.pmx-itype-icon-processor {
-    background-image: url('/pve2/images/icon-cpu.svg') !important;
+    background-image: url('../images/icon-cpu.svg') !important;
 }
 
 i.pmx-itype-icon-memory,
 .pmx-icon.pmx-itype-icon-memory {
-    background-image: url('/pwt/images/icon-ram.svg') !important;
+    background-image: url('../images/icon-ram.svg') !important;
 }
 
 /* Disable ::before pseudo-elements on Summary panel icons */
@@ -1565,8 +1568,10 @@ div[id^="pveResourceTree-"][id$="-body"] {
 
 /* v5.32: Add padding gap to progress bar rows (CPU/Memory/SWAP/Bootdisk)
    Only targets containers with VISIBLE progress bars (excludes Status/HA State/Node/Unprivileged) */
+/* v5.94: Reduced vertical padding from 5px to 3px to prevent PBS summary panel clipping
+   (ExtJS calculates body height before CSS padding → overflow hidden clips bottom rows) */
 .x-container[id^="pmxInfoWidget"].x-box-layout-ct:has(.x-progress:not([style*="display: none"]):not([style*="display:none"])) {
-    padding: 5px 25px !important;
+    padding: 3px 25px !important;
 }
 
 /* v5.51: Fix horizontal padding alignment for rows with HIDDEN progress bars
@@ -1582,6 +1587,14 @@ div[id^="pveResourceTree-"][id$="-body"] {
 .x-container[id^="pmxNodeInfoRepoStatus"].x-box-layout-ct {
     padding-left: 25px !important;
     padding-right: 25px !important;
+}
+
+/* v5.94: Fix PBS summary panel clipping - reduce body padding to fit all rows
+   PBS panel has 9 info widgets in a smaller body (243px); default 15px top/bottom
+   padding causes scrollHeight to exceed clientHeight → bottom rows clipped */
+div[id^="pbsNodeInfoPanel"][id$="-body"] {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
 }
 
 /* v5.22: Removed height:inherit - only min-height:auto is needed */
@@ -3075,7 +3088,9 @@ div[class*="gauge"] {
     margin-top: 2px !important;
 }
 
+/* v5.94: Increased margin-left (20px→28px) for better icon-to-label gap */
 .x-treelist-item-text {
+    margin-left: 28px !important;
     line-height: 24px !important;
     display: flex !important;
     align-items: center !important;
@@ -3277,6 +3292,18 @@ html {
 .x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .x-tree-icon,
 .x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .fa {
     color: #B7BCC2 !important;
+}
+
+/* v5.94: Preserve status icon colors in grid items
+   The broad .fa color rule above overrides .good/.warning/.critical from ext6-pmx.css */
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .fa.good {
+    color: var(--pm-success) !important;
+}
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .fa.warning {
+    color: var(--pm-warning) !important;
+}
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-focused) .fa.critical {
+    color: var(--pm-error) !important;
 }
 
 /* Selected item text should be white */
