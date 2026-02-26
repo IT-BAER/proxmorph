@@ -25,22 +25,27 @@ jobs:
           # Extract the changelog section for this version
           VERSION="${{ steps.version.outputs.VERSION }}"
           
-          # Use awk to extract the section between this version and the next
-          CHANGELOG=$(awk -v ver="## [$VERSION]" '
-            $0 ~ ver { found=1; next }
-            found && /^## \[/ { exit }
+          # Use awk with index() for exact string match (avoids regex bracket issues)
+          CHANGELOG=$(awk -v ver="$VERSION" '
+            /^## \[/ {
+              if (found) exit
+              if (index($0, "[" ver "]") > 0) { found=1; next }
+            }
             found { print }
           ' CHANGELOG.md)
           
           # Handle multiline output
-          echo "BODY<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          {
+            echo "BODY<<EOF"
+            echo "$CHANGELOG"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: Create release archive
         run: |
           mkdir -p release
           cp install.sh release/
+          cp patch_theme_map.sh release/
           cp -r themes release/
           cp README.md release/
           cp CHANGELOG.md release/
@@ -48,12 +53,10 @@ jobs:
           cd .. && zip -r proxmorph-${{ steps.version.outputs.VERSION }}.zip release/
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           name: v${{ steps.version.outputs.VERSION }}
           body: ${{ steps.changelog.outputs.BODY }}
           files: |
             proxmorph-${{ steps.version.outputs.VERSION }}.tar.gz
             proxmorph-${{ steps.version.outputs.VERSION }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
