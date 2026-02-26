@@ -13,11 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added hover, disabled, and inline FontAwesome states for consistent tool icon theming
 
 ### Fixed
-- **All Themes (21 files)** — Fixed Documentation button height mismatch:
+- **All Themes (21 files)** — Fixed Documentation button height mismatch (Issue [#15](https://github.com/IT-BAER/proxmorph/issues/15)):
   - Documentation/Help inline buttons (`proxmox-inline-button`) were 24px while Create VM/CT/root buttons were 28px — added explicit `height: 28px`, `display: flex`, `align-items: center`, and consistent padding to `.proxmox-inline-button` across all themes
 - **All Themes (19 files)** — Issue [#23](https://github.com/IT-BAER/proxmorph/issues/23):
   - Fixed summary panel data values (Status, CPU, Memory, etc.) being invisible on node/VM/storage summary pages — removed `max-width: calc(50% - 10px)` constraint on `.x-panel.x-column` that clipped ExtJS-calculated inner widths, restoring native stacked vertical layout
-- **UniFi Theme** (v5.94):
+- **UniFi Theme** (v5.94) — Issue [#11](https://github.com/IT-BAER/proxmorph/issues/11):
   - Fixed PBS summary panel clipping after "Boot Mode" row — reduced widget padding (5px→3px) and added PBS-specific body padding rule
   - Fixed CPU/RAM icons not loading on PBS — changed absolute paths (`/pve2/`, `/pwt/`) to relative paths (`../images/`) for PVE+PBS compatibility
   - Fixed grid status icons (`.good`/`.warning`/`.critical`) showing grey instead of green/yellow/red — added specificity-matched color overrides after the broad `.fa` color rule
@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.5] - 2026-01-26
 
 ### Fixed
-- **UniFi Theme (v5.93)**:
+- **UniFi Theme (v5.93)** — Issue [#1](https://github.com/IT-BAER/proxmorph/issues/1):
   - Fixed task viewer/log viewer issues: content not visible on open, scrollbar not clickable, no auto-scroll to bottom
   - Root cause: `overflow: visible !important` rule on `.x-window .x-panel-body` completely broke native ExtJS scroll handling
   - Solution: **Removed the problematic overflow rule entirely** - the rule was added for "modal clipping" but caused more issues than it solved
@@ -88,7 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Root cause: `.running::after` rule (green status dot) has `content: "\f111" !important` which overrides `.lock-migrate::after` content when both classes are present
   - Solution: Added more specific `.running.lock-migrate::after` selector that shows the migrate icon (paper-plane) with amber color
   - Also added rules for `.lock-backup` and `.lock-suspending` states
-- **UniFi Theme (v5.89)**:
+- **UniFi Theme (v5.89)** — Issue [#3](https://github.com/IT-BAER/proxmorph/issues/3):
   - Fixed delete dialog warning text "Referenced disks will always be destroyed." being cut off
   - Root cause: ExtJS box layout set narrow container width (236px) causing text wrap, then 0px height due to absolute positioning
   - Solution: Added `white-space: nowrap` to `.pmx-hint` to keep text on single line
@@ -96,11 +96,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.4] - 2026-01-21
 
 ### Fixed
-- **Installer**:
+- **Installer** — Issue [#5](https://github.com/IT-BAER/proxmorph/issues/5):
   - Fixed `sed` delimiter issue during uninstall that caused "extra characters after command" error (PR #6 by @jiriteach)
   - Root cause: Marker text `<!-- /ProxMorph JS Patches -->` contained `/` which conflicted with sed's default delimiter
   - Solution: Use `|` as alternate delimiter and properly escape special regex characters
-- **UniFi Theme (v5.88)**:
+- **UniFi Theme (v5.88)** — Issue [#4](https://github.com/IT-BAER/proxmorph/issues/4):
   - Fixed "Finish Edit" checkmark button appearing on tags when not in edit mode
   - Root cause: `.x-btn-default-small { display: flex !important }` overrode Proxmox's inline `display: none`
   - Solution: Added rule to respect inline `display: none` styles for dynamically hidden buttons
@@ -120,7 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.2] - 2026-01-20
 
 ### Added
-- **Proxmox Backup Server (PBS) Support**:
+- **Proxmox Backup Server (PBS) Support** — Issue [#2](https://github.com/IT-BAER/proxmorph/issues/2):
   - The installer now officially supports PBS (v3.x/4.x)
   - Auto-detects product (PVE or PBS) and adjusts paths automatically
   - Native integration with PBS theme selector
