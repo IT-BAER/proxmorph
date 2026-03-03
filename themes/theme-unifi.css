@@ -461,57 +461,75 @@ div[class*="rrd"] img {
     filter: invert(90%);
 }
 
-/* v5.37: Resource grid icon inversion - exclude cells that contain text
-   The filter on TD cells was inverting both icons AND text, causing dark gray labels.
-   Solution: Remove filter from cells, apply via ::before pseudo-element to icon only */
-.pve-itype-icon-cpu,
-.pve-itype-icon-cdrom,
-.pve-itype-icon-memory,
-.pve-itype-icon-pci,
-.pve-itype-icon-serial,
-.pve-itype-icon-die,
+/* v5.37: Resource grid icon inversion - tree node icons only
+   Harddisk tree nodes are SVG background images that need inversion for dark themes */
 .x-tree-node-harddisk,
 .x-grid-tree-node-expanded .x-tree-node-harddisk {
     filter: invert(90%);
 }
 
-/* v5.37: Resource grid cells (td elements) - isolate filter to icons only */
-td.pmx-itype-icon-processor,
-td.pmx-itype-icon-memory,
-td.pve-itype-icon-storage {
+/* Fix #27: Resource grid cells (td.pve-itype-icon-*) — remove filter from TD so text
+   is NOT inverted. Strip original background-image and reconstruct icon via ::before
+   pseudo-element on .x-grid-cell-inner with filter applied to icon only. */
+td.pve-itype-icon-cpu,
+td.pve-itype-icon-memory,
+td.pve-itype-icon-cdrom,
+td.pve-itype-icon-pci,
+td.pve-itype-icon-serial,
+td.pve-itype-icon-die {
     filter: none !important;
     background-image: none !important;
-    position: relative !important;
-    padding-left: 26px !important;
+    padding-left: 0px !important;
 }
 
-/* Pseudo-element icons with filter applied only to the icon (td cells only) */
-td.pmx-itype-icon-processor::before,
-td.pmx-itype-icon-memory::before,
-td.pve-itype-icon-storage::before {
+/* Match FA row inner padding (4px) */
+td.pve-itype-icon-cpu > .x-grid-cell-inner,
+td.pve-itype-icon-memory > .x-grid-cell-inner,
+td.pve-itype-icon-cdrom > .x-grid-cell-inner,
+td.pve-itype-icon-pci > .x-grid-cell-inner,
+td.pve-itype-icon-serial > .x-grid-cell-inner,
+td.pve-itype-icon-die > .x-grid-cell-inner {
+    padding-left: 4px !important;
+}
+
+/* Inline-block pseudo-element icons — invert only the icon, not the text */
+td.pve-itype-icon-cpu > .x-grid-cell-inner::before,
+td.pve-itype-icon-memory > .x-grid-cell-inner::before,
+td.pve-itype-icon-cdrom > .x-grid-cell-inner::before,
+td.pve-itype-icon-pci > .x-grid-cell-inner::before,
+td.pve-itype-icon-serial > .x-grid-cell-inner::before,
+td.pve-itype-icon-die > .x-grid-cell-inner::before {
     content: '' !important;
-    position: absolute !important;
-    left: 6px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    width: 16px !important;
-    height: 16px !important;
-    background-size: contain !important;
+    display: inline-block !important;
+    width: 14px !important;
+    height: 14px !important;
+    vertical-align: middle !important;
+    margin-right: 4px !important;
+    background-size: 14px 14px !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     filter: invert(90%) !important;
 }
 
-td.pmx-itype-icon-processor::before {
+/* Individual icon URLs — pve-itype-icon-* classes are PVE-specific, so use /pve2/images/
+   (icon-cpu.svg exists in /pwt/images/ too, but memory/cdrom/pci/serial/die do NOT) */
+td.pve-itype-icon-cpu > .x-grid-cell-inner::before {
     background-image: url('/pve2/images/icon-cpu.svg') !important;
 }
-
-td.pmx-itype-icon-memory::before {
-    background-image: url('/pwt/images/icon-ram.svg') !important;
+td.pve-itype-icon-memory > .x-grid-cell-inner::before {
+    background-image: url('/pve2/images/icon-memory.svg') !important;
 }
-
-td.pve-itype-icon-storage::before {
-    background-image: url('/pve2/images/icon-harddisk.svg') !important;
+td.pve-itype-icon-cdrom > .x-grid-cell-inner::before {
+    background-image: url('/pve2/images/icon-cd-drive.svg') !important;
+}
+td.pve-itype-icon-pci > .x-grid-cell-inner::before {
+    background-image: url('/pve2/images/icon-pci.svg') !important;
+}
+td.pve-itype-icon-serial > .x-grid-cell-inner::before {
+    background-image: url('/pve2/images/icon-serial.svg') !important;
+}
+td.pve-itype-icon-die > .x-grid-cell-inner::before {
+    background-image: url('/pve2/images/icon-die.svg') !important;
 }
 
 /* v5.38: Summary panel icons (i elements) - reset to original Proxmox styling */
@@ -573,12 +591,7 @@ i.pmx-itype-icon-memory::before,
     transform: translate(-242px, 5px) !important;
 }
 
-/* Cell inner content alignment */
-.pmx-itype-icon-processor .x-grid-cell-inner,
-.pmx-itype-icon-memory .x-grid-cell-inner,
-.pve-itype-icon-storage .x-grid-cell-inner {
-    padding-left: 0 !important;
-}
+/* Cell inner content alignment — handled by Fix #27 td.pve-itype-icon-* rules above */
 
 /* v5.37: FontAwesome icons in resource grid (Swap, Root Disk) */
 .pve-itype-fa .x-grid-cell-inner {
@@ -865,9 +878,14 @@ tr:not(.x-grid-tree-node-expanded) .x-tree-expander::before {
     background-color: #0056CC;
 }
 
+/* Fix #29: Disabled buttons — explicit muted colors instead of opacity */
 .x-btn-default-small.x-btn.x-btn-disabled {
-    background-color: #006EFF;
-    opacity: 0.4;
+    opacity: 1 !important;
+    background-color: #003A80 !important;
+    border-color: #002D66 !important;
+}
+.x-btn-default-small.x-btn.x-btn-disabled .x-btn-inner {
+    color: #8A9099 !important;
 }
 
 /* Toolbar Buttons - Compact & Transparent */
@@ -915,7 +933,12 @@ tr:not(.x-grid-tree-node-expanded) .x-tree-expander::before {
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-disabled {
-    opacity: 0.4;
+    opacity: 1 !important;
+    background-color: rgba(40, 43, 47, 0.5) !important;
+    border-color: #282B2F !important;
+}
+.x-btn-default-toolbar-small.x-btn.x-btn-disabled .x-btn-inner {
+    color: #555B63 !important;
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-menu-active,
