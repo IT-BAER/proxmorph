@@ -188,7 +188,9 @@ Precision colors designed for machines and humans, based on [Solarized](https://
 
 ---
 
-## Other Themes
+## UniFi Collection
+
+Clean, modern themes inspired by the [Ubiquiti UniFi](https://ui.com/) Network Application interface.
 
 <table>
   <tr>
@@ -196,23 +198,35 @@ Precision colors designed for machines and humans, based on [Solarized](https://
       <h3>UniFi</h3>
       <img src="screenshots/unifi.png" alt="UniFi Theme" width="100%">
       <br>
-      <i>Inspired by Ubiquiti UniFi Network Application</i>
+      <i>Dark theme inspired by Ubiquiti UniFi Network Application</i>
     </td>
+    <td width="50%" align="center">
+      <h3>UniFi Light</h3>
+      <img src="screenshots/unifi-light.png" alt="UniFi Light Theme" width="100%">
+      <br>
+      <i>Light variant with clean white surfaces and blue accent</i>
+    </td>
+  </tr>
+</table>
+
+---
+
+## Other Themes
+
+<table>
+  <tr>
     <td width="50%" align="center">
       <h3>GitHub Dark</h3>
       <img src="screenshots/github-dark.png" alt="GitHub Dark Theme" width="100%">
       <br>
       <i>Based on GitHub Dark Dimmed theme</i>
     </td>
-  </tr>
-  <tr>
     <td width="50%" align="center">
       <h3>Blue Slate</h3>
       <img src="screenshots/blue-slate.png" alt="Blue Slate Theme" width="100%">
       <br>
       <i>Cool blue-gray tones with slate accent</i>
     </td>
-    <td width="50%"></td>
   </tr>
 </table>
 
