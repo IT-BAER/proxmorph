@@ -434,10 +434,10 @@ canvas.x-surface,
 .pve-itype-icon-storage,
 .x-tree-node-harddisk,
 .x-grid-tree-node-expanded .x-tree-node-harddisk {
-    filter: invert(90%);
+    filter: invert(100%);
 }
 
-/* Hardware icons — counter-invert text (black gets inverted to white by cell filter) */
+/* Hardware icons — counter-invert text (double invert(100%) cancels perfectly for text) */
 td.pve-itype-icon-cpu .x-grid-cell-inner,
 td.pve-itype-icon-cdrom .x-grid-cell-inner,
 td.pve-itype-icon-memory .x-grid-cell-inner,
@@ -446,7 +446,7 @@ td.pve-itype-icon-serial .x-grid-cell-inner,
 td.pve-itype-icon-die .x-grid-cell-inner,
 td.pve-itype-icon-storage .x-grid-cell-inner,
 td.x-tree-node-harddisk .x-grid-cell-inner {
-    color: black !important;
+    filter: invert(100%) !important;
 }
 
 /* Hardware icons — hide inverted borders */

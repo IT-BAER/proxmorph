@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Affected base themes: Catppuccin Mocha, Dracula, Tokyo Night, Nord Dark/Light, Solarized Dark/Light, Gruvbox Dark/Light (plus all generated variants)
 - **All Themes (22 files)** — Issue [#18](https://github.com/IT-BAER/proxmorph/issues/18):
   - Fixed panel title text being clipped by removing `overflow: hidden !important` from `.x-panel` rules across all themes
-  - Fixed Hardware tab text becoming invisible on SVG-icon rows (`pve-itype-icon-*`) due to `filter: invert(0.9)` — added counter-invert `color: black !important` on `.x-grid-cell-inner` children (7 dark themes + variants)
+  - Fixed Hardware tab text becoming invisible on SVG-icon rows (`pve-itype-icon-*`) due to `filter: invert()` — changed to `invert(100%)` with double-cancellation on `.x-grid-cell-inner` children for perfect text brightness matching (7 dark themes + variants)
   - Fixed bright border artifacts on inverted Hardware icon rows — added `border-color: transparent !important` on affected `<td>` cells (7 dark themes + variants)
   - Fixed SCSI Controller icon (`fa-database`) being incorrectly dimmed — removed `.fa-database::before` from the broad icon color override selector in all 13 base themes
   - Fixed panel title/header text clipped by border-radius — added `overflow: visible !important` on `.x-title-text`, `.x-title-text-default`, `.x-panel-header`, and `.x-panel-header-default` across all 11 non-UniFi base themes (root cause: global `.x-border-box *` border-radius interacting with ExtJS native `overflow: hidden`)
