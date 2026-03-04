@@ -1,17 +1,17 @@
 /*!Dracula Midnight*/
 /*
  * ProxMorph Theme: Dracula Midnight
- * The canonical dark theme with near-black backgrounds from the Dracula UI palette â€” ported from the Dracula specification
+ * The canonical dark theme with near-black backgrounds from the Dracula UI palette — ported from the Dracula specification
  * Version: 1.0.0
  * Author: ProxMorph / Dracula Theme (https://draculatheme.com)
  *
- * v1.0.0: Initial release â€” Tier 2 baseline with all fixes
+ * v1.0.0: Initial release — Tier 2 baseline with all fixes
  *         - Full Dracula palette with derived shades
  *         - All component sections ported from UniFi/Catppuccin reference
  *         - Console/Terminal, Charts, Progress bars, Buttons (28px),
  *           Dialog fixes, Tree cursor:pointer, APT repos, Tag checkmark
  *
- * â”€â”€â”€ Dracula Specification Palette â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+ * ─── Dracula Specification Palette ─────────────────────────────
  * Background:   #191a21    Current Line: #282a36
  * Foreground:   #f8f8f2    Comment:      #6272a4
  * Cyan:         #8be9fd    Green:        #50fa7b
@@ -19,7 +19,7 @@
  * Purple:       #bd93f9    Red:          #ff5555
  * Yellow:       #f1fa8c
  *
- * â”€â”€â”€ Derived Shades (ProxMorph) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+ * ─── Derived Shades (ProxMorph) ────────────────────────────────
  * Crust:        #121318    Mantle:       #15161e
  * Surface 0:    #21222c    Surface 1:    #282a36 (= Current Line)
  * Surface 2:    #343746    Overlay 0:    #6272a4 (= Comment)
@@ -84,12 +84,12 @@
     --pwt-chart-primary: var(--drac-purple);
     --pwt-chart-grid-stroke: var(--drac-surface1);
 
-    /* On Accent text â€” Background on colored backgrounds for contrast */
+    /* On Accent text — Background on colored backgrounds for contrast */
     --drac-on-accent: var(--drac-bg);
 
-    /* Hover overlay â€” Comment@12% */
+    /* Hover overlay — Comment@12% */
     --drac-hover-overlay: rgba(98, 114, 164, 0.12);
-    /* Selection overlay â€” Comment@25% */
+    /* Selection overlay — Comment@25% */
     --drac-select-overlay: rgba(98, 114, 164, 0.25);
     /* Accent muted (for focus rings) */
     --drac-accent-muted: rgba(189, 147, 249, 0.4);
@@ -100,7 +100,7 @@
 
 /* =====================================================
    GLOBAL BORDER-RADIUS ARCHITECTURE
-   (Ported from UniFi theme â€” reset everything, selectively re-apply)
+   (Ported from UniFi theme — reset everything, selectively re-apply)
    ===================================================== */
 .x-border-box,
 .x-border-box * {
@@ -175,7 +175,7 @@ th,
     border-radius: 0 !important;
 }
 
-/* Reset everything inside windows to 0 â€” then re-apply specific radii */
+/* Reset everything inside windows to 0 — then re-apply specific radii */
 .x-window *,
 .x-window .x-autocontainer-innerCt,
 .x-window .x-autocontainer-outerCt,
@@ -189,7 +189,7 @@ th,
     border-radius: 0 !important;
 }
 
-/* Chart canvas â€” no radius on data area */
+/* Chart canvas — no radius on data area */
 .x-chart-grid,
 .x-chart-axis,
 canvas.x-surface,
@@ -204,7 +204,7 @@ svg.x-surface,
     border-radius: 0 !important;
 }
 
-/* Legend color marker (dot) â€” keep circular */
+/* Legend color marker (dot) — keep circular */
 .x-legend-item-marker {
     border-radius: 50% !important;
 }
@@ -254,7 +254,7 @@ svg.x-surface,
     border-radius: 0 var(--pm-radius-sm) var(--pm-radius-sm) 0 !important;
 }
 
-/* Form trigger/text wrap â€” reset and re-apply */
+/* Form trigger/text wrap — reset and re-apply */
 .x-form-trigger-wrap,
 .x-form-trigger-wrap *,
 .x-form-text-wrap,
@@ -287,7 +287,7 @@ svg.x-surface,
     border-radius: 0 var(--pm-radius-sm) var(--pm-radius-sm) 0 !important;
 }
 
-/* Dialog form content padding â€” vertical only (horizontal causes ExtJS overflow) */
+/* Dialog form content padding — vertical only (horizontal causes ExtJS overflow) */
 .x-window .x-tabpanel-child .x-autocontainer-innerCt {
     padding: 12px 0 !important;
 }
@@ -374,10 +374,10 @@ div.x-border-layout-ct {
 }
 
 /* =====================================================
-   ICONS â€” Proxmox default colors for dark mode
+   ICONS — Proxmox default colors for dark mode
    ===================================================== */
 
-/* General icon colors â€” neutral gray for dark backgrounds */
+/* General icon colors — neutral gray for dark backgrounds */
 .x-tree-icon-custom,
 .x-grid-icon-custom,
 .fa-database::before,
@@ -397,13 +397,13 @@ div.x-border-layout-ct {
     color: var(--drac-overlay2) !important;
 }
 
-/* Folder icons â€” invert for dark mode */
+/* Folder icons — invert for dark mode */
 .x-tree-icon-parent:not(.x-tree-icon-custom)::before,
 .x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before {
     filter: invert(90%);
 }
 
-/* Various image-based icons â€” invert for visibility */
+/* Various image-based icons — invert for visibility */
 .fa-ceph::before,
 .fa-sdn::before,
 .fa-network-wired::before,
@@ -438,14 +438,14 @@ div.x-border-layout-ct {
     filter: invert(90%);
 }
 
-/* Icon overlays â€” default */
+/* Icon overlays — default */
 .x-tree-icon-custom::after,
 .x-grid-icon-custom::after {
     color: var(--drac-overlay2) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
-/* RUNNING VMs/CTs â€” Dracula Green */
+/* RUNNING VMs/CTs — Dracula Green */
 .x-tree-icon-custom.running::after,
 .x-grid-icon-custom.running::after,
 .x-treelist-item-icon.running::after {
@@ -453,14 +453,14 @@ div.x-border-layout-ct {
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
-/* ONLINE state â€” Green */
+/* ONLINE state — Green */
 .x-tree-icon-custom.online::after,
 .x-grid-icon-custom.online::after {
     color: var(--drac-green) !important;
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
-/* Stopped/offline â€” Overlay1 (muted gray) */
+/* Stopped/offline — Overlay1 (muted gray) */
 .x-tree-icon-custom.stopped,
 .x-tree-icon-custom.offline,
 .x-grid-icon-custom.stopped,
@@ -468,13 +468,13 @@ div.x-border-layout-ct {
     color: var(--drac-overlay1) !important;
 }
 
-/* Unknown state â€” Overlay1 */
+/* Unknown state — Overlay1 */
 .x-tree-icon-custom.unknown::after,
 .x-grid-icon-custom.unknown::after {
     color: var(--drac-overlay1) !important;
 }
 
-/* ERROR states â€” Dracula Red */
+/* ERROR states — Dracula Red */
 .x-tree-icon-custom.error::after,
 .x-tree-icon-custom.offline::after,
 .x-tree-icon-custom.ha-error::after,
@@ -485,7 +485,7 @@ div.x-border-layout-ct {
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
-/* PAUSED/SUSPENDED â€” Dracula Orange */
+/* PAUSED/SUSPENDED — Dracula Orange */
 .x-tree-icon-custom.paused::after,
 .x-tree-icon-custom.suspended::after,
 .x-tree-icon-custom.lock-suspending::after,
@@ -496,7 +496,7 @@ div.x-border-layout-ct {
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
-/* PENDING/WARNING states â€” Dracula Yellow */
+/* PENDING/WARNING states — Dracula Yellow */
 .x-tree-icon-custom.pending::after,
 .x-tree-icon-custom.io-error::after,
 .x-tree-icon-custom.internal-error::after,
@@ -509,7 +509,7 @@ div.x-border-layout-ct {
     text-shadow: -1px 0 1px rgba(0, 0, 0, 0.5);
 }
 
-/* HA MAINTENANCE â€” Dracula Cyan */
+/* HA MAINTENANCE — Dracula Cyan */
 .x-tree-icon-custom.ha-maintenance::after,
 .x-grid-icon-custom.ha-maintenance::after {
     color: var(--drac-cyan) !important;
@@ -568,7 +568,7 @@ div.x-border-layout-ct {
     padding: 0 !important;
 }
 
-/* Column panels â€” gaps + max-width prevents scrollbar-induced sub-pixel overflow */
+/* Column panels — native stacked layout (Issue #23 fix) */
 .x-panel.x-column {
     padding: 5px !important;
     margin: 0 !important;
@@ -576,7 +576,7 @@ div.x-border-layout-ct {
     box-sizing: border-box !important;
 }
 
-/* Column panel card styling â€” borders for summary + chart panels */
+/* Column panel card styling — borders for summary + chart panels */
 .x-panel.x-panel-default.x-column {
     border: 1px solid var(--drac-surface1) !important;
     border-radius: var(--pm-radius-lg) !important;
@@ -599,7 +599,7 @@ div.x-border-layout-ct {
     border: none !important;
 }
 
-/* Panel headers â€” bottom border only */
+/* Panel headers — bottom border only */
 .x-panel-header,
 .x-panel-header-default {
     background-color: var(--drac-mantle) !important;
@@ -644,19 +644,19 @@ div.x-border-layout-ct {
     filter: brightness(200%);
 }
 
-/* Resource tree â€” panel body border */
+/* Resource tree — panel body border */
 div[id^="pveResourceTree-"][id$="-body"] {
     border-color: var(--drac-base) !important;
 }
 
-/* Resource tree â€” remove row separators */
+/* Resource tree — remove row separators */
 [id^="pveResourceTree-"].x-tree-panel td.x-grid-cell,
 [id^="pveResourceTree-"].x-tree-panel .x-grid-td,
 [id^="pveResourceTree-"].x-tree-panel .x-grid-cell {
     border-bottom: none !important;
 }
 
-/* Resource tree â€” row spacing */
+/* Resource tree — row spacing */
 div[id^="pveResourceTree"] .x-grid-cell {
     padding-top: 3px !important;
     padding-bottom: 3px !important;
@@ -705,7 +705,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     opacity: 0.7;
 }
 
-/* Toolbox tree (pve-nav) right border â€” full height */
+/* Toolbox tree (pve-nav) right border — full height */
 .pve-toolbar-bg {
     border-right: 1px solid var(--drac-surface1) !important;
     z-index: 3 !important;
@@ -738,7 +738,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* =====================================================
-   PRIMARY BUTTONS â€” Dracula Purple
+   PRIMARY BUTTONS — Dracula Purple
    ===================================================== */
 .x-btn-default-small {
     background-color: var(--drac-purple) !important;
@@ -771,7 +771,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     background-color: #a986f0 !important;
 }
 
-/* Button height consistency â€” 28px with vertical centering */
+/* Button height consistency — 28px with vertical centering */
 /* Exclude tag edit buttons (display:none when hidden, :has(.fa-check) for checkmark) */
 .x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) {
     height: 28px !important;
@@ -779,6 +779,41 @@ div[id^="pveResourceTree"] .x-grid-cell {
     display: flex !important;
     align-items: center !important;
     padding: 3px 8px !important;
+}
+
+/* Fix button inner element centering for proper icon alignment (issue #17) */
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) .x-btn-wrap {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) .x-btn-inner {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Fix dropdown arrows on split/arrow buttons */
+.x-btn-wrap.x-btn-arrow-right::after,
+.x-btn-wrap.x-btn-split-right::after {
+    height: 16px !important;
+    min-height: 16px !important;
+    width: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Fix icon-only buttons — hide &nbsp; inner element when button has no text */
+.x-btn-no-text .x-btn-inner,
+.x-btn-button.x-btn-no-text .x-btn-inner,
+.x-btn-button-default-toolbar-small.x-btn-no-text .x-btn-inner-default-toolbar-small,
+.x-btn-button-default-small.x-btn-no-text .x-btn-inner-default-small,
+.x-btn-button-default-small.x-btn-no-text > .x-btn-inner-default-small {
+    display: none !important;
+}
+
+/* Specific fix for fa-desktop icon (Create VM) — visually bottom-heavy */
+.x-btn-icon-el.fa-desktop {
+    transform: translateY(1.1px) !important;
 }
 
 /* =====================================================
@@ -867,7 +902,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     color: var(--drac-text) !important;
 }
 
-/* Pressed/active inline buttons â€” use on-accent text */
+/* Pressed/active inline buttons — use on-accent text */
 .proxmox-inline-button.x-btn-pressed .x-btn-inner,
 .proxmox-inline-button.x-btn-pressed .x-btn-icon-el,
 .proxmox-inline-button.x-btn-menu-active .x-btn-inner,
@@ -926,7 +961,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* =====================================================
-   CHECKBOXES & RADIOS â€” Dracula styled
+   CHECKBOXES & RADIOS — Dracula styled
    ===================================================== */
 
 /* Base: remove sprite, styled as custom control */
@@ -981,7 +1016,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     border-color: var(--drac-purple) !important;
 }
 
-/* CHECKED checkbox â€” Purple fill + dark SVG checkmark */
+/* CHECKED checkbox — Purple fill + dark SVG checkmark */
 .x-form-cb-checked .x-form-checkbox,
 .x-form-cb-checked .x-form-checkbox-default {
     background-color: var(--drac-purple) !important;
@@ -992,7 +1027,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     background-size: 9px 7px !important;
 }
 
-/* SELECTED radio â€” Purple dot */
+/* SELECTED radio — Purple dot */
 .x-form-cb-checked .x-form-radio,
 .x-form-cb-checked .x-form-radio-default {
     border-color: var(--drac-purple) !important;
@@ -1252,7 +1287,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     color: var(--drac-text) !important;
 }
 
-/* Menu icon separator â€” hide */
+/* Menu icon separator — hide */
 .x-menu-icon-separator-default {
     display: none !important;
 }
@@ -1368,7 +1403,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     color: var(--drac-text) !important;
 }
 
-/* Text overlaid on the progress bar fill â€” use on-accent for contrast */
+/* Text overlaid on the progress bar fill — use on-accent for contrast */
 .x-progress-bar .x-progress-text {
     color: var(--drac-on-accent) !important;
 }
@@ -1382,7 +1417,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* =====================================================
-   TABS â€” Dracula underline style
+   TABS — Dracula underline style
    Flat tabs with Purple underline on active tab
    ===================================================== */
 .x-tab-bar,
@@ -1472,7 +1507,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     margin-bottom: 0 !important;
 }
 
-/* Focus states â€” no outline */
+/* Focus states — no outline */
 .x-keyboard-mode .x-tab-default.x-tab-focus,
 .x-keyboard-mode .x-tab-default.x-tab-focus.x-tab-active {
     background-color: transparent !important;
@@ -1580,7 +1615,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     margin-left: 28px !important;
 }
 
-/* Toolbox tree items â€” bright text */
+/* Toolbox tree items — bright text */
 .x-treelist-item-text,
 .x-treelist-item-icon,
 .x-treelist.x-treelist-pve-nav .x-treelist-item-text,
@@ -1588,7 +1623,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     color: var(--drac-subtext1) !important;
 }
 
-/* Hover state â€” apply to pseudo-element */
+/* Hover state — apply to pseudo-element */
 .x-treelist-row-over {
     background-color: transparent !important;
 }
@@ -1603,7 +1638,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     color: var(--drac-text) !important;
 }
 
-/* Selected/active item â€” Purple highlight */
+/* Selected/active item — Purple highlight */
 .x-treelist-item-selected > .x-treelist-row {
     background-color: transparent !important;
 }
@@ -1721,7 +1756,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     display: none !important;
 }
 
-/* Login dialog â€” clean inner panel borders */
+/* Login dialog — clean inner panel borders */
 .x-window:has(#pveloginrealm) .x-panel-body {
     border: none !important;
     background: transparent !important;
@@ -1816,7 +1851,7 @@ img[id^="proxmoxLogoSvg-"][id$="-img"] {
     color: var(--drac-cyan) !important;
 }
 
-/* Status text colors â€” Information â†’ Cyan */
+/* Status text colors — Information → Cyan */
 .info-blue {
     color: var(--drac-cyan) !important;
 }
@@ -1889,7 +1924,7 @@ span.proxmox-tag-light {
     border-radius: var(--pm-radius-md) !important;
 }
 
-/* Checkmark button in tag edit â€” match toolbar button size */
+/* Checkmark button in tag edit — match toolbar button size */
 .x-btn.x-btn-default-small:has(.fa-check) {
     min-height: 24px !important;
     height: 24px !important;

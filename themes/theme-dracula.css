@@ -781,6 +781,41 @@ div[id^="pveResourceTree"] .x-grid-cell {
     padding: 3px 8px !important;
 }
 
+/* Fix button inner element centering for proper icon alignment (issue #17) */
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) .x-btn-wrap {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.x-btn.x-btn-default-small:not(.x-btn-default-toolbar-small):not([style*="display: none"]):not([style*="display:none"]):not(:has(.fa-check)) .x-btn-inner {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Fix dropdown arrows on split/arrow buttons */
+.x-btn-wrap.x-btn-arrow-right::after,
+.x-btn-wrap.x-btn-split-right::after {
+    height: 16px !important;
+    min-height: 16px !important;
+    width: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Fix icon-only buttons — hide &nbsp; inner element when button has no text */
+.x-btn-no-text .x-btn-inner,
+.x-btn-button.x-btn-no-text .x-btn-inner,
+.x-btn-button-default-toolbar-small.x-btn-no-text .x-btn-inner-default-toolbar-small,
+.x-btn-button-default-small.x-btn-no-text .x-btn-inner-default-small,
+.x-btn-button-default-small.x-btn-no-text > .x-btn-inner-default-small {
+    display: none !important;
+}
+
+/* Specific fix for fa-desktop icon (Create VM) — visually bottom-heavy */
+.x-btn-icon-el.fa-desktop {
+    transform: translateY(1.1px) !important;
+}
+
 /* =====================================================
    SECONDARY / TOOLBAR BUTTONS
    ===================================================== */

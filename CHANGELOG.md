@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **9 Theme Families** — Issue [#17](https://github.com/IT-BAER/proxmorph/issues/17):
+  - Fixed icons misaligned in larger top-bar buttons (Create VM, Create CT, root@pam) across all UniFi-based themes except UniFi itself
+  - Ported 5 missing CSS blocks from the UniFi reference: `.x-btn-wrap` flex centering, `.x-btn-inner` flex centering, dropdown arrow alignment, icon-only button fix, and `.fa-desktop` translateY compensation
+  - Affected base themes: Catppuccin Mocha, Dracula, Tokyo Night, Nord Dark/Light, Solarized Dark/Light, Gruvbox Dark/Light (plus all generated variants)
+
 ## [2.4.1] - 2026-02-26
 
 ### Added
