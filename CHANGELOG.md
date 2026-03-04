@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **UniFi Light Theme** — contributed by [@OiCkilL](https://github.com/OiCkilL) ([PR #34](https://github.com/IT-BAER/proxmorph/pull/34)):
+  - Light variant of the UniFi theme with Tier 3 comprehensive coverage
+  - Includes custom chart patching (`unifi-light-charts.js`) for consistent light-mode chart colors
+
 ### Fixed
 - **9 Theme Families** — Issue [#17](https://github.com/IT-BAER/proxmorph/issues/17):
   - Fixed icons misaligned in larger top-bar buttons (Create VM, Create CT, root@pam) across all UniFi-based themes except UniFi itself
