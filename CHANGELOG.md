@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Native Hardware Sensor Monitoring** — Issue [#22](https://github.com/IT-BAER/proxmorph/issues/22):
+  - New `proxmorph-sensors.js` patch injects CPU/Storage thermal readings, fan speeds, and UPS status directly into the node Summary dashboard
+  - Auto-detects `lm-sensors` hardware: coretemp (Intel), k10temp (AMD), NVMe, SATA/drivetemp, and fan sensors
+  - Optional UPS monitoring via `upsc` (Network UPS Tools) — shows status, charge, load, and runtime
+  - Color-coded temperature warnings (yellow at 80°C, red at 95°C) using theme CSS variables (`--pm-warning`, `--pm-error`)
+  - Installer auto-detects available sensors and prompts to enable during `install.sh` — patches `Nodes.pm` API to expose `sensors -j` output
+  - Fully optional: can be enabled/disabled independently via `install.sh manage-sensors`
+  - Graceful degradation: shows "N/A" when lm-sensors is not installed or no sensors detected
 - **UniFi Light Theme** — contributed by [@OiCkilL](https://github.com/OiCkilL) ([PR #34](https://github.com/IT-BAER/proxmorph/pull/34)):
   - Light variant of the UniFi theme with Tier 3 comprehensive coverage
   - Includes custom chart patching (`unifi-light-charts.js`) for consistent light-mode chart colors

@@ -23,6 +23,11 @@ BACKUP_DIR="/root/.proxmorph-backup"
 GITHUB_REPO="IT-BAER/proxmorph"
 INSTALL_DIR="/opt/proxmorph"
 
+# Sensor support paths
+SENSORS_CONFIG="${INSTALL_DIR}/.sensors-enabled"
+NODES_PM="/usr/share/perl5/PVE/API2/Nodes.pm"
+SENSORS_PATCH_MARKER="# ProxMorph Sensors"
+
 # PVE-specific paths
 PVE_MANAGER_DIR="/usr/share/pve-manager"
 PVE_INDEX_TPL="${PVE_MANAGER_DIR}/index.html.tpl"
@@ -265,9 +270,14 @@ install_js_patches() {
     
     # Patch index template to load JS files
     if [[ -f "$INDEX_TEMPLATE" ]]; then
+        # If already patched, remove old block so we re-generate with current file list
         if grep -q "$JS_PATCH_MARKER" "$INDEX_TEMPLATE"; then
-            print_info "$(basename "$INDEX_TEMPLATE") already patched for JS"
-        else
+            local escaped_start_jp=$(printf '%s\n' "$JS_PATCH_MARKER" | sed 's/[]\/$*.^[]/\\&/g')
+            local escaped_end_jp=$(printf '%s\n' "$JS_PATCH_MARKER_END" | sed 's/[]\/$*.^[]/\\&/g')
+            sed -i "/${escaped_start_jp}/,/${escaped_end_jp}/d" "$INDEX_TEMPLATE"
+            print_info "Refreshing JS patch list in $(basename "$INDEX_TEMPLATE")"
+        fi
+        {
             local script_tags="$JS_PATCH_MARKER"
             local js_web_path=""
             
@@ -288,7 +298,7 @@ install_js_patches() {
             # Insert before </body>
             sed -i "s|</body>|${script_tags}\n</body>|" "$INDEX_TEMPLATE"
             print_status "Patched $(basename "$INDEX_TEMPLATE") with JS loader"
-        fi
+        }
     else
         print_warning "$(basename "$INDEX_TEMPLATE") not found - JS patches may not load"
     fi
@@ -414,6 +424,27 @@ if [ "\$needs_repatch" = "true" ]; then
         fi
     fi
     
+    # Re-apply Nodes.pm sensor patch if enabled
+    SENSORS_CONFIG="\${INSTALL_DIR}/.sensors-enabled"
+    NODES_PM="/usr/share/perl5/PVE/API2/Nodes.pm"
+    SENSORS_PATCH_MARKER="# ProxMorph Sensors"
+    if [ -f "\$SENSORS_CONFIG" ] && [ -f "\$NODES_PM" ]; then
+        if ! grep -q "\$SENSORS_PATCH_MARKER" "\$NODES_PM" 2>/dev/null; then
+            sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\
+    \${SENSORS_PATCH_MARKER}\\
+    \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\
+    if (-x '/usr/bin/upsc') {\\
+        my \@ups_list = \\\`upsc -l 2>/dev/null\\\`;\\
+        if (\@ups_list) {\\
+            chomp(my \\\$ups_name = \\\$ups_list[0]);\\
+            \\\$res->{upsData} = \\\`upsc \\\$ups_name 2>/dev/null\\\` if \\\$ups_name;\\
+        }\\
+    }\\
+    \${SENSORS_PATCH_MARKER} END" "\$NODES_PM"
+            log "Re-patched Nodes.pm for sensor data"
+        fi
+    fi
+
     # Restart proxy service to apply changes
     systemctl restart "\$PROXY_SERVICE" 2>/dev/null || true
     log "ProxMorph patches re-applied successfully"
@@ -447,6 +478,212 @@ check_apt_hook() {
         return 0
     fi
     return 1
+}
+
+# ─── Hardware Sensor Support (PVE only) ─────────────────────────
+
+# Check if lm-sensors is available and what sensors exist
+detect_sensors() {
+    if [[ "$PRODUCT" != "PVE" ]]; then
+        print_warning "Hardware sensor support is only available for Proxmox VE"
+        return 1
+    fi
+
+    if ! command -v sensors &> /dev/null; then
+        print_warning "lm-sensors is not installed"
+        print_info "Install with: apt install lm-sensors && sensors-detect"
+        return 1
+    fi
+
+    local sensor_output
+    sensor_output=$(sensors -j 2>/dev/null) || true
+
+    if [[ -z "$sensor_output" ]]; then
+        print_warning "No sensor data available. Run 'sensors-detect' first."
+        return 1
+    fi
+
+    # Report detected sensors
+    local has_cpu=false has_nvme=false has_hdd=false has_fan=false has_ups=false
+
+    echo "$sensor_output" | grep -q '"coretemp-isa-\|"k10temp-pci-' && has_cpu=true
+    echo "$sensor_output" | grep -q '"nvme-pci-' && has_nvme=true
+    echo "$sensor_output" | grep -q '"drivetemp-scsi-' && has_hdd=true
+    echo "$sensor_output" | grep -q 'fan[0-9]*_input' && has_fan=true
+    command -v upsc &> /dev/null && has_ups=true
+
+    echo ""
+    print_info "Detected hardware sensors:"
+    [[ "$has_cpu"  == "true" ]] && echo -e "  ${GREEN}●${NC} CPU temperature (coretemp/k10temp)"
+    [[ "$has_nvme" == "true" ]] && echo -e "  ${GREEN}●${NC} NVMe drive temperature"
+    [[ "$has_hdd"  == "true" ]] && echo -e "  ${GREEN}●${NC} HDD drive temperature (drivetemp)"
+    [[ "$has_fan"  == "true" ]] && echo -e "  ${GREEN}●${NC} Fan speed"
+    [[ "$has_ups"  == "true" ]] && echo -e "  ${GREEN}●${NC} UPS monitoring (NUT)"
+
+    [[ "$has_cpu" == "false" && "$has_nvme" == "false" && "$has_hdd" == "false" && "$has_fan" == "false" ]] && {
+        print_warning "No supported sensors found in lm-sensors output"
+        return 1
+    }
+    echo ""
+    return 0
+}
+
+# Patch Nodes.pm to expose sensor data via the API
+patch_nodes_pm() {
+    if [[ ! -f "$NODES_PM" ]]; then
+        print_error "Nodes.pm not found at $NODES_PM"
+        return 1
+    fi
+
+    # Check if already patched
+    if grep -q "$SENSORS_PATCH_MARKER" "$NODES_PM" 2>/dev/null; then
+        print_info "Nodes.pm already patched for sensors"
+        return 0
+    fi
+
+    # Backup Nodes.pm
+    if [[ ! -f "${BACKUP_DIR}/Nodes.pm.original" ]]; then
+        mkdir -p "$BACKUP_DIR"
+        cp "$NODES_PM" "${BACKUP_DIR}/Nodes.pm.original"
+        print_info "Backed up Nodes.pm"
+    fi
+
+    # Insert sensor data collection before 'my $dinfo = df('/', 1);'
+    sed -i "/^\s*my \$dinfo = df/i\\
+    ${SENSORS_PATCH_MARKER}\\
+    \$res->{sensorsOutput} = \`sensors -j 2>/dev/null\`;\\
+    if (-x '/usr/bin/upsc') {\\
+        my \@ups_list = \`upsc -l 2>/dev/null\`;\\
+        if (\@ups_list) {\\
+            chomp(my \$ups_name = \$ups_list[0]);\\
+            \$res->{upsData} = \`upsc \$ups_name 2>/dev/null\` if \$ups_name;\\
+        }\\
+    }\\
+    ${SENSORS_PATCH_MARKER} END" "$NODES_PM"
+
+    print_status "Patched Nodes.pm to expose hardware sensor data"
+    return 0
+}
+
+# Remove sensor patches from Nodes.pm
+unpatch_nodes_pm() {
+    if [[ ! -f "$NODES_PM" ]]; then
+        return 0
+    fi
+
+    if ! grep -q "$SENSORS_PATCH_MARKER" "$NODES_PM" 2>/dev/null; then
+        return 0
+    fi
+
+    # Remove lines between our markers (inclusive)
+    sed -i "/${SENSORS_PATCH_MARKER}/,/${SENSORS_PATCH_MARKER} END/d" "$NODES_PM"
+    print_status "Removed sensor patches from Nodes.pm"
+}
+
+# Install sensor support interactively
+install_sensors() {
+    if [[ "$PRODUCT" != "PVE" ]]; then
+        return 0
+    fi
+
+    if ! detect_sensors; then
+        return 0
+    fi
+
+    read -p "Enable hardware sensor monitoring in the dashboard? [y/N]: " sensor_choice
+    case "$sensor_choice" in
+        [Yy]|[Yy][Ee][Ss])
+            patch_nodes_pm || return 1
+            mkdir -p "$INSTALL_DIR"
+            echo "enabled" > "$SENSORS_CONFIG"
+            print_status "Hardware sensor monitoring enabled!"
+            ;;
+        *)
+            print_info "Skipping sensor integration (can be enabled later with: install.sh sensors enable)"
+            ;;
+    esac
+}
+
+# Remove sensor support
+remove_sensors() {
+    unpatch_nodes_pm
+    if [[ -f "$SENSORS_CONFIG" ]]; then
+        rm -f "$SENSORS_CONFIG"
+        print_info "Sensor configuration removed"
+    fi
+}
+
+# Check if sensors are enabled
+check_sensors() {
+    if [[ -f "$SENSORS_CONFIG" ]] && grep -q "$SENSORS_PATCH_MARKER" "$NODES_PM" 2>/dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+# Manage sensors subcommand
+manage_sensors() {
+    local action="${1:-status}"
+
+    case "$action" in
+        enable)
+            if [[ "$PRODUCT" != "PVE" ]]; then
+                print_error "Sensor support is only available for Proxmox VE"
+                exit 1
+            fi
+            detect_sensors || exit 1
+            patch_nodes_pm || exit 1
+            mkdir -p "$INSTALL_DIR"
+            echo "enabled" > "$SENSORS_CONFIG"
+            print_status "Hardware sensor monitoring enabled!"
+            print_info "Restarting ${PROXY_SERVICE}..."
+            nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+            ;;
+        disable)
+            remove_sensors
+            print_status "Hardware sensor monitoring disabled"
+            print_info "Restarting ${PROXY_SERVICE}..."
+            nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+            ;;
+        detect)
+            detect_sensors
+            ;;
+        status|*)
+            if check_sensors; then
+                echo -e "  Sensors:    ${GREEN}Enabled${NC}"
+            else
+                echo -e "  Sensors:    ${YELLOW}Disabled${NC}"
+            fi
+            ;;
+    esac
+}
+
+# Interactive sensors management menu (called from show_menu option 7)
+manage_sensors_menu() {
+    if [[ "$PRODUCT" != "PVE" ]]; then
+        print_error "Sensor support is only available for Proxmox VE"
+        return
+    fi
+    
+    echo ""
+    echo "=== Hardware Sensor Management ==="
+    echo ""
+    manage_sensors status
+    echo ""
+    echo "  1) Enable sensors"
+    echo "  2) Disable sensors"
+    echo "  3) Detect available sensors"
+    echo "  0) Back to main menu"
+    echo ""
+    read -p "Enter choice [0-3]: " sensor_choice
+    
+    case $sensor_choice in
+        1) manage_sensors enable ;;
+        2) manage_sensors disable ;;
+        3) manage_sensors detect ;;
+        0) show_menu ;;
+        *) print_error "Invalid option" ; manage_sensors_menu ;;
+    esac
 }
 
 # Get themes source directory - prioritizes local script directory, then /opt/proxmorph
@@ -539,6 +776,13 @@ install_themes() {
     
     # Write version file
     echo "$VERSION" > "${INSTALL_DIR}/.version"
+    
+    # Offer hardware sensor integration (PVE only)
+    if [[ "$PRODUCT" == "PVE" ]]; then
+        echo ""
+        install_sensors
+    fi
+    
     echo ""
     print_status "ProxMorph themes installed successfully!"
     echo ""
@@ -603,6 +847,9 @@ uninstall_themes() {
     
     # Remove JavaScript patches
     remove_js_patches
+    
+    # Remove sensor patches
+    remove_sensors
     
     # Remove apt hook
     remove_apt_hook
@@ -709,6 +956,11 @@ show_status() {
         echo -e "  Auto-patch: ${YELLOW}Not installed${NC}"
     fi
     
+    # Sensor status (PVE only)
+    if [[ "$PRODUCT" == "PVE" ]]; then
+        manage_sensors status
+    fi
+    
     echo ""
     list_themes
 }
@@ -723,9 +975,10 @@ show_menu() {
     echo "  4) Uninstall themes"
     echo "  5) List themes"
     echo "  6) Show status"
+    [[ "$PRODUCT" == "PVE" ]] && echo "  7) Manage sensors"
     echo "  0) Exit"
     echo ""
-    read -p "Enter choice [0-6]: " choice
+    read -p "Enter choice [0-7]: " choice
     
     case $choice in
         1) install_themes ;;
@@ -734,6 +987,7 @@ show_menu() {
         4) uninstall_themes ;;
         5) list_themes ;;
         6) show_status ;;
+        7) manage_sensors_menu ;;
         0) exit 0 ;;
         *) print_error "Invalid option" ; show_menu ;;
     esac
@@ -766,6 +1020,9 @@ main() {
             ;;
         check)
             check_updates
+            ;;
+        sensors)
+            manage_sensors "${2:-status}"
             ;;
         *)
             show_menu
