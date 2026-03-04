@@ -138,6 +138,7 @@
 | Dialog fixed-width text wrapping fix (`white-space: nowrap`) | ✅ (v5.24) | ❌ | ❌ | ❌ |
 | Invalid field indicator | ✅ | ✅ | ✅ | ❌ |
 | Bound list dropdown (`.x-boundlist-list-ct`) | ✅ | ✅ | ✅ | ✅ |
+| Boundlist item border/focus fix (Issue #24) | N/A | ✅ (`border: none`, `outline: none`) | ✅ | N/A |
 | Display/text field (read-only) | ✅ | ✅ | ✅ | ❌ |
 | Tag editor (`.proxmox-tags-full`, `.proxmox-tag-dark/light`) | ✅ (v5.29+) | ✅ | ✅ | ❌ |
 
@@ -168,6 +169,7 @@
 | Menu item hover/active | ✅ | ✅ | ✅ | ✅ |
 | Menu separator (`.x-menu-item-separator`) | ✅ | ✅ | ✅ | ✅ |
 | Menu icon column | ✅ | ✅ (flexbox layout with icon reordering) | ✅ | ❌ |
+| Menu icon alignment fix (`.x-menu-item-default > .x-menu-item-link`) | N/A | ✅ (Issue #24) | ✅ | N/A |
 | Menu arrow (`.x-menu-item-arrow`) | ❌ | ✅ (`order: 2` for submenu arrows) | ❌ | ❌ |
 | Slide/fade animation | ✅ | ❌ | ❌ | ❌ |
 | Context menu radius | ✅ | ✅ | ✅ | ❌ |

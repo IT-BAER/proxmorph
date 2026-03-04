@@ -1014,7 +1014,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
     border: 1px solid var(--grv-surface1) !important;
     border-radius: var(--pm-radius-md) !important;
     box-shadow: 0 8px 24px rgba(30, 31, 41, 0.7) !important;
-    padding: 4px !important;
+    padding: 2px !important;
     overflow: hidden !important;
 }
 
@@ -1022,9 +1022,10 @@ div[id^="pveResourceTree"] .x-grid-cell {
     background-color: transparent !important;
     color: var(--grv-text) !important;
     border-radius: var(--pm-radius-sm) !important;
-    padding: 6px 10px !important;
-    line-height: 20px !important;
-    border: 1px solid transparent !important;
+    padding: 2px 6px !important;
+    line-height: normal !important;
+    border: none !important;
+    cursor: pointer !important;
     outline: none !important;
     box-shadow: none !important;
 }
@@ -1260,18 +1261,18 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* Menu item layout (flexbox reordering) */
-.x-menu-item-link-default {
+.x-menu-item-default > .x-menu-item-link {
     display: flex !important;
     align-items: center !important;
     flex-direction: row !important;
-    gap: 8px !important;
+    gap: 4px !important;
     justify-content: flex-start !important;
     flex-wrap: nowrap !important;
-    min-height: 28px !important;
     border-radius: var(--pm-radius-md) !important;
-    padding: 6px 10px !important;
+    padding: 4px 8px !important;
     line-height: 20px !important;
-    border: 1px solid transparent !important;
+    border: none !important;
+    cursor: pointer !important;
     outline: none !important;
     box-shadow: none !important;
     white-space: nowrap !important;
@@ -1280,7 +1281,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-menu-item-text-default {
     color: var(--grv-text) !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     order: 1 !important;
     margin-left: 0 !important;
     text-align: left !important;
@@ -2032,7 +2033,7 @@ div.x-datepicker-date:hover {
 }
 
 /* Menu item transitions */
-.x-menu-item-link-default {
+.x-menu-item-default > .x-menu-item-link {
     transition: background-color 0.12s ease !important;
 }
 

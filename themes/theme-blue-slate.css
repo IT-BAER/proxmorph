@@ -472,12 +472,12 @@ div.x-border-layout-ct {
 }
 
 .x-menu-item-link,
-.x-menu-item-link-default {
+.x-menu-item-default > .x-menu-item-link {
   background-color: transparent !important;
 }
 
 .x-menu-item-link:hover,
-.x-menu-item-link-default:hover {
+.x-menu-item-default > .x-menu-item-link:hover {
   background-color: var(--pm-bg-elevated) !important;
 }
 

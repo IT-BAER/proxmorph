@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Includes custom chart patching (`unifi-light-charts.js`) for consistent light-mode chart colors
 
 ### Fixed
+- **20 Themes** — Issue [#24](https://github.com/IT-BAER/proxmorph/issues/24):
+  - Fixed dropdown context menu icons aligned to the right instead of left — root cause: CSS targeted non-existent `.x-menu-item-link-default` class; changed selector to `.x-menu-item-default > .x-menu-item-link` across all affected themes
+  - Fixed ugly dotted focus borders on boundlist dropdown items (e.g. Server View selector) — added `border: none !important` and `outline: none !important` to `.x-boundlist-item` rules
+  - Standardized boundlist item padding (`4px 8px`) and cursor (`pointer`) across all themes for consistent dropdown appearance
 - **9 Theme Families** — Issue [#17](https://github.com/IT-BAER/proxmorph/issues/17):
   - Fixed icons misaligned in larger top-bar buttons (Create VM, Create CT, root@pam) across all UniFi-based themes except UniFi itself
   - Ported 5 missing CSS blocks from the UniFi reference: `.x-btn-wrap` flex centering, `.x-btn-inner` flex centering, dropdown arrow alignment, icon-only button fix, and `.fa-desktop` translateY compensation

@@ -1028,7 +1028,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* Menu Layout Fix (Flexbox reordering) */
-.x-menu-item-link-default {
+.x-menu-item-default > .x-menu-item-link {
     display: flex !important;
     align-items: center !important;
     flex-direction: row !important;
@@ -1608,7 +1608,7 @@ div.x-datepicker-date:hover {
     color: var(--gh-fg-default) !important;
 }
 
-.x-menu-item-link-default {
+.x-menu-item-default > .x-menu-item-link {
     display: flex !important;
     align-items: center !important;
     flex-direction: row !important;
@@ -1617,9 +1617,10 @@ div.x-datepicker-date:hover {
     flex-wrap: nowrap !important;
     min-height: 28px !important;
     border-radius: 6px !important;
-    padding: 6px 10px !important;
+    padding: 6px 8px !important;
     line-height: 20px !important;
-    border: 1px solid transparent !important;
+    border: none !important;
+    cursor: pointer !important;
     outline: none !important;
     box-shadow: none !important;
     white-space: nowrap !important;
@@ -1627,7 +1628,7 @@ div.x-datepicker-date:hover {
 
 .x-menu-item-text-default {
     color: var(--gh-fg-default) !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
 }
 
 .x-menu-item-icon-default {
@@ -1664,8 +1665,8 @@ div.x-datepicker-date:hover {
     white-space: nowrap !important;
 }
 
-.x-menu-item-link-default > .x-menu-item-icon-default,
-.x-menu-item-link-default > .x-menu-item-text-default {
+.x-menu-item-default > .x-menu-item-link > .x-menu-item-icon-default,
+.x-menu-item-default > .x-menu-item-link > .x-menu-item-text-default {
     width: auto !important;
     max-width: none !important;
 }
@@ -1702,15 +1703,16 @@ div.x-datepicker-date:hover {
     border: 1px solid var(--gh-border-muted) !important;
     border-radius: 6px !important;
     box-shadow: 0 8px 24px rgba(1, 4, 9, 0.8) !important;
-    padding: 4px !important;
+    padding: 2px !important;
     overflow: hidden !important;
 }
 
 .x-boundlist-item {
     border-radius: 6px !important;
-    padding: 6px 10px !important;
-    line-height: 20px !important;
-    border: 1px solid transparent !important;
+    padding: 2px 6px !important;
+    line-height: normal !important;
+    border: none !important;
+    cursor: pointer !important;
     outline: none !important;
     box-shadow: none !important;
 }
