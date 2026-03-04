@@ -342,7 +342,6 @@ div.x-border-layout-ct {
 /* General icon colors — neutral gray for dark backgrounds */
 .x-tree-icon-custom,
 .x-grid-icon-custom,
-.fa-database::before,
 .fa-tags::before,
 .fa-file-o::before,
 .fa-building::before,
@@ -526,7 +525,6 @@ div.x-border-layout-ct {
 .x-panel,
 .x-panel-default {
     border-radius: var(--pm-radius-lg) !important;
-    overflow: hidden !important;
     padding: 0 !important;
 }
 
@@ -572,6 +570,13 @@ div.x-border-layout-ct {
     padding: 8px 12px !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+/* Title text — prevent border-radius clipping */
+.x-title-text,
+.x-title-text-default {
+    overflow: visible !important;
 }
 
 .x-panel-bodyWrap,

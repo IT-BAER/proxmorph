@@ -412,7 +412,6 @@ div[class*="rrd"] img {
    ICONS - Native colors for light mode (no inversion needed)
    ===================================================== */
 /* General icons - gray color */
-.fa-database::before,
 .fa-tags::before,
 .fa-file-o::before,
 .fa-building::before,

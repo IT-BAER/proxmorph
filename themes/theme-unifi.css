@@ -412,7 +412,6 @@ div[class*="rrd"] img {
    ICONS - Inverted for dark mode
    ===================================================== */
 /* General icons - gray color */
-.fa-database::before,
 .fa-tags::before,
 .fa-file-o::before,
 .fa-building::before,

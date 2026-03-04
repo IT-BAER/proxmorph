@@ -56,7 +56,6 @@ div.x-border-layout-ct {
 
 .x-panel-default {
   border-radius: 6px !important;
-  overflow: hidden !important;
 }
 
 .x-window {
@@ -77,6 +76,13 @@ div.x-border-layout-ct {
 
 .x-panel-header-default {
   border-radius: 6px 6px 0 0 !important;
+  overflow: visible !important;
+}
+
+/* Title text — prevent border-radius clipping */
+.x-title-text,
+.x-title-text-default {
+  overflow: visible !important;
 }
 
 .x-window-header-default {
@@ -750,7 +756,6 @@ img[id^=proxmoxLogoSvg-][id$=-img] {
 
 /* ===== Icons - Invert for dark mode ===== */
 /* General icons - set color for dark theme */
-.fa-database::before,
 .fa-tags::before,
 .fa-file-o::before,
 .fa-building::before,
