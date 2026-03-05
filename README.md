@@ -7,6 +7,7 @@ Custom themes for Proxmox VE (PVE) and Proxmox Backup Server (PBS) that integrat
 - **Native Integration** - Themes appear in built-in Color Theme dropdown (PVE and PBS)
 - **Auto-Patch on Updates** - Automatically re-applies themes after product updates
 - **Hybrid Engine** - CSS for styling + JavaScript for dynamic chart patching
+- **Hardware Sensor Monitoring** - Optional CPU/storage temps, fan speeds, and UPS status on node Summary dashboard
 - **Easy Installation** - Single command installation for both PVE and PBS
 
 ## 📸 Screenshot
@@ -17,7 +18,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 
 ## 🎨 Themes
 
-**21 themes** across 9 collections. Featured themes below — [**View Full Gallery →**](THEMES.md)
+**22 themes** across 9 collections. Featured themes below — [**View Full Gallery →**](THEMES.md)
 
 <table>
   <tr>
@@ -61,7 +62,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 | Gruvbox | Dark, Light |
 | Solarized | Dark, Light |
 | Tokyo Night | — |
-| UniFi | — |
+| UniFi | Dark, Light |
 | GitHub Dark | — |
 | Blue Slate | — |
 
@@ -98,6 +99,7 @@ chmod +x install.sh
 | `./install.sh uninstall` | Remove themes |
 | `./install.sh update` or `bash <(curl -fsSL https://raw.githubusercontent.com/IT-BAER/proxmorph/main/install.sh) update` | Updates (latest from GitHub) and install the latest themes |
 | `./install.sh status` | Show installation status |
+| `./install.sh manage-sensors` | Enable/disable hardware sensor monitoring |
 
 ## 🛠️ Creating Themes
 
