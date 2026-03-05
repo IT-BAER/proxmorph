@@ -2611,9 +2611,7 @@ td,
 
 /* Summary status grid - the table with CPU/Memory/etc */
 /* FIX v5.18: Removed overflow:hidden to restore content visibility */
-.pve-info-grid,
-.x-panel-default .x-grid,
-.x-container .x-grid-view {
+.pve-info-grid {
     border-radius: 12px !important;
 }
 

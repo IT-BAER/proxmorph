@@ -469,29 +469,108 @@ div.x-border-layout-ct {
     filter: invert(100%);
 }
 
-/* Hardware icons — counter-invert text (double invert(100%) cancels perfectly for text) */
-td.pve-itype-icon-cpu .x-grid-cell-inner,
-td.pve-itype-icon-cdrom .x-grid-cell-inner,
-td.pve-itype-icon-memory .x-grid-cell-inner,
-td.pve-itype-icon-pci .x-grid-cell-inner,
-td.pve-itype-icon-serial .x-grid-cell-inner,
-td.pve-itype-icon-die .x-grid-cell-inner,
+/* Hardware icons — counter-invert for non-SVG icon cells */
 td.pve-itype-icon-storage .x-grid-cell-inner,
 td.x-tree-node-harddisk .x-grid-cell-inner {
     filter: invert(100%) !important;
 }
 
-/* Hardware icons — hide inverted borders */
+/* Hardware icons — hide inverted borders for non-SVG icon cells */
+td.pve-itype-icon-storage,
+td.x-tree-node-harddisk {
+    border-color: transparent !important;
+}
+
+/* Hardware grid icons — mask-image renders SVG icons in theme text color
+   Replaces filter:invert approach for pve-itype-icon-* and pmx-itype-icon-* grid cells */
 td.pve-itype-icon-cpu,
 td.pve-itype-icon-cdrom,
 td.pve-itype-icon-memory,
 td.pve-itype-icon-pci,
 td.pve-itype-icon-serial,
 td.pve-itype-icon-die,
-td.pve-itype-icon-storage,
-td.x-tree-node-harddisk {
+td.pmx-itype-icon-processor,
+td.pmx-itype-icon-memory {
+    filter: none !important;
+    background-image: none !important;
+    padding-left: 0 !important;
     border-color: transparent !important;
 }
+
+td.pve-itype-icon-cpu .x-grid-cell-inner,
+td.pve-itype-icon-cdrom .x-grid-cell-inner,
+td.pve-itype-icon-memory .x-grid-cell-inner,
+td.pve-itype-icon-pci .x-grid-cell-inner,
+td.pve-itype-icon-serial .x-grid-cell-inner,
+td.pve-itype-icon-die .x-grid-cell-inner,
+td.pmx-itype-icon-processor .x-grid-cell-inner,
+td.pmx-itype-icon-memory .x-grid-cell-inner {
+    padding-left: 3px !important;
+}
+
+td.pve-itype-icon-cpu .x-grid-cell-inner::before,
+td.pve-itype-icon-cdrom .x-grid-cell-inner::before,
+td.pve-itype-icon-memory .x-grid-cell-inner::before,
+td.pve-itype-icon-pci .x-grid-cell-inner::before,
+td.pve-itype-icon-serial .x-grid-cell-inner::before,
+td.pve-itype-icon-die .x-grid-cell-inner::before,
+td.pmx-itype-icon-processor .x-grid-cell-inner::before,
+td.pmx-itype-icon-memory .x-grid-cell-inner::before {
+    content: '' !important;
+    display: inline-block !important;
+    width: 18px !important;
+    height: 14px !important;
+    vertical-align: middle !important;
+    margin-right: 10px !important;
+    background-color: currentColor !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+}
+
+td.pve-itype-icon-cpu .x-grid-cell-inner::before {
+    -webkit-mask-image: url('/pve2/images/icon-cpu.svg') !important;
+    mask-image: url('/pve2/images/icon-cpu.svg') !important;
+}
+
+td.pve-itype-icon-memory .x-grid-cell-inner::before {
+    -webkit-mask-image: url('/pve2/images/icon-memory.svg') !important;
+    mask-image: url('/pve2/images/icon-memory.svg') !important;
+}
+
+td.pve-itype-icon-cdrom .x-grid-cell-inner::before {
+    -webkit-mask-image: url('/pve2/images/icon-cd-drive.svg') !important;
+    mask-image: url('/pve2/images/icon-cd-drive.svg') !important;
+}
+
+td.pve-itype-icon-pci .x-grid-cell-inner::before {
+    -webkit-mask-image: url('/pve2/images/icon-pci.svg') !important;
+    mask-image: url('/pve2/images/icon-pci.svg') !important;
+}
+
+td.pve-itype-icon-serial .x-grid-cell-inner::before {
+    -webkit-mask-image: url('/pve2/images/icon-serial.svg') !important;
+    mask-image: url('/pve2/images/icon-serial.svg') !important;
+}
+
+td.pve-itype-icon-die .x-grid-cell-inner::before {
+    -webkit-mask-image: url('/pve2/images/icon-die.svg') !important;
+    mask-image: url('/pve2/images/icon-die.svg') !important;
+}
+
+td.pmx-itype-icon-processor .x-grid-cell-inner::before {
+    -webkit-mask-image: url('../images/icon-cpu.svg') !important;
+    mask-image: url('../images/icon-cpu.svg') !important;
+}
+
+td.pmx-itype-icon-memory .x-grid-cell-inner::before {
+    -webkit-mask-image: url('../images/icon-ram.svg') !important;
+    mask-image: url('../images/icon-ram.svg') !important;
+}
+
 
 /* Icon overlays — default */
 .x-tree-icon-custom::after,
@@ -912,6 +991,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed {
     background-color: var(--ctp-mauve) !important;
     border-color: var(--ctp-mauve) !important;
+    padding: 4px 8px !important; /* Fix #30: prevent width change on dropdown */
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-toolbar-small,
@@ -1138,7 +1218,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-grid,
 .x-grid-view {
-    border-radius: var(--pm-radius-lg) !important;
+    border-radius: 0 !important;
 }
 
 .x-column-header {
@@ -1197,13 +1277,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-grid-item-over,
 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
     background-color: var(--ctp-hover-overlay) !important;
-    border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-grid-item-selected,
 .x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
     background-color: var(--ctp-select-overlay) !important;
-    border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-column-header-over,
@@ -1258,9 +1336,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* Grid info (pve-info-grid) and RRD view */
-.pve-info-grid,
-.x-panel-default .x-grid,
-.x-container .x-grid-view {
+.pve-info-grid {
     border-radius: 12px !important;
 }
 

@@ -21,6 +21,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Includes custom chart patching (`unifi-light-charts.js`) for consistent light-mode chart colors
 
 ### Fixed
+- **Blue Slate Theme** — Issue [#25](https://github.com/IT-BAER/proxmorph/issues/25):
+  - **Complete v2.0.0 overhaul** — ported all Tier 2 fixes from the Dracula reference theme (1068 → 1568 lines)
+  - Fixed close "X" button white background — added `background-color: transparent` on `.x-panel-header-default .x-tool-tool-el` and `.x-window-header-default .x-tool-img`
+  - Ported FontAwesome tool icon replacements (close, gear, refresh, collapse/expand, maximize/restore, zoom) with hover, disabled, and inline FA states
+  - Added global border-radius architecture (reset-everything/re-apply pattern) replacing simple `border-radius: 6px`
+  - Fixed hardware icon text invisible — changed `invert(90%)` → `invert(100%)` with double-cancellation on `.x-grid-cell-inner` children + transparent borders on `<td>` cells
+  - Added 28px button height consistency with `:not()` exclusions, `.x-btn-wrap` flex centering, icon-only button fix, `.fa-desktop` translateY (Issue #17 port)
+  - Added custom checkbox/radio styling with SVG checkmark and animated radio dot
+  - Added dropdown/boundlist fixes: `border: none`, `outline: none`, `cursor: pointer` (Issue #24 port)
+  - Added menu item flexbox reordering for icon-left layout (Issue #24 port)
+  - Added column panel `max-width: none` fix (Issue #23 port)
+  - Added segmented button radius consistency
+  - Added console/terminal, legend/chart, progress bar, date picker, tag edit, APT repo, markdown `.pmx-md`, `.pmx-hint`, and usage bar styling
+  - Added smooth transitions on grid rows, tree items, menus, boundlists, tabs, splitters, tooltips, progress bars
+  - Added Firefox scrollbar support (`scrollbar-width: thin`)
+  - Added keyboard focus outline removal, `cursor: pointer` on interactive elements
+  - Added `display: none !important` respect for hidden dialog buttons
+  - Added login dialog border cleanup
 - **20 Themes** — Issue [#24](https://github.com/IT-BAER/proxmorph/issues/24):
   - Fixed dropdown context menu icons aligned to the right instead of left — root cause: CSS targeted non-existent `.x-menu-item-link-default` class; changed selector to `.x-menu-item-default > .x-menu-item-link` across all affected themes
   - Fixed ugly dotted focus borders on boundlist dropdown items (e.g. Server View selector) — added `border: none !important` and `outline: none !important` to `.x-boundlist-item` rules
@@ -35,6 +53,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed bright border artifacts on inverted Hardware icon rows — added `border-color: transparent !important` on affected `<td>` cells (7 dark themes + variants)
   - Fixed SCSI Controller icon (`fa-database`) being incorrectly dimmed — removed `.fa-database::before` from the broad icon color override selector in all 13 base themes
   - Fixed panel title/header text clipped by border-radius — added `overflow: visible !important` on `.x-title-text`, `.x-title-text-default`, `.x-panel-header`, and `.x-panel-header-default` across all 11 non-UniFi base themes (root cause: global `.x-border-box *` border-radius interacting with ExtJS native `overflow: hidden`)
+- **19 Themes** — Issue [#28](https://github.com/IT-BAER/proxmorph/issues/28):
+  - Fixed table hover/selection border-radius inconsistencies — removed `border-radius: var(--pm-radius-lg) !important` from `.x-grid-item-over` and `.x-grid-item-selected` rules across all derivative themes (Catppuccin ×5, Dracula ×6, Nord ×2, Solarized ×2, Gruvbox ×2, Tokyo Night, Blue Slate)
+  - Removed dedicated `border-radius: 8px !important` grid rounding block from GitHub Dark
+  - Root cause: UniFi's rounded hover/selection looked fine with its complex grid handling, but derivatives ported the radius without the supporting rules, causing visual artifacts (hover backgrounds bleeding into adjacent row borders)
+  - Fixed hardware grid icon rendering across all 17 dark themes — replaced `filter: invert(100%)` + counter-invert approach with CSS `mask-image` SVG rendering for all `pve-itype-icon-*` (VM Hardware) and `pmx-itype-icon-*` (LXC Resources) grid cells; icons now render original SVG shapes in theme text color via `background-color: currentColor` with proper spacing matching FontAwesome icons (18px width, 10px right margin)
+  - Fixed LXC Resources tab darkened text on Memory and Cores rows — PVE 9.x uses `pmx-itype-icon-*` classes (not `pve-itype-icon-*`) on LXC Resources grid cells; the Issue #18 fix only targeted `pve-` prefixed selectors
+  - Icon types covered: cpu, memory, cdrom, pci, serial, die (VM Hardware via `/pve2/images/*.svg`) + processor, memory (LXC Resources via `../images/*.svg`)
+  - Fixed grid container border-radius clipping first/last row hover backgrounds — removed `border-radius: 12px !important` from `.x-panel-default .x-grid` and `.x-container .x-grid-view` selectors (keeping only `.pve-info-grid`), and changed `.x-grid, .x-grid-view` re-apply rule from `var(--pm-radius-lg)` to `0` across all 22 themes; root cause: `overflow: hidden` on `.x-grid` combined with `border-radius` clipped hover/selection backgrounds at rounded corners of first and last grid rows
+- **All Themes (21 files)** — Issue [#30](https://github.com/IT-BAER/proxmorph/issues/30):
+  - Fixed toolbar buttons (Shutdown, Console, More, etc.) vibrating/changing width when dropdown menus open — added `padding: 4px 8px !important` to `.x-btn-default-toolbar-small.x-btn.x-btn-menu-active` and `.x-btn-default-toolbar-small.x-btn.x-btn-pressed` rules across all themes; root cause: ExtJS default CSS increases padding from `4px 8px` to `4px 10px` on menu-active/pressed state, causing a 4px total width increase
 
 ## [2.4.1] - 2026-02-26
 

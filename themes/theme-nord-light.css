@@ -818,6 +818,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed {
     background-color: var(--nord-purple) !important;
     border-color: var(--nord-purple) !important;
+    padding: 4px 8px !important; /* Fix #30: prevent width change on dropdown */
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-toolbar-small,
@@ -1044,7 +1045,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
    ===================================================== */
 .x-grid,
 .x-grid-view {
-    border-radius: var(--pm-radius-lg) !important;
+    border-radius: 0 !important;
 }
 
 .x-column-header {
@@ -1103,13 +1104,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-grid-item-over,
 .x-grid-with-row-lines .x-grid-item.x-grid-item-over {
     background-color: var(--nord-hover-overlay) !important;
-    border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-grid-item-selected,
 .x-grid-with-row-lines .x-grid-item.x-grid-item-selected {
     background-color: var(--nord-select-overlay) !important;
-    border-radius: var(--pm-radius-lg) !important;
 }
 
 .x-column-header-over,
@@ -1164,9 +1163,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 /* Grid info (pve-info-grid) and RRD view */
-.pve-info-grid,
-.x-panel-default .x-grid,
-.x-container .x-grid-view {
+.pve-info-grid {
     border-radius: 12px !important;
 }
 

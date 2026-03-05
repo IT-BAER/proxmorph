@@ -467,15 +467,18 @@ div[class*="rrd"] img {
     filter: invert(90%);
 }
 
-/* Fix #27: Resource grid cells (td.pve-itype-icon-*) — remove filter from TD so text
-   is NOT inverted. Strip original background-image and reconstruct icon via ::before
-   pseudo-element on .x-grid-cell-inner with filter applied to icon only. */
+/* Fix #27: Resource grid cells (td.pve-itype-icon-* / td.pmx-itype-icon-*) — remove
+   filter from TD so text is NOT inverted. Strip original background-image and reconstruct
+   icon via ::before pseudo-element on .x-grid-cell-inner with filter applied to icon only.
+   Includes pmx-itype-icon-processor/memory used by LXC Resources tab (PVE 9.x). */
 td.pve-itype-icon-cpu,
 td.pve-itype-icon-memory,
 td.pve-itype-icon-cdrom,
 td.pve-itype-icon-pci,
 td.pve-itype-icon-serial,
-td.pve-itype-icon-die {
+td.pve-itype-icon-die,
+td.pmx-itype-icon-processor,
+td.pmx-itype-icon-memory {
     filter: none !important;
     background-image: none !important;
     padding-left: 0px !important;
@@ -487,7 +490,9 @@ td.pve-itype-icon-memory > .x-grid-cell-inner,
 td.pve-itype-icon-cdrom > .x-grid-cell-inner,
 td.pve-itype-icon-pci > .x-grid-cell-inner,
 td.pve-itype-icon-serial > .x-grid-cell-inner,
-td.pve-itype-icon-die > .x-grid-cell-inner {
+td.pve-itype-icon-die > .x-grid-cell-inner,
+td.pmx-itype-icon-processor > .x-grid-cell-inner,
+td.pmx-itype-icon-memory > .x-grid-cell-inner {
     padding-left: 4px !important;
 }
 
@@ -497,7 +502,9 @@ td.pve-itype-icon-memory > .x-grid-cell-inner::before,
 td.pve-itype-icon-cdrom > .x-grid-cell-inner::before,
 td.pve-itype-icon-pci > .x-grid-cell-inner::before,
 td.pve-itype-icon-serial > .x-grid-cell-inner::before,
-td.pve-itype-icon-die > .x-grid-cell-inner::before {
+td.pve-itype-icon-die > .x-grid-cell-inner::before,
+td.pmx-itype-icon-processor > .x-grid-cell-inner::before,
+td.pmx-itype-icon-memory > .x-grid-cell-inner::before {
     content: '' !important;
     display: inline-block !important;
     width: 14px !important;
@@ -529,6 +536,13 @@ td.pve-itype-icon-serial > .x-grid-cell-inner::before {
 }
 td.pve-itype-icon-die > .x-grid-cell-inner::before {
     background-image: url('/pve2/images/icon-die.svg') !important;
+}
+/* pmx-itype-icon-* use relative paths for PVE+PBS compatibility */
+td.pmx-itype-icon-processor > .x-grid-cell-inner::before {
+    background-image: url('../images/icon-cpu.svg') !important;
+}
+td.pmx-itype-icon-memory > .x-grid-cell-inner::before {
+    background-image: url('../images/icon-ram.svg') !important;
 }
 
 /* v5.38: Summary panel icons (i elements) - reset to original Proxmox styling */
@@ -943,6 +957,7 @@ tr:not(.x-grid-tree-node-expanded) .x-tree-expander::before {
 .x-btn-default-toolbar-small.x-btn.x-btn-menu-active,
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed {
     background-color: #006EFF;
+    padding: 4px 8px !important; /* Fix #30: prevent width change when dropdown opens */
 }
 
 .x-btn-default-toolbar-small.x-btn.x-btn-pressed .x-btn-inner-default-toolbar-small,
@@ -2634,9 +2649,7 @@ td,
 
 /* Summary status grid - the table with CPU/Memory/etc */
 /* FIX v5.18: Removed overflow:hidden to restore content visibility */
-.pve-info-grid,
-.x-panel-default .x-grid,
-.x-container .x-grid-view {
+.pve-info-grid {
     border-radius: 12px !important;
 }
 
