@@ -3248,10 +3248,6 @@ html {
     scroll-behavior: smooth !important;
 }
 
-.x-panel-body-default {
-    scroll-behavior: smooth !important;
-}
-
 /* =====================================================
    v5.4 FIX: Child items styling when parent is selected
    ===================================================== */

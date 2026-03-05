@@ -5,6 +5,14 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- **System Log scroll to bottom** — Issue [#36](https://github.com/IT-BAER/proxmorph/issues/36):
+  - Removed `scroll-behavior: smooth !important` from `.x-panel-body-default` in UniFi and UniFi Light themes
+  - This CSS rule broke ExtJS's synchronous scroll position tracking — the JournalView `scrollTo()` call would animate instead of applying instantly, causing the position read-back to return 0 and preventing auto-scroll to the newest log entries
+  - The `html { scroll-behavior: smooth }` rule is preserved for page-level smooth scrolling
+
 ## [2.5.0] - 2026-07-03
 
 ### Added
