@@ -345,8 +345,18 @@
                 if (!store) return;
 
                 store.on('load', function (s, records) {
-                    if (!records || !records[0]) return;
-                    var upsData = records[0].get('upsData');
+                    if (!records || !records.length) return;
+
+                    // Hide sensor row entirely when API doesn't include sensorsOutput
+                    var sensorWidget = me.down('#sensors');
+                    if (sensorWidget) {
+                        var hasSensorData = s.findRecord('key', 'sensorsOutput') !== null;
+                        sensorWidget.setVisible(hasSensorData);
+                    }
+
+                    // Check for UPS data in the store
+                    var upsRec = s.findRecord('key', 'upsData');
+                    var upsData = upsRec ? upsRec.get('value') : null;
 
                     // Only inject UPS item once, and only if there is data
                     if (upsData && upsData.trim() !== '' && !me.down('#upsStatus')) {
