@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - This CSS rule broke ExtJS's synchronous scroll position tracking — the JournalView `scrollTo()` call would animate instead of applying instantly, causing the position read-back to return 0 and preventing auto-scroll to the newest log entries
   - The `html { scroll-behavior: smooth }` rule is preserved for page-level smooth scrolling
 - **Sensor row hidden when not enabled** — Sensor row in node Status panel now hides completely when the API patch is not applied, instead of showing "N/A"
+- **Missing VMs/LXCs in backup job dialog** — Issue [#37](https://github.com/IT-BAER/proxmorph/issues/37):
+  - The `.x-form-trigger-wrap-default` height rule (`height: 28px !important`) was matching the VMSelector grid body, collapsing it to a single visible row
+  - Added `:not(.x-grid-body)` exclusion to the selector in UniFi and UniFi Light themes
 
 ## [2.5.0] - 2026-03-05
 
