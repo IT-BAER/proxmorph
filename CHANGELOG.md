@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - This CSS rule broke ExtJS's synchronous scroll position tracking — the JournalView `scrollTo()` call would animate instead of applying instantly, causing the position read-back to return 0 and preventing auto-scroll to the newest log entries
   - The `html { scroll-behavior: smooth }` rule is preserved for page-level smooth scrolling
 
-## [2.5.0] - 2026-07-03
+## [2.5.0] - 2026-03-05
 
 ### Added
 - **Native Hardware Sensor Monitoring** — Issue [#22](https://github.com/IT-BAER/proxmorph/issues/22):
