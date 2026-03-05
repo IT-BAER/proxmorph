@@ -580,6 +580,90 @@ unpatch_nodes_pm() {
     print_status "Removed sensor patches from Nodes.pm"
 }
 
+# Get list of remote cluster node hostnames (excludes local node)
+get_remote_nodes() {
+    if ! command -v pvecm &>/dev/null; then
+        return 0
+    fi
+
+    # pvecm nodes lists all cluster members; skip header and local node
+    pvecm nodes 2>/dev/null | awk '!/local/ && NF>=3 && $1 ~ /^[0-9]+$/ {print $3}'
+}
+
+# Deploy sensor API patch to remote cluster nodes via scp
+patch_cluster_sensors() {
+    local remote_nodes
+    remote_nodes=$(get_remote_nodes)
+
+    if [[ -z "$remote_nodes" ]]; then
+        return 0
+    fi
+
+    # Get local PVE version for comparison
+    local local_version
+    local_version=$(dpkg -l pve-manager 2>/dev/null | awk '/^ii/{print $3}')
+
+    echo ""
+    print_info "Cluster detected. Remote nodes need the API patch for sensors to work."
+    echo ""
+    for node in $remote_nodes; do
+        echo -e "  ${CYAN}●${NC} ${node}"
+    done
+    echo ""
+
+    read -p "Deploy sensor patch to remote nodes? [Y/n]: " deploy_choice
+    case "$deploy_choice" in
+        [Nn]|[Nn][Oo])
+            print_info "Skipping remote nodes. Run 'install.sh manage-sensors enable' on each node individually."
+            return 0
+            ;;
+    esac
+
+    for node in $remote_nodes; do
+        print_info "Deploying to ${node}..."
+
+        # Verify same PVE version before copying Nodes.pm
+        local remote_version
+        remote_version=$(ssh -o ConnectTimeout=5 "root@${node}" "dpkg -l pve-manager 2>/dev/null | awk '/^ii/{print \$3}'" 2>/dev/null)
+
+        if [[ -n "$local_version" && -n "$remote_version" && "$local_version" != "$remote_version" ]]; then
+            print_warning "Version mismatch on ${node} (local: ${local_version}, remote: ${remote_version}) — skipping"
+            print_info "Run install.sh on ${node} directly to enable sensors"
+            continue
+        fi
+
+        if scp -o ConnectTimeout=5 -q "$NODES_PM" "root@${node}:${NODES_PM}" 2>/dev/null; then
+            if ssh -o ConnectTimeout=5 "root@${node}" "systemctl restart pveproxy" 2>/dev/null; then
+                print_status "Sensors deployed to ${node}"
+            else
+                print_warning "Patched ${node} but failed to restart pveproxy"
+            fi
+        else
+            print_warning "Failed to deploy to ${node} — run install.sh on that node directly"
+        fi
+    done
+}
+
+# Remove sensor API patch from remote cluster nodes
+unpatch_cluster_sensors() {
+    local remote_nodes
+    remote_nodes=$(get_remote_nodes)
+
+    if [[ -z "$remote_nodes" ]]; then
+        return 0
+    fi
+
+    for node in $remote_nodes; do
+        print_info "Removing sensor patch from ${node}..."
+        if ssh -o ConnectTimeout=5 "root@${node}" \
+            "sed -i '/# ProxMorph Sensors/,/# ProxMorph Sensors END/d' /usr/share/perl5/PVE/API2/Nodes.pm 2>/dev/null && systemctl restart pveproxy" 2>/dev/null; then
+            print_status "Sensors removed from ${node}"
+        else
+            print_warning "Failed to unpatch ${node}"
+        fi
+    done
+}
+
 # Install sensor support interactively
 install_sensors() {
     if [[ "$PRODUCT" != "PVE" ]]; then
@@ -597,6 +681,7 @@ install_sensors() {
             mkdir -p "$INSTALL_DIR"
             echo "enabled" > "$SENSORS_CONFIG"
             print_status "Hardware sensor monitoring enabled!"
+            patch_cluster_sensors
             ;;
         *)
             print_info "Skipping sensor integration (can be enabled later with: install.sh sensors enable)"
@@ -607,6 +692,7 @@ install_sensors() {
 # Remove sensor support
 remove_sensors() {
     unpatch_nodes_pm
+    unpatch_cluster_sensors
     if [[ -f "$SENSORS_CONFIG" ]]; then
         rm -f "$SENSORS_CONFIG"
         print_info "Sensor configuration removed"
@@ -638,6 +724,7 @@ manage_sensors() {
             print_status "Hardware sensor monitoring enabled!"
             print_info "Restarting ${PROXY_SERVICE}..."
             nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+            patch_cluster_sensors
             ;;
         disable)
             remove_sensors

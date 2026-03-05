@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Cluster-aware sensor deployment** — Installer now detects PVE cluster nodes and deploys the sensor API patch to all remote nodes automatically
+  - Uses `pvecm nodes` to discover cluster members, scp to copy patched `Nodes.pm`, and restarts `pveproxy` on each node
+  - Version check ensures local and remote PVE versions match before deploying
+  - `sensors disable` cleanly removes the patch from all cluster nodes
+  - Prompts before deploying to remote nodes; can be skipped to run `install.sh` on each node individually
+
 ### Fixed
 - **System Log scroll to bottom** — Issue [#36](https://github.com/IT-BAER/proxmorph/issues/36):
   - Removed `scroll-behavior: smooth !important` from `.x-panel-body-default` in UniFi and UniFi Light themes
