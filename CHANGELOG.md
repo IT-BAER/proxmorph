@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.1] - 2026-03-05
+
 ### Added
 - **Cluster-aware sensor deployment** — Installer now detects PVE cluster nodes and deploys the sensor API patch to all remote nodes automatically
   - Uses `pvecm nodes` to discover cluster members, scp to copy patched `Nodes.pm`, and restarts `pveproxy` on each node
@@ -19,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed `scroll-behavior: smooth !important` from `.x-panel-body-default` in UniFi and UniFi Light themes
   - This CSS rule broke ExtJS's synchronous scroll position tracking — the JournalView `scrollTo()` call would animate instead of applying instantly, causing the position read-back to return 0 and preventing auto-scroll to the newest log entries
   - The `html { scroll-behavior: smooth }` rule is preserved for page-level smooth scrolling
+- **Sensor row hidden when not enabled** — Sensor row in node Status panel now hides completely when the API patch is not applied, instead of showing "N/A"
 
 ## [2.5.0] - 2026-03-05
 
