@@ -99,7 +99,7 @@ chmod +x install.sh
 | `./install.sh uninstall` | Remove themes |
 | `./install.sh update` or `bash <(curl -fsSL https://raw.githubusercontent.com/IT-BAER/proxmorph/main/install.sh) update` | Updates (latest from GitHub) and install the latest themes |
 | `./install.sh status` | Show installation status |
-| `./install.sh manage-sensors` | Enable/disable hardware sensor monitoring |
+| `./install.sh` | Shows Menu to manage|
 
 ## 🛠️ Creating Themes
 
