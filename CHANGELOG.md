@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - **Catppuccin Latte light theme icon/logo inversions** — Theme was generated from dark Catppuccin Mocha and retained dark-mode `filter: invert()` rules on loading indicators, folder icons, image-based icons (`.fa-ceph`, `.fa-sdn`, `.pve-itype-icon-qemu`, etc.), hardware icons, counter-invert cells, and the Proxmox logo. All are now `filter: none` as required by a light theme.
+- **Sensors: Perl taint mode error on node status API** — Issue [#38](https://github.com/IT-BAER/proxmorph/issues/38):
+  - The `Nodes.pm` patch now sets `local $ENV{PATH} = '/usr/bin:/bin';` before all backtick (`sensors -j`, `upsc`) calls, satisfying Perl's `-T` taint mode requirement that `$ENV{PATH}` be untainted before external command execution
+  - The UPS device name (`$ups_name`), obtained from tainted backtick output, is now validated and untainted via regex (`/^([\w@.-]+)$/`) before being passed to the `upsc` command — prevents an additional taint violation in the UPS data collection path
+  - Affected users: anyone running ProxMorph sensors on a Proxmox host where `Nodes.pm` still has the old patch; fix requires re-running `install.sh` (or `install.sh manage-sensors disable && install.sh manage-sensors enable`) to re-apply the corrected patch
 ## [2.5.1] - 2026-03-05
 
 ### Added

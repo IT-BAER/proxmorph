@@ -432,12 +432,13 @@ if [ "\$needs_repatch" = "true" ]; then
         if ! grep -q "\$SENSORS_PATCH_MARKER" "\$NODES_PM" 2>/dev/null; then
             sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\
     \${SENSORS_PATCH_MARKER}\\
+    local \\\$ENV{PATH} = '/usr/bin:/bin';\\
     \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \\\`upsc -l 2>/dev/null\\\`;\\
         if (\@ups_list) {\\
             chomp(my \\\$ups_name = \\\$ups_list[0]);\\
-            \\\$res->{upsData} = \\\`upsc \\\$ups_name 2>/dev/null\\\` if \\\$ups_name;\\
+            if (\\\$ups_name =~ /^([\\\\\\\\w@.-]+)\\\$/) { \\\$res->{upsData} = \\\`upsc \\\$1 2>/dev/null\\\`; }\\
         }\\
     }\\
     \${SENSORS_PATCH_MARKER} END" "\$NODES_PM"
@@ -549,14 +550,17 @@ patch_nodes_pm() {
     fi
 
     # Insert sensor data collection before 'my $dinfo = df('/', 1);'
+    # Note: local $ENV{PATH} is required for Perl taint mode (-T switch used by PVE).
+    # $ups_name is untainted via regex before use in a backtick command.
     sed -i "/^\s*my \$dinfo = df/i\\
     ${SENSORS_PATCH_MARKER}\\
+    local \$ENV{PATH} = '/usr/bin:/bin';\\
     \$res->{sensorsOutput} = \`sensors -j 2>/dev/null\`;\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \`upsc -l 2>/dev/null\`;\\
         if (\@ups_list) {\\
             chomp(my \$ups_name = \$ups_list[0]);\\
-            \$res->{upsData} = \`upsc \$ups_name 2>/dev/null\` if \$ups_name;\\
+            if (\$ups_name =~ /^([\\\\w@.-]+)\$/) { \$res->{upsData} = \`upsc \$1 2>/dev/null\`; }\\
         }\\
     }\\
     ${SENSORS_PATCH_MARKER} END" "$NODES_PM"
