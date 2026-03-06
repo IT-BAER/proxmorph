@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Catppuccin Latte light theme icon/logo inversions** — Theme was generated from dark Catppuccin Mocha and retained dark-mode `filter: invert()` rules on loading indicators, folder icons, image-based icons (`.fa-ceph`, `.fa-sdn`, `.pve-itype-icon-qemu`, etc.), hardware icons, counter-invert cells, and the Proxmox logo. All are now `filter: none` as required by a light theme.
 ## [2.5.1] - 2026-03-05
 
 ### Added

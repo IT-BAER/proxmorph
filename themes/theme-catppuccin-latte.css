@@ -2,9 +2,13 @@
 /*
  * ProxMorph Theme: Catppuccin Latte
  * Soothing pastel theme for Proxmox VE — the official light flavor of Catppuccin
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ProxMorph / Catppuccin Community Palette
  *
+ * v1.0.1: Fixed dark-mode filter inversions carried over from Mocha generation:
+ *         Removed filter:invert from loading indicators, folder icons,
+ *         image-based icons, hardware icons, counter-invert cells, and
+ *         Proxmox logo. All now use filter:none for light background.
  * v1.0.0: Initial release - Tier 2 production (generated from Mocha v1.3.0)
  *         Catppuccin Mocha palette, border-radius architecture (ported from UniFi),
  *         custom checkboxes/radios, full grid styling, progress bar states,
@@ -374,7 +378,7 @@ div.x-border-layout-ct {
 .x-grid-row-loading,
 .x-treelist-item-loading .x-treelist-item-icon,
 .x-grid-tree-loading .x-tree-icon {
-    filter: invert(90%);
+    filter: none;
 }
 
 /* =====================================================
@@ -400,13 +404,13 @@ div.x-border-layout-ct {
     color: var(--ctp-overlay2) !important;
 }
 
-/* Folder icons — invert for dark mode */
+/* Folder icons — no invert needed for light theme */
 .x-tree-icon-parent:not(.x-tree-icon-custom)::before,
 .x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before {
-    filter: invert(90%);
+    filter: none;
 }
 
-/* Various image-based icons — invert for visibility */
+/* Various image-based icons — no invert needed for light theme */
 .fa-ceph::before,
 .fa-sdn::before,
 .fa-network-wired::before,
@@ -423,7 +427,7 @@ div.x-border-layout-ct {
 .x-tree-icon-leaf:not(.x-tree-icon-custom),
 .x-tree-icon-parent:not(.x-tree-icon-custom),
 .x-tree-icon-parent-expanded:not(.x-tree-icon-custom) {
-    filter: invert(90%);
+    filter: none;
 }
 
 /* Hardware icons */
@@ -438,13 +442,13 @@ div.x-border-layout-ct {
 .pve-itype-icon-storage,
 .x-tree-node-harddisk,
 .x-grid-tree-node-expanded .x-tree-node-harddisk {
-    filter: invert(100%);
+    filter: none;
 }
 
 /* Hardware icons — counter-invert for non-SVG icon cells */
 td.pve-itype-icon-storage .x-grid-cell-inner,
 td.x-tree-node-harddisk .x-grid-cell-inner {
-    filter: invert(100%) !important;
+    filter: none !important;
 }
 
 /* Hardware icons — hide inverted borders for non-SVG icon cells */
@@ -1931,10 +1935,10 @@ svg text {
    PROXMOX-SPECIFIC OVERRIDES
    ===================================================== */
 
-/* Logo inversion */
+/* Logo — no inversion for light theme */
 img[id^="proxmoxlogo-"][id$="-img"],
 img[id^="proxmoxLogoSvg-"][id$="-img"] {
-    filter: invert(1) hue-rotate(180deg);
+    filter: none;
 }
 
 /* Invalid/warning/disabled rows */
