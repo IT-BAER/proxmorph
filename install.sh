@@ -216,8 +216,8 @@ patch_theme_map() {
         return 0
     fi
     
-    # Add theme to theme_map
-    sed -i "s/theme_map: {/theme_map: {\n\t\"${theme_key}\": \"${theme_title}\",/" "$PROXMOXLIB_JS"
+    # Add theme to theme_map (use | delimiter — paths contain /)
+    sed -i "s|theme_map: {|theme_map: {\n\t\"${theme_key}\": \"${theme_title}\",|" "$PROXMOXLIB_JS"
     
     if grep -q "\"${theme_key}\":" "$PROXMOXLIB_JS"; then
         print_theme "Registered: ${theme_title}"
@@ -876,15 +876,32 @@ install_themes() {
     
     echo ""
     print_status "ProxMorph themes installed successfully!"
+
+    # Restart proxy service synchronously so cached JS is invalidated before user refreshes
+    print_info "Restarting ${PROXY_SERVICE} service..."
+    systemctl restart "${PROXY_SERVICE}" 2>/dev/null || true
+    print_status "${PROXY_SERVICE} restarted."
+
     echo ""
-    print_info "To apply a theme:"
-    print_info "  1. Clear your browser cache (Ctrl+Shift+R)"
-    print_info "  2. Click your username → Color Theme"
-    print_info "  3. Select a ProxMorph theme from the dropdown"
-    
-    # Restart proxy service in background
-    print_info "Restarting ${PROXY_SERVICE} service in background..."
-    nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+    echo -e "${YELLOW}╔═══════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${YELLOW}║  IMPORTANT: You MUST clear your browser cache!            ║${NC}"
+    echo -e "${YELLOW}╠═══════════════════════════════════════════════════════════╣${NC}"
+    echo -e "${YELLOW}║  Proxmox does not send cache-control headers, so your     ║${NC}"
+    echo -e "${YELLOW}║  browser may serve an old copy of proxmoxlib.js.          ║${NC}"
+    echo -e "${YELLOW}║                                                           ║${NC}"
+    echo -e "${YELLOW}║  Try these steps IN ORDER until themes appear:            ║${NC}"
+    echo -e "${YELLOW}║   1. Hard-refresh:  Ctrl+Shift+R  (or Cmd+Shift+R)        ║${NC}"
+    echo -e "${YELLOW}║   2. If still missing: open an Incognito/Private window   ║${NC}"
+    echo -e "${YELLOW}║   3. If still missing: clear ALL browser data for the     ║${NC}"
+    echo -e "${YELLOW}║      Proxmox host, then reload                            ║${NC}"
+    echo -e "${YELLOW}╠═══════════════════════════════════════════════════════════╣${NC}"
+    echo -e "${YELLOW}║  To apply a theme:                                        ║${NC}"
+    echo -e "${YELLOW}║   → Click your username  →  Color Theme                   ║${NC}"
+    echo -e "${YELLOW}║   → Select a ProxMorph theme from the dropdown            ║${NC}"
+    echo -e "${YELLOW}║                                                           ║${NC}"
+    echo -e "${YELLOW}║  Trouble? Run:  bash install.sh verify                    ║${NC}"
+    echo -e "${YELLOW}╚═══════════════════════════════════════════════════════════╝${NC}"
+    echo ""
 }
 
 # Install a specific theme
@@ -907,8 +924,12 @@ install_single_theme() {
     patch_theme_map "$theme_key" "$theme_title"
     
     print_status "Theme '${theme_title}' installed!"
-    print_info "Restarting ${PROXY_SERVICE} service in background..."
-    nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+    print_info "Restarting ${PROXY_SERVICE} service..."
+    systemctl restart "${PROXY_SERVICE}" 2>/dev/null || true
+    print_status "${PROXY_SERVICE} restarted."
+    echo ""
+    print_warning "Clear your browser cache (Ctrl+Shift+R) or open an Incognito window."
+    print_info "If themes still don't appear, run: bash install.sh verify"
 }
 
 # Reinstall themes (after PVE update)
@@ -956,7 +977,7 @@ uninstall_themes() {
     
     echo ""
     print_status "ProxMorph themes uninstalled!"
-    print_info "Clear your browser cache to see the changes."
+    print_warning "Clear your browser cache (Ctrl+Shift+R) or open an Incognito window to see the changes."
 }
 
 # List available themes
@@ -988,7 +1009,93 @@ list_themes() {
     echo ""
 }
 
-# Show status
+# Verify theme installation — diagnostic tool for troubleshooting
+verify_themes() {
+    local errors=0
+
+    echo ""
+    print_info "ProxMorph Installation Verification"
+    echo ""
+
+    # 1. Check proxmoxlib.js exists and is patched
+    if [[ ! -f "$PROXMOXLIB_JS" ]]; then
+        print_error "proxmoxlib.js not found at ${PROXMOXLIB_JS}"
+        errors=$((errors + 1))
+    else
+        print_status "proxmoxlib.js exists"
+
+        # Count ProxMorph themes by looking for quoted keys inside the theme_map block
+        local custom_themes
+        custom_themes=$(sed -n '/theme_map\s*:/,/}/p' "$PROXMOXLIB_JS" 2>/dev/null \
+            | grep -cE '"[a-z][-a-z]*"\s*:' || true)
+        # Subtract built-in themes (crisp, proxmox-dark)
+        local builtin
+        builtin=$(sed -n '/theme_map\s*:/,/}/p' "$PROXMOXLIB_JS" 2>/dev/null \
+            | grep -cE '"(crisp|proxmox-dark)"\s*:' || true)
+        custom_themes=$((custom_themes - builtin))
+        if [[ "$custom_themes" -gt 0 ]]; then
+            print_status "theme_map contains ${custom_themes} ProxMorph theme(s)"
+        else
+            print_error "theme_map has NO ProxMorph themes — patching may have failed"
+            errors=$((errors + 1))
+        fi
+    fi
+
+    # 2. Check CSS files are deployed
+    local css_count
+    css_count=$(find "$THEMES_DIR" -name "theme-*.css" 2>/dev/null | wc -l)
+    if [[ "$css_count" -gt 0 ]]; then
+        print_status "${css_count} theme CSS file(s) in ${THEMES_DIR}"
+    else
+        print_error "No theme CSS files found in ${THEMES_DIR}"
+        errors=$((errors + 1))
+    fi
+
+    # 3. Check proxy service status
+    if systemctl is-active --quiet "${PROXY_SERVICE}" 2>/dev/null; then
+        print_status "${PROXY_SERVICE} is running"
+    else
+        print_error "${PROXY_SERVICE} is NOT running — try: systemctl restart ${PROXY_SERVICE}"
+        errors=$((errors + 1))
+    fi
+
+    # 4. Check HTTP response for cache headers (informational)
+    local port=8006
+    [[ "$PRODUCT" == "PBS" ]] && port=8007
+    local headers
+    headers=$(curl -sk -o /dev/null -D - "https://localhost:${port}/proxmoxlib.js" 2>/dev/null | head -20 || true)
+    if [[ -n "$headers" ]]; then
+        echo ""
+        print_info "HTTP headers for proxmoxlib.js:"
+        echo "$headers" | grep -iE "^(HTTP|Last-Modified|Cache-Control|ETag|Content-Length)" | while IFS= read -r line; do
+            echo "  $line"
+        done
+
+        if ! echo "$headers" | grep -qi "Cache-Control"; then
+            echo ""
+            print_warning "No Cache-Control header — browser may heuristically cache old content."
+            print_warning "This is a Proxmox upstream behavior, not a ProxMorph bug."
+            print_info "Fix: Hard-refresh (Ctrl+Shift+R) or open an Incognito/Private window."
+        fi
+    fi
+
+    # 5. APT hook check
+    if check_apt_hook; then
+        print_status "APT hook installed (themes survive updates)"
+    else
+        print_warning "APT hook NOT installed — themes may disappear after a Proxmox update"
+    fi
+
+    echo ""
+    if [[ $errors -eq 0 ]]; then
+        print_status "All checks passed — if themes still don't appear, it's a browser cache issue."
+        print_info "Open an Incognito/Private browser window to confirm."
+    else
+        print_error "${errors} issue(s) found — see above for details."
+    fi
+    echo ""
+}
+
 show_status() {
     print_info "ProxMorph Status:"
     echo ""
@@ -1066,10 +1173,11 @@ show_menu() {
     echo "  4) Uninstall themes"
     echo "  5) List themes"
     echo "  6) Show status"
-    [[ "$PRODUCT" == "PVE" ]] && echo "  7) Manage sensors"
+    echo "  7) Verify installation"
+    [[ "$PRODUCT" == "PVE" ]] && echo "  8) Manage sensors"
     echo "  0) Exit"
     echo ""
-    read -p "Enter choice [0-7]: " choice
+    read -p "Enter choice [0-8]: " choice
     
     case $choice in
         1) install_themes ;;
@@ -1078,7 +1186,8 @@ show_menu() {
         4) uninstall_themes ;;
         5) list_themes ;;
         6) show_status ;;
-        7) manage_sensors_menu ;;
+        7) verify_themes ;;
+        8) manage_sensors_menu ;;
         0) exit 0 ;;
         *) print_error "Invalid option" ; show_menu ;;
     esac
@@ -1111,6 +1220,9 @@ main() {
             ;;
         check)
             check_updates
+            ;;
+        verify)
+            verify_themes
             ;;
         sensors)
             manage_sensors "${2:-status}"
