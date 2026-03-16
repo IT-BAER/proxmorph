@@ -1,14 +1,14 @@
 # ProxMorph
 
-Custom themes for Proxmox VE (PVE) and Proxmox Backup Server (PBS) that integrate with the native Color Theme selector.
+Custom themes for Proxmox VE (PVE), Proxmox Backup Server (PBS), and Proxmox Datacenter Manager (PDM) that integrate with the native Color Theme selector.
 
 ## ✨ Features
 
-- **Native Integration** - Themes appear in built-in Color Theme dropdown (PVE and PBS)
+- **Native Integration** - Themes appear in built-in Color Theme dropdown (PVE, PBS, and PDM)
 - **Auto-Patch on Updates** - Automatically re-applies themes after product updates
 - **Hybrid Engine** - CSS for styling + JavaScript for dynamic chart patching
-- **Hardware Sensor Monitoring** - Optional CPU/storage temps, fan speeds, and UPS status on node Summary dashboard
-- **Easy Installation** - Single command installation for both PVE and PBS
+- **Hardware Sensor Monitoring** - Optional CPU/storage temps, fan speeds, and UPS status on node Summary dashboard (PVE)
+- **Easy Installation** - Single command installation for PVE, PBS, and PDM
 
 ## 📸 Screenshot
 
@@ -118,8 +118,9 @@ Theme files must start with `/*!Display Name*/` - this sets the name in Proxmox'
 If themes don't appear after installation:
 
 1. **Clear browser cache** — Press Ctrl+Shift+R (hard refresh)
-2. **Check installation status** — Run `./install.sh status`
-3. **Restart proxy service** — Run `systemctl restart pveproxy` (PVE) or `systemctl restart proxmox-backup-proxy` (PBS)
+2. **Run verify check** — Run `./install.sh` and select option 7 (Verify installation)
+3. **Check installation status** — Run `./install.sh status`
+4. **Restart proxy service** — Run `systemctl restart pveproxy` (PVE), `systemctl restart proxmox-backup-proxy` (PBS), or `systemctl restart proxmox-datacenter-api` (PDM)
 
 ### Cloudflare Tunnel caching issues
 
@@ -136,16 +137,24 @@ See [Issue #13](https://github.com/IT-BAER/proxmorph/issues/13) for more details
 
 ## ℹ️ How It Works
 
-1. Theme CSS files are copied to shared `/usr/share/javascript/proxmox-widget-toolkit/themes/`
+**PVE / PBS:**
+1. Theme CSS files are copied to `/usr/share/javascript/proxmox-widget-toolkit/themes/`
 2. JavaScript patches (for charts) are installed to product-specific JS directories
 3. `proxmoxlib.js` is patched to register themes, and product index templates (`.tpl` or `.hbs`) are patched to load JS patches
-4. An apt hook automatically re-patches after product updates (widget-toolkit, pve-manager, or proxmox-backup-server)
-5. Themes appear in the native Color Theme selector of both PVE and PBS
+4. An apt hook automatically re-patches after product updates
+5. Themes appear in the native Color Theme selector
+
+**PDM:**
+1. PDM-specific CSS override themes are installed to `/usr/share/javascript/proxmox-datacenter-manager/proxmorph-themes/`
+2. `<link>` tags are injected into `index.hbs` (disabled by default, activated by JavaScript)
+3. A theme selector JS patch adds ProxMorph themes to PDM's native Theme dialog
+4. Selected theme is persisted in `localStorage` and activated before WASM loads
 
 ## 📦 Supported Versions
 
 - Proxmox VE 9.x / 8.x
 - Proxmox Backup Server 4.x / 3.x
+- Proxmox Datacenter Manager 1.x
 
 ## 📄 License
 

@@ -1,0 +1,194 @@
+/*!UniFi Light*/
+/*
+ * ProxMorph PDM Theme: UniFi Light
+ * Overrides the PWT Material Design tonal color system with UniFi Light palette
+ * Version: 1.0.0
+ * Author: ProxMorph / Ubiquiti Design System
+ *
+ * ─── UniFi Light Palette ──────────────────────────────────────
+ * Blue (accent):  #006FFF    Secondary: #00A4E4
+ * Green:          #00C853    Red:       #F44336
+ * Yellow:         #FFB300    Purple:    #7B1FA2
+ * Text (dark):    #1A1A1A   Background:#F5F6FA
+ * Surface:        #FFFFFF    Border:    #E0E0E0
+ */
+
+/* ===== Tonal Color Overrides ===== */
+:root {
+    /* Primary — UniFi Blue (#006FFF) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(248, 251, 255) !important;
+    --pwt-color-primary-95: rgb(215, 232, 255) !important;
+    --pwt-color-primary-90: rgb(178, 212, 255) !important;
+    --pwt-color-primary-80: rgb(105, 170, 255) !important;
+    --pwt-color-primary-70: rgb(50, 135, 255) !important;
+    --pwt-color-primary-60: rgb(0, 111, 255) !important;
+    --pwt-color-primary-50: rgb(0, 92, 218) !important;
+    --pwt-color-primary-40: rgb(0, 74, 182) !important;
+    --pwt-color-primary-30: rgb(0, 56, 145) !important;
+    --pwt-color-primary-20: rgb(0, 40, 110) !important;
+    --pwt-color-primary-15: rgb(0, 30, 88) !important;
+    --pwt-color-primary-10: rgb(0, 22, 68) !important;
+    --pwt-color-primary-5: rgb(0, 12, 42) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — UniFi Teal (#00A4E4) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(245, 253, 255) !important;
+    --pwt-color-secondary-95: rgb(210, 245, 255) !important;
+    --pwt-color-secondary-90: rgb(170, 232, 252) !important;
+    --pwt-color-secondary-80: rgb(100, 202, 238) !important;
+    --pwt-color-secondary-70: rgb(40, 178, 232) !important;
+    --pwt-color-secondary-60: rgb(0, 164, 228) !important;
+    --pwt-color-secondary-50: rgb(0, 138, 198) !important;
+    --pwt-color-secondary-40: rgb(0, 112, 165) !important;
+    --pwt-color-secondary-30: rgb(0, 88, 132) !important;
+    --pwt-color-secondary-20: rgb(0, 65, 100) !important;
+    --pwt-color-secondary-15: rgb(0, 50, 80) !important;
+    --pwt-color-secondary-10: rgb(0, 38, 60) !important;
+    --pwt-color-secondary-5: rgb(0, 22, 38) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — UniFi Purple (#7B1FA2) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(255, 248, 255) !important;
+    --pwt-color-tertiary-95: rgb(248, 225, 255) !important;
+    --pwt-color-tertiary-90: rgb(235, 198, 255) !important;
+    --pwt-color-tertiary-80: rgb(208, 148, 242) !important;
+    --pwt-color-tertiary-70: rgb(175, 95, 215) !important;
+    --pwt-color-tertiary-60: rgb(123, 31, 162) !important;
+    --pwt-color-tertiary-50: rgb(105, 20, 140) !important;
+    --pwt-color-tertiary-40: rgb(85, 12, 118) !important;
+    --pwt-color-tertiary-30: rgb(68, 5, 95) !important;
+    --pwt-color-tertiary-20: rgb(50, 0, 72) !important;
+    --pwt-color-tertiary-15: rgb(40, 0, 58) !important;
+    --pwt-color-tertiary-10: rgb(28, 0, 42) !important;
+    --pwt-color-tertiary-5: rgb(16, 0, 25) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — UniFi Green (#00C853) tonal scale */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(245, 255, 248) !important;
+    --pwt-color-success-95: rgb(200, 255, 218) !important;
+    --pwt-color-success-90: rgb(150, 248, 185) !important;
+    --pwt-color-success-80: rgb(80, 228, 138) !important;
+    --pwt-color-success-70: rgb(20, 210, 100) !important;
+    --pwt-color-success-60: rgb(0, 200, 83) !important;
+    --pwt-color-success-50: rgb(0, 172, 68) !important;
+    --pwt-color-success-40: rgb(0, 142, 52) !important;
+    --pwt-color-success-30: rgb(0, 115, 38) !important;
+    --pwt-color-success-20: rgb(0, 88, 26) !important;
+    --pwt-color-success-15: rgb(0, 70, 18) !important;
+    --pwt-color-success-10: rgb(0, 52, 12) !important;
+    --pwt-color-success-5: rgb(0, 32, 5) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — UniFi Red (#F44336) tonal scale */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 248, 248) !important;
+    --pwt-color-error-95: rgb(255, 218, 215) !important;
+    --pwt-color-error-90: rgb(255, 185, 180) !important;
+    --pwt-color-error-80: rgb(252, 128, 118) !important;
+    --pwt-color-error-70: rgb(248, 88, 75) !important;
+    --pwt-color-error-60: rgb(244, 67, 54) !important;
+    --pwt-color-error-50: rgb(215, 48, 38) !important;
+    --pwt-color-error-40: rgb(182, 32, 24) !important;
+    --pwt-color-error-30: rgb(148, 18, 12) !important;
+    --pwt-color-error-20: rgb(115, 6, 2) !important;
+    --pwt-color-error-15: rgb(92, 0, 0) !important;
+    --pwt-color-error-10: rgb(68, 0, 0) !important;
+    --pwt-color-error-5: rgb(42, 0, 0) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — UniFi Amber (#FFB300) tonal scale */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 252, 242) !important;
+    --pwt-color-warning-95: rgb(255, 240, 195) !important;
+    --pwt-color-warning-90: rgb(255, 225, 145) !important;
+    --pwt-color-warning-80: rgb(255, 200, 60) !important;
+    --pwt-color-warning-70: rgb(255, 185, 15) !important;
+    --pwt-color-warning-60: rgb(255, 179, 0) !important;
+    --pwt-color-warning-50: rgb(222, 152, 0) !important;
+    --pwt-color-warning-40: rgb(188, 126, 0) !important;
+    --pwt-color-warning-30: rgb(155, 100, 0) !important;
+    --pwt-color-warning-20: rgb(120, 76, 0) !important;
+    --pwt-color-warning-15: rgb(96, 58, 0) !important;
+    --pwt-color-warning-10: rgb(72, 42, 0) !important;
+    --pwt-color-warning-5: rgb(44, 24, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — UniFi Light Background scale (#F5F6FA base) */
+    --pwt-color-neutral-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-99: rgb(250, 250, 252) !important;
+    --pwt-color-neutral-95: rgb(245, 246, 250) !important;
+    --pwt-color-neutral-90: rgb(235, 236, 242) !important;
+    --pwt-color-neutral-80: rgb(224, 224, 230) !important;
+    --pwt-color-neutral-70: rgb(200, 200, 210) !important;
+    --pwt-color-neutral-60: rgb(170, 172, 185) !important;
+    --pwt-color-neutral-50: rgb(140, 142, 158) !important;
+    --pwt-color-neutral-40: rgb(108, 110, 128) !important;
+    --pwt-color-neutral-30: rgb(82, 84, 100) !important;
+    --pwt-color-neutral-20: rgb(58, 60, 75) !important;
+    --pwt-color-neutral-15: rgb(42, 44, 58) !important;
+    --pwt-color-neutral-10: rgb(26, 26, 38) !important;
+    --pwt-color-neutral-5: rgb(16, 16, 24) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt — UniFi Light border/surface tones */
+    --pwt-color-neutral-alt-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-alt-99: rgb(250, 251, 254) !important;
+    --pwt-color-neutral-alt-95: rgb(242, 244, 248) !important;
+    --pwt-color-neutral-alt-90: rgb(232, 234, 240) !important;
+    --pwt-color-neutral-alt-80: rgb(218, 220, 228) !important;
+    --pwt-color-neutral-alt-70: rgb(196, 198, 208) !important;
+    --pwt-color-neutral-alt-60: rgb(168, 170, 182) !important;
+    --pwt-color-neutral-alt-50: rgb(138, 140, 155) !important;
+    --pwt-color-neutral-alt-40: rgb(106, 108, 126) !important;
+    --pwt-color-neutral-alt-30: rgb(80, 82, 98) !important;
+    --pwt-color-neutral-alt-20: rgb(56, 58, 72) !important;
+    --pwt-color-neutral-alt-15: rgb(42, 44, 56) !important;
+    --pwt-color-neutral-alt-10: rgb(28, 28, 40) !important;
+    --pwt-color-neutral-alt-5: rgb(16, 16, 26) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (light surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-90) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-95) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-background: var(--pwt-color-neutral-95) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-20) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-shadow: rgba(0, 0, 0, 0.12) !important;
+    --pwt-color-primary: var(--pwt-color-primary-40) !important;
+    --pwt-color-on-primary: var(--pwt-color-primary-100) !important;
+    --pwt-color-primary-container: var(--pwt-color-primary-90) !important;
+    --pwt-color-on-primary-container: var(--pwt-color-primary-10) !important;
+    background: var(--pwt-color-neutral-95) !important;
+    color: var(--pwt-color-neutral-10) !important;
+    color-scheme: light !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-95) !important;
+}
+
+/* ===== Logo — swap to dark variant for light background ===== */
+img[src*="proxmox_logo_white"] {
+    content: url("/images/proxmox_logo.svg") !important;
+}

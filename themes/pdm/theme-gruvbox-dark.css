@@ -1,0 +1,181 @@
+/*!Gruvbox Dark*/
+/*
+ * ProxMorph PDM Theme: Gruvbox Dark
+ * Overrides the PWT Material Design tonal color system with Gruvbox palette
+ * Version: 1.0.0
+ *
+ * ─── Gruvbox Dark Palette ──────────────────────────────────────
+ * Accent Yellow: #fabd2f    Orange:   #fe8019
+ * Green:         #b8bb26    Red:      #fb4934
+ * Aqua:          #8ec07c    Blue:     #83a598
+ * Text:          #ebdbb2    Base:     #282828
+ */
+
+:root {
+    /* Primary — Gruvbox Yellow (#fabd2f) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(255, 253, 245) !important;
+    --pwt-color-primary-95: rgb(255, 245, 210) !important;
+    --pwt-color-primary-90: rgb(255, 235, 175) !important;
+    --pwt-color-primary-80: rgb(250, 210, 110) !important;
+    --pwt-color-primary-70: rgb(250, 189, 47) !important;
+    --pwt-color-primary-60: rgb(225, 168, 30) !important;
+    --pwt-color-primary-50: rgb(198, 145, 18) !important;
+    --pwt-color-primary-40: rgb(168, 120, 8) !important;
+    --pwt-color-primary-30: rgb(138, 98, 0) !important;
+    --pwt-color-primary-20: rgb(108, 75, 0) !important;
+    --pwt-color-primary-15: rgb(85, 58, 0) !important;
+    --pwt-color-primary-10: rgb(65, 44, 0) !important;
+    --pwt-color-primary-5: rgb(40, 28, 0) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Gruvbox Blue (#83a598) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(248, 254, 252) !important;
+    --pwt-color-secondary-95: rgb(222, 242, 238) !important;
+    --pwt-color-secondary-90: rgb(195, 228, 222) !important;
+    --pwt-color-secondary-80: rgb(158, 200, 192) !important;
+    --pwt-color-secondary-70: rgb(131, 165, 152) !important;
+    --pwt-color-secondary-60: rgb(108, 142, 130) !important;
+    --pwt-color-secondary-50: rgb(85, 118, 108) !important;
+    --pwt-color-secondary-40: rgb(65, 96, 86) !important;
+    --pwt-color-secondary-30: rgb(46, 75, 66) !important;
+    --pwt-color-secondary-20: rgb(30, 55, 48) !important;
+    --pwt-color-secondary-15: rgb(22, 44, 38) !important;
+    --pwt-color-secondary-10: rgb(14, 34, 28) !important;
+    --pwt-color-secondary-5: rgb(6, 20, 16) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Gruvbox Aqua (#8ec07c) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(248, 255, 246) !important;
+    --pwt-color-tertiary-95: rgb(225, 248, 218) !important;
+    --pwt-color-tertiary-90: rgb(200, 238, 192) !important;
+    --pwt-color-tertiary-80: rgb(165, 215, 155) !important;
+    --pwt-color-tertiary-70: rgb(142, 192, 124) !important;
+    --pwt-color-tertiary-60: rgb(118, 168, 102) !important;
+    --pwt-color-tertiary-50: rgb(95, 142, 80) !important;
+    --pwt-color-tertiary-40: rgb(75, 118, 62) !important;
+    --pwt-color-tertiary-30: rgb(55, 95, 42) !important;
+    --pwt-color-tertiary-20: rgb(38, 72, 28) !important;
+    --pwt-color-tertiary-15: rgb(28, 58, 18) !important;
+    --pwt-color-tertiary-10: rgb(20, 44, 12) !important;
+    --pwt-color-tertiary-5: rgb(10, 28, 5) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Gruvbox Green (#b8bb26) */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(252, 255, 242) !important;
+    --pwt-color-success-95: rgb(238, 248, 195) !important;
+    --pwt-color-success-90: rgb(218, 235, 130) !important;
+    --pwt-color-success-80: rgb(200, 215, 68) !important;
+    --pwt-color-success-70: rgb(184, 187, 38) !important;
+    --pwt-color-success-60: rgb(160, 165, 25) !important;
+    --pwt-color-success-50: rgb(135, 140, 12) !important;
+    --pwt-color-success-40: rgb(110, 115, 2) !important;
+    --pwt-color-success-30: rgb(88, 92, 0) !important;
+    --pwt-color-success-20: rgb(65, 68, 0) !important;
+    --pwt-color-success-15: rgb(50, 52, 0) !important;
+    --pwt-color-success-10: rgb(38, 40, 0) !important;
+    --pwt-color-success-5: rgb(22, 24, 0) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Gruvbox Red (#fb4934) */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 248, 246) !important;
+    --pwt-color-error-95: rgb(255, 228, 222) !important;
+    --pwt-color-error-90: rgb(255, 200, 192) !important;
+    --pwt-color-error-80: rgb(255, 148, 135) !important;
+    --pwt-color-error-70: rgb(251, 105, 82) !important;
+    --pwt-color-error-60: rgb(251, 73, 52) !important;
+    --pwt-color-error-50: rgb(225, 50, 35) !important;
+    --pwt-color-error-40: rgb(195, 32, 18) !important;
+    --pwt-color-error-30: rgb(165, 14, 4) !important;
+    --pwt-color-error-20: rgb(120, 8, 0) !important;
+    --pwt-color-error-15: rgb(95, 4, 0) !important;
+    --pwt-color-error-10: rgb(72, 0, 0) !important;
+    --pwt-color-error-5: rgb(45, 0, 0) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Gruvbox Orange (#fe8019) */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 251, 246) !important;
+    --pwt-color-warning-95: rgb(255, 238, 215) !important;
+    --pwt-color-warning-90: rgb(255, 220, 175) !important;
+    --pwt-color-warning-80: rgb(255, 185, 110) !important;
+    --pwt-color-warning-70: rgb(254, 128, 25) !important;
+    --pwt-color-warning-60: rgb(228, 108, 12) !important;
+    --pwt-color-warning-50: rgb(200, 90, 4) !important;
+    --pwt-color-warning-40: rgb(170, 72, 0) !important;
+    --pwt-color-warning-30: rgb(138, 55, 0) !important;
+    --pwt-color-warning-20: rgb(105, 40, 0) !important;
+    --pwt-color-warning-15: rgb(82, 30, 0) !important;
+    --pwt-color-warning-10: rgb(60, 22, 0) !important;
+    --pwt-color-warning-5: rgb(38, 12, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — Gruvbox Background scale */
+    --pwt-color-neutral-100: rgb(235, 219, 178) !important;
+    --pwt-color-neutral-99: rgb(228, 212, 172) !important;
+    --pwt-color-neutral-95: rgb(213, 196, 161) !important;
+    --pwt-color-neutral-90: rgb(189, 174, 147) !important;
+    --pwt-color-neutral-80: rgb(168, 153, 132) !important;
+    --pwt-color-neutral-70: rgb(146, 131, 116) !important;
+    --pwt-color-neutral-60: rgb(124, 111, 100) !important;
+    --pwt-color-neutral-50: rgb(102, 92, 84) !important;
+    --pwt-color-neutral-40: rgb(80, 73, 69) !important;
+    --pwt-color-neutral-30: rgb(60, 56, 54) !important;
+    --pwt-color-neutral-20: rgb(40, 40, 40) !important;
+    --pwt-color-neutral-15: rgb(29, 32, 33) !important;
+    --pwt-color-neutral-10: rgb(24, 26, 28) !important;
+    --pwt-color-neutral-5: rgb(16, 16, 18) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt */
+    --pwt-color-neutral-alt-100: rgb(235, 219, 178) !important;
+    --pwt-color-neutral-alt-99: rgb(230, 215, 175) !important;
+    --pwt-color-neutral-alt-95: rgb(215, 200, 165) !important;
+    --pwt-color-neutral-alt-90: rgb(195, 180, 148) !important;
+    --pwt-color-neutral-alt-80: rgb(170, 158, 135) !important;
+    --pwt-color-neutral-alt-70: rgb(148, 135, 118) !important;
+    --pwt-color-neutral-alt-60: rgb(126, 115, 102) !important;
+    --pwt-color-neutral-alt-50: rgb(105, 95, 85) !important;
+    --pwt-color-neutral-alt-40: rgb(83, 76, 70) !important;
+    --pwt-color-neutral-alt-30: rgb(62, 58, 55) !important;
+    --pwt-color-neutral-alt-20: rgb(42, 42, 42) !important;
+    --pwt-color-neutral-alt-15: rgb(32, 34, 35) !important;
+    --pwt-color-neutral-alt-10: rgb(25, 27, 28) !important;
+    --pwt-color-neutral-alt-5: rgb(16, 17, 18) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (darker surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-15) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-10) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-background: var(--pwt-color-neutral-10) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-80) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-30) !important;
+    --pwt-color-shadow: var(--pwt-color-neutral-0) !important;
+    background: var(--pwt-color-neutral-10) !important;
+    color: var(--pwt-color-neutral-95) !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-10) !important;
+}

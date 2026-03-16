@@ -1,8 +1,10 @@
 # ProxMorph Theme Gallery
 
-Complete gallery of all available ProxMorph themes for Proxmox VE and PBS.
+Complete gallery of all available ProxMorph themes for Proxmox VE, PBS, and PDM.
 
 **Quick Links:** [Installation](README.md#-installation) | [Creating Themes](README.md#-creating-themes) | [Troubleshooting](README.md#-troubleshooting)
+
+> **PVE/PBS** screenshots are shown first, followed by the [PDM gallery](#proxmox-datacenter-manager-pdm).
 
 ---
 
@@ -226,6 +228,166 @@ Clean, modern themes inspired by the [Ubiquiti UniFi](https://ui.com/) Network A
       <img src="screenshots/blue-slate.png" alt="Blue Slate Theme" width="100%">
       <br>
       <i>Cool blue-gray tones with slate accent</i>
+    </td>
+  </tr>
+</table>
+
+---
+
+## Proxmox Datacenter Manager (PDM)
+
+All themes are also available for Proxmox Datacenter Manager 1.x.
+
+### PDM — Catppuccin Collection
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Catppuccin Mocha</h3>
+      <img src="screenshots/pdm-catppuccin-mocha.png" alt="PDM Catppuccin Mocha Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Catppuccin Mocha Teal</h3>
+      <img src="screenshots/pdm-catppuccin-mocha-teal.png" alt="PDM Catppuccin Mocha Teal Theme" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Catppuccin Macchiato</h3>
+      <img src="screenshots/pdm-catppuccin-macchiato.png" alt="PDM Catppuccin Macchiato Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Catppuccin Frappé</h3>
+      <img src="screenshots/pdm-catppuccin-frappe.png" alt="PDM Catppuccin Frappé Theme" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Catppuccin Latte</h3>
+      <img src="screenshots/pdm-catppuccin-latte.png" alt="PDM Catppuccin Latte Theme" width="100%">
+    </td>
+    <td width="50%"></td>
+  </tr>
+</table>
+
+### PDM — Dracula Collection
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Dracula</h3>
+      <img src="screenshots/pdm-dracula.png" alt="PDM Dracula Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Dracula Midnight</h3>
+      <img src="screenshots/pdm-dracula-midnight.png" alt="PDM Dracula Midnight Theme" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Dracula Pink</h3>
+      <img src="screenshots/pdm-dracula-pink.png" alt="PDM Dracula Pink Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Dracula Cyan</h3>
+      <img src="screenshots/pdm-dracula-cyan.png" alt="PDM Dracula Cyan Theme" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Dracula Green</h3>
+      <img src="screenshots/pdm-dracula-green.png" alt="PDM Dracula Green Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Dracula Orange</h3>
+      <img src="screenshots/pdm-dracula-orange.png" alt="PDM Dracula Orange Theme" width="100%">
+    </td>
+  </tr>
+</table>
+
+### PDM — Nord Collection
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Nord Dark</h3>
+      <img src="screenshots/pdm-nord-dark.png" alt="PDM Nord Dark Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Nord Light</h3>
+      <img src="screenshots/pdm-nord-light.png" alt="PDM Nord Light Theme" width="100%">
+    </td>
+  </tr>
+</table>
+
+### PDM — Gruvbox Collection
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Gruvbox Dark</h3>
+      <img src="screenshots/pdm-gruvbox-dark.png" alt="PDM Gruvbox Dark Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Gruvbox Light</h3>
+      <img src="screenshots/pdm-gruvbox-light.png" alt="PDM Gruvbox Light Theme" width="100%">
+    </td>
+  </tr>
+</table>
+
+### PDM — Solarized Collection
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Solarized Dark</h3>
+      <img src="screenshots/pdm-solarized-dark.png" alt="PDM Solarized Dark Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Solarized Light</h3>
+      <img src="screenshots/pdm-solarized-light.png" alt="PDM Solarized Light Theme" width="100%">
+    </td>
+  </tr>
+</table>
+
+### PDM — Tokyo Night
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>Tokyo Night</h3>
+      <img src="screenshots/pdm-tokyo-night.png" alt="PDM Tokyo Night Theme" width="100%">
+    </td>
+    <td width="50%"></td>
+  </tr>
+</table>
+
+### PDM — UniFi Collection
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>UniFi</h3>
+      <img src="screenshots/pdm-unifi.png" alt="PDM UniFi Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>UniFi Light</h3>
+      <img src="screenshots/pdm-unifi-light.png" alt="PDM UniFi Light Theme" width="100%">
+    </td>
+  </tr>
+</table>
+
+### PDM — Other Themes
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <h3>GitHub Dark</h3>
+      <img src="screenshots/pdm-github-dark.png" alt="PDM GitHub Dark Theme" width="100%">
+    </td>
+    <td width="50%" align="center">
+      <h3>Blue Slate</h3>
+      <img src="screenshots/pdm-blue-slate.png" alt="PDM Blue Slate Theme" width="100%">
     </td>
   </tr>
 </table>

@@ -1,0 +1,181 @@
+/*!Tokyo Night*/
+/*
+ * ProxMorph PDM Theme: Tokyo Night
+ * Overrides the PWT Material Design tonal color system with Tokyo Night palette
+ * Version: 1.0.0
+ *
+ * ─── Tokyo Night Palette ───────────────────────────────────────
+ * Accent Blue:  #7aa2f7    Purple:   #9d7cd8
+ * Green:        #9ece6a    Yellow:   #e0af68
+ * Red:          #f7768e    Cyan:     #7dcfff
+ * Text:         #c0caf5    Base:     #1a1b26
+ */
+
+:root {
+    /* Primary — Tokyo Night Blue (#7aa2f7) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(248, 252, 255) !important;
+    --pwt-color-primary-95: rgb(225, 238, 255) !important;
+    --pwt-color-primary-90: rgb(200, 222, 255) !important;
+    --pwt-color-primary-80: rgb(155, 192, 252) !important;
+    --pwt-color-primary-70: rgb(122, 162, 247) !important;
+    --pwt-color-primary-60: rgb(98, 140, 225) !important;
+    --pwt-color-primary-50: rgb(78, 118, 200) !important;
+    --pwt-color-primary-40: rgb(58, 96, 175) !important;
+    --pwt-color-primary-30: rgb(40, 75, 148) !important;
+    --pwt-color-primary-20: rgb(25, 55, 118) !important;
+    --pwt-color-primary-15: rgb(18, 44, 98) !important;
+    --pwt-color-primary-10: rgb(10, 32, 78) !important;
+    --pwt-color-primary-5: rgb(4, 18, 50) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Tokyo Night Purple (#9d7cd8) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(252, 250, 255) !important;
+    --pwt-color-secondary-95: rgb(238, 228, 255) !important;
+    --pwt-color-secondary-90: rgb(222, 210, 250) !important;
+    --pwt-color-secondary-80: rgb(188, 168, 235) !important;
+    --pwt-color-secondary-70: rgb(157, 124, 216) !important;
+    --pwt-color-secondary-60: rgb(132, 102, 192) !important;
+    --pwt-color-secondary-50: rgb(108, 80, 168) !important;
+    --pwt-color-secondary-40: rgb(85, 60, 145) !important;
+    --pwt-color-secondary-30: rgb(65, 42, 120) !important;
+    --pwt-color-secondary-20: rgb(46, 26, 95) !important;
+    --pwt-color-secondary-15: rgb(36, 18, 78) !important;
+    --pwt-color-secondary-10: rgb(28, 12, 62) !important;
+    --pwt-color-secondary-5: rgb(16, 5, 40) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Tokyo Night Cyan (#7dcfff) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(248, 254, 255) !important;
+    --pwt-color-tertiary-95: rgb(222, 248, 255) !important;
+    --pwt-color-tertiary-90: rgb(195, 238, 255) !important;
+    --pwt-color-tertiary-80: rgb(150, 218, 255) !important;
+    --pwt-color-tertiary-70: rgb(125, 207, 255) !important;
+    --pwt-color-tertiary-60: rgb(98, 182, 230) !important;
+    --pwt-color-tertiary-50: rgb(75, 155, 205) !important;
+    --pwt-color-tertiary-40: rgb(55, 130, 178) !important;
+    --pwt-color-tertiary-30: rgb(38, 105, 150) !important;
+    --pwt-color-tertiary-20: rgb(22, 80, 120) !important;
+    --pwt-color-tertiary-15: rgb(14, 65, 100) !important;
+    --pwt-color-tertiary-10: rgb(8, 48, 78) !important;
+    --pwt-color-tertiary-5: rgb(2, 30, 50) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Tokyo Night Green (#9ece6a) */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(248, 255, 242) !important;
+    --pwt-color-success-95: rgb(225, 248, 200) !important;
+    --pwt-color-success-90: rgb(200, 238, 165) !important;
+    --pwt-color-success-80: rgb(175, 220, 130) !important;
+    --pwt-color-success-70: rgb(158, 206, 106) !important;
+    --pwt-color-success-60: rgb(132, 180, 82) !important;
+    --pwt-color-success-50: rgb(108, 155, 60) !important;
+    --pwt-color-success-40: rgb(86, 130, 42) !important;
+    --pwt-color-success-30: rgb(66, 105, 25) !important;
+    --pwt-color-success-20: rgb(48, 80, 12) !important;
+    --pwt-color-success-15: rgb(36, 62, 5) !important;
+    --pwt-color-success-10: rgb(26, 46, 0) !important;
+    --pwt-color-success-5: rgb(14, 28, 0) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Tokyo Night Red (#f7768e) */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 249, 250) !important;
+    --pwt-color-error-95: rgb(255, 232, 236) !important;
+    --pwt-color-error-90: rgb(255, 210, 218) !important;
+    --pwt-color-error-80: rgb(252, 165, 180) !important;
+    --pwt-color-error-70: rgb(247, 118, 142) !important;
+    --pwt-color-error-60: rgb(225, 92, 118) !important;
+    --pwt-color-error-50: rgb(200, 68, 95) !important;
+    --pwt-color-error-40: rgb(172, 46, 72) !important;
+    --pwt-color-error-30: rgb(145, 26, 52) !important;
+    --pwt-color-error-20: rgb(112, 10, 35) !important;
+    --pwt-color-error-15: rgb(90, 4, 24) !important;
+    --pwt-color-error-10: rgb(68, 0, 14) !important;
+    --pwt-color-error-5: rgb(45, 0, 6) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Tokyo Night Yellow (#e0af68) */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 252, 246) !important;
+    --pwt-color-warning-95: rgb(255, 242, 215) !important;
+    --pwt-color-warning-90: rgb(248, 228, 180) !important;
+    --pwt-color-warning-80: rgb(238, 200, 138) !important;
+    --pwt-color-warning-70: rgb(224, 175, 104) !important;
+    --pwt-color-warning-60: rgb(200, 152, 80) !important;
+    --pwt-color-warning-50: rgb(175, 130, 58) !important;
+    --pwt-color-warning-40: rgb(150, 108, 38) !important;
+    --pwt-color-warning-30: rgb(122, 85, 20) !important;
+    --pwt-color-warning-20: rgb(95, 65, 8) !important;
+    --pwt-color-warning-15: rgb(75, 50, 2) !important;
+    --pwt-color-warning-10: rgb(55, 36, 0) !important;
+    --pwt-color-warning-5: rgb(35, 22, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — Tokyo Night Background scale */
+    --pwt-color-neutral-100: rgb(192, 202, 245) !important;
+    --pwt-color-neutral-99: rgb(185, 196, 240) !important;
+    --pwt-color-neutral-95: rgb(169, 177, 214) !important;
+    --pwt-color-neutral-90: rgb(148, 160, 198) !important;
+    --pwt-color-neutral-80: rgb(125, 138, 178) !important;
+    --pwt-color-neutral-70: rgb(105, 118, 158) !important;
+    --pwt-color-neutral-60: rgb(86, 98, 138) !important;
+    --pwt-color-neutral-50: rgb(68, 80, 118) !important;
+    --pwt-color-neutral-40: rgb(52, 62, 98) !important;
+    --pwt-color-neutral-30: rgb(36, 40, 59) !important;
+    --pwt-color-neutral-20: rgb(31, 35, 53) !important;
+    --pwt-color-neutral-15: rgb(26, 27, 38) !important;
+    --pwt-color-neutral-10: rgb(22, 22, 30) !important;
+    --pwt-color-neutral-5: rgb(14, 14, 20) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt */
+    --pwt-color-neutral-alt-100: rgb(192, 202, 245) !important;
+    --pwt-color-neutral-alt-99: rgb(188, 198, 242) !important;
+    --pwt-color-neutral-alt-95: rgb(172, 182, 225) !important;
+    --pwt-color-neutral-alt-90: rgb(152, 162, 205) !important;
+    --pwt-color-neutral-alt-80: rgb(128, 140, 182) !important;
+    --pwt-color-neutral-alt-70: rgb(108, 120, 162) !important;
+    --pwt-color-neutral-alt-60: rgb(88, 100, 142) !important;
+    --pwt-color-neutral-alt-50: rgb(70, 82, 122) !important;
+    --pwt-color-neutral-alt-40: rgb(54, 65, 102) !important;
+    --pwt-color-neutral-alt-30: rgb(38, 48, 78) !important;
+    --pwt-color-neutral-alt-20: rgb(28, 34, 56) !important;
+    --pwt-color-neutral-alt-15: rgb(22, 26, 42) !important;
+    --pwt-color-neutral-alt-10: rgb(18, 20, 32) !important;
+    --pwt-color-neutral-alt-5: rgb(12, 12, 22) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (darker surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-15) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-10) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-background: var(--pwt-color-neutral-10) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-80) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-30) !important;
+    --pwt-color-shadow: var(--pwt-color-neutral-0) !important;
+    background: var(--pwt-color-neutral-10) !important;
+    color: var(--pwt-color-neutral-95) !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-10) !important;
+}

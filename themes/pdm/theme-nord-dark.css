@@ -1,0 +1,181 @@
+/*!Nord Dark*/
+/*
+ * ProxMorph PDM Theme: Nord Dark
+ * Overrides the PWT Material Design tonal color system with Nord palette
+ * Version: 1.0.0
+ *
+ * ─── Nord Palette ──────────────────────────────────────────────
+ * Frost 1 (accent): #88c0d0    Frost 2:  #81a1c1
+ * Aurora Green:     #a3be8c    Aurora Yellow: #ebcb8b
+ * Aurora Red:       #bf616a    Aurora Orange: #d08770
+ * Snow Storm:       #e5e9f0    Polar Night: #2e3440
+ */
+
+:root {
+    /* Primary — Nord Frost (#88c0d0) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(248, 254, 255) !important;
+    --pwt-color-primary-95: rgb(225, 245, 252) !important;
+    --pwt-color-primary-90: rgb(200, 232, 242) !important;
+    --pwt-color-primary-80: rgb(160, 210, 225) !important;
+    --pwt-color-primary-70: rgb(136, 192, 208) !important;
+    --pwt-color-primary-60: rgb(110, 168, 185) !important;
+    --pwt-color-primary-50: rgb(88, 142, 160) !important;
+    --pwt-color-primary-40: rgb(65, 118, 135) !important;
+    --pwt-color-primary-30: rgb(45, 95, 112) !important;
+    --pwt-color-primary-20: rgb(28, 72, 88) !important;
+    --pwt-color-primary-15: rgb(18, 58, 72) !important;
+    --pwt-color-primary-10: rgb(10, 44, 56) !important;
+    --pwt-color-primary-5: rgb(4, 28, 38) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Nord Frost 2 (#81a1c1) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(248, 252, 255) !important;
+    --pwt-color-secondary-95: rgb(225, 238, 252) !important;
+    --pwt-color-secondary-90: rgb(200, 222, 240) !important;
+    --pwt-color-secondary-80: rgb(160, 192, 215) !important;
+    --pwt-color-secondary-70: rgb(129, 161, 193) !important;
+    --pwt-color-secondary-60: rgb(105, 138, 170) !important;
+    --pwt-color-secondary-50: rgb(82, 115, 148) !important;
+    --pwt-color-secondary-40: rgb(62, 95, 125) !important;
+    --pwt-color-secondary-30: rgb(44, 75, 102) !important;
+    --pwt-color-secondary-20: rgb(28, 56, 78) !important;
+    --pwt-color-secondary-15: rgb(20, 45, 65) !important;
+    --pwt-color-secondary-10: rgb(12, 35, 52) !important;
+    --pwt-color-secondary-5: rgb(5, 22, 35) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Nord Aurora Purple (#b48ead) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(255, 250, 254) !important;
+    --pwt-color-tertiary-95: rgb(245, 232, 242) !important;
+    --pwt-color-tertiary-90: rgb(232, 212, 228) !important;
+    --pwt-color-tertiary-80: rgb(205, 175, 200) !important;
+    --pwt-color-tertiary-70: rgb(180, 142, 173) !important;
+    --pwt-color-tertiary-60: rgb(155, 118, 148) !important;
+    --pwt-color-tertiary-50: rgb(130, 95, 125) !important;
+    --pwt-color-tertiary-40: rgb(108, 72, 102) !important;
+    --pwt-color-tertiary-30: rgb(85, 52, 80) !important;
+    --pwt-color-tertiary-20: rgb(62, 34, 58) !important;
+    --pwt-color-tertiary-15: rgb(50, 24, 48) !important;
+    --pwt-color-tertiary-10: rgb(38, 16, 36) !important;
+    --pwt-color-tertiary-5: rgb(25, 8, 24) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Nord Aurora Green (#a3be8c) */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(248, 255, 245) !important;
+    --pwt-color-success-95: rgb(225, 245, 215) !important;
+    --pwt-color-success-90: rgb(200, 232, 190) !important;
+    --pwt-color-success-80: rgb(175, 210, 160) !important;
+    --pwt-color-success-70: rgb(163, 190, 140) !important;
+    --pwt-color-success-60: rgb(138, 165, 118) !important;
+    --pwt-color-success-50: rgb(115, 140, 95) !important;
+    --pwt-color-success-40: rgb(92, 118, 75) !important;
+    --pwt-color-success-30: rgb(70, 95, 55) !important;
+    --pwt-color-success-20: rgb(50, 72, 38) !important;
+    --pwt-color-success-15: rgb(38, 58, 28) !important;
+    --pwt-color-success-10: rgb(28, 44, 18) !important;
+    --pwt-color-success-5: rgb(16, 28, 10) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Nord Aurora Red (#bf616a) */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 249, 249) !important;
+    --pwt-color-error-95: rgb(255, 228, 230) !important;
+    --pwt-color-error-90: rgb(248, 202, 206) !important;
+    --pwt-color-error-80: rgb(225, 150, 158) !important;
+    --pwt-color-error-70: rgb(205, 115, 125) !important;
+    --pwt-color-error-60: rgb(191, 97, 106) !important;
+    --pwt-color-error-50: rgb(168, 72, 82) !important;
+    --pwt-color-error-40: rgb(142, 50, 60) !important;
+    --pwt-color-error-30: rgb(118, 30, 40) !important;
+    --pwt-color-error-20: rgb(90, 16, 24) !important;
+    --pwt-color-error-15: rgb(72, 8, 16) !important;
+    --pwt-color-error-10: rgb(55, 2, 8) !important;
+    --pwt-color-error-5: rgb(35, 0, 4) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Nord Aurora Yellow (#ebcb8b) */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 253, 248) !important;
+    --pwt-color-warning-95: rgb(252, 245, 222) !important;
+    --pwt-color-warning-90: rgb(248, 235, 195) !important;
+    --pwt-color-warning-80: rgb(240, 218, 160) !important;
+    --pwt-color-warning-70: rgb(235, 203, 139) !important;
+    --pwt-color-warning-60: rgb(210, 178, 112) !important;
+    --pwt-color-warning-50: rgb(185, 155, 88) !important;
+    --pwt-color-warning-40: rgb(158, 130, 65) !important;
+    --pwt-color-warning-30: rgb(130, 105, 42) !important;
+    --pwt-color-warning-20: rgb(100, 80, 22) !important;
+    --pwt-color-warning-15: rgb(78, 62, 12) !important;
+    --pwt-color-warning-10: rgb(58, 45, 4) !important;
+    --pwt-color-warning-5: rgb(35, 28, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — Nord Polar Night scale */
+    --pwt-color-neutral-100: rgb(236, 239, 244) !important;
+    --pwt-color-neutral-99: rgb(229, 233, 240) !important;
+    --pwt-color-neutral-95: rgb(216, 222, 233) !important;
+    --pwt-color-neutral-90: rgb(195, 202, 218) !important;
+    --pwt-color-neutral-80: rgb(168, 178, 198) !important;
+    --pwt-color-neutral-70: rgb(140, 152, 175) !important;
+    --pwt-color-neutral-60: rgb(115, 128, 152) !important;
+    --pwt-color-neutral-50: rgb(92, 105, 130) !important;
+    --pwt-color-neutral-40: rgb(76, 86, 106) !important;
+    --pwt-color-neutral-30: rgb(67, 76, 94) !important;
+    --pwt-color-neutral-20: rgb(59, 66, 82) !important;
+    --pwt-color-neutral-15: rgb(52, 58, 72) !important;
+    --pwt-color-neutral-10: rgb(46, 52, 64) !important;
+    --pwt-color-neutral-5: rgb(36, 40, 52) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt */
+    --pwt-color-neutral-alt-100: rgb(236, 239, 244) !important;
+    --pwt-color-neutral-alt-99: rgb(232, 236, 242) !important;
+    --pwt-color-neutral-alt-95: rgb(218, 225, 238) !important;
+    --pwt-color-neutral-alt-90: rgb(200, 208, 225) !important;
+    --pwt-color-neutral-alt-80: rgb(170, 182, 202) !important;
+    --pwt-color-neutral-alt-70: rgb(142, 155, 180) !important;
+    --pwt-color-neutral-alt-60: rgb(118, 130, 158) !important;
+    --pwt-color-neutral-alt-50: rgb(95, 108, 135) !important;
+    --pwt-color-neutral-alt-40: rgb(76, 88, 112) !important;
+    --pwt-color-neutral-alt-30: rgb(60, 70, 92) !important;
+    --pwt-color-neutral-alt-20: rgb(48, 56, 74) !important;
+    --pwt-color-neutral-alt-15: rgb(40, 46, 62) !important;
+    --pwt-color-neutral-alt-10: rgb(32, 38, 50) !important;
+    --pwt-color-neutral-alt-5: rgb(22, 26, 38) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (darker surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-15) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-10) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-background: var(--pwt-color-neutral-10) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-80) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-30) !important;
+    --pwt-color-shadow: var(--pwt-color-neutral-0) !important;
+    background: var(--pwt-color-neutral-10) !important;
+    color: var(--pwt-color-neutral-95) !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-10) !important;
+}

@@ -1,0 +1,183 @@
+/*!GitHub Dark*/
+/*
+ * ProxMorph PDM Theme: GitHub Dark
+ * Overrides the PWT Material Design tonal color system with GitHub Primer palette
+ * Version: 1.0.0
+ * Author: ProxMorph / GitHub Primer Design System
+ *
+ * ─── GitHub Primer Dark Palette ────────────────────────────────
+ * Accent Blue:  #4493f8    Emphasis: #1f6feb
+ * Success:      #3fb950    Danger:   #f85149
+ * Attention:    #d29922    Text:     #f0f6fc
+ * Canvas:       #0d1117    Subtle:   #161b22
+ * Border:       #3d444d
+ */
+
+:root {
+    /* Primary — GitHub Accent Blue (#4493f8) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(246, 251, 255) !important;
+    --pwt-color-primary-95: rgb(218, 238, 255) !important;
+    --pwt-color-primary-90: rgb(188, 222, 255) !important;
+    --pwt-color-primary-80: rgb(130, 188, 252) !important;
+    --pwt-color-primary-70: rgb(68, 147, 248) !important;
+    --pwt-color-primary-60: rgb(31, 111, 235) !important;
+    --pwt-color-primary-50: rgb(18, 90, 205) !important;
+    --pwt-color-primary-40: rgb(8, 72, 172) !important;
+    --pwt-color-primary-30: rgb(2, 55, 140) !important;
+    --pwt-color-primary-20: rgb(0, 40, 108) !important;
+    --pwt-color-primary-15: rgb(0, 30, 85) !important;
+    --pwt-color-primary-10: rgb(0, 22, 65) !important;
+    --pwt-color-primary-5: rgb(0, 12, 42) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — GitHub Muted tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(250, 252, 255) !important;
+    --pwt-color-secondary-95: rgb(230, 238, 248) !important;
+    --pwt-color-secondary-90: rgb(210, 220, 235) !important;
+    --pwt-color-secondary-80: rgb(175, 190, 210) !important;
+    --pwt-color-secondary-70: rgb(145, 152, 161) !important;
+    --pwt-color-secondary-60: rgb(110, 118, 129) !important;
+    --pwt-color-secondary-50: rgb(88, 95, 105) !important;
+    --pwt-color-secondary-40: rgb(61, 68, 77) !important;
+    --pwt-color-secondary-30: rgb(48, 54, 62) !important;
+    --pwt-color-secondary-20: rgb(22, 27, 34) !important;
+    --pwt-color-secondary-15: rgb(16, 20, 28) !important;
+    --pwt-color-secondary-10: rgb(13, 17, 23) !important;
+    --pwt-color-secondary-5: rgb(6, 8, 14) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — GitHub Purple (#a371f7) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(252, 250, 255) !important;
+    --pwt-color-tertiary-95: rgb(238, 228, 255) !important;
+    --pwt-color-tertiary-90: rgb(222, 208, 255) !important;
+    --pwt-color-tertiary-80: rgb(188, 160, 252) !important;
+    --pwt-color-tertiary-70: rgb(163, 113, 247) !important;
+    --pwt-color-tertiary-60: rgb(138, 88, 225) !important;
+    --pwt-color-tertiary-50: rgb(115, 65, 200) !important;
+    --pwt-color-tertiary-40: rgb(92, 45, 175) !important;
+    --pwt-color-tertiary-30: rgb(72, 28, 148) !important;
+    --pwt-color-tertiary-20: rgb(52, 14, 118) !important;
+    --pwt-color-tertiary-15: rgb(42, 8, 98) !important;
+    --pwt-color-tertiary-10: rgb(32, 4, 78) !important;
+    --pwt-color-tertiary-5: rgb(20, 0, 50) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — GitHub Green (#3fb950) */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(242, 255, 245) !important;
+    --pwt-color-success-95: rgb(205, 255, 215) !important;
+    --pwt-color-success-90: rgb(165, 248, 180) !important;
+    --pwt-color-success-80: rgb(105, 225, 125) !important;
+    --pwt-color-success-70: rgb(63, 185, 80) !important;
+    --pwt-color-success-60: rgb(46, 160, 67) !important;
+    --pwt-color-success-50: rgb(35, 134, 54) !important;
+    --pwt-color-success-40: rgb(22, 110, 40) !important;
+    --pwt-color-success-30: rgb(12, 88, 28) !important;
+    --pwt-color-success-20: rgb(4, 66, 18) !important;
+    --pwt-color-success-15: rgb(0, 52, 12) !important;
+    --pwt-color-success-10: rgb(0, 38, 6) !important;
+    --pwt-color-success-5: rgb(0, 24, 2) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — GitHub Danger Red (#f85149) */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 248, 248) !important;
+    --pwt-color-error-95: rgb(255, 228, 226) !important;
+    --pwt-color-error-90: rgb(255, 200, 198) !important;
+    --pwt-color-error-80: rgb(255, 148, 144) !important;
+    --pwt-color-error-70: rgb(248, 81, 73) !important;
+    --pwt-color-error-60: rgb(218, 54, 51) !important;
+    --pwt-color-error-50: rgb(190, 36, 34) !important;
+    --pwt-color-error-40: rgb(162, 20, 18) !important;
+    --pwt-color-error-30: rgb(132, 8, 6) !important;
+    --pwt-color-error-20: rgb(100, 2, 0) !important;
+    --pwt-color-error-15: rgb(80, 0, 0) !important;
+    --pwt-color-error-10: rgb(60, 0, 0) !important;
+    --pwt-color-error-5: rgb(38, 0, 0) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — GitHub Attention (#d29922) */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 252, 244) !important;
+    --pwt-color-warning-95: rgb(255, 240, 200) !important;
+    --pwt-color-warning-90: rgb(248, 225, 155) !important;
+    --pwt-color-warning-80: rgb(235, 198, 95) !important;
+    --pwt-color-warning-70: rgb(210, 153, 34) !important;
+    --pwt-color-warning-60: rgb(185, 130, 15) !important;
+    --pwt-color-warning-50: rgb(158, 106, 3) !important;
+    --pwt-color-warning-40: rgb(132, 88, 0) !important;
+    --pwt-color-warning-30: rgb(105, 68, 0) !important;
+    --pwt-color-warning-20: rgb(78, 50, 0) !important;
+    --pwt-color-warning-15: rgb(60, 38, 0) !important;
+    --pwt-color-warning-10: rgb(44, 28, 0) !important;
+    --pwt-color-warning-5: rgb(28, 16, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — GitHub Canvas scale */
+    --pwt-color-neutral-100: rgb(240, 246, 252) !important;
+    --pwt-color-neutral-99: rgb(232, 238, 245) !important;
+    --pwt-color-neutral-95: rgb(210, 218, 228) !important;
+    --pwt-color-neutral-90: rgb(185, 195, 208) !important;
+    --pwt-color-neutral-80: rgb(155, 165, 178) !important;
+    --pwt-color-neutral-70: rgb(125, 135, 148) !important;
+    --pwt-color-neutral-60: rgb(110, 118, 129) !important;
+    --pwt-color-neutral-50: rgb(88, 95, 108) !important;
+    --pwt-color-neutral-40: rgb(61, 68, 77) !important;
+    --pwt-color-neutral-30: rgb(33, 38, 45) !important;
+    --pwt-color-neutral-20: rgb(22, 27, 34) !important;
+    --pwt-color-neutral-15: rgb(13, 17, 23) !important;
+    --pwt-color-neutral-10: rgb(1, 4, 9) !important;
+    --pwt-color-neutral-5: rgb(0, 2, 6) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt */
+    --pwt-color-neutral-alt-100: rgb(240, 246, 252) !important;
+    --pwt-color-neutral-alt-99: rgb(235, 241, 248) !important;
+    --pwt-color-neutral-alt-95: rgb(215, 222, 232) !important;
+    --pwt-color-neutral-alt-90: rgb(192, 200, 212) !important;
+    --pwt-color-neutral-alt-80: rgb(160, 170, 185) !important;
+    --pwt-color-neutral-alt-70: rgb(130, 140, 155) !important;
+    --pwt-color-neutral-alt-60: rgb(102, 112, 128) !important;
+    --pwt-color-neutral-alt-50: rgb(80, 90, 105) !important;
+    --pwt-color-neutral-alt-40: rgb(58, 65, 78) !important;
+    --pwt-color-neutral-alt-30: rgb(38, 44, 55) !important;
+    --pwt-color-neutral-alt-20: rgb(24, 30, 38) !important;
+    --pwt-color-neutral-alt-15: rgb(15, 20, 28) !important;
+    --pwt-color-neutral-alt-10: rgb(8, 12, 18) !important;
+    --pwt-color-neutral-alt-5: rgb(2, 4, 10) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (darker surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-15) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-10) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-background: var(--pwt-color-neutral-10) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-80) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-30) !important;
+    --pwt-color-shadow: var(--pwt-color-neutral-0) !important;
+    background: var(--pwt-color-neutral-10) !important;
+    color: var(--pwt-color-neutral-95) !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-10) !important;
+}

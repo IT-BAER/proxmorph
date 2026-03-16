@@ -1,0 +1,181 @@
+/*!Dracula Orange*/
+/*
+ * ProxMorph PDM Theme: Dracula Orange
+ * Overrides the PWT Material Design tonal color system with Dracula Orange palette
+ * Version: 1.0.0
+ * Author: ProxMorph / Dracula Theme (https://draculatheme.com)
+ *
+ * ─── Dracula Orange Palette ───────────────────────────────────
+ * Background:   #26201b    Accent:   #ffb86c (Orange)
+ * Foreground:   #f8f8f2    Comment:  #6272a4
+ */
+
+/* ===== Tonal Color Overrides ===== */
+:root {
+    /* Primary — Dracula Orange (#ffb86c) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(255, 252, 248) !important;
+    --pwt-color-primary-95: rgb(255, 240, 222) !important;
+    --pwt-color-primary-90: rgb(255, 225, 185) !important;
+    --pwt-color-primary-80: rgb(255, 184, 108) !important;
+    --pwt-color-primary-70: rgb(230, 158, 82) !important;
+    --pwt-color-primary-60: rgb(205, 132, 58) !important;
+    --pwt-color-primary-50: rgb(180, 108, 38) !important;
+    --pwt-color-primary-40: rgb(152, 86, 22) !important;
+    --pwt-color-primary-30: rgb(122, 65, 10) !important;
+    --pwt-color-primary-20: rgb(90, 46, 2) !important;
+    --pwt-color-primary-15: rgb(72, 36, 0) !important;
+    --pwt-color-primary-10: rgb(55, 26, 0) !important;
+    --pwt-color-primary-5: rgb(35, 15, 0) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Dracula Comment/Overlay (#6272a4) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(248, 250, 255) !important;
+    --pwt-color-secondary-95: rgb(230, 236, 252) !important;
+    --pwt-color-secondary-90: rgb(210, 220, 245) !important;
+    --pwt-color-secondary-80: rgb(178, 196, 230) !important;
+    --pwt-color-secondary-70: rgb(146, 163, 200) !important;
+    --pwt-color-secondary-60: rgb(118, 137, 180) !important;
+    --pwt-color-secondary-50: rgb(98, 114, 164) !important;
+    --pwt-color-secondary-40: rgb(78, 94, 140) !important;
+    --pwt-color-secondary-30: rgb(58, 72, 115) !important;
+    --pwt-color-secondary-20: rgb(40, 52, 90) !important;
+    --pwt-color-secondary-15: rgb(32, 42, 75) !important;
+    --pwt-color-secondary-10: rgb(24, 32, 60) !important;
+    --pwt-color-secondary-5: rgb(16, 20, 42) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Dracula Pink (#ff79c6) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(255, 248, 252) !important;
+    --pwt-color-tertiary-95: rgb(255, 234, 244) !important;
+    --pwt-color-tertiary-90: rgb(255, 210, 232) !important;
+    --pwt-color-tertiary-80: rgb(255, 165, 210) !important;
+    --pwt-color-tertiary-70: rgb(255, 121, 198) !important;
+    --pwt-color-tertiary-60: rgb(230, 95, 175) !important;
+    --pwt-color-tertiary-50: rgb(200, 70, 150) !important;
+    --pwt-color-tertiary-40: rgb(170, 48, 125) !important;
+    --pwt-color-tertiary-30: rgb(140, 28, 100) !important;
+    --pwt-color-tertiary-20: rgb(108, 12, 78) !important;
+    --pwt-color-tertiary-15: rgb(88, 4, 62) !important;
+    --pwt-color-tertiary-10: rgb(68, 0, 48) !important;
+    --pwt-color-tertiary-5: rgb(45, 0, 30) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Dracula Green (#50fa7b) tonal scale */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(240, 255, 245) !important;
+    --pwt-color-success-95: rgb(200, 255, 215) !important;
+    --pwt-color-success-90: rgb(140, 255, 175) !important;
+    --pwt-color-success-80: rgb(80, 250, 123) !important;
+    --pwt-color-success-70: rgb(55, 220, 98) !important;
+    --pwt-color-success-60: rgb(30, 190, 75) !important;
+    --pwt-color-success-50: rgb(10, 160, 55) !important;
+    --pwt-color-success-40: rgb(0, 130, 40) !important;
+    --pwt-color-success-30: rgb(0, 100, 28) !important;
+    --pwt-color-success-20: rgb(0, 72, 18) !important;
+    --pwt-color-success-15: rgb(0, 55, 12) !important;
+    --pwt-color-success-10: rgb(0, 40, 8) !important;
+    --pwt-color-success-5: rgb(0, 25, 4) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Dracula Red (#ff5555) tonal scale */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 248, 248) !important;
+    --pwt-color-error-95: rgb(255, 230, 230) !important;
+    --pwt-color-error-90: rgb(255, 205, 205) !important;
+    --pwt-color-error-80: rgb(255, 150, 150) !important;
+    --pwt-color-error-70: rgb(255, 110, 110) !important;
+    --pwt-color-error-60: rgb(255, 85, 85) !important;
+    --pwt-color-error-50: rgb(230, 60, 60) !important;
+    --pwt-color-error-40: rgb(200, 38, 38) !important;
+    --pwt-color-error-30: rgb(168, 16, 16) !important;
+    --pwt-color-error-20: rgb(120, 10, 10) !important;
+    --pwt-color-error-15: rgb(95, 5, 5) !important;
+    --pwt-color-error-10: rgb(72, 0, 0) !important;
+    --pwt-color-error-5: rgb(48, 0, 0) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Dracula Yellow (#f1fa8c) tonal scale */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 254, 248) !important;
+    --pwt-color-warning-95: rgb(252, 255, 210) !important;
+    --pwt-color-warning-90: rgb(245, 252, 160) !important;
+    --pwt-color-warning-80: rgb(241, 250, 140) !important;
+    --pwt-color-warning-70: rgb(218, 228, 100) !important;
+    --pwt-color-warning-60: rgb(195, 205, 65) !important;
+    --pwt-color-warning-50: rgb(170, 180, 35) !important;
+    --pwt-color-warning-40: rgb(140, 150, 15) !important;
+    --pwt-color-warning-30: rgb(110, 118, 0) !important;
+    --pwt-color-warning-20: rgb(80, 85, 0) !important;
+    --pwt-color-warning-15: rgb(60, 65, 0) !important;
+    --pwt-color-warning-10: rgb(42, 46, 0) !important;
+    --pwt-color-warning-5: rgb(25, 28, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+
+    /* Neutral — Dracula Orange (warm-tinted) Background/Surface scale */
+    --pwt-color-neutral-100: rgb(248, 248, 242) !important;
+    --pwt-color-neutral-99: rgb(242, 240, 236) !important;
+    --pwt-color-neutral-95: rgb(228, 222, 215) !important;
+    --pwt-color-neutral-90: rgb(212, 205, 198) !important;
+    --pwt-color-neutral-80: rgb(180, 172, 162) !important;
+    --pwt-color-neutral-70: rgb(148, 140, 130) !important;
+    --pwt-color-neutral-60: rgb(120, 112, 102) !important;
+    --pwt-color-neutral-50: rgb(95, 88, 78) !important;
+    --pwt-color-neutral-40: rgb(75, 68, 58) !important;
+    --pwt-color-neutral-30: rgb(58, 52, 44) !important;
+    --pwt-color-neutral-20: rgb(38, 32, 27) !important;
+    --pwt-color-neutral-15: rgb(30, 26, 22) !important;
+    --pwt-color-neutral-10: rgb(22, 20, 17) !important;
+    --pwt-color-neutral-5: rgb(14, 12, 10) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt — Dracula Orange Comment tones */
+    --pwt-color-neutral-alt-100: rgb(248, 248, 242) !important;
+    --pwt-color-neutral-alt-99: rgb(242, 240, 236) !important;
+    --pwt-color-neutral-alt-95: rgb(230, 225, 218) !important;
+    --pwt-color-neutral-alt-90: rgb(215, 208, 200) !important;
+    --pwt-color-neutral-alt-80: rgb(182, 175, 166) !important;
+    --pwt-color-neutral-alt-70: rgb(150, 142, 132) !important;
+    --pwt-color-neutral-alt-60: rgb(122, 115, 105) !important;
+    --pwt-color-neutral-alt-50: rgb(98, 90, 80) !important;
+    --pwt-color-neutral-alt-40: rgb(78, 70, 60) !important;
+    --pwt-color-neutral-alt-30: rgb(60, 54, 45) !important;
+    --pwt-color-neutral-alt-20: rgb(42, 36, 30) !important;
+    --pwt-color-neutral-alt-15: rgb(34, 28, 24) !important;
+    --pwt-color-neutral-alt-10: rgb(25, 22, 18) !important;
+    --pwt-color-neutral-alt-5: rgb(16, 14, 11) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+/* ===== Semantic Color Remapping (darker surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-15) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-10) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-background: var(--pwt-color-neutral-10) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-80) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-30) !important;
+    --pwt-color-shadow: var(--pwt-color-neutral-0) !important;
+    background: var(--pwt-color-neutral-10) !important;
+    color: var(--pwt-color-neutral-95) !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-10) !important;
+}

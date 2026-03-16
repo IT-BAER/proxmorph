@@ -1,0 +1,194 @@
+/*!Solarized Light*/
+/*
+ * ProxMorph PDM Theme: Solarized Light
+ * Overrides the PWT Material Design tonal color system with Solarized Light palette
+ * Version: 1.0.0
+ * Author: ProxMorph / Ethan Schoonover (https://ethanschoonover.com/solarized)
+ *
+ * ─── Solarized Light Palette ──────────────────────────────────
+ * Blue (accent):  #268bd2    Cyan:     #2aa198
+ * Green:          #859900    Red:      #dc322f
+ * Yellow:         #b58900    Magenta:  #d33682
+ * Text:           #657b83 (base00)  Background: #fdf6e3 (base3)
+ * base1:          #93a1a1    base2:    #eee8d5
+ */
+
+/* ===== Tonal Color Overrides ===== */
+:root {
+    /* Primary — Solarized Blue (#268bd2) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(248, 252, 255) !important;
+    --pwt-color-primary-95: rgb(215, 238, 255) !important;
+    --pwt-color-primary-90: rgb(178, 222, 252) !important;
+    --pwt-color-primary-80: rgb(115, 188, 238) !important;
+    --pwt-color-primary-70: rgb(62, 158, 222) !important;
+    --pwt-color-primary-60: rgb(38, 139, 210) !important;
+    --pwt-color-primary-50: rgb(25, 118, 185) !important;
+    --pwt-color-primary-40: rgb(15, 98, 158) !important;
+    --pwt-color-primary-30: rgb(6, 78, 130) !important;
+    --pwt-color-primary-20: rgb(0, 58, 102) !important;
+    --pwt-color-primary-15: rgb(0, 46, 82) !important;
+    --pwt-color-primary-10: rgb(0, 34, 62) !important;
+    --pwt-color-primary-5: rgb(0, 20, 38) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Solarized Cyan (#2aa198) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(245, 255, 254) !important;
+    --pwt-color-secondary-95: rgb(208, 248, 244) !important;
+    --pwt-color-secondary-90: rgb(168, 238, 232) !important;
+    --pwt-color-secondary-80: rgb(100, 210, 200) !important;
+    --pwt-color-secondary-70: rgb(55, 180, 172) !important;
+    --pwt-color-secondary-60: rgb(42, 161, 152) !important;
+    --pwt-color-secondary-50: rgb(28, 138, 130) !important;
+    --pwt-color-secondary-40: rgb(16, 115, 108) !important;
+    --pwt-color-secondary-30: rgb(6, 92, 86) !important;
+    --pwt-color-secondary-20: rgb(0, 70, 65) !important;
+    --pwt-color-secondary-15: rgb(0, 55, 52) !important;
+    --pwt-color-secondary-10: rgb(0, 42, 38) !important;
+    --pwt-color-secondary-5: rgb(0, 25, 22) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Solarized Magenta (#d33682) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(255, 248, 252) !important;
+    --pwt-color-tertiary-95: rgb(255, 225, 240) !important;
+    --pwt-color-tertiary-90: rgb(252, 198, 222) !important;
+    --pwt-color-tertiary-80: rgb(238, 140, 185) !important;
+    --pwt-color-tertiary-70: rgb(225, 85, 152) !important;
+    --pwt-color-tertiary-60: rgb(211, 54, 130) !important;
+    --pwt-color-tertiary-50: rgb(185, 38, 110) !important;
+    --pwt-color-tertiary-40: rgb(158, 24, 92) !important;
+    --pwt-color-tertiary-30: rgb(128, 12, 72) !important;
+    --pwt-color-tertiary-20: rgb(98, 2, 54) !important;
+    --pwt-color-tertiary-15: rgb(78, 0, 42) !important;
+    --pwt-color-tertiary-10: rgb(58, 0, 30) !important;
+    --pwt-color-tertiary-5: rgb(36, 0, 16) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Solarized Green (#859900) tonal scale */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(252, 255, 240) !important;
+    --pwt-color-success-95: rgb(232, 250, 182) !important;
+    --pwt-color-success-90: rgb(210, 240, 125) !important;
+    --pwt-color-success-80: rgb(170, 210, 40) !important;
+    --pwt-color-success-70: rgb(148, 178, 10) !important;
+    --pwt-color-success-60: rgb(133, 153, 0) !important;
+    --pwt-color-success-50: rgb(112, 130, 0) !important;
+    --pwt-color-success-40: rgb(92, 108, 0) !important;
+    --pwt-color-success-30: rgb(72, 86, 0) !important;
+    --pwt-color-success-20: rgb(54, 66, 0) !important;
+    --pwt-color-success-15: rgb(42, 52, 0) !important;
+    --pwt-color-success-10: rgb(30, 38, 0) !important;
+    --pwt-color-success-5: rgb(18, 22, 0) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Solarized Red (#dc322f) tonal scale */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 248, 248) !important;
+    --pwt-color-error-95: rgb(255, 218, 218) !important;
+    --pwt-color-error-90: rgb(255, 185, 184) !important;
+    --pwt-color-error-80: rgb(245, 120, 118) !important;
+    --pwt-color-error-70: rgb(235, 72, 70) !important;
+    --pwt-color-error-60: rgb(220, 50, 47) !important;
+    --pwt-color-error-50: rgb(192, 35, 32) !important;
+    --pwt-color-error-40: rgb(162, 22, 20) !important;
+    --pwt-color-error-30: rgb(132, 10, 10) !important;
+    --pwt-color-error-20: rgb(102, 2, 2) !important;
+    --pwt-color-error-15: rgb(82, 0, 0) !important;
+    --pwt-color-error-10: rgb(60, 0, 0) !important;
+    --pwt-color-error-5: rgb(38, 0, 0) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Solarized Yellow (#b58900) tonal scale */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 252, 242) !important;
+    --pwt-color-warning-95: rgb(255, 240, 195) !important;
+    --pwt-color-warning-90: rgb(248, 225, 148) !important;
+    --pwt-color-warning-80: rgb(232, 195, 62) !important;
+    --pwt-color-warning-70: rgb(202, 162, 10) !important;
+    --pwt-color-warning-60: rgb(181, 137, 0) !important;
+    --pwt-color-warning-50: rgb(155, 115, 0) !important;
+    --pwt-color-warning-40: rgb(130, 95, 0) !important;
+    --pwt-color-warning-30: rgb(105, 75, 0) !important;
+    --pwt-color-warning-20: rgb(80, 56, 0) !important;
+    --pwt-color-warning-15: rgb(64, 44, 0) !important;
+    --pwt-color-warning-10: rgb(48, 32, 0) !important;
+    --pwt-color-warning-5: rgb(28, 18, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — Solarized Light Background scale (#fdf6e3 base3) */
+    --pwt-color-neutral-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-99: rgb(254, 250, 240) !important;
+    --pwt-color-neutral-95: rgb(253, 246, 227) !important;
+    --pwt-color-neutral-90: rgb(238, 232, 213) !important;
+    --pwt-color-neutral-80: rgb(220, 215, 200) !important;
+    --pwt-color-neutral-70: rgb(195, 192, 180) !important;
+    --pwt-color-neutral-60: rgb(147, 161, 161) !important;
+    --pwt-color-neutral-50: rgb(131, 148, 150) !important;
+    --pwt-color-neutral-40: rgb(101, 123, 131) !important;
+    --pwt-color-neutral-30: rgb(88, 110, 117) !important;
+    --pwt-color-neutral-20: rgb(73, 95, 102) !important;
+    --pwt-color-neutral-15: rgb(56, 76, 82) !important;
+    --pwt-color-neutral-10: rgb(42, 60, 65) !important;
+    --pwt-color-neutral-5: rgb(28, 42, 46) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt — Solarized Light content tones */
+    --pwt-color-neutral-alt-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-alt-99: rgb(254, 250, 242) !important;
+    --pwt-color-neutral-alt-95: rgb(252, 248, 232) !important;
+    --pwt-color-neutral-alt-90: rgb(242, 236, 218) !important;
+    --pwt-color-neutral-alt-80: rgb(225, 220, 205) !important;
+    --pwt-color-neutral-alt-70: rgb(200, 196, 185) !important;
+    --pwt-color-neutral-alt-60: rgb(150, 162, 164) !important;
+    --pwt-color-neutral-alt-50: rgb(134, 150, 152) !important;
+    --pwt-color-neutral-alt-40: rgb(105, 126, 134) !important;
+    --pwt-color-neutral-alt-30: rgb(90, 112, 120) !important;
+    --pwt-color-neutral-alt-20: rgb(76, 98, 105) !important;
+    --pwt-color-neutral-alt-15: rgb(60, 80, 86) !important;
+    --pwt-color-neutral-alt-10: rgb(46, 64, 70) !important;
+    --pwt-color-neutral-alt-5: rgb(30, 45, 50) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (light surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-90) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-95) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-background: var(--pwt-color-neutral-95) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-20) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-shadow: rgba(0, 0, 0, 0.12) !important;
+    --pwt-color-primary: var(--pwt-color-primary-40) !important;
+    --pwt-color-on-primary: var(--pwt-color-primary-100) !important;
+    --pwt-color-primary-container: var(--pwt-color-primary-90) !important;
+    --pwt-color-on-primary-container: var(--pwt-color-primary-10) !important;
+    background: var(--pwt-color-neutral-95) !important;
+    color: var(--pwt-color-neutral-10) !important;
+    color-scheme: light !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-95) !important;
+}
+
+/* ===== Logo — swap to dark variant for light background ===== */
+img[src*="proxmox_logo_white"] {
+    content: url("/images/proxmox_logo.svg") !important;
+}

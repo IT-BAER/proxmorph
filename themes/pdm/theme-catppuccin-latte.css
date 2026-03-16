@@ -1,0 +1,195 @@
+/*!Catppuccin Latte*/
+/*
+ * ProxMorph PDM Theme: Catppuccin Latte (Light)
+ * Overrides the PWT Material Design tonal color system with Catppuccin Latte palette
+ * Version: 1.0.0
+ * Author: ProxMorph / Catppuccin Community Palette
+ *
+ * ─── Catppuccin Latte Palette (Light) ─────────────────────────
+ * Mauve (accent): #8839ef    Blue:     #1e66f5
+ * Green:          #40a02b    Red:      #d20f39
+ * Yellow:         #df8e1d    Pink:     #ea76cb
+ * Text:           #4c4f69    Base:     #eff1f5
+ * Surface0:       #ccd0da    Mantle:   #e6e9ef
+ * Crust:          #dce0e8
+ */
+
+/* ===== Tonal Color Overrides ===== */
+:root {
+    /* Primary — Catppuccin Latte Mauve (#8839ef) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(252, 248, 255) !important;
+    --pwt-color-primary-95: rgb(240, 228, 255) !important;
+    --pwt-color-primary-90: rgb(225, 205, 255) !important;
+    --pwt-color-primary-80: rgb(195, 162, 248) !important;
+    --pwt-color-primary-70: rgb(165, 120, 240) !important;
+    --pwt-color-primary-60: rgb(136, 57, 239) !important;
+    --pwt-color-primary-50: rgb(115, 38, 210) !important;
+    --pwt-color-primary-40: rgb(95, 25, 185) !important;
+    --pwt-color-primary-30: rgb(75, 15, 155) !important;
+    --pwt-color-primary-20: rgb(56, 8, 125) !important;
+    --pwt-color-primary-15: rgb(44, 4, 102) !important;
+    --pwt-color-primary-10: rgb(32, 0, 80) !important;
+    --pwt-color-primary-5: rgb(18, 0, 52) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Catppuccin Latte Blue (#1e66f5) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(248, 250, 255) !important;
+    --pwt-color-secondary-95: rgb(218, 232, 255) !important;
+    --pwt-color-secondary-90: rgb(185, 210, 255) !important;
+    --pwt-color-secondary-80: rgb(130, 175, 252) !important;
+    --pwt-color-secondary-70: rgb(75, 138, 248) !important;
+    --pwt-color-secondary-60: rgb(30, 102, 245) !important;
+    --pwt-color-secondary-50: rgb(18, 82, 218) !important;
+    --pwt-color-secondary-40: rgb(10, 64, 188) !important;
+    --pwt-color-secondary-30: rgb(4, 48, 155) !important;
+    --pwt-color-secondary-20: rgb(0, 34, 122) !important;
+    --pwt-color-secondary-15: rgb(0, 26, 100) !important;
+    --pwt-color-secondary-10: rgb(0, 18, 78) !important;
+    --pwt-color-secondary-5: rgb(0, 10, 50) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Catppuccin Latte Pink (#ea76cb) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(255, 248, 253) !important;
+    --pwt-color-tertiary-95: rgb(255, 228, 245) !important;
+    --pwt-color-tertiary-90: rgb(252, 200, 235) !important;
+    --pwt-color-tertiary-80: rgb(245, 155, 215) !important;
+    --pwt-color-tertiary-70: rgb(240, 118, 203) !important;
+    --pwt-color-tertiary-60: rgb(215, 88, 178) !important;
+    --pwt-color-tertiary-50: rgb(188, 62, 152) !important;
+    --pwt-color-tertiary-40: rgb(160, 40, 128) !important;
+    --pwt-color-tertiary-30: rgb(132, 22, 105) !important;
+    --pwt-color-tertiary-20: rgb(102, 8, 80) !important;
+    --pwt-color-tertiary-15: rgb(82, 2, 65) !important;
+    --pwt-color-tertiary-10: rgb(62, 0, 48) !important;
+    --pwt-color-tertiary-5: rgb(40, 0, 30) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Catppuccin Latte Green (#40a02b) tonal scale */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(248, 255, 246) !important;
+    --pwt-color-success-95: rgb(218, 252, 208) !important;
+    --pwt-color-success-90: rgb(180, 242, 168) !important;
+    --pwt-color-success-80: rgb(120, 215, 105) !important;
+    --pwt-color-success-70: rgb(80, 185, 65) !important;
+    --pwt-color-success-60: rgb(64, 160, 43) !important;
+    --pwt-color-success-50: rgb(48, 138, 28) !important;
+    --pwt-color-success-40: rgb(35, 115, 16) !important;
+    --pwt-color-success-30: rgb(24, 92, 8) !important;
+    --pwt-color-success-20: rgb(14, 70, 2) !important;
+    --pwt-color-success-15: rgb(8, 55, 0) !important;
+    --pwt-color-success-10: rgb(4, 40, 0) !important;
+    --pwt-color-success-5: rgb(0, 25, 0) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Catppuccin Latte Red (#d20f39) tonal scale */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 248, 248) !important;
+    --pwt-color-error-95: rgb(255, 222, 226) !important;
+    --pwt-color-error-90: rgb(255, 190, 198) !important;
+    --pwt-color-error-80: rgb(242, 135, 148) !important;
+    --pwt-color-error-70: rgb(228, 75, 98) !important;
+    --pwt-color-error-60: rgb(210, 15, 57) !important;
+    --pwt-color-error-50: rgb(185, 8, 45) !important;
+    --pwt-color-error-40: rgb(158, 2, 34) !important;
+    --pwt-color-error-30: rgb(130, 0, 25) !important;
+    --pwt-color-error-20: rgb(100, 0, 16) !important;
+    --pwt-color-error-15: rgb(80, 0, 10) !important;
+    --pwt-color-error-10: rgb(60, 0, 5) !important;
+    --pwt-color-error-5: rgb(38, 0, 2) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Catppuccin Latte Yellow (#df8e1d) tonal scale */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 252, 246) !important;
+    --pwt-color-warning-95: rgb(255, 240, 210) !important;
+    --pwt-color-warning-90: rgb(252, 225, 170) !important;
+    --pwt-color-warning-80: rgb(242, 190, 105) !important;
+    --pwt-color-warning-70: rgb(230, 158, 52) !important;
+    --pwt-color-warning-60: rgb(223, 142, 29) !important;
+    --pwt-color-warning-50: rgb(195, 120, 15) !important;
+    --pwt-color-warning-40: rgb(165, 98, 6) !important;
+    --pwt-color-warning-30: rgb(135, 78, 0) !important;
+    --pwt-color-warning-20: rgb(105, 58, 0) !important;
+    --pwt-color-warning-15: rgb(85, 45, 0) !important;
+    --pwt-color-warning-10: rgb(62, 32, 0) !important;
+    --pwt-color-warning-5: rgb(38, 18, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — Catppuccin Latte Background scale (base #eff1f5) */
+    --pwt-color-neutral-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-99: rgb(250, 251, 254) !important;
+    --pwt-color-neutral-95: rgb(239, 241, 245) !important;
+    --pwt-color-neutral-90: rgb(230, 233, 239) !important;
+    --pwt-color-neutral-80: rgb(220, 224, 232) !important;
+    --pwt-color-neutral-70: rgb(204, 208, 218) !important;
+    --pwt-color-neutral-60: rgb(172, 176, 190) !important;
+    --pwt-color-neutral-50: rgb(140, 143, 161) !important;
+    --pwt-color-neutral-40: rgb(108, 111, 133) !important;
+    --pwt-color-neutral-30: rgb(92, 95, 119) !important;
+    --pwt-color-neutral-20: rgb(76, 79, 105) !important;
+    --pwt-color-neutral-15: rgb(64, 66, 88) !important;
+    --pwt-color-neutral-10: rgb(50, 52, 72) !important;
+    --pwt-color-neutral-5: rgb(35, 36, 52) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt — Catppuccin Latte Overlay tones */
+    --pwt-color-neutral-alt-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-alt-99: rgb(250, 251, 254) !important;
+    --pwt-color-neutral-alt-95: rgb(242, 244, 248) !important;
+    --pwt-color-neutral-alt-90: rgb(232, 235, 242) !important;
+    --pwt-color-neutral-alt-80: rgb(215, 218, 228) !important;
+    --pwt-color-neutral-alt-70: rgb(188, 192, 204) !important;
+    --pwt-color-neutral-alt-60: rgb(156, 160, 176) !important;
+    --pwt-color-neutral-alt-50: rgb(124, 128, 148) !important;
+    --pwt-color-neutral-alt-40: rgb(96, 100, 120) !important;
+    --pwt-color-neutral-alt-30: rgb(76, 80, 100) !important;
+    --pwt-color-neutral-alt-20: rgb(58, 62, 82) !important;
+    --pwt-color-neutral-alt-15: rgb(46, 48, 68) !important;
+    --pwt-color-neutral-alt-10: rgb(34, 36, 54) !important;
+    --pwt-color-neutral-alt-5: rgb(22, 24, 38) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (light surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-90) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-95) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-background: var(--pwt-color-neutral-95) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-20) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-shadow: rgba(0, 0, 0, 0.12) !important;
+    --pwt-color-primary: var(--pwt-color-primary-40) !important;
+    --pwt-color-on-primary: var(--pwt-color-primary-100) !important;
+    --pwt-color-primary-container: var(--pwt-color-primary-90) !important;
+    --pwt-color-on-primary-container: var(--pwt-color-primary-10) !important;
+    background: var(--pwt-color-neutral-95) !important;
+    color: var(--pwt-color-neutral-10) !important;
+    color-scheme: light !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-95) !important;
+}
+
+/* ===== Logo — swap to dark variant for light background ===== */
+img[src*="proxmox_logo_white"] {
+    content: url("/images/proxmox_logo.svg") !important;
+}

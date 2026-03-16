@@ -1,0 +1,215 @@
+/*!ProxMorph PDM Base*/
+/*
+ * ProxMorph PDM Base Styles
+ * Version: 1.0.0
+ *
+ * Shared component-level styling applied whenever ANY ProxMorph PDM theme
+ * is active. Overrides the default PWt shape/corner/shadow tokens to
+ * give rounded corners, better elevation shadows, and polished component
+ * appearance.
+ *
+ * This file does NOT set colors — colors come from theme-specific CSS.
+ */
+
+/* ===== Shape & Corner Overrides ===== */
+:root {
+    /* Global shape tokens — increase roundness */
+    --pwt-shape-corner-none: 0px !important;
+    --pwt-shape-corner-extra-small: 4px !important;
+    --pwt-shape-corner-small: 8px !important;
+    --pwt-shape-corner-medium: 12px !important;
+    --pwt-shape-corner-large: 16px !important;
+    --pwt-shape-corner-extra-large: 24px !important;
+
+    /* Component-specific corner shapes */
+    --pwt-button-corner-shape: 8px !important;
+    --pwt-card-corner-shape: 12px !important;
+    --pwt-dialog-corner-shape: 12px !important;
+    --pwt-input-corner-shape: 8px !important;
+    --pwt-fab-corner-shape: 16px !important;
+    --pwt-progress-corner-shape: 8px !important;
+    --pwt-nav-link-corner-shape: 8px !important;
+    --pwt-nav-pills-corner-shape: 8px !important;
+    --pwt-tooltip-corner-shape: 8px !important;
+}
+
+/* ===== Panel Styling ===== */
+.pwt-panel {
+    border-radius: 12px !important;
+    overflow: clip !important;  /* clip (not hidden) preserves min-width:auto for correct flex wrapping */
+}
+
+.pwt-panel-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* ===== Shadow Enhancements ===== */
+.pwt-shadow2 {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ===== Dialog Styling ===== */
+dialog,
+.pwt-dialog:not(.pwt-dropdown) {
+    border-radius: 12px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    overflow: hidden !important;
+}
+
+/* ===== Button Enhancements ===== */
+.pwt-button {
+    border-radius: 8px !important;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.pwt-button:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.pwt-button.rounded,
+.pwt-button.circle {
+    border-radius: 10rem !important;
+}
+
+/* Segmented buttons: rounded ends only */
+.pwt-segmented-button {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.pwt-segmented-button > .pwt-button {
+    border-radius: 0px !important;
+}
+
+.pwt-segmented-button > .pwt-button:first-child {
+    border-radius: 8px 0 0 8px !important;
+}
+
+.pwt-segmented-button > .pwt-button:last-child {
+    border-radius: 0 8px 8px 0 !important;
+}
+
+/* FAB */
+.pwt-fab {
+    border-radius: 16px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ===== Input / Form Enhancements ===== */
+.pwt-input {
+    border-radius: 8px !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.pwt-input:focus-within {
+    box-shadow: 0 0 0 2px rgba(var(--pwt-color-primary-80), 0.3) !important;
+}
+
+.pwt-textarea {
+    border-radius: 8px !important;
+}
+
+.pwt-input-display {
+    border-radius: 8px !important;
+}
+
+/* ===== Card Styling ===== */
+.pwt-card {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+/* ===== Navigation ===== */
+.pwt-nav-link {
+    border-radius: 8px !important;
+    transition: background-color 0.15s ease !important;
+}
+
+.pwt-nav-menu {
+    border-radius: 8px !important;
+}
+
+/* ===== Datatable Enhancements ===== */
+.pwt-datatable {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.pwt-datatable-header {
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* ===== Menu / Dropdown ===== */
+.pwt-submenu {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+    overflow: hidden !important;
+}
+
+.pwt-dropdown {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+    overflow: hidden !important;
+}
+
+/* ===== List / List Tile ===== */
+.pwt-list {
+    border-radius: 8px !important;
+}
+
+.pwt-list-tile {
+    border-radius: 8px !important;
+}
+
+/* ===== Meter / Progress ===== */
+.pwt-meter {
+    border-radius: 8px !important;
+}
+
+/* ===== Switch ===== */
+.pwt-switch {
+    border-radius: 14px !important;
+}
+
+/* ===== Tooltips ===== */
+[class*="pwt-tooltip"] {
+    border-radius: 8px !important;
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px !important;
+    background: rgba(128, 128, 128, 0.4) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 128, 0.6) !important;
+}
+
+/* ===== Logo tinting (dark themes) ===== */
+.pwt-dark-mode img[src*="proxmox_logo"] {
+    filter: brightness(0.9) !important;
+}
+
+/* ===== Smooth transitions for theme switching ===== */
+*,
+*::before,
+*::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+    transition-duration: 0.15s !important;
+    transition-timing-function: ease !important;
+}
+
+/* Restore tab indicator slide animation (needs left/width/inset transitions) */
+.pwt-tab-active-indicator {
+    transition: all 0.2s ease !important;
+}

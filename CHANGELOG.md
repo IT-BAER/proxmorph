@@ -7,12 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-03-16
+
+### Added
+- **Proxmox Datacenter Manager (PDM) Support** — Full theme support for PDM 1.x:
+  - New `install.sh` product detection: auto-detects PDM alongside PVE and PBS
+  - 22 PDM-specific CSS override themes injected as `<link>` tags into `index.hbs`, activated via JavaScript based on `localStorage` selection
+  - `proxmorph-pdm-base.css` — always-on component styling (rounded corners, shadows, button/panel/grid refinements)
+  - `pdm-theme-selector.js` — MutationObserver-based patch that injects ProxMorph themes into PDM's native Theme dialog dropdown alongside built-in Desktop/Crisp options
+  - PDM themes use CSS custom property overrides to remap `--pwt-color-*` tokens from the WASM-loaded base theme
+  - Inline `<script>` in `index.hbs` activates saved theme before WASM loads (prevents flash of default theme)
+  - APT hook updated with PDM-specific repatch logic (CSS re-injection + JS patch re-copy)
+  - Clean uninstall: removes theme directory, JS patches, and injected `index.hbs` block; restores backup
+
+### Changed
+- **Installer** (`install.sh`):
+  - Now supports PVE 8.x/9.x, PBS 3.x/4.x, **and PDM 1.x**
+  - `manage-sensors` command now shows interactive menu instead of requiring subcommand
+  - `verify` command (option 7) added to diagnose installation issues
+  - `pveproxy` restart changed from background to synchronous for reliability
+  - Prominent cache warning displayed after install/uninstall
+
 ### Fixed
 - **Catppuccin Latte light theme icon/logo inversions** — Theme was generated from dark Catppuccin Mocha and retained dark-mode `filter: invert()` rules on loading indicators, folder icons, image-based icons (`.fa-ceph`, `.fa-sdn`, `.pve-itype-icon-qemu`, etc.), hardware icons, counter-invert cells, and the Proxmox logo. All are now `filter: none` as required by a light theme.
 - **Sensors: Perl taint mode error on node status API** — Issue [#38](https://github.com/IT-BAER/proxmorph/issues/38):
   - The `Nodes.pm` patch now sets `local $ENV{PATH} = '/usr/bin:/bin';` before all backtick (`sensors -j`, `upsc`) calls, satisfying Perl's `-T` taint mode requirement that `$ENV{PATH}` be untainted before external command execution
   - The UPS device name (`$ups_name`), obtained from tainted backtick output, is now validated and untainted via regex (`/^([\w@.-]+)$/`) before being passed to the `upsc` command — prevents an additional taint violation in the UPS data collection path
   - Affected users: anyone running ProxMorph sensors on a Proxmox host where `Nodes.pm` still has the old patch; fix requires re-running `install.sh` (or `install.sh manage-sensors disable && install.sh manage-sensors enable`) to re-apply the corrected patch
+- **Sensors: sed regex escaping for UPS untaint** — Issue [#38](https://github.com/IT-BAER/proxmorph/issues/38):
+  - GNU sed's `i\` command drops backslash before unknown escapes (`\w` → `w`)
+  - `patch_nodes_pm()` bash double-quoted sed now uses 4 backslashes (`\\\\w`)
+  - APT hook post-update heredoc (3-level escaping chain) now uses 8 backslashes for correct `\w` output
+- **Theme visibility after install** — Issue [#40](https://github.com/IT-BAER/proxmorph/issues/40):
+  - Added `verify` command (option 7) to diagnose installation issues (checks theme files, theme_map entries, JS patches, index template)
+  - Changed `pveproxy` restart from background (`&`) to synchronous to ensure theme_map changes take effect before user checks browser
+  - Added prominent cache warning after install/uninstall reminding users to hard-refresh (Ctrl+Shift+R)
+  - Fixed `sed` delimiter in `patch_theme_map` to use `|` instead of `/` for consistency with uninstall path handling
 ## [2.5.1] - 2026-03-05
 
 ### Added

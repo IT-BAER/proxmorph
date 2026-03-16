@@ -1,6 +1,6 @@
 #!/bin/bash
-# ProxMorph Theme Collection Installer for Proxmox VE and Proxmox Backup Server
-# Supports: PVE 8.x/9.x, PBS 3.x/4.x
+# ProxMorph Theme Collection Installer for Proxmox VE, Proxmox Backup Server, and Proxmox Datacenter Manager
+# Supports: PVE 8.x/9.x, PBS 3.x/4.x, PDM 1.x
 # Integrates with native Proxmox theme selector
 
 set -e
@@ -15,7 +15,7 @@ MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Configuration
-VERSION="2.5.1"
+VERSION="2.6.0"
 WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
 THEMES_DIR="${WIDGET_TOOLKIT_DIR}/themes"
 PROXMOXLIB_JS="${WIDGET_TOOLKIT_DIR}/proxmoxlib.js"
@@ -40,6 +40,13 @@ PBS_INDEX_HBS="${PBS_MANAGER_DIR}/index.hbs"
 PBS_JS_PATCHES_DIR="${PBS_MANAGER_DIR}/js/proxmorph"
 PBS_SERVICE="proxmox-backup-proxy"
 
+# PDM-specific paths (Proxmox Datacenter Manager)
+PDM_MANAGER_DIR="/usr/share/javascript/proxmox-datacenter-manager"
+PDM_INDEX_HBS="${PDM_MANAGER_DIR}/index.hbs"
+PDM_JS_PATCHES_DIR="${PDM_MANAGER_DIR}/js/proxmorph"
+PDM_THEMES_DIR="${PDM_MANAGER_DIR}/proxmorph-themes"
+PDM_SERVICE="proxmox-datacenter-api"
+
 # Product detection (set by check_product)
 PRODUCT=""
 PRODUCT_VERSION=""
@@ -49,7 +56,7 @@ PROXY_SERVICE=""
 
 echo -e "${CYAN}"
 echo "╔═══════════════════════════════════════════════════════════╗"
-echo "║    ProxMorph Theme Collection for Proxmox VE and PBS      ║"
+echo "║   ProxMorph Theme Collection for Proxmox VE, PBS & PDM   ║"
 echo "╚═══════════════════════════════════════════════════════════╝"
 echo -e "${NC}"
 
@@ -94,15 +101,32 @@ check_pbs() {
     return 1
 }
 
+# Check if Proxmox Datacenter Manager is installed
+check_pdm() {
+    if command -v proxmox-datacenter-manager &> /dev/null || \
+       dpkg -l proxmox-datacenter-manager-ui &> /dev/null; then
+        PRODUCT="PDM"
+        PRODUCT_VERSION=$(dpkg -l proxmox-datacenter-manager 2>/dev/null | awk '/^ii/{print "PDM " $3}' || echo "PDM (unknown version)")
+        INDEX_TEMPLATE="$PDM_INDEX_HBS"
+        JS_PATCHES_DIR="$PDM_JS_PATCHES_DIR"
+        PROXY_SERVICE="$PDM_SERVICE"
+        THEMES_DIR="$PDM_THEMES_DIR"
+        return 0
+    fi
+    return 1
+}
+
 # Detect which Proxmox product is installed
 check_product() {
     if check_pve; then
         print_info "Detected: $PRODUCT_VERSION"
     elif check_pbs; then
         print_info "Detected: $PRODUCT_VERSION"
+    elif check_pdm; then
+        print_info "Detected: $PRODUCT_VERSION"
     else
-        print_error "Neither Proxmox VE nor Proxmox Backup Server detected."
-        print_error "This script requires PVE 8.x/9.x or PBS 3.x/4.x."
+        print_error "No supported Proxmox product detected."
+        print_error "This script requires PVE 8.x/9.x, PBS 3.x/4.x, or PDM 1.x."
         exit 1
     fi
 }
@@ -174,7 +198,13 @@ check_updates() {
 # Create backup of original files
 backup_files() {
     mkdir -p "$BACKUP_DIR"
-    if [[ ! -f "${BACKUP_DIR}/proxmoxlib.js.original" ]]; then
+    if [[ "$PRODUCT" == "PDM" ]]; then
+        # PDM: back up index.hbs only
+        if [[ -f "$INDEX_TEMPLATE" && ! -f "${BACKUP_DIR}/index.hbs.original" ]]; then
+            cp "$INDEX_TEMPLATE" "${BACKUP_DIR}/index.hbs.original"
+            print_status "Created backup of index.hbs"
+        fi
+    elif [[ -f "$PROXMOXLIB_JS" && ! -f "${BACKUP_DIR}/proxmoxlib.js.original" ]]; then
         cp "$PROXMOXLIB_JS" "${BACKUP_DIR}/proxmoxlib.js.original"
         print_status "Created backup of proxmoxlib.js"
     fi
@@ -182,6 +212,16 @@ backup_files() {
 
 # Restore from package (clean state)
 restore_packages() {
+    if [[ "$PRODUCT" == "PDM" ]]; then
+        # PDM: restore index.hbs from backup
+        if [[ -f "${BACKUP_DIR}/index.hbs.original" ]]; then
+            cp "${BACKUP_DIR}/index.hbs.original" "$INDEX_TEMPLATE"
+            print_status "Restored index.hbs from backup"
+        else
+            print_warning "No index.hbs backup found — manually reinstall proxmox-datacenter-manager-ui"
+        fi
+        return 0
+    fi
     print_info "Reinstalling widget toolkit to clean state..."
     apt-get -qq -o Dpkg::Use-Pty=0 reinstall proxmox-widget-toolkit 2>/dev/null
     print_status "Restored proxmox-widget-toolkit"
@@ -216,8 +256,8 @@ patch_theme_map() {
         return 0
     fi
     
-    # Add theme to theme_map (use | delimiter — paths contain /)
-    sed -i "s|theme_map: {|theme_map: {\n\t\"${theme_key}\": \"${theme_title}\",|" "$PROXMOXLIB_JS"
+    # Add theme to theme_map
+    sed -i "s/theme_map: {/theme_map: {\n\t\"${theme_key}\": \"${theme_title}\",/" "$PROXMOXLIB_JS"
     
     if grep -q "\"${theme_key}\":" "$PROXMOXLIB_JS"; then
         print_theme "Registered: ${theme_title}"
@@ -231,6 +271,10 @@ patch_theme_map() {
 # JavaScript Patches Configuration (Dynamic markers)
 JS_PATCH_MARKER="<!-- ProxMorph JS Patches -->"
 JS_PATCH_MARKER_END="<!-- /ProxMorph JS Patches -->"
+
+# PDM CSS Theme Override Configuration (Dynamic markers)
+PDM_CSS_MARKER="<!-- ProxMorph PDM Theme -->"
+PDM_CSS_MARKER_END="<!-- /ProxMorph PDM Theme -->"
 
 # Install JavaScript patches
 install_js_patches() {
@@ -283,6 +327,8 @@ install_js_patches() {
             
             if [[ "$PRODUCT" == "PVE" ]]; then
                 js_web_path="/pve2/js/proxmorph"
+            elif [[ "$PRODUCT" == "PDM" ]]; then
+                js_web_path="/pdm/js/proxmorph"
             else
                 js_web_path="/js/proxmorph"
             fi
@@ -319,6 +365,133 @@ remove_js_patches() {
     fi
 }
 
+# Install PDM CSS theme overrides into index.hbs
+# PDM themes work by injecting a <link> tag that overrides --pwt-color-* tokens
+# from the WASM-loaded base theme (Crisp/Desktop/Material)
+install_pdm_themes() {
+    local themes_source="$1"
+
+    print_info "Installing PDM theme overrides..."
+
+    mkdir -p "$PDM_THEMES_DIR"
+    mkdir -p "$PDM_JS_PATCHES_DIR"
+
+    # Copy base component CSS (always-on styling: rounded corners, shadows, etc.)
+    local base_css="${themes_source}/proxmorph-pdm-base.css"
+    if [[ -f "$base_css" ]]; then
+        cp "$base_css" "${PDM_THEMES_DIR}/"
+        chmod 644 "${PDM_THEMES_DIR}/proxmorph-pdm-base.css"
+        print_info "Installed PDM base component styles"
+    fi
+
+    local theme_count=0
+    for css_file in "$themes_source"/theme-*.css; do
+        if [[ -f "$css_file" ]]; then
+            cp "$css_file" "${PDM_THEMES_DIR}/"
+            chmod 644 "${PDM_THEMES_DIR}/$(basename "$css_file")"
+            local title=$(get_theme_title "$css_file")
+            print_theme "Installed: ${title}"
+            theme_count=$((theme_count + 1))
+        fi
+    done
+
+    if [[ $theme_count -eq 0 ]]; then
+        print_warning "No PDM theme files found"
+        return 1
+    fi
+
+    # Copy theme selector JS patch
+    # themes_source is either .../themes/pdm or /opt/proxmorph/themes/pdm
+    # The JS patch lives in .../themes/patches/ (sibling to pdm/)
+    local patches_dir="$(dirname "$themes_source")/patches"
+    local selector_js="${patches_dir}/pdm-theme-selector.js"
+    if [[ -f "$selector_js" ]]; then
+        cp "$selector_js" "${PDM_JS_PATCHES_DIR}/"
+        chmod 644 "${PDM_JS_PATCHES_DIR}/pdm-theme-selector.js"
+        print_info "Installed PDM theme selector patch"
+    fi
+
+    # Inject CSS <link> tags + JS into index.hbs
+    if [[ -f "$INDEX_TEMPLATE" ]]; then
+        # Remove old block if present
+        if grep -q "$PDM_CSS_MARKER" "$INDEX_TEMPLATE"; then
+            local esc_start=$(printf '%s\n' "$PDM_CSS_MARKER" | sed 's/[]\/$*.^[]/\\&/g')
+            local esc_end=$(printf '%s\n' "$PDM_CSS_MARKER_END" | sed 's/[]\/$*.^[]/\\&/g')
+            sed -i "\|${esc_start}|,\|${esc_end}|d" "$INDEX_TEMPLATE"
+            print_info "Refreshing PDM theme links in $(basename "$INDEX_TEMPLATE")"
+        fi
+
+        # Build injection block as a temp file (avoids sed multiline issues)
+        local tmpblock=$(mktemp)
+        echo "$PDM_CSS_MARKER" > "$tmpblock"
+
+        # Base CSS — always enabled (component styles)
+        echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/proxmorph-pdm-base.css\" class=\"proxmorph-base\" disabled>" >> "$tmpblock"
+
+        # Theme CSS links — disabled by default, activated by JS
+        for css_file in "${PDM_THEMES_DIR}"/theme-*.css; do
+            if [[ -f "$css_file" ]]; then
+                local css_name=$(basename "$css_file")
+                echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/${css_name}\" class=\"proxmorph-theme\" disabled>" >> "$tmpblock"
+            fi
+        done
+
+        # Inline activation script (runs before WASM loads)
+        cat >> "$tmpblock" << 'JSBLOCK'
+<script>
+(function() {
+    var saved = localStorage.getItem('proxmorph-theme');
+    if (!saved) return;
+    // Enable base component styles
+    var base = document.querySelector('link.proxmorph-base');
+    if (base) base.removeAttribute('disabled');
+    // Enable the saved theme
+    var links = document.querySelectorAll('link.proxmorph-theme');
+    links.forEach(function(l) {
+        if (l.href.indexOf(saved) !== -1) l.removeAttribute('disabled');
+    });
+})();
+</script>
+JSBLOCK
+
+        # Theme selector patch (injects themes into native PDM Theme dialog)
+        echo "<script src=\"/js/proxmorph/pdm-theme-selector.js\"></script>" >> "$tmpblock"
+
+        echo "$PDM_CSS_MARKER_END" >> "$tmpblock"
+
+        # Insert block before first </head> using awk
+        local tmpout=$(mktemp)
+        awk -v blockfile="$tmpblock" 'BEGIN{done=0; while((getline line < blockfile)>0) block=block (block?"\n":"") line} !done && /<\/head>/{print block; done=1} {print}' "$INDEX_TEMPLATE" > "$tmpout"
+        mv "$tmpout" "$INDEX_TEMPLATE"
+        chmod 644 "$INDEX_TEMPLATE"
+        rm -f "$tmpblock"
+
+        print_status "Injected ${theme_count} theme(s) + base styles + selector patch into $(basename "$INDEX_TEMPLATE")"
+    else
+        print_warning "$(basename "$INDEX_TEMPLATE") not found — PDM themes may not load"
+    fi
+
+    print_status "PDM themes installed — ${theme_count} theme(s)"
+}
+
+# Remove PDM CSS theme overrides
+remove_pdm_themes() {
+    if [[ -d "$PDM_THEMES_DIR" ]]; then
+        rm -rf "$PDM_THEMES_DIR"
+        print_info "Removed PDM theme overrides directory"
+    fi
+    if [[ -d "$PDM_JS_PATCHES_DIR" ]]; then
+        rm -rf "$PDM_JS_PATCHES_DIR"
+        print_info "Removed PDM JS patches directory"
+    fi
+    if [[ -f "$INDEX_TEMPLATE" ]] && grep -q "$PDM_CSS_MARKER" "$INDEX_TEMPLATE"; then
+        local esc_start=$(printf '%s\n' "$PDM_CSS_MARKER" | sed 's/[]\/$*.^[]/\\&/g')
+        local esc_end=$(printf '%s\n' "$PDM_CSS_MARKER_END" | sed 's/[]\/$*.^[]/\\&/g')
+        sed -i "\|${esc_start}|,\|${esc_end}|d" "$INDEX_TEMPLATE"
+        print_info "Removed PDM theme links from $(basename "$INDEX_TEMPLATE")"
+    fi
+}
+
 # APT hook configuration for persistence across updates
 APT_HOOK_FILE="/etc/apt/apt.conf.d/99proxmorph"
 POST_INVOKE_SCRIPT="${INSTALL_DIR}/post-update.sh"
@@ -337,12 +510,21 @@ INSTALL_DIR="${INSTALL_DIR}"
 PROXMOXLIB_JS="${PROXMOXLIB_JS}"
 WIDGET_TOOLKIT_DIR="${WIDGET_TOOLKIT_DIR}"
 INDEX_TEMPLATE="${INDEX_TEMPLATE}"
-THEMES_SOURCE="\${INSTALL_DIR}/themes"
 JS_PATCHES_DIR="${JS_PATCHES_DIR}"
 PROXY_SERVICE="${PROXY_SERVICE}"
 LOG_FILE="/var/log/proxmorph.log"
 JS_PATCH_MARKER="${JS_PATCH_MARKER}"
 JS_PATCH_MARKER_END="${JS_PATCH_MARKER_END}"
+PDM_CSS_MARKER="${PDM_CSS_MARKER}"
+PDM_CSS_MARKER_END="${PDM_CSS_MARKER_END}"
+PDM_THEMES_DIR="${PDM_THEMES_DIR}"
+
+# Set themes source based on product
+if [ "\$PRODUCT" = "PDM" ]; then
+    THEMES_SOURCE="\${INSTALL_DIR}/themes/pdm"
+else
+    THEMES_SOURCE="\${INSTALL_DIR}/themes"
+fi
 
 log() {
     echo "[\$(date '+%Y-%m-%d %H:%M:%S')] \$1" >> "\$LOG_FILE"
@@ -355,96 +537,168 @@ fi
 
 needs_repatch=false
 
-# Dynamically check if proxmoxlib.js needs patching by looking for our first theme
-for css_file in "\${THEMES_SOURCE}"/theme-*.css; do
-    if [ -f "\$css_file" ]; then
-        theme_key=\$(basename "\$css_file" .css | sed 's/^theme-//')
-        if ! grep -q "\"\${theme_key}\":" "\$PROXMOXLIB_JS" 2>/dev/null; then
-            needs_repatch=true
-        fi
-        break # Just checking one is enough to see if file was reset
+# PDM repatch check: see if CSS injection is still in index.hbs
+if [ "\$PRODUCT" = "PDM" ]; then
+    if ! grep -q "\$PDM_CSS_MARKER" "\$INDEX_TEMPLATE" 2>/dev/null; then
+        needs_repatch=true
     fi
-done
+else
+    # PVE/PBS: check if proxmoxlib.js needs patching
+    for css_file in "\${THEMES_SOURCE}"/theme-*.css; do
+        if [ -f "\$css_file" ]; then
+            theme_key=\$(basename "\$css_file" .css | sed 's/^theme-//')
+            if ! grep -q "\"\${theme_key}\":" "\$PROXMOXLIB_JS" 2>/dev/null; then
+                needs_repatch=true
+            fi
+            break
+        fi
+    done
+fi
 
-# Check if template needs JS patch
-if [ -d "\${THEMES_SOURCE}/patches" ] && ! grep -q "\$JS_PATCH_MARKER" "\$INDEX_TEMPLATE" 2>/dev/null; then
+# Check if template needs JS patch (PVE/PBS only)
+if [ "\$PRODUCT" != "PDM" ] && [ -d "\${THEMES_SOURCE}/patches" ] && ! grep -q "\$JS_PATCH_MARKER" "\$INDEX_TEMPLATE" 2>/dev/null; then
     needs_repatch=true
 fi
 
 if [ "\$needs_repatch" = "true" ]; then
     log "Detected \$PRODUCT update, re-applying ProxMorph patches..."
-    
-    # Re-register all themes dynamically
-    for css_file in "\${THEMES_SOURCE}"/theme-*.css; do
-        if [ -f "\$css_file" ]; then
-            theme_key=\$(basename "\$css_file" .css | sed 's/^theme-//')
-            theme_title=\$(head -1 "\$css_file" | sed -n 's|^/\*!\(.*\)\*/.*|\1|p')
-            if [ -z "\$theme_title" ]; then
-                theme_title=\$(echo "\$theme_key" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
-            fi
-            
-            if ! grep -q "\"\${theme_key}\":" "\$PROXMOXLIB_JS"; then
-                sed -i "s/theme_map: {/theme_map: {\n\t\"\${theme_key}\": \"\${theme_title}\",/" "\$PROXMOXLIB_JS"
-                log "Registered theme: \${theme_title}"
-            fi
+
+    if [ "\$PRODUCT" = "PDM" ]; then
+        # PDM: Re-inject CSS overrides into index.hbs
+        mkdir -p "\$PDM_THEMES_DIR"
+        mkdir -p "\$PDM_JS_PATCHES_DIR"
+
+        # Copy base component CSS
+        base_css="\${THEMES_SOURCE}/proxmorph-pdm-base.css"
+        if [ -f "\$base_css" ]; then
+            cp "\$base_css" "\${PDM_THEMES_DIR}/"
+            chmod 644 "\${PDM_THEMES_DIR}/proxmorph-pdm-base.css"
         fi
-    done
-    
-    # Re-apply JavaScript patches
-    if [ -d "\${THEMES_SOURCE}/patches" ]; then
-        mkdir -p "\$JS_PATCHES_DIR"
-        for js_file in "\${THEMES_SOURCE}/patches"/*.js; do
-            if [ -f "\$js_file" ]; then
-                cp "\$js_file" "\$JS_PATCHES_DIR/"
-                chmod 644 "\$JS_PATCHES_DIR/\$(basename "\$js_file")"
-                log "Installed JS patch: \$(basename "\$js_file")"
+
+        for css_file in "\${THEMES_SOURCE}"/theme-*.css; do
+            if [ -f "\$css_file" ]; then
+                cp "\$css_file" "\${PDM_THEMES_DIR}/"
+                chmod 644 "\${PDM_THEMES_DIR}/\$(basename "\$css_file")"
+                log "Installed PDM theme: \$(basename "\$css_file")"
             fi
         done
-        
-        # Patch template if needed
-        if [ -f "\$INDEX_TEMPLATE" ] && ! grep -q "\$JS_PATCH_MARKER" "\$INDEX_TEMPLATE"; then
-            script_tags="\$JS_PATCH_MARKER"
-            js_web_path=""
-            if [[ "\$PRODUCT" == "PVE" ]]; then
-                js_web_path="/pve2/js/proxmorph"
-            else
-                js_web_path="/js/proxmorph"
-            fi
-            
-            for js_file in "\$JS_PATCHES_DIR"/*.js; do
-                if [ -f "\$js_file" ]; then
-                    js_name=\$(basename "\$js_file")
-                    script_tags="\${script_tags}\n<script src=\"\${js_web_path}/\${js_name}\"></script>"
+
+        # Copy theme selector JS patch
+        selector_js="\${INSTALL_DIR}/themes/patches/pdm-theme-selector.js"
+        if [ -f "\$selector_js" ]; then
+            cp "\$selector_js" "\${PDM_JS_PATCHES_DIR}/"
+            chmod 644 "\${PDM_JS_PATCHES_DIR}/pdm-theme-selector.js"
+        fi
+
+        # Re-inject CSS link tags + JS
+        if [ -f "\$INDEX_TEMPLATE" ] && ! grep -q "\$PDM_CSS_MARKER" "\$INDEX_TEMPLATE"; then
+            tmpblock=\$(mktemp)
+            echo "\$PDM_CSS_MARKER" > "\$tmpblock"
+
+            # Base CSS (always enabled when theme active)
+            echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/proxmorph-pdm-base.css\" class=\"proxmorph-base\" disabled>" >> "\$tmpblock"
+
+            for css_file in "\${PDM_THEMES_DIR}"/theme-*.css; do
+                if [ -f "\$css_file" ]; then
+                    css_name=\$(basename "\$css_file")
+                    echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/\${css_name}\" class=\"proxmorph-theme\" disabled>" >> "\$tmpblock"
                 fi
             done
-            script_tags="\${script_tags}\n\$JS_PATCH_MARKER_END"
-            
-            sed -i "s|</body>|\${script_tags}\n</body>|" "\$INDEX_TEMPLATE"
-            log "Patched \$(basename "\$INDEX_TEMPLATE") with JS loader"
+            cat >> "\$tmpblock" << 'JSBLK'
+<script>
+(function() {
+    var saved = localStorage.getItem('proxmorph-theme');
+    if (!saved) return;
+    var base = document.querySelector('link.proxmorph-base');
+    if (base) base.removeAttribute('disabled');
+    var links = document.querySelectorAll('link.proxmorph-theme');
+    links.forEach(function(l) {
+        if (l.href.indexOf(saved) !== -1) l.removeAttribute('disabled');
+    });
+})();
+</script>
+JSBLK
+            echo "<script src=\"/js/proxmorph/pdm-theme-selector.js\"></script>" >> "\$tmpblock"
+            echo "\$PDM_CSS_MARKER_END" >> "\$tmpblock"
+            tmpout=\$(mktemp)
+            awk -v blockfile="\$tmpblock" 'BEGIN{done=0; while((getline line < blockfile)>0) block=block (block?"\n":"") line} !done && /<\/head>/{print block; done=1} {print}' "\$INDEX_TEMPLATE" > "\$tmpout"
+            mv "\$tmpout" "\$INDEX_TEMPLATE"
+            chmod 644 "\$INDEX_TEMPLATE"
+            rm -f "\$tmpblock"
+            log "Re-injected PDM theme CSS into \$(basename "\$INDEX_TEMPLATE")"
         fi
-    fi
-    
-    # Re-apply Nodes.pm sensor patch if enabled
-    SENSORS_CONFIG="\${INSTALL_DIR}/.sensors-enabled"
-    NODES_PM="/usr/share/perl5/PVE/API2/Nodes.pm"
-    SENSORS_PATCH_MARKER="# ProxMorph Sensors"
-    if [ -f "\$SENSORS_CONFIG" ] && [ -f "\$NODES_PM" ]; then
-        if ! grep -q "\$SENSORS_PATCH_MARKER" "\$NODES_PM" 2>/dev/null; then
-            sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\
+    else
+        # PVE/PBS: Re-register all themes in proxmoxlib.js
+        for css_file in "\${THEMES_SOURCE}"/theme-*.css; do
+            if [ -f "\$css_file" ]; then
+                theme_key=\$(basename "\$css_file" .css | sed 's/^theme-//')
+                theme_title=\$(head -1 "\$css_file" | sed -n 's|^/\*!\(.*\)\*/.*|\1|p')
+                if [ -z "\$theme_title" ]; then
+                    theme_title=\$(echo "\$theme_key" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+                fi
+
+                if ! grep -q "\"\${theme_key}\":" "\$PROXMOXLIB_JS"; then
+                    sed -i "s/theme_map: {/theme_map: {\n\t\"\${theme_key}\": \"\${theme_title}\",/" "\$PROXMOXLIB_JS"
+                    log "Registered theme: \${theme_title}"
+                fi
+            fi
+        done
+
+        # Re-apply JavaScript patches
+        if [ -d "\${THEMES_SOURCE}/patches" ]; then
+            mkdir -p "\$JS_PATCHES_DIR"
+            for js_file in "\${THEMES_SOURCE}/patches"/*.js; do
+                if [ -f "\$js_file" ]; then
+                    cp "\$js_file" "\$JS_PATCHES_DIR/"
+                    chmod 644 "\$JS_PATCHES_DIR/\$(basename "\$js_file")"
+                    log "Installed JS patch: \$(basename "\$js_file")"
+                fi
+            done
+
+            # Patch template if needed
+            if [ -f "\$INDEX_TEMPLATE" ] && ! grep -q "\$JS_PATCH_MARKER" "\$INDEX_TEMPLATE"; then
+                script_tags="\$JS_PATCH_MARKER"
+                js_web_path=""
+                if [ "\$PRODUCT" = "PVE" ]; then
+                    js_web_path="/pve2/js/proxmorph"
+                else
+                    js_web_path="/js/proxmorph"
+                fi
+
+                for js_file in "\$JS_PATCHES_DIR"/*.js; do
+                    if [ -f "\$js_file" ]; then
+                        js_name=\$(basename "\$js_file")
+                        script_tags="\${script_tags}\n<script src=\"\${js_web_path}/\${js_name}\"></script>"
+                    fi
+                done
+                script_tags="\${script_tags}\n\$JS_PATCH_MARKER_END"
+
+                sed -i "s|</body>|\${script_tags}\n</body>|" "\$INDEX_TEMPLATE"
+                log "Patched \$(basename "\$INDEX_TEMPLATE") with JS loader"
+            fi
+        fi
+
+        # Re-apply Nodes.pm sensor patch if enabled
+        SENSORS_CONFIG="\${INSTALL_DIR}/.sensors-enabled"
+        NODES_PM="/usr/share/perl5/PVE/API2/Nodes.pm"
+        SENSORS_PATCH_MARKER="# ProxMorph Sensors"
+        if [ -f "\$SENSORS_CONFIG" ] && [ -f "\$NODES_PM" ]; then
+            if ! grep -q "\$SENSORS_PATCH_MARKER" "\$NODES_PM" 2>/dev/null; then
+                sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\
     \${SENSORS_PATCH_MARKER}\\
-    local \\\$ENV{PATH} = '/usr/bin:/bin';\\
     \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \\\`upsc -l 2>/dev/null\\\`;\\
         if (\@ups_list) {\\
             chomp(my \\\$ups_name = \\\$ups_list[0]);\\
-            if (\\\$ups_name =~ /^([\\\\\\\\w@.-]+)\\\$/) { \\\$res->{upsData} = \\\`upsc \\\$1 2>/dev/null\\\`; }\\
+            \\\$res->{upsData} = \\\`upsc \\\$ups_name 2>/dev/null\\\` if \\\$ups_name;\\
         }\\
     }\\
     \${SENSORS_PATCH_MARKER} END" "\$NODES_PM"
-            log "Re-patched Nodes.pm for sensor data"
+                log "Re-patched Nodes.pm for sensor data"
+            fi
         fi
-    fi
+    fi  # end PVE/PBS else branch
 
     # Restart proxy service to apply changes
     systemctl restart "\$PROXY_SERVICE" 2>/dev/null || true
@@ -550,17 +804,14 @@ patch_nodes_pm() {
     fi
 
     # Insert sensor data collection before 'my $dinfo = df('/', 1);'
-    # Note: local $ENV{PATH} is required for Perl taint mode (-T switch used by PVE).
-    # $ups_name is untainted via regex before use in a backtick command.
     sed -i "/^\s*my \$dinfo = df/i\\
     ${SENSORS_PATCH_MARKER}\\
-    local \$ENV{PATH} = '/usr/bin:/bin';\\
     \$res->{sensorsOutput} = \`sensors -j 2>/dev/null\`;\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \`upsc -l 2>/dev/null\`;\\
         if (\@ups_list) {\\
             chomp(my \$ups_name = \$ups_list[0]);\\
-            if (\$ups_name =~ /^([\\\\w@.-]+)\$/) { \$res->{upsData} = \`upsc \$1 2>/dev/null\`; }\\
+            \$res->{upsData} = \`upsc \$ups_name 2>/dev/null\` if \$ups_name;\\
         }\\
     }\\
     ${SENSORS_PATCH_MARKER} END" "$NODES_PM"
@@ -778,6 +1029,7 @@ manage_sensors_menu() {
 }
 
 # Get themes source directory - prioritizes local script directory, then /opt/proxmorph
+# For PDM, looks for themes/pdm/ subdirectory first
 get_themes_source() {
     # 1. Check local script directory (prioritize local execution/development)
     local script_dir=""
@@ -787,12 +1039,21 @@ get_themes_source() {
 
     # Handle piped execution where BASH_SOURCE might be /dev/fd/*
     if [[ -n "$script_dir" && "$script_dir" != /dev/fd* && "$script_dir" != /proc/* && -d "${script_dir}/themes" ]]; then
+        # PDM uses a separate theme subdirectory
+        if [[ "$PRODUCT" == "PDM" && -d "${script_dir}/themes/pdm" ]]; then
+            echo "${script_dir}/themes/pdm"
+            return 0
+        fi
         echo "${script_dir}/themes"
         return 0
     fi
 
     # 2. Check /opt/proxmorph (fallback to installed cache)
     if [[ -d "${INSTALL_DIR}/themes" ]]; then
+        if [[ "$PRODUCT" == "PDM" && -d "${INSTALL_DIR}/themes/pdm" ]]; then
+            echo "${INSTALL_DIR}/themes/pdm"
+            return 0
+        fi
         echo "${INSTALL_DIR}/themes"
         return 0
     fi
@@ -829,6 +1090,44 @@ install_themes() {
     # Backup original files
     backup_files
     
+    # PDM uses a completely different installation approach (CSS injection via index.hbs)
+    if [[ "$PRODUCT" == "PDM" ]]; then
+        # Sync to local cache
+        if [[ "$themes_source" != "${INSTALL_DIR}/themes/pdm" ]]; then
+            mkdir -p "${INSTALL_DIR}/themes/pdm"
+            cp "$themes_source"/theme-*.css "${INSTALL_DIR}/themes/pdm/" 2>/dev/null || true
+        fi
+        
+        install_pdm_themes "$themes_source"
+        install_apt_hook
+        echo "$VERSION" > "${INSTALL_DIR}/.version"
+        
+        echo ""
+        print_status "ProxMorph PDM themes installed successfully!"
+        echo ""
+        print_info "To activate a theme:"
+        print_info "  1. Open browser console (F12) on your PDM web UI"
+        print_info "  2. Run: localStorage.setItem('proxmorph-theme', 'theme-dracula.css')"
+        print_info "  3. Reload the page (Ctrl+Shift+R)"
+        print_info ""
+        print_info "Available themes:"
+        for css_file in "$themes_source"/theme-*.css; do
+            if [[ -f "$css_file" ]]; then
+                local pname=$(basename "$css_file")
+                local ptitle=$(get_theme_title "$css_file")
+                print_theme "  ${ptitle}: localStorage.setItem('proxmorph-theme', '${pname}')"
+            fi
+        done
+        print_info ""
+        print_info "To disable: localStorage.removeItem('proxmorph-theme') + reload"
+        
+        # Restart service
+        print_info "Restarting ${PROXY_SERVICE} service in background..."
+        nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+        return 0
+    fi
+    
+    # PVE/PBS standard installation path
     # Create themes directory if not exists
     mkdir -p "$THEMES_DIR"
     mkdir -p "${INSTALL_DIR}/themes"
@@ -844,12 +1143,21 @@ install_themes() {
             chmod 644 "${THEMES_DIR}/$(basename "$css_file")"
             
             # Sync to local cache so apt hook uses the newest files on update
-            if [[ "$themes_source" != "${INSTALL_DIR}/themes" ]]; then
-                cp "$css_file" "${INSTALL_DIR}/themes/"
+            if [[ "$themes_source" != "${INSTALL_DIR}/themes" && "$themes_source" != "${INSTALL_DIR}/themes/pdm" ]]; then
+                if [[ "$PRODUCT" == "PDM" ]]; then
+                    mkdir -p "${INSTALL_DIR}/themes/pdm"
+                    cp "$css_file" "${INSTALL_DIR}/themes/pdm/"
+                else
+                    cp "$css_file" "${INSTALL_DIR}/themes/"
+                fi
             fi
             
-            # Register in theme_map
-            patch_theme_map "$theme_key" "$theme_title"
+            # Register in theme_map (PDM may not use proxmoxlib.js theme_map)
+            if [[ -f "$PROXMOXLIB_JS" ]]; then
+                patch_theme_map "$theme_key" "$theme_title"
+            elif [[ "$PRODUCT" == "PDM" ]]; then
+                print_info "PDM detected — skipping proxmoxlib.js theme_map (not applicable)"
+            fi
         fi
     done
     
@@ -876,32 +1184,15 @@ install_themes() {
     
     echo ""
     print_status "ProxMorph themes installed successfully!"
-
-    # Restart proxy service synchronously so cached JS is invalidated before user refreshes
-    print_info "Restarting ${PROXY_SERVICE} service..."
-    systemctl restart "${PROXY_SERVICE}" 2>/dev/null || true
-    print_status "${PROXY_SERVICE} restarted."
-
     echo ""
-    echo -e "${YELLOW}╔═══════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${YELLOW}║  IMPORTANT: You MUST clear your browser cache!            ║${NC}"
-    echo -e "${YELLOW}╠═══════════════════════════════════════════════════════════╣${NC}"
-    echo -e "${YELLOW}║  Proxmox does not send cache-control headers, so your     ║${NC}"
-    echo -e "${YELLOW}║  browser may serve an old copy of proxmoxlib.js.          ║${NC}"
-    echo -e "${YELLOW}║                                                           ║${NC}"
-    echo -e "${YELLOW}║  Try these steps IN ORDER until themes appear:            ║${NC}"
-    echo -e "${YELLOW}║   1. Hard-refresh:  Ctrl+Shift+R  (or Cmd+Shift+R)        ║${NC}"
-    echo -e "${YELLOW}║   2. If still missing: open an Incognito/Private window   ║${NC}"
-    echo -e "${YELLOW}║   3. If still missing: clear ALL browser data for the     ║${NC}"
-    echo -e "${YELLOW}║      Proxmox host, then reload                            ║${NC}"
-    echo -e "${YELLOW}╠═══════════════════════════════════════════════════════════╣${NC}"
-    echo -e "${YELLOW}║  To apply a theme:                                        ║${NC}"
-    echo -e "${YELLOW}║   → Click your username  →  Color Theme                   ║${NC}"
-    echo -e "${YELLOW}║   → Select a ProxMorph theme from the dropdown            ║${NC}"
-    echo -e "${YELLOW}║                                                           ║${NC}"
-    echo -e "${YELLOW}║  Trouble? Run:  bash install.sh verify                    ║${NC}"
-    echo -e "${YELLOW}╚═══════════════════════════════════════════════════════════╝${NC}"
-    echo ""
+    print_info "To apply a theme:"
+    print_info "  1. Clear your browser cache (Ctrl+Shift+R)"
+    print_info "  2. Click your username → Color Theme"
+    print_info "  3. Select a ProxMorph theme from the dropdown"
+    
+    # Restart proxy service in background
+    print_info "Restarting ${PROXY_SERVICE} service in background..."
+    nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
 }
 
 # Install a specific theme
@@ -924,12 +1215,8 @@ install_single_theme() {
     patch_theme_map "$theme_key" "$theme_title"
     
     print_status "Theme '${theme_title}' installed!"
-    print_info "Restarting ${PROXY_SERVICE} service..."
-    systemctl restart "${PROXY_SERVICE}" 2>/dev/null || true
-    print_status "${PROXY_SERVICE} restarted."
-    echo ""
-    print_warning "Clear your browser cache (Ctrl+Shift+R) or open an Incognito window."
-    print_info "If themes still don't appear, run: bash install.sh verify"
+    print_info "Restarting ${PROXY_SERVICE} service in background..."
+    nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
 }
 
 # Reinstall themes (after PVE update)
@@ -943,6 +1230,23 @@ reinstall_themes() {
 uninstall_themes() {
     print_info "Uninstalling ProxMorph themes..."
     
+    # PDM-specific uninstall
+    if [[ "$PRODUCT" == "PDM" ]]; then
+        remove_pdm_themes
+        remove_apt_hook
+        if [[ -d "$INSTALL_DIR" ]]; then
+            rm -rf "$INSTALL_DIR"
+            print_status "Removed install directory: $INSTALL_DIR"
+        fi
+        echo ""
+        print_status "ProxMorph PDM themes uninstalled!"
+        print_info "Clear your browser cache and localStorage to see the changes."
+        print_info "Restarting ${PROXY_SERVICE}..."
+        nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+        return 0
+    fi
+    
+    # PVE/PBS uninstall
     # Find themes source
     local themes_source=$(get_themes_source) || THEMES_DIR
     
@@ -977,7 +1281,7 @@ uninstall_themes() {
     
     echo ""
     print_status "ProxMorph themes uninstalled!"
-    print_warning "Clear your browser cache (Ctrl+Shift+R) or open an Incognito window to see the changes."
+    print_info "Clear your browser cache to see the changes."
 }
 
 # List available themes
@@ -1009,93 +1313,7 @@ list_themes() {
     echo ""
 }
 
-# Verify theme installation — diagnostic tool for troubleshooting
-verify_themes() {
-    local errors=0
-
-    echo ""
-    print_info "ProxMorph Installation Verification"
-    echo ""
-
-    # 1. Check proxmoxlib.js exists and is patched
-    if [[ ! -f "$PROXMOXLIB_JS" ]]; then
-        print_error "proxmoxlib.js not found at ${PROXMOXLIB_JS}"
-        errors=$((errors + 1))
-    else
-        print_status "proxmoxlib.js exists"
-
-        # Count ProxMorph themes by looking for quoted keys inside the theme_map block
-        local custom_themes
-        custom_themes=$(sed -n '/theme_map\s*:/,/}/p' "$PROXMOXLIB_JS" 2>/dev/null \
-            | grep -cE '"[a-z][-a-z]*"\s*:' || true)
-        # Subtract built-in themes (crisp, proxmox-dark)
-        local builtin
-        builtin=$(sed -n '/theme_map\s*:/,/}/p' "$PROXMOXLIB_JS" 2>/dev/null \
-            | grep -cE '"(crisp|proxmox-dark)"\s*:' || true)
-        custom_themes=$((custom_themes - builtin))
-        if [[ "$custom_themes" -gt 0 ]]; then
-            print_status "theme_map contains ${custom_themes} ProxMorph theme(s)"
-        else
-            print_error "theme_map has NO ProxMorph themes — patching may have failed"
-            errors=$((errors + 1))
-        fi
-    fi
-
-    # 2. Check CSS files are deployed
-    local css_count
-    css_count=$(find "$THEMES_DIR" -name "theme-*.css" 2>/dev/null | wc -l)
-    if [[ "$css_count" -gt 0 ]]; then
-        print_status "${css_count} theme CSS file(s) in ${THEMES_DIR}"
-    else
-        print_error "No theme CSS files found in ${THEMES_DIR}"
-        errors=$((errors + 1))
-    fi
-
-    # 3. Check proxy service status
-    if systemctl is-active --quiet "${PROXY_SERVICE}" 2>/dev/null; then
-        print_status "${PROXY_SERVICE} is running"
-    else
-        print_error "${PROXY_SERVICE} is NOT running — try: systemctl restart ${PROXY_SERVICE}"
-        errors=$((errors + 1))
-    fi
-
-    # 4. Check HTTP response for cache headers (informational)
-    local port=8006
-    [[ "$PRODUCT" == "PBS" ]] && port=8007
-    local headers
-    headers=$(curl -sk -o /dev/null -D - "https://localhost:${port}/proxmoxlib.js" 2>/dev/null | head -20 || true)
-    if [[ -n "$headers" ]]; then
-        echo ""
-        print_info "HTTP headers for proxmoxlib.js:"
-        echo "$headers" | grep -iE "^(HTTP|Last-Modified|Cache-Control|ETag|Content-Length)" | while IFS= read -r line; do
-            echo "  $line"
-        done
-
-        if ! echo "$headers" | grep -qi "Cache-Control"; then
-            echo ""
-            print_warning "No Cache-Control header — browser may heuristically cache old content."
-            print_warning "This is a Proxmox upstream behavior, not a ProxMorph bug."
-            print_info "Fix: Hard-refresh (Ctrl+Shift+R) or open an Incognito/Private window."
-        fi
-    fi
-
-    # 5. APT hook check
-    if check_apt_hook; then
-        print_status "APT hook installed (themes survive updates)"
-    else
-        print_warning "APT hook NOT installed — themes may disappear after a Proxmox update"
-    fi
-
-    echo ""
-    if [[ $errors -eq 0 ]]; then
-        print_status "All checks passed — if themes still don't appear, it's a browser cache issue."
-        print_info "Open an Incognito/Private browser window to confirm."
-    else
-        print_error "${errors} issue(s) found — see above for details."
-    fi
-    echo ""
-}
-
+# Show status
 show_status() {
     print_info "ProxMorph Status:"
     echo ""
@@ -1173,11 +1391,10 @@ show_menu() {
     echo "  4) Uninstall themes"
     echo "  5) List themes"
     echo "  6) Show status"
-    echo "  7) Verify installation"
-    [[ "$PRODUCT" == "PVE" ]] && echo "  8) Manage sensors"
+    [[ "$PRODUCT" == "PVE" ]] && echo "  7) Manage sensors"
     echo "  0) Exit"
     echo ""
-    read -p "Enter choice [0-8]: " choice
+    read -p "Enter choice [0-7]: " choice
     
     case $choice in
         1) install_themes ;;
@@ -1186,8 +1403,7 @@ show_menu() {
         4) uninstall_themes ;;
         5) list_themes ;;
         6) show_status ;;
-        7) verify_themes ;;
-        8) manage_sensors_menu ;;
+        7) manage_sensors_menu ;;
         0) exit 0 ;;
         *) print_error "Invalid option" ; show_menu ;;
     esac
@@ -1220,9 +1436,6 @@ main() {
             ;;
         check)
             check_updates
-            ;;
-        verify)
-            verify_themes
             ;;
         sensors)
             manage_sensors "${2:-status}"

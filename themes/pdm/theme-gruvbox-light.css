@@ -1,0 +1,194 @@
+/*!Gruvbox Light*/
+/*
+ * ProxMorph PDM Theme: Gruvbox Light
+ * Overrides the PWT Material Design tonal color system with Gruvbox Light palette
+ * Version: 1.0.0
+ * Author: ProxMorph / Gruvbox (https://github.com/morhetz/gruvbox)
+ *
+ * ─── Gruvbox Light Palette ────────────────────────────────────
+ * Yellow (accent): #d79921    Aqua:     #427b58
+ * Green:           #98971a    Red:      #cc241d
+ * Orange:          #d65d0e    Purple:   #8f3f71
+ * Text (dark):     #282828    Background:#fbf1c7
+ * bg1:             #ebdbb2    bg2:      #d5c4a1
+ */
+
+/* ===== Tonal Color Overrides ===== */
+:root {
+    /* Primary — Gruvbox Yellow (#d79921) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(255, 252, 245) !important;
+    --pwt-color-primary-95: rgb(255, 242, 208) !important;
+    --pwt-color-primary-90: rgb(252, 230, 168) !important;
+    --pwt-color-primary-80: rgb(240, 200, 100) !important;
+    --pwt-color-primary-70: rgb(228, 172, 52) !important;
+    --pwt-color-primary-60: rgb(215, 153, 33) !important;
+    --pwt-color-primary-50: rgb(188, 130, 20) !important;
+    --pwt-color-primary-40: rgb(160, 108, 10) !important;
+    --pwt-color-primary-30: rgb(130, 86, 2) !important;
+    --pwt-color-primary-20: rgb(100, 65, 0) !important;
+    --pwt-color-primary-15: rgb(80, 50, 0) !important;
+    --pwt-color-primary-10: rgb(60, 36, 0) !important;
+    --pwt-color-primary-5: rgb(38, 22, 0) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Gruvbox Aqua (#427b58) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(245, 254, 250) !important;
+    --pwt-color-secondary-95: rgb(210, 245, 228) !important;
+    --pwt-color-secondary-90: rgb(170, 232, 202) !important;
+    --pwt-color-secondary-80: rgb(105, 198, 155) !important;
+    --pwt-color-secondary-70: rgb(72, 165, 118) !important;
+    --pwt-color-secondary-60: rgb(66, 123, 88) !important;
+    --pwt-color-secondary-50: rgb(52, 105, 72) !important;
+    --pwt-color-secondary-40: rgb(38, 85, 56) !important;
+    --pwt-color-secondary-30: rgb(26, 68, 42) !important;
+    --pwt-color-secondary-20: rgb(16, 52, 30) !important;
+    --pwt-color-secondary-15: rgb(10, 42, 22) !important;
+    --pwt-color-secondary-10: rgb(5, 32, 15) !important;
+    --pwt-color-secondary-5: rgb(0, 20, 8) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Gruvbox Purple (#8f3f71) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(255, 248, 252) !important;
+    --pwt-color-tertiary-95: rgb(248, 225, 240) !important;
+    --pwt-color-tertiary-90: rgb(238, 198, 225) !important;
+    --pwt-color-tertiary-80: rgb(215, 148, 195) !important;
+    --pwt-color-tertiary-70: rgb(185, 105, 162) !important;
+    --pwt-color-tertiary-60: rgb(143, 63, 113) !important;
+    --pwt-color-tertiary-50: rgb(122, 48, 95) !important;
+    --pwt-color-tertiary-40: rgb(100, 35, 78) !important;
+    --pwt-color-tertiary-30: rgb(80, 22, 62) !important;
+    --pwt-color-tertiary-20: rgb(60, 12, 46) !important;
+    --pwt-color-tertiary-15: rgb(48, 6, 36) !important;
+    --pwt-color-tertiary-10: rgb(36, 2, 26) !important;
+    --pwt-color-tertiary-5: rgb(22, 0, 14) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Gruvbox Green (#98971a) tonal scale */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(252, 255, 238) !important;
+    --pwt-color-success-95: rgb(235, 248, 185) !important;
+    --pwt-color-success-90: rgb(215, 238, 135) !important;
+    --pwt-color-success-80: rgb(180, 210, 68) !important;
+    --pwt-color-success-70: rgb(160, 185, 38) !important;
+    --pwt-color-success-60: rgb(152, 151, 26) !important;
+    --pwt-color-success-50: rgb(130, 128, 15) !important;
+    --pwt-color-success-40: rgb(108, 106, 6) !important;
+    --pwt-color-success-30: rgb(86, 84, 0) !important;
+    --pwt-color-success-20: rgb(65, 64, 0) !important;
+    --pwt-color-success-15: rgb(52, 50, 0) !important;
+    --pwt-color-success-10: rgb(38, 36, 0) !important;
+    --pwt-color-success-5: rgb(22, 20, 0) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Gruvbox Red (#cc241d) tonal scale */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 248, 246) !important;
+    --pwt-color-error-95: rgb(255, 220, 216) !important;
+    --pwt-color-error-90: rgb(255, 188, 182) !important;
+    --pwt-color-error-80: rgb(240, 128, 118) !important;
+    --pwt-color-error-70: rgb(225, 72, 62) !important;
+    --pwt-color-error-60: rgb(204, 36, 29) !important;
+    --pwt-color-error-50: rgb(178, 22, 16) !important;
+    --pwt-color-error-40: rgb(150, 12, 8) !important;
+    --pwt-color-error-30: rgb(122, 4, 2) !important;
+    --pwt-color-error-20: rgb(94, 0, 0) !important;
+    --pwt-color-error-15: rgb(75, 0, 0) !important;
+    --pwt-color-error-10: rgb(56, 0, 0) !important;
+    --pwt-color-error-5: rgb(35, 0, 0) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Gruvbox Orange (#d65d0e) tonal scale */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 250, 245) !important;
+    --pwt-color-warning-95: rgb(255, 230, 205) !important;
+    --pwt-color-warning-90: rgb(252, 205, 160) !important;
+    --pwt-color-warning-80: rgb(240, 155, 80) !important;
+    --pwt-color-warning-70: rgb(228, 118, 32) !important;
+    --pwt-color-warning-60: rgb(214, 93, 14) !important;
+    --pwt-color-warning-50: rgb(188, 76, 5) !important;
+    --pwt-color-warning-40: rgb(160, 60, 0) !important;
+    --pwt-color-warning-30: rgb(130, 46, 0) !important;
+    --pwt-color-warning-20: rgb(100, 32, 0) !important;
+    --pwt-color-warning-15: rgb(80, 24, 0) !important;
+    --pwt-color-warning-10: rgb(58, 16, 0) !important;
+    --pwt-color-warning-5: rgb(36, 8, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — Gruvbox Light Background scale (#fbf1c7 base) */
+    --pwt-color-neutral-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-99: rgb(253, 249, 238) !important;
+    --pwt-color-neutral-95: rgb(251, 241, 199) !important;
+    --pwt-color-neutral-90: rgb(235, 219, 178) !important;
+    --pwt-color-neutral-80: rgb(213, 196, 161) !important;
+    --pwt-color-neutral-70: rgb(189, 174, 147) !important;
+    --pwt-color-neutral-60: rgb(168, 153, 132) !important;
+    --pwt-color-neutral-50: rgb(146, 131, 116) !important;
+    --pwt-color-neutral-40: rgb(124, 111, 100) !important;
+    --pwt-color-neutral-30: rgb(102, 92, 84) !important;
+    --pwt-color-neutral-20: rgb(80, 73, 69) !important;
+    --pwt-color-neutral-15: rgb(60, 56, 54) !important;
+    --pwt-color-neutral-10: rgb(40, 40, 40) !important;
+    --pwt-color-neutral-5: rgb(24, 24, 24) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt — Gruvbox Light fg tones */
+    --pwt-color-neutral-alt-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-alt-99: rgb(252, 248, 235) !important;
+    --pwt-color-neutral-alt-95: rgb(248, 240, 202) !important;
+    --pwt-color-neutral-alt-90: rgb(238, 225, 182) !important;
+    --pwt-color-neutral-alt-80: rgb(218, 202, 165) !important;
+    --pwt-color-neutral-alt-70: rgb(195, 180, 148) !important;
+    --pwt-color-neutral-alt-60: rgb(172, 158, 132) !important;
+    --pwt-color-neutral-alt-50: rgb(150, 136, 118) !important;
+    --pwt-color-neutral-alt-40: rgb(128, 115, 102) !important;
+    --pwt-color-neutral-alt-30: rgb(106, 95, 85) !important;
+    --pwt-color-neutral-alt-20: rgb(84, 76, 70) !important;
+    --pwt-color-neutral-alt-15: rgb(64, 58, 55) !important;
+    --pwt-color-neutral-alt-10: rgb(45, 42, 40) !important;
+    --pwt-color-neutral-alt-5: rgb(28, 26, 25) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (light surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-90) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-95) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-background: var(--pwt-color-neutral-95) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-20) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-shadow: rgba(0, 0, 0, 0.12) !important;
+    --pwt-color-primary: var(--pwt-color-primary-40) !important;
+    --pwt-color-on-primary: var(--pwt-color-primary-100) !important;
+    --pwt-color-primary-container: var(--pwt-color-primary-90) !important;
+    --pwt-color-on-primary-container: var(--pwt-color-primary-10) !important;
+    background: var(--pwt-color-neutral-95) !important;
+    color: var(--pwt-color-neutral-10) !important;
+    color-scheme: light !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-95) !important;
+}
+
+/* ===== Logo — swap to dark variant for light background ===== */
+img[src*="proxmox_logo_white"] {
+    content: url("/images/proxmox_logo.svg") !important;
+}

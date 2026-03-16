@@ -1,0 +1,185 @@
+/*!Catppuccin Mocha Teal*/
+/*
+ * ProxMorph PDM Theme: Catppuccin Mocha Teal
+ * Overrides the PWT Material Design tonal color system with Catppuccin Mocha Teal palette
+ * Version: 1.0.0
+ * Author: ProxMorph / Catppuccin Community Palette
+ *
+ * ─── Catppuccin Mocha Teal Palette ────────────────────────────
+ * Teal (accent): #94e2d5    Blue:     #89b4fa
+ * Green:          #a6e3a1    Red:      #f38ba8
+ * Yellow:         #f9e2af    Pink:     #f5c2e7
+ * Text:           #cdd6f4    Base:     #1e1e2e
+ * Surface0:       #313244    Mantle:   #181825
+ * Crust:          #11111b
+ */
+
+/* ===== Tonal Color Overrides ===== */
+:root {
+    /* Primary — Catppuccin Teal (#94e2d5) tonal scale */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(245, 254, 252) !important;
+    --pwt-color-primary-95: rgb(220, 250, 245) !important;
+    --pwt-color-primary-90: rgb(185, 242, 232) !important;
+    --pwt-color-primary-80: rgb(148, 226, 213) !important;
+    --pwt-color-primary-70: rgb(118, 198, 186) !important;
+    --pwt-color-primary-60: rgb(88, 170, 160) !important;
+    --pwt-color-primary-50: rgb(62, 145, 135) !important;
+    --pwt-color-primary-40: rgb(38, 118, 110) !important;
+    --pwt-color-primary-30: rgb(18, 92, 85) !important;
+    --pwt-color-primary-20: rgb(4, 68, 62) !important;
+    --pwt-color-primary-15: rgb(0, 54, 48) !important;
+    --pwt-color-primary-10: rgb(0, 40, 36) !important;
+    --pwt-color-primary-5: rgb(0, 25, 22) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — Catppuccin Blue (#89b4fa) tonal scale */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(248, 251, 255) !important;
+    --pwt-color-secondary-95: rgb(225, 238, 255) !important;
+    --pwt-color-secondary-90: rgb(200, 222, 255) !important;
+    --pwt-color-secondary-80: rgb(160, 195, 250) !important;
+    --pwt-color-secondary-70: rgb(137, 180, 250) !important;
+    --pwt-color-secondary-60: rgb(110, 155, 220) !important;
+    --pwt-color-secondary-50: rgb(88, 130, 195) !important;
+    --pwt-color-secondary-40: rgb(68, 108, 170) !important;
+    --pwt-color-secondary-30: rgb(48, 85, 142) !important;
+    --pwt-color-secondary-20: rgb(32, 62, 112) !important;
+    --pwt-color-secondary-15: rgb(24, 48, 92) !important;
+    --pwt-color-secondary-10: rgb(16, 35, 72) !important;
+    --pwt-color-secondary-5: rgb(8, 20, 48) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — Catppuccin Pink (#f5c2e7) tonal scale */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(255, 250, 254) !important;
+    --pwt-color-tertiary-95: rgb(255, 238, 248) !important;
+    --pwt-color-tertiary-90: rgb(255, 220, 240) !important;
+    --pwt-color-tertiary-80: rgb(245, 194, 231) !important;
+    --pwt-color-tertiary-70: rgb(225, 168, 210) !important;
+    --pwt-color-tertiary-60: rgb(200, 140, 185) !important;
+    --pwt-color-tertiary-50: rgb(175, 115, 162) !important;
+    --pwt-color-tertiary-40: rgb(150, 90, 138) !important;
+    --pwt-color-tertiary-30: rgb(125, 65, 112) !important;
+    --pwt-color-tertiary-20: rgb(98, 42, 88) !important;
+    --pwt-color-tertiary-15: rgb(80, 30, 72) !important;
+    --pwt-color-tertiary-10: rgb(62, 18, 55) !important;
+    --pwt-color-tertiary-5: rgb(42, 8, 38) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — Catppuccin Green (#a6e3a1) tonal scale */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(245, 255, 244) !important;
+    --pwt-color-success-95: rgb(215, 255, 212) !important;
+    --pwt-color-success-90: rgb(185, 245, 182) !important;
+    --pwt-color-success-80: rgb(166, 227, 161) !important;
+    --pwt-color-success-70: rgb(140, 200, 136) !important;
+    --pwt-color-success-60: rgb(115, 175, 112) !important;
+    --pwt-color-success-50: rgb(90, 150, 88) !important;
+    --pwt-color-success-40: rgb(68, 125, 65) !important;
+    --pwt-color-success-30: rgb(48, 100, 45) !important;
+    --pwt-color-success-20: rgb(30, 76, 28) !important;
+    --pwt-color-success-15: rgb(20, 60, 18) !important;
+    --pwt-color-success-10: rgb(12, 45, 10) !important;
+    --pwt-color-success-5: rgb(5, 28, 4) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — Catppuccin Red (#f38ba8) tonal scale */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(255, 249, 250) !important;
+    --pwt-color-error-95: rgb(255, 232, 238) !important;
+    --pwt-color-error-90: rgb(255, 210, 220) !important;
+    --pwt-color-error-80: rgb(248, 165, 185) !important;
+    --pwt-color-error-70: rgb(243, 139, 168) !important;
+    --pwt-color-error-60: rgb(220, 110, 140) !important;
+    --pwt-color-error-50: rgb(195, 85, 115) !important;
+    --pwt-color-error-40: rgb(170, 60, 90) !important;
+    --pwt-color-error-30: rgb(142, 38, 68) !important;
+    --pwt-color-error-20: rgb(110, 18, 48) !important;
+    --pwt-color-error-15: rgb(90, 8, 35) !important;
+    --pwt-color-error-10: rgb(68, 0, 22) !important;
+    --pwt-color-error-5: rgb(45, 0, 12) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — Catppuccin Yellow (#f9e2af) tonal scale */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(255, 253, 248) !important;
+    --pwt-color-warning-95: rgb(255, 248, 225) !important;
+    --pwt-color-warning-90: rgb(252, 240, 195) !important;
+    --pwt-color-warning-80: rgb(249, 226, 175) !important;
+    --pwt-color-warning-70: rgb(225, 200, 145) !important;
+    --pwt-color-warning-60: rgb(200, 178, 118) !important;
+    --pwt-color-warning-50: rgb(175, 155, 92) !important;
+    --pwt-color-warning-40: rgb(148, 130, 68) !important;
+    --pwt-color-warning-30: rgb(120, 105, 45) !important;
+    --pwt-color-warning-20: rgb(92, 80, 25) !important;
+    --pwt-color-warning-15: rgb(72, 62, 15) !important;
+    --pwt-color-warning-10: rgb(52, 45, 5) !important;
+    --pwt-color-warning-5: rgb(32, 28, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — Catppuccin Background scale */
+    --pwt-color-neutral-100: rgb(205, 214, 244) !important;
+    --pwt-color-neutral-99: rgb(198, 208, 240) !important;
+    --pwt-color-neutral-95: rgb(186, 194, 222) !important;
+    --pwt-color-neutral-90: rgb(166, 173, 200) !important;
+    --pwt-color-neutral-80: rgb(147, 153, 178) !important;
+    --pwt-color-neutral-70: rgb(127, 132, 156) !important;
+    --pwt-color-neutral-60: rgb(108, 112, 134) !important;
+    --pwt-color-neutral-50: rgb(88, 91, 112) !important;
+    --pwt-color-neutral-40: rgb(69, 71, 90) !important;
+    --pwt-color-neutral-30: rgb(49, 50, 68) !important;
+    --pwt-color-neutral-20: rgb(30, 30, 46) !important;
+    --pwt-color-neutral-15: rgb(24, 24, 37) !important;
+    --pwt-color-neutral-10: rgb(17, 17, 27) !important;
+    --pwt-color-neutral-5: rgb(10, 10, 18) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt — Catppuccin Overlay tones */
+    --pwt-color-neutral-alt-100: rgb(205, 214, 244) !important;
+    --pwt-color-neutral-alt-99: rgb(200, 210, 242) !important;
+    --pwt-color-neutral-alt-95: rgb(186, 194, 222) !important;
+    --pwt-color-neutral-alt-90: rgb(166, 173, 200) !important;
+    --pwt-color-neutral-alt-80: rgb(147, 153, 178) !important;
+    --pwt-color-neutral-alt-70: rgb(127, 132, 156) !important;
+    --pwt-color-neutral-alt-60: rgb(108, 112, 134) !important;
+    --pwt-color-neutral-alt-50: rgb(88, 91, 112) !important;
+    --pwt-color-neutral-alt-40: rgb(69, 71, 90) !important;
+    --pwt-color-neutral-alt-30: rgb(49, 50, 68) !important;
+    --pwt-color-neutral-alt-20: rgb(30, 30, 46) !important;
+    --pwt-color-neutral-alt-15: rgb(24, 24, 37) !important;
+    --pwt-color-neutral-alt-10: rgb(17, 17, 27) !important;
+    --pwt-color-neutral-alt-5: rgb(10, 10, 18) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (darker surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-15) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-15) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-10) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-background: var(--pwt-color-neutral-10) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-neutral-80) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-30) !important;
+    --pwt-color-shadow: var(--pwt-color-neutral-0) !important;
+    background: var(--pwt-color-neutral-10) !important;
+    color: var(--pwt-color-neutral-95) !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-10) !important;
+}
