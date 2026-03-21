@@ -691,7 +691,10 @@ JSBLK
         my \@ups_list = \\\`upsc -l 2>/dev/null\\\`;\\
         if (\@ups_list) {\\
             chomp(my \\\$ups_name = \\\$ups_list[0]);\\
-            \\\$res->{upsData} = \\\`upsc \\\$ups_name 2>/dev/null\\\` if \\\$ups_name;\\
+            if (\\\$ups_name && \\\$ups_name =~ /^([A-Za-z0-9_.:-]+)$/) {\\
+                my \\\$safe_ups_name = \\\$1;\\
+                \\\$res->{upsData} = \\\`upsc \\\$safe_ups_name 2>/dev/null\\\`;\\
+            }\\
         }\\
     }\\
     \${SENSORS_PATCH_MARKER} END" "\$NODES_PM"
@@ -811,7 +814,10 @@ patch_nodes_pm() {
         my \@ups_list = \`upsc -l 2>/dev/null\`;\\
         if (\@ups_list) {\\
             chomp(my \$ups_name = \$ups_list[0]);\\
-            \$res->{upsData} = \`upsc \$ups_name 2>/dev/null\` if \$ups_name;\\
+            if (\$ups_name && \$ups_name =~ /^([A-Za-z0-9_.:-]+)$/) {\\
+                my \$safe_ups_name = \$1;\\
+                \$res->{upsData} = \`upsc \$safe_ups_name 2>/dev/null\`;\\
+            }\\
         }\\
     }\\
     ${SENSORS_PATCH_MARKER} END" "$NODES_PM"
