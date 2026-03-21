@@ -849,8 +849,9 @@ get_remote_nodes() {
         return 0
     fi
 
-    # pvecm nodes lists all cluster members; skip header and local node
-    pvecm nodes 2>/dev/null | awk '!/local/ && NF>=3 && $1 ~ /^[0-9]+$/ {print $3}'
+    # pvecm nodes can include a Qdevice status column (e.g. NR, NA,NV,NMW).
+    # Use the last field as node name, skip local and qdevice rows.
+    pvecm nodes 2>/dev/null | awk '$1 ~ /^[0-9]+$/ && $3 != "Qdevice" && $NF != "(local)" {print $NF}'
 }
 
 # Deploy sensor API patch to remote cluster nodes via scp
