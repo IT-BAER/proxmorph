@@ -686,6 +686,7 @@ JSBLK
             if ! grep -q "\$SENSORS_PATCH_MARKER" "\$NODES_PM" 2>/dev/null; then
                 sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\
     \${SENSORS_PATCH_MARKER}\\
+    local \\\$ENV{PATH} = '/usr/bin:/bin';\\
     \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \\\`upsc -l 2>/dev/null\\\`;\\
@@ -809,6 +810,7 @@ patch_nodes_pm() {
     # Insert sensor data collection before 'my $dinfo = df('/', 1);'
     sed -i "/^\s*my \$dinfo = df/i\\
     ${SENSORS_PATCH_MARKER}\\
+    local \$ENV{PATH} = '/usr/bin:/bin';\\
     \$res->{sensorsOutput} = \`sensors -j 2>/dev/null\`;\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \`upsc -l 2>/dev/null\`;\\
