@@ -683,18 +683,27 @@ JSBLK
         NODES_PM="/usr/share/perl5/PVE/API2/Nodes.pm"
         SENSORS_PATCH_MARKER="# ProxMorph Sensors"
         if [ -f "\$SENSORS_CONFIG" ] && [ -f "\$NODES_PM" ]; then
+            sensor_needs_patch=false
             if ! grep -q "\$SENSORS_PATCH_MARKER" "\$NODES_PM" 2>/dev/null; then
+                sensor_needs_patch=true
+            elif ! grep -q "safe_ups_name" "\$NODES_PM" 2>/dev/null || ! grep -q "/usr/bin/timeout -k 1 3 /usr/bin/upsc" "\$NODES_PM" 2>/dev/null; then
+                sed -i "/\${SENSORS_PATCH_MARKER}/,/\${SENSORS_PATCH_MARKER} END/d" "\$NODES_PM"
+                sensor_needs_patch=true
+                log "Detected legacy Nodes.pm sensor patch, refreshing"
+            fi
+
+            if [ "\$sensor_needs_patch" = "true" ]; then
                 sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\
     \${SENSORS_PATCH_MARKER}\\
     local \\\$ENV{PATH} = '/usr/bin:/bin';\\
     \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\
     if (-x '/usr/bin/upsc') {\\
-        my \@ups_list = \\\`upsc -l 2>/dev/null\\\`;\\
+        my \@ups_list = \\\`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc -l; else /usr/bin/upsc -l; fi 2>/dev/null\\\`;\\
         if (\@ups_list) {\\
             chomp(my \\\$ups_name = \\\$ups_list[0]);\\
             if (\\\$ups_name && \\\$ups_name =~ /^([A-Za-z0-9_.:-]+)$/) {\\
                 my \\\$safe_ups_name = \\\$1;\\
-                \\\$res->{upsData} = \\\`upsc \\\$safe_ups_name 2>/dev/null\\\`;\\
+                \\\$res->{upsData} = \\\`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc \\\$safe_ups_name; else /usr/bin/upsc \\\$safe_ups_name; fi 2>/dev/null\\\`;\\
             }\\
         }\\
     }\\
@@ -794,10 +803,17 @@ patch_nodes_pm() {
         return 1
     fi
 
-    # Check if already patched
+    # Refresh legacy sensor patches so old installs get the taint-safe logic.
     if grep -q "$SENSORS_PATCH_MARKER" "$NODES_PM" 2>/dev/null; then
-        print_info "Nodes.pm already patched for sensors"
-        return 0
+          if grep -q "local \$ENV{PATH} = '/usr/bin:/bin';" "$NODES_PM" 2>/dev/null && \
+              grep -q "safe_ups_name" "$NODES_PM" 2>/dev/null && \
+              grep -q "/usr/bin/timeout -k 1 3 /usr/bin/upsc" "$NODES_PM" 2>/dev/null; then
+            print_info "Nodes.pm already patched for sensors"
+            return 0
+        fi
+
+        print_warning "Legacy sensor patch detected in Nodes.pm, refreshing to current version"
+        sed -i "/${SENSORS_PATCH_MARKER}/,/${SENSORS_PATCH_MARKER} END/d" "$NODES_PM"
     fi
 
     # Backup Nodes.pm
@@ -813,12 +829,12 @@ patch_nodes_pm() {
     local \$ENV{PATH} = '/usr/bin:/bin';\\
     \$res->{sensorsOutput} = \`sensors -j 2>/dev/null\`;\\
     if (-x '/usr/bin/upsc') {\\
-        my \@ups_list = \`upsc -l 2>/dev/null\`;\\
+        my \@ups_list = \`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc -l; else /usr/bin/upsc -l; fi 2>/dev/null\`;\\
         if (\@ups_list) {\\
             chomp(my \$ups_name = \$ups_list[0]);\\
             if (\$ups_name && \$ups_name =~ /^([A-Za-z0-9_.:-]+)$/) {\\
                 my \$safe_ups_name = \$1;\\
-                \$res->{upsData} = \`upsc \$safe_ups_name 2>/dev/null\`;\\
+                \$res->{upsData} = \`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc \$safe_ups_name; else /usr/bin/upsc \$safe_ups_name; fi 2>/dev/null\`;\\
             }\\
         }\\
     }\\
