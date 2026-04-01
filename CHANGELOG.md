@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-04-01
+
+### Added
+- **Sensor Selector** — Interactive per-sensor filtering for hardware monitoring. Issue [#44](https://github.com/IT-BAER/proxmorph/issues/44)
+  - `enumerate_sensors()` discovers all available sensors (CPU, NVMe, HDD, Fan) via `sensors -j`
+  - `configure_sensor_filter()` interactive multi-select menu to choose which sensors to display
+  - Filter stored in `/opt/proxmorph/.sensors-filter` (chip:label format), synced to cluster nodes
+  - `manage-sensors` menu gains option 4) Configure sensor selection
+  - `sensors configure` CLI subcommand for non-interactive reconfiguration
+  - Backwards-compatible: missing/empty filter file shows all sensors
+- **proxmorph-sensors.js** (v1.2.0) — Client-side sensor filtering
+  - Reads `sensorsFilter` from API on each render (no first-load flash)
+  - CPU cores shown individually when filter selects specific cores without Package sensor
+  - APT hook updated to persist filter across PVE updates
+
 ## [2.6.0] - 2026-03-16
 
 ### Added

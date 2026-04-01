@@ -22,13 +22,32 @@
  *   - Fan speeds (recursive detection of fan*_input keys)
  *   - UPS status via NUT (upsc) — optional, shown inline when present
  *
- * Version: 1.1.0
+ * Version: 1.2.0
  */
 (function () {
     'use strict';
 
     // ─── Configuration ─────────────────────────────────────────────
     var SENSOR_UNIT = 'C'; // 'C' or 'F'
+
+    // ─── Sensor Filter (populated from API on store load) ──────────
+    // null = no filter (show all), otherwise object with chip:label keys
+    var activeSensorFilter = null;
+
+    function isSensorAllowed(chipKey, label) {
+        if (!activeSensorFilter) return true;
+        return activeSensorFilter[chipKey + ':' + label] === true;
+    }
+
+    function parseSensorFilter(raw) {
+        if (!raw || typeof raw !== 'string' || raw.trim() === '') return null;
+        var filter = {};
+        raw.split('\n').forEach(function (line) {
+            line = line.trim();
+            if (line !== '') filter[line] = true;
+        });
+        return Object.keys(filter).length > 0 ? filter : null;
+    }
 
     // ─── CSS Variable Reader ───────────────────────────────────────
     function getThemeColors() {
@@ -85,7 +104,23 @@
     // ─── Combined Sensors Renderer ─────────────────────────────────
     // Produces a compact single-line output: CPU | NVMe | Fan
     // Only sections with data are shown — no "No X detected" clutter.
-    function renderSensors(value) {
+    function renderSensors(value, record) {
+        // Read filter from the StatusView's store (resolves timing issue where
+        // our store.on('load') fires after ExtJS already called this renderer)
+        try {
+            var store = (record && record.store) ? record.store : null;
+            if (!store) {
+                var widget = Ext.ComponentQuery.query('#sensors')[0];
+                if (widget && widget.ownerCt && widget.ownerCt.getStore) {
+                    store = widget.ownerCt.getStore();
+                }
+            }
+            if (store) {
+                var filterRec = store.findRecord('key', 'sensorsFilter');
+                activeSensorFilter = filterRec ? parseSensorFilter(filterRec.get('value')) : null;
+            }
+        } catch (e) { /* filter stays as-is */ }
+
         var data = parseSensorsJSON(value);
         var colors = getThemeColors();
         if (!data) return tag('N/A', colors.textDim);
@@ -105,6 +140,7 @@
 
             Object.keys(chip).forEach(function (label) {
                 if (label === 'Adapter') return;
+                if (!isSensorAllowed(chipKey, label)) return;
                 var sensor = chip[label];
                 if (!sensor || typeof sensor !== 'object') return;
 
@@ -125,6 +161,7 @@
                     pkgCrit = critKey ? sensor[critKey] : null;
                 } else {
                     coreTemps.push({
+                        label: label,
                         temp: temp,
                         max:  maxKey  ? sensor[maxKey]  : null,
                         crit: critKey ? sensor[critKey] : null
@@ -138,9 +175,17 @@
                 if (coreTemps.length > 0) txt += ' (' + coreTemps.length + ' cores)';
                 sections.push(tag(txt, color));
             } else if (coreTemps.length > 0) {
-                var maxT = Math.max.apply(null, coreTemps.map(function (c) { return c.temp; }));
-                var color = tempColor(maxT, 80, 95, colors);
-                sections.push(tag('CPU: ' + formatTemp(maxT) + ' peak (' + coreTemps.length + ' cores)', color));
+                if (activeSensorFilter) {
+                    // Filter active: show each selected core individually
+                    coreTemps.forEach(function (core) {
+                        var color = tempColor(core.temp, core.max, core.crit, colors);
+                        sections.push(tag(core.label + ': ' + formatTemp(core.temp), color));
+                    });
+                } else {
+                    var maxT = Math.max.apply(null, coreTemps.map(function (c) { return c.temp; }));
+                    var color = tempColor(maxT, 80, 95, colors);
+                    sections.push(tag('CPU: ' + formatTemp(maxT) + ' peak (' + coreTemps.length + ' cores)', color));
+                }
             }
         });
 
@@ -154,6 +199,7 @@
 
             Object.keys(chip).forEach(function (label) {
                 if (label !== 'Composite') return;
+                if (!isSensorAllowed(chipKey, label)) return;
                 var sensor = chip[label];
                 if (!sensor || typeof sensor !== 'object') return;
 
@@ -184,6 +230,7 @@
             var chip = data[chipKey];
             Object.keys(chip).forEach(function (label) {
                 if (label === 'Adapter') return;
+                if (!isSensorAllowed(chipKey, label)) return;
                 var sensor = chip[label];
                 if (!sensor || typeof sensor !== 'object') return;
 
@@ -204,21 +251,24 @@
 
         // ── Fan Speeds ──────────────────────────────────────────
         var fans = [];
-        function findFans(obj, parentLabel) {
+        function findFans(obj, parentLabel, chipKey) {
             if (!obj || typeof obj !== 'object') return;
             Object.keys(obj).forEach(function (key) {
                 if (/^fan\d+_input$/.test(key)) {
-                    fans.push({
-                        label: parentLabel || key.replace('_input', ''),
-                        rpm: obj[key]
-                    });
+                    var label = parentLabel || key.replace('_input', '');
+                    if (isSensorAllowed(chipKey, label)) {
+                        fans.push({
+                            label: label,
+                            rpm: obj[key]
+                        });
+                    }
                 } else if (typeof obj[key] === 'object' && key !== 'Adapter') {
-                    findFans(obj[key], key);
+                    findFans(obj[key], key, chipKey);
                 }
             });
         }
         Object.keys(data).forEach(function (chipKey) {
-            findFans(data[chipKey], '');
+            findFans(data[chipKey], '', chipKey);
         });
 
         if (fans.length > 0) {
@@ -347,11 +397,22 @@
                 store.on('load', function (s, records) {
                     if (!records || !records.length) return;
 
+                    // Update sensor filter from API data
+                    var filterRec = s.findRecord('key', 'sensorsFilter');
+                    activeSensorFilter = filterRec ? parseSensorFilter(filterRec.get('value')) : null;
+
                     // Hide sensor row entirely when API doesn't include sensorsOutput
                     var sensorWidget = me.down('#sensors');
                     if (sensorWidget) {
-                        var hasSensorData = s.findRecord('key', 'sensorsOutput') !== null;
+                        var sensorsRec = s.findRecord('key', 'sensorsOutput');
+                        var hasSensorData = sensorsRec !== null;
                         sensorWidget.setVisible(hasSensorData);
+
+                        // Force re-render with filter applied (our handler fires
+                        // after StatusView's internal renderer, need to update)
+                        if (hasSensorData && sensorWidget.setText) {
+                            sensorWidget.setText(renderSensors(sensorsRec.get('value')));
+                        }
                     }
 
                     // Check for UPS data in the store

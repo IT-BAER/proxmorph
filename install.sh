@@ -15,7 +15,7 @@ MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Configuration
-VERSION="2.6.0"
+VERSION="2.7.0"
 WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
 THEMES_DIR="${WIDGET_TOOLKIT_DIR}/themes"
 PROXMOXLIB_JS="${WIDGET_TOOLKIT_DIR}/proxmoxlib.js"
@@ -25,6 +25,7 @@ INSTALL_DIR="/opt/proxmorph"
 
 # Sensor support paths
 SENSORS_CONFIG="${INSTALL_DIR}/.sensors-enabled"
+SENSORS_FILTER="${INSTALL_DIR}/.sensors-filter"
 NODES_PM="/usr/share/perl5/PVE/API2/Nodes.pm"
 SENSORS_PATCH_MARKER="# ProxMorph Sensors"
 
@@ -680,6 +681,7 @@ JSBLK
 
         # Re-apply Nodes.pm sensor patch if enabled
         SENSORS_CONFIG="\${INSTALL_DIR}/.sensors-enabled"
+        SENSORS_FILTER="\${INSTALL_DIR}/.sensors-filter"
         NODES_PM="/usr/share/perl5/PVE/API2/Nodes.pm"
         SENSORS_PATCH_MARKER="# ProxMorph Sensors"
         if [ -f "\$SENSORS_CONFIG" ] && [ -f "\$NODES_PM" ]; then
@@ -697,6 +699,13 @@ JSBLK
     \${SENSORS_PATCH_MARKER}\\
     local \\\$ENV{PATH} = '/usr/bin:/bin';\\
     \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\
+    if (-e '\${SENSORS_FILTER}') {\\
+        if (open(my \\\$fh, '<', '\${SENSORS_FILTER}')) {\\
+            local \\\$/;\\
+            \\\$res->{sensorsFilter} = <\\\$fh>;\\
+            close(\\\$fh);\\
+        }\\
+    }\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \\\`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc -l; else /usr/bin/upsc -l; fi 2>/dev/null\\\`;\\
         if (\@ups_list) {\\
@@ -796,6 +805,204 @@ detect_sensors() {
     return 0
 }
 
+# Enumerate individual sensors from sensors -j output for selection
+# Populates SENSOR_LIST array with entries like:
+#   "CPU|coretemp-isa-0000|Package id 0|42.0°C"
+#   "Fan|it8689-isa-0a40|fan1|850 RPM"
+enumerate_sensors() {
+    SENSOR_LIST=()
+    local sensor_output
+    sensor_output=$(sensors -j 2>/dev/null) || true
+    if [[ -z "$sensor_output" ]]; then
+        return 1
+    fi
+
+    # Parse JSON with awk to extract chip keys, labels, and values
+    # CPU chips (coretemp, k10temp)
+    local cpu_chips
+    cpu_chips=$(echo "$sensor_output" | grep -oP '"(coretemp-isa-[^"]+|k10temp-pci-[^"]+)"' | tr -d '"' | sort -u)
+    for chip in $cpu_chips; do
+        # Get package/Tctl temp
+        local temp
+        temp=$(echo "$sensor_output" | python3 -c "
+import sys,json
+try:
+    d=json.loads(sys.stdin.read())
+    chip=d.get('$chip',{})
+    for lbl,v in chip.items():
+        if lbl=='Adapter': continue
+        if not isinstance(v,dict): continue
+        for k,val in v.items():
+            if 'input' in k and val is not None:
+                print(f'{lbl}|{val}')
+                break
+except: pass
+" 2>/dev/null)
+        if [[ -n "$temp" ]]; then
+            while IFS='|' read -r label val; do
+                SENSOR_LIST+=("CPU|${chip}|${label}|${val}°C")
+            done <<< "$temp"
+        fi
+    done
+
+    # NVMe drives
+    local nvme_chips
+    nvme_chips=$(echo "$sensor_output" | grep -oP '"(nvme-pci-[^"]+)"' | tr -d '"' | sort -u)
+    for chip in $nvme_chips; do
+        local temp
+        temp=$(echo "$sensor_output" | python3 -c "
+import sys,json
+try:
+    d=json.loads(sys.stdin.read())
+    chip=d.get('$chip',{})
+    for lbl,v in chip.items():
+        if lbl=='Adapter': continue
+        if not isinstance(v,dict): continue
+        for k,val in v.items():
+            if 'input' in k and val is not None:
+                print(f'{lbl}|{val}')
+                break
+except: pass
+" 2>/dev/null)
+        if [[ -n "$temp" ]]; then
+            while IFS='|' read -r label val; do
+                SENSOR_LIST+=("NVMe|${chip}|${label}|${val}°C")
+            done <<< "$temp"
+        fi
+    done
+
+    # HDD/SATA drives
+    local hdd_chips
+    hdd_chips=$(echo "$sensor_output" | grep -oP '"(drivetemp-scsi-[^"]+)"' | tr -d '"' | sort -u)
+    for chip in $hdd_chips; do
+        local temp
+        temp=$(echo "$sensor_output" | python3 -c "
+import sys,json
+try:
+    d=json.loads(sys.stdin.read())
+    chip=d.get('$chip',{})
+    for lbl,v in chip.items():
+        if lbl=='Adapter': continue
+        if not isinstance(v,dict): continue
+        for k,val in v.items():
+            if 'input' in k and val is not None:
+                print(f'{lbl}|{val}')
+                break
+except: pass
+" 2>/dev/null)
+        if [[ -n "$temp" ]]; then
+            while IFS='|' read -r label val; do
+                SENSOR_LIST+=("HDD|${chip}|${label}|${val}°C")
+            done <<< "$temp"
+        fi
+    done
+
+    # Fan sensors (any chip)
+    local fan_data
+    fan_data=$(echo "$sensor_output" | python3 -c "
+import sys,json
+try:
+    d=json.loads(sys.stdin.read())
+    def find_fans(obj, chip_key, parent=''):
+        if not isinstance(obj, dict): return
+        for k,v in obj.items():
+            if k == 'Adapter': continue
+            if isinstance(v, dict):
+                for fk,fv in v.items():
+                    if 'fan' in fk and 'input' in fk and fv is not None:
+                        print(f'{chip_key}|{k}|{int(fv)} RPM')
+                if not any('fan' in fk and 'input' in fk for fk in v):
+                    find_fans(v, chip_key, k)
+    for chip_key in d:
+        find_fans(d[chip_key], chip_key)
+except: pass
+" 2>/dev/null)
+    if [[ -n "$fan_data" ]]; then
+        while IFS='|' read -r chip label val; do
+            SENSOR_LIST+=("Fan|${chip}|${label}|${val}")
+        done <<< "$fan_data"
+    fi
+
+    # UPS
+    if command -v upsc &> /dev/null; then
+        local ups_list
+        ups_list=$(upsc -l 2>/dev/null | head -5)
+        if [[ -n "$ups_list" ]]; then
+            while read -r ups_name; do
+                [[ -z "$ups_name" ]] && continue
+                SENSOR_LIST+=("UPS|ups|${ups_name}|NUT")
+            done <<< "$ups_list"
+        fi
+    fi
+
+    return 0
+}
+
+# Interactive sensor selection — lets user pick which sensors to display
+configure_sensor_filter() {
+    if ! enumerate_sensors; then
+        print_warning "Could not enumerate sensors"
+        return 1
+    fi
+
+    if [[ ${#SENSOR_LIST[@]} -eq 0 ]]; then
+        print_warning "No individual sensors found to configure"
+        return 1
+    fi
+
+    echo ""
+    echo "=== Sensor Selection ==="
+    echo ""
+    print_info "Available sensors:"
+    echo ""
+
+    local i=1
+    for entry in "${SENSOR_LIST[@]}"; do
+        IFS='|' read -r type chip label value <<< "$entry"
+        printf "  ${CYAN}%2d)${NC} [%-4s] %s: %s (%s)\n" "$i" "$type" "$chip" "$label" "$value"
+        i=$((i + 1))
+    done
+
+    echo ""
+    echo -e "  ${CYAN} a)${NC} All sensors (default)"
+    echo ""
+    read -p "Select sensors to display [1-$((i-1)), comma-separated, or 'a' for all]: " selection
+
+    # Handle 'all' or empty
+    if [[ -z "$selection" || "$selection" == "a" || "$selection" == "all" ]]; then
+        rm -f "$SENSORS_FILTER"
+        print_status "All sensors will be displayed"
+        return 0
+    fi
+
+    # Parse comma-separated numbers
+    local filter_entries=()
+    IFS=',' read -ra nums <<< "$selection"
+    for num in "${nums[@]}"; do
+        num=$(echo "$num" | tr -d ' ')
+        if [[ "$num" =~ ^[0-9]+$ ]] && [[ "$num" -ge 1 ]] && [[ "$num" -le ${#SENSOR_LIST[@]} ]]; then
+            local entry="${SENSOR_LIST[$((num - 1))]}"
+            IFS='|' read -r type chip label value <<< "$entry"
+            # Store as chip:label for fans/temps, or chip:upsname for UPS
+            filter_entries+=("${chip}:${label}")
+        else
+            print_warning "Ignoring invalid selection: $num"
+        fi
+    done
+
+    if [[ ${#filter_entries[@]} -eq 0 ]]; then
+        print_warning "No valid selections — showing all sensors"
+        rm -f "$SENSORS_FILTER"
+        return 0
+    fi
+
+    # Write filter file
+    mkdir -p "$INSTALL_DIR"
+    printf '%s\n' "${filter_entries[@]}" > "$SENSORS_FILTER"
+    print_status "Sensor filter saved (${#filter_entries[@]} sensor(s) selected)"
+    return 0
+}
+
 # Patch Nodes.pm to expose sensor data via the API
 patch_nodes_pm() {
     if [[ ! -f "$NODES_PM" ]]; then
@@ -828,6 +1035,13 @@ patch_nodes_pm() {
     ${SENSORS_PATCH_MARKER}\\
     local \$ENV{PATH} = '/usr/bin:/bin';\\
     \$res->{sensorsOutput} = \`sensors -j 2>/dev/null\`;\\
+    if (-e '${SENSORS_FILTER}') {\\
+        if (open(my \$fh, '<', '${SENSORS_FILTER}')) {\\
+            local \$/;\\
+            \$res->{sensorsFilter} = <\$fh>;\\
+            close(\$fh);\\
+        }\\
+    }\\
     if (-x '/usr/bin/upsc') {\\
         my \@ups_list = \`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc -l; else /usr/bin/upsc -l; fi 2>/dev/null\`;\\
         if (\@ups_list) {\\
@@ -913,6 +1127,10 @@ patch_cluster_sensors() {
         fi
 
         if scp -o ConnectTimeout=5 -q "$NODES_PM" "root@${node}:${NODES_PM}" 2>/dev/null; then
+            # Sync sensor filter file if it exists
+            if [[ -f "$SENSORS_FILTER" ]]; then
+                scp -o ConnectTimeout=5 -q "$SENSORS_FILTER" "root@${node}:${SENSORS_FILTER}" 2>/dev/null || true
+            fi
             if ssh -o ConnectTimeout=5 "root@${node}" "systemctl restart pveproxy" 2>/dev/null; then
                 print_status "Sensors deployed to ${node}"
             else
@@ -961,6 +1179,16 @@ install_sensors() {
             mkdir -p "$INSTALL_DIR"
             echo "enabled" > "$SENSORS_CONFIG"
             print_status "Hardware sensor monitoring enabled!"
+            echo ""
+            read -p "Would you like to choose which sensors to display? [y/N]: " filter_choice
+            case "$filter_choice" in
+                [Yy]|[Yy][Ee][Ss])
+                    configure_sensor_filter
+                    ;;
+                *)
+                    print_info "Showing all sensors (can be configured later with: install.sh manage-sensors)"
+                    ;;
+            esac
             patch_cluster_sensors
             ;;
         *)
@@ -976,6 +1204,10 @@ remove_sensors() {
     if [[ -f "$SENSORS_CONFIG" ]]; then
         rm -f "$SENSORS_CONFIG"
         print_info "Sensor configuration removed"
+    fi
+    if [[ -f "$SENSORS_FILTER" ]]; then
+        rm -f "$SENSORS_FILTER"
+        print_info "Sensor filter removed"
     fi
 }
 
@@ -1015,9 +1247,33 @@ manage_sensors() {
         detect)
             detect_sensors
             ;;
+        configure)
+            if [[ "$PRODUCT" != "PVE" ]]; then
+                print_error "Sensor support is only available for Proxmox VE"
+                exit 1
+            fi
+            if ! check_sensors; then
+                print_error "Sensors are not enabled. Enable them first with: install.sh manage-sensors enable"
+                exit 1
+            fi
+            configure_sensor_filter
+            # Re-patch Nodes.pm so the filter file path is current
+            unpatch_nodes_pm
+            patch_nodes_pm
+            print_info "Restarting ${PROXY_SERVICE}..."
+            systemctl restart "${PROXY_SERVICE}"
+            print_status "Sensor filter applied!"
+            ;;
         status|*)
             if check_sensors; then
                 echo -e "  Sensors:    ${GREEN}Enabled${NC}"
+                if [[ -f "$SENSORS_FILTER" ]]; then
+                    local count
+                    count=$(wc -l < "$SENSORS_FILTER" 2>/dev/null)
+                    echo -e "  Filter:     ${CYAN}${count} sensor(s) selected${NC}"
+                else
+                    echo -e "  Filter:     ${CYAN}All sensors (no filter)${NC}"
+                fi
             else
                 echo -e "  Sensors:    ${YELLOW}Disabled${NC}"
             fi
@@ -1040,14 +1296,16 @@ manage_sensors_menu() {
     echo "  1) Enable sensors"
     echo "  2) Disable sensors"
     echo "  3) Detect available sensors"
+    echo "  4) Configure sensor selection"
     echo "  0) Back to main menu"
     echo ""
-    read -p "Enter choice [0-3]: " sensor_choice
+    read -p "Enter choice [0-4]: " sensor_choice
     
     case $sensor_choice in
         1) manage_sensors enable ;;
         2) manage_sensors disable ;;
         3) manage_sensors detect ;;
+        4) manage_sensors configure ;;
         0) show_menu ;;
         *) print_error "Invalid option" ; manage_sensors_menu ;;
     esac
