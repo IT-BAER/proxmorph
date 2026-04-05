@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7.1] - 2026-04-05
+
+### Fixed
+- **APT Hook** — Fixed broken heredoc escaping in `post-update.sh` that caused the Nodes.pm sensor patch to be injected as a single malformed line, breaking Perl syntax and preventing `pveproxy` from starting after a PVE update. Issue [#45](https://github.com/IT-BAER/proxmorph/issues/45)
+  - Added Perl syntax check (`perl -c`) after patching with automatic rollback if validation fails
+
 ## [2.7.0] - 2026-04-01
 
 ### Added
