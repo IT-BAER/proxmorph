@@ -695,29 +695,34 @@ JSBLK
             fi
 
             if [ "\$sensor_needs_patch" = "true" ]; then
-                sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\
-    \${SENSORS_PATCH_MARKER}\\
-    local \\\$ENV{PATH} = '/usr/bin:/bin';\\
-    \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\
-    if (-e '\${SENSORS_FILTER}') {\\
-        if (open(my \\\$fh, '<', '\${SENSORS_FILTER}')) {\\
-            local \\\$/;\\
-            \\\$res->{sensorsFilter} = <\\\$fh>;\\
-            close(\\\$fh);\\
-        }\\
-    }\\
-    if (-x '/usr/bin/upsc') {\\
-        my \@ups_list = \\\`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc -l; else /usr/bin/upsc -l; fi 2>/dev/null\\\`;\\
-        if (\@ups_list) {\\
-            chomp(my \\\$ups_name = \\\$ups_list[0]);\\
-            if (\\\$ups_name && \\\$ups_name =~ /^([A-Za-z0-9_.:-]+)$/) {\\
-                my \\\$safe_ups_name = \\\$1;\\
-                \\\$res->{upsData} = \\\`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc \\\$safe_ups_name; else /usr/bin/upsc \\\$safe_ups_name; fi 2>/dev/null\\\`;\\
-            }\\
-        }\\
-    }\\
+                sed -i "/^[[:space:]]*my \\\$dinfo = df/i\\\\
+    \${SENSORS_PATCH_MARKER}\\\\
+    local \\\$ENV{PATH} = '/usr/bin:/bin';\\\\
+    \\\$res->{sensorsOutput} = \\\`sensors -j 2>/dev/null\\\`;\\\\
+    if (-e '\${SENSORS_FILTER}') {\\\\
+        if (open(my \\\$fh, '<', '\${SENSORS_FILTER}')) {\\\\
+            local \\\$/;\\\\
+            \\\$res->{sensorsFilter} = <\\\$fh>;\\\\
+            close(\\\$fh);\\\\
+        }\\\\
+    }\\\\
+    if (-x '/usr/bin/upsc') {\\\\
+        my \@ups_list = \\\`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc -l; else /usr/bin/upsc -l; fi 2>/dev/null\\\`;\\\\
+        if (\@ups_list) {\\\\
+            chomp(my \\\$ups_name = \\\$ups_list[0]);\\\\
+            if (\\\$ups_name && \\\$ups_name =~ /^([A-Za-z0-9_.:-]+)\\\$/) {\\\\
+                my \\\$safe_ups_name = \\\$1;\\\\
+                \\\$res->{upsData} = \\\`if [ -x /usr/bin/timeout ]; then /usr/bin/timeout -k 1 3 /usr/bin/upsc \\\$safe_ups_name; else /usr/bin/upsc \\\$safe_ups_name; fi 2>/dev/null\\\`;\\\\
+            }\\\\
+        }\\\\
+    }\\\\
     \${SENSORS_PATCH_MARKER} END" "\$NODES_PM"
-                log "Re-patched Nodes.pm for sensor data"
+                if perl -c "\$NODES_PM" 2>/dev/null; then
+                    log "Re-patched Nodes.pm for sensor data"
+                else
+                    log "ERROR: Nodes.pm syntax broken after sensor patch, rolling back"
+                    sed -i "/\${SENSORS_PATCH_MARKER}/,/\${SENSORS_PATCH_MARKER} END/d" "\$NODES_PM"
+                fi
             fi
         fi
     fi  # end PVE/PBS else branch
@@ -1053,6 +1058,12 @@ patch_nodes_pm() {
         }\\
     }\\
     ${SENSORS_PATCH_MARKER} END" "$NODES_PM"
+
+    if ! perl -c "$NODES_PM" 2>/dev/null; then
+        print_error "Nodes.pm syntax broken after sensor patch, rolling back"
+        sed -i "/${SENSORS_PATCH_MARKER}/,/${SENSORS_PATCH_MARKER} END/d" "$NODES_PM"
+        return 1
+    fi
 
     print_status "Patched Nodes.pm to expose hardware sensor data"
     return 0
