@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7.2] - 2026-04-16
+
+### Fixed
+- **Sensors** — Added pre-patch Perl syntax check on Nodes.pm before applying the sensor patch. If Nodes.pm is already broken (e.g. from the v2.7.0 APT-hook heredoc bug), the user now gets an actionable error: *"Run 'apt install --reinstall pve-manager' to restore it, then re-run ProxMorph install."* instead of a misleading post-patch rollback message. Issue [#47](https://github.com/IT-BAER/proxmorph/issues/47)
+- **Sensors** — Rollback on post-patch syntax failure now restores from `Nodes.pm.original` backup when available, falling back to sed marker removal only if no backup exists.
+
 ## [2.7.1] - 2026-04-05
 
 ### Fixed

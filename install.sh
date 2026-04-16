@@ -15,7 +15,7 @@ MAGENTA='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Configuration
-VERSION="2.7.1"
+VERSION="2.7.2"
 WIDGET_TOOLKIT_DIR="/usr/share/javascript/proxmox-widget-toolkit"
 THEMES_DIR="${WIDGET_TOOLKIT_DIR}/themes"
 PROXMOXLIB_JS="${WIDGET_TOOLKIT_DIR}/proxmoxlib.js"
@@ -1015,6 +1015,15 @@ patch_nodes_pm() {
         return 1
     fi
 
+    # Pre-flight: verify Nodes.pm is syntactically valid before we touch it.
+    # If it is already broken (e.g. from the v2.7.0 APT-hook heredoc bug, #45)
+    # the post-patch perl -c check would produce a misleading error.
+    if ! perl -c "$NODES_PM" 2>/dev/null; then
+        print_error "Nodes.pm already has a syntax error before patching."
+        print_error "Run 'apt install --reinstall pve-manager' to restore it, then re-run ProxMorph install."
+        return 1
+    fi
+
     # Refresh legacy sensor patches so old installs get the taint-safe logic.
     if grep -q "$SENSORS_PATCH_MARKER" "$NODES_PM" 2>/dev/null; then
           if grep -q "local \$ENV{PATH} = '/usr/bin:/bin';" "$NODES_PM" 2>/dev/null && \
@@ -1061,7 +1070,12 @@ patch_nodes_pm() {
 
     if ! perl -c "$NODES_PM" 2>/dev/null; then
         print_error "Nodes.pm syntax broken after sensor patch, rolling back"
-        sed -i "/${SENSORS_PATCH_MARKER}/,/${SENSORS_PATCH_MARKER} END/d" "$NODES_PM"
+        if [[ -f "${BACKUP_DIR}/Nodes.pm.original" ]]; then
+            cp "${BACKUP_DIR}/Nodes.pm.original" "$NODES_PM"
+            print_info "Restored Nodes.pm from backup"
+        else
+            sed -i "/${SENSORS_PATCH_MARKER}/,/${SENSORS_PATCH_MARKER} END/d" "$NODES_PM"
+        fi
         return 1
     fi
 
