@@ -23,7 +23,7 @@
     --pwt-color-primary-90: rgb(190, 222, 255) !important;
     --pwt-color-primary-80: rgb(130, 190, 255) !important;
     --pwt-color-primary-70: rgb(71, 151, 255) !important;
-    --pwt-color-primary-60: rgb(0, 110, 255) !important;
+    --pwt-color-primary-60: rgb(30, 133, 255) !important;
     --pwt-color-primary-50: rgb(0, 90, 210) !important;
     --pwt-color-primary-40: rgb(0, 72, 170) !important;
     --pwt-color-primary-30: rgb(0, 55, 135) !important;
@@ -43,11 +43,11 @@
     --pwt-color-secondary-60: rgb(115, 124, 135) !important;
     --pwt-color-secondary-50: rgb(95, 105, 118) !important;
     --pwt-color-secondary-40: rgb(75, 85, 98) !important;
-    --pwt-color-secondary-30: rgb(52, 56, 61) !important;
-    --pwt-color-secondary-20: rgb(40, 43, 47) !important;
-    --pwt-color-secondary-15: rgb(32, 35, 38) !important;
-    --pwt-color-secondary-10: rgb(24, 26, 30) !important;
-    --pwt-color-secondary-5: rgb(16, 17, 20) !important;
+    --pwt-color-secondary-30: rgb(30, 30, 30) !important;
+    --pwt-color-secondary-20: rgb(20, 20, 20) !important;
+    --pwt-color-secondary-15: rgb(15, 15, 15) !important;
+    --pwt-color-secondary-10: rgb(10, 10, 10) !important;
+    --pwt-color-secondary-5: rgb(5, 5, 5) !important;
     --pwt-color-secondary-0: rgb(0, 0, 0) !important;
 
     /* Tertiary — UniFi Cyan/Teal tonal scale */
@@ -123,16 +123,16 @@
     --pwt-color-neutral-99: rgb(240, 242, 244) !important;
     --pwt-color-neutral-95: rgb(222, 224, 227) !important;
     --pwt-color-neutral-90: rgb(200, 205, 210) !important;
-    --pwt-color-neutral-80: rgb(183, 188, 194) !important;
+    --pwt-color-neutral-80: rgb(194, 199, 205) !important;
     --pwt-color-neutral-70: rgb(155, 162, 172) !important;
     --pwt-color-neutral-60: rgb(115, 124, 135) !important;
     --pwt-color-neutral-50: rgb(90, 98, 108) !important;
     --pwt-color-neutral-40: rgb(68, 72, 78) !important;
-    --pwt-color-neutral-30: rgb(52, 56, 61) !important;
-    --pwt-color-neutral-20: rgb(40, 43, 47) !important;
-    --pwt-color-neutral-15: rgb(28, 30, 34) !important;
-    --pwt-color-neutral-10: rgb(19, 20, 22) !important;
-    --pwt-color-neutral-5: rgb(12, 12, 14) !important;
+    --pwt-color-neutral-30: rgb(30, 30, 30) !important;
+    --pwt-color-neutral-20: rgb(20, 20, 20) !important;
+    --pwt-color-neutral-15: rgb(10, 10, 10) !important;
+    --pwt-color-neutral-10: rgb(0, 0, 0) !important;
+    --pwt-color-neutral-5: rgb(0, 0, 0) !important;
     --pwt-color-neutral-0: rgb(0, 0, 0) !important;
 
     /* Neutral Alt — UniFi Alt tones */
@@ -145,11 +145,11 @@
     --pwt-color-neutral-alt-60: rgb(118, 128, 142) !important;
     --pwt-color-neutral-alt-50: rgb(92, 102, 115) !important;
     --pwt-color-neutral-alt-40: rgb(68, 76, 88) !important;
-    --pwt-color-neutral-alt-30: rgb(48, 54, 64) !important;
-    --pwt-color-neutral-alt-20: rgb(35, 40, 48) !important;
-    --pwt-color-neutral-alt-15: rgb(26, 30, 36) !important;
-    --pwt-color-neutral-alt-10: rgb(18, 20, 26) !important;
-    --pwt-color-neutral-alt-5: rgb(10, 12, 16) !important;
+    --pwt-color-neutral-alt-30: rgb(30, 30, 30) !important;
+    --pwt-color-neutral-alt-20: rgb(20, 20, 20) !important;
+    --pwt-color-neutral-alt-15: rgb(15, 15, 15) !important;
+    --pwt-color-neutral-alt-10: rgb(10, 10, 10) !important;
+    --pwt-color-neutral-alt-5: rgb(5, 5, 5) !important;
     --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
 }
 
@@ -189,5 +189,5 @@
 }
 
 body {
-    background-color: rgb(19, 20, 22) !important;
+    background-color: rgb(0, 0, 0) !important;
 }
