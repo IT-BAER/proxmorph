@@ -394,7 +394,8 @@
                 var store = me.getStore ? me.getStore() : null;
                 if (!store) return;
 
-                store.on('load', function (s, records) {
+                // Store outlives this view (node Config owns it); mon() unbinds on destroy
+                me.mon(store, 'load', function (s, records) {
                     if (!records || !records.length) return;
 
                     // Update sensor filter from API data
