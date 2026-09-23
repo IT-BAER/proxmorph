@@ -5,6 +5,13 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.4] - 2026-09-23
+
+### Fixed
+
+- **PVE node Summary stuck on "Loading..." after switching node tabs.** The sensor overlay hooked the node status store with `store.on('load')`, but that store belongs to the node panel and outlives the Summary view, which PVE destroys on every tab switch. After Summary → any other node tab → Summary, the listener of the destroyed view threw `can't access property "items", f.items is null` (`proxmorph-sensors.js:405`) on each status poll, and ExtJS skipped the new view's own listener, so the status panel never filled. The listener is now bound with `me.mon()` and removed together with the view. This also hit hosts that declined sensor monitoring, because the sensor script always loads and only hides its row. Reported by [@binse03](https://github.com/binse03) ([#57](https://github.com/IT-BAER/proxmorph/issues/57)).
+- **One-liner `install` aborted silently on a fresh host.** With neither a local `themes/` directory nor the `/opt/proxmorph` cache present, a failed lookup tripped `set -e` and ended the installer right after product detection. It now falls through to downloading the release.
+
 ## [2.8.3] - 2026-08-20
 
 ### Fixed
