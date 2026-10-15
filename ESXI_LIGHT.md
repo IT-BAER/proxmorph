@@ -11,7 +11,7 @@ A standalone light theme for the native Proxmox VE interface, inspired by the ES
 
 ## Resource-tree toggle
 
-With ESXi Light active, the menu icon at the left of the application header hides or shows the Datacenter resource tree. The center workspace expands into the freed space. The tree stays alive, preserving its selection and width. The button is keyboard accessible and remains available while the tree is hidden. Visibility resets on page reload. Switching away from ESXi Light restores the tree and removes the control.
+With ESXi Light active, the menu icon at the left of the application header hides or shows the Datacenter resource tree. The center workspace expands into the freed space. Summary cards and charts use the full available width while the tree is hidden. Showing the tree restores the native responsive column layout. The tree stays alive, preserving its selection and width. The button is keyboard accessible and remains available while the tree is hidden. Visibility resets on page reload. Switching away from ESXi Light restores the tree and removes the control.
 
 The Maximum/Average chart selector has a continuous outer border and divider, including the PVE 9 inline-button variant.
 
@@ -93,6 +93,7 @@ python3 preview/check_chart.py
 python3 preview/check_tool_icons.py
 python3 preview/check_chart_toggle.py
 python3 preview/check_sidebar.py
+python3 preview/check_summary_columns.py
 python3 test/esxi_install.test.py
 ```
 

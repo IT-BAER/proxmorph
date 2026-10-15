@@ -112,7 +112,11 @@ Ext.onReady(function () {
         content,
         {xtype:'tabpanel',region:'south',height:190,minHeight:100,split:true,margin:'8 8 4 8',items:[taskGrid,grid(taskColumns,tasks.slice(0,4),{title:'Cluster log'})]}
     ]});
-    function switchTheme(disabled){themeLink.disabled=disabled;requestAnimationFrame(()=>{Ext.ComponentQuery.query('proxmoxRRDChart').forEach(c=>c.checkThemeColors());root.updateLayout();});}
+    function applyTheme(){Ext.ComponentQuery.query('proxmoxRRDChart').forEach(c=>c.checkThemeColors());root.updateLayout();}
+    // Re-enabling a stylesheet can complete after the first animation frame.
+    // Live Proxmox reloads the page when changing themes; this fixture stays open.
+    themeLink.addEventListener('load',applyTheme);
+    function switchTheme(disabled){themeLink.disabled=disabled;requestAnimationFrame(applyTheme);}
     content.down('treelist').setSelection('summary');
     if(location.hash)select(location.hash.slice(1));
     window.preview={root,select,showWizard,showSettings,showLog,showLogin,switchTheme};

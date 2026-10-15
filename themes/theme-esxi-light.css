@@ -1,5 +1,5 @@
 /*!ESXi Light*/
-/* ProxMorph ESXi Light 1.1.3
+/* ProxMorph ESXi Light 1.1.4
  * An independent ESXi/Clarity-inspired skin for the native Proxmox VE UI.
  * Layout, visibility, status glyphs and console palettes remain application-owned.
  * Clarity City fonts are embedded locally. No remote assets or layout-position overrides.
@@ -666,19 +666,33 @@ This product may include a number of subcomponents with separate copyright notic
 /* PVE 9 aggregation buttons remove their adjoining borders inline. Keep one
  * continuous group outline so the selected end does not look cut off. */
 .x-segmented-button:has(> .proxmox-inline-button) {
+    display: inline-flex;
+    align-items: stretch;
     border: 1px solid var(--pm-border-strong);
     border-radius: var(--pm-radius-sm);
     overflow: hidden;
 }
 .x-segmented-button > .proxmox-inline-button.x-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
     border-width: 0 !important;
     border-radius: 0 !important;
     background: transparent;
 }
 .x-segmented-button > .proxmox-inline-button .x-btn-inner { color: var(--pm-text); }
 .x-segmented-button > .proxmox-inline-button.x-btn + .x-btn {
-    box-shadow: inset 1px 0 var(--pm-border-strong);
+    border-left: 1px solid var(--pm-border-strong) !important;
 }
 .x-segmented-button > .proxmox-inline-button.x-btn-over { background: var(--pm-accent-soft); }
 .x-segmented-button > .proxmox-inline-button.x-btn-pressed { background: var(--pm-accent); }
 .x-segmented-button > .proxmox-inline-button.x-btn-pressed .x-btn-inner { color: #fff; }
+
+/* The first header control touches an overflow-clipped Ext box. Keep its
+ * focus indicator inside the control instead of cutting off the outer ring. */
+#pm-esxi-tree-toggle.x-btn-focus, #pm-esxi-tree-toggle:focus-visible {
+    outline: 2px solid #8ed9f7;
+    outline-offset: -3px;
+    box-shadow: none;
+}

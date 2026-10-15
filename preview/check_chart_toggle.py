@@ -12,11 +12,13 @@ with sync_playwright() as p:
  avg=page.get_by_role('button',name='Average',exact=True)
  maximum=page.get_by_role('button',name='Maximum',exact=True)
  avg.hover()
- assert avg.evaluate("e=>getComputedStyle(e).boxShadow")!='none'
+ assert float(avg.evaluate("e=>parseFloat(getComputedStyle(e).borderLeftWidth)"))>0
  maximum.click()
  assert page.evaluate("toggleProbe.down('segmentedbutton').items.first().pressed")
  avg.click()
  assert page.evaluate("toggleProbe.down('segmentedbutton').items.last().pressed")
+ a=avg.bounding_box();m=maximum.bounding_box()
+ assert abs(a['y']-m['y'])<0.1 and abs(a['height']-m['height'])<0.1 and abs(a['x']-(m['x']+m['width']))<0.1, (a,m)
  for button in (avg,maximum):
   assert button.evaluate("e=>{let r=e.getBoundingClientRect(),p=e.parentElement.getBoundingClientRect();return r.left>=p.left&&r.right<=p.right+1&&r.top>=p.top&&r.bottom<=p.bottom+1}")
  out=Path(__file__).parent/'evidence';out.mkdir(exist_ok=True)

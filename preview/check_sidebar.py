@@ -22,6 +22,7 @@ with sync_playwright() as p:
     page.evaluate('preview.switchTheme(false)')
     page.wait_for_function("!Ext.getCmp('pm-esxi-tree-toggle').hidden")
     page.get_by_role('button',name='Hide resource tree',exact=True).focus()
+    assert page.locator('#pm-esxi-tree-toggle').evaluate("e=>parseFloat(getComputedStyle(e).outlineOffset)")<0
     page.keyboard.press('Enter')
     assert page.evaluate("preview.root.down('[region=west]').hidden")
     print('PASS: hide/show, workspace expansion, width/selection preserved, stock-theme restoration, keyboard activation')

@@ -1,4 +1,4 @@
-/* ProxMorph ESXi Light 1.1.3. Native RRD palette, vector tools and resource-tree toggle, no polling or API calls. */
+/* ProxMorph ESXi Light 1.1.4. Native RRD palette, vector tools and resource-tree toggle, no polling or API calls. */
 (function () {
     'use strict';
     if (!window.Ext || window.ProxmorphESXiChartsLoaded) return;
@@ -35,7 +35,7 @@
             sidebar = { west };
             const button = header.insert(0, {
                 xtype: 'button', baseCls: 'x-btn', id: 'pm-esxi-tree-toggle',
-                iconCls: 'fa fa-bars', margin: '0 8 0 0',
+                iconCls: 'fa fa-bars', width: 30, height: 30, margin: '0 8 0 0',
                 tooltip: 'Hide resource tree', ariaLabel: 'Hide resource tree',
                 handler: function () {
                     west.setHidden(!west.hidden);
@@ -64,6 +64,52 @@
             syncSidebar();
         }
     });
+    // Collapsing the tree is a request for wider information and charts, not
+    // more columns. Use one full-width column while hidden, then let the native
+    // responsive layout regain control when the tree returns.
+    if (window.Proxmox?.Utils?.updateColumnWidth) {
+        const updateColumnWidth = Proxmox.Utils.updateColumnWidth;
+        const originalLimits = new WeakMap();
+        const expandedContainers = new WeakSet();
+        Proxmox.Utils.updateColumnWidth = function (container) {
+            const expanded = sidebar?.west.hidden && getComputedStyle(document.documentElement)
+                .getPropertyValue('--pm-esxi-active').trim() === '1';
+            if (!expanded && expandedContainers.has(container)) {
+                container.items.each(function (item) {
+                    if (!originalLimits.has(item)) return;
+                    const saved = originalLimits.get(item);
+                    item.setMaxWidth(saved.maxWidth);
+                    item.setWidth(saved.width);
+                    originalLimits.delete(item);
+                });
+                container.oldFactor = undefined;
+                expandedContainers.delete(container);
+            }
+            const result = updateColumnWidth.apply(this, arguments);
+            if (!expanded || !container.rendered) return result;
+            const el = container.getEl().dom;
+            const inner = el.querySelector(':scope > .x-autocontainer-outerCt > .x-autocontainer-innerCt') || el;
+            const style = getComputedStyle(inner);
+            const width = Math.floor(inner.getBoundingClientRect().width
+                - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)
+                - parseFloat(style.borderLeftWidth) - parseFloat(style.borderRightWidth));
+            expandedContainers.add(container);
+            Ext.suspendLayouts();
+            try {
+                container.items.each(function (item) {
+                    if (!item.columnWidth) return;
+                    if (!originalLimits.has(item)) originalLimits.set(item, {maxWidth: item.maxWidth, width: item.width});
+                    item.columnWidth = 1;
+                    item.setMaxWidth(width);
+                    item.setWidth(width);
+                });
+                container.updateLayout();
+            } finally {
+                Ext.resumeLayouts(true);
+            }
+            return result;
+        };
+    }
     const className = 'Proxmox.widget.RRDChart';
     function install() {
         const Chart = Ext.ClassManager.get(className);
