@@ -18,7 +18,8 @@
     for (var i = 0; i < themeLinks.length; i++) {
         var href = themeLinks[i].getAttribute('href');
         var filename = href.split('/').pop();
-        var name = filename.replace('theme-', '').replace('.css', '')
+        // Installer passes the /*!Title*/ header as data-title; derive from the file name otherwise.
+        var name = themeLinks[i].getAttribute('data-title') || filename.replace('theme-', '').replace('.css', '')
             .split('-').map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
         themes.push({ filename: filename, display: 'PM: ' + name, link: themeLinks[i] });
     }

@@ -1,0 +1,196 @@
+/*!ESXi Light*/
+/*
+ * ProxMorph PDM Theme: ESXi Light
+ * Overrides the PWT Material Design tonal color system with the ESXi Light palette
+ * Version: 1.0.0
+ * Author: ProxMorph, palette by @rufftruffles (themes/theme-esxi-light.css)
+ *
+ * Unverified on a live PDM host: built from the PVE theme tokens through the
+ * same tonal mapping as the other PDM light themes.
+ *
+ * ─── ESXi Light Palette ──────────────────────────────────────
+ * Accent (slate blue): #005e85   Header slate: #3b596c
+ * Green:   #237347   Red:      #bd333b   Amber:  #946000
+ * Text:    #303840   Base:     #e3e6ed   Surface: #ccd1dc
+ * Border:  #b9c1ce   Elevated: #eef0f5
+ */
+
+/* ===== Tonal Color Overrides ===== */
+:root {
+    /* Primary — ESXi accent (#005e85): --pm-accent-active 20, -hover 30, accent 40, chart-1 60, accent-soft 90 */
+    --pwt-color-primary-100: rgb(255, 255, 255) !important;
+    --pwt-color-primary-99: rgb(249, 252, 253) !important;
+    --pwt-color-primary-95: rgb(226, 238, 244) !important;
+    --pwt-color-primary-90: rgb(197, 220, 232) !important;
+    --pwt-color-primary-80: rgb(131, 187, 210) !important;
+    --pwt-color-primary-70: rgb(66, 154, 188) !important;
+    --pwt-color-primary-60: rgb(0, 121, 166) !important;
+    --pwt-color-primary-50: rgb(0, 108, 150) !important;
+    --pwt-color-primary-40: rgb(0, 94, 133) !important;
+    --pwt-color-primary-30: rgb(0, 77, 110) !important;
+    --pwt-color-primary-20: rgb(0, 63, 92) !important;
+    --pwt-color-primary-15: rgb(0, 47, 69) !important;
+    --pwt-color-primary-10: rgb(0, 32, 46) !important;
+    --pwt-color-primary-5: rgb(0, 16, 23) !important;
+    --pwt-color-primary-0: rgb(0, 0, 0) !important;
+
+    /* Secondary — ESXi slate header (#3b596c): --pm-header 40, --pm-nav-selected 50, chart-6 60 */
+    --pwt-color-secondary-100: rgb(255, 255, 255) !important;
+    --pwt-color-secondary-99: rgb(250, 252, 252) !important;
+    --pwt-color-secondary-95: rgb(232, 238, 240) !important;
+    --pwt-color-secondary-90: rgb(209, 220, 226) !important;
+    --pwt-color-secondary-80: rgb(163, 186, 197) !important;
+    --pwt-color-secondary-70: rgb(117, 151, 168) !important;
+    --pwt-color-secondary-60: rgb(71, 116, 139) !important;
+    --pwt-color-secondary-50: rgb(80, 107, 123) !important;
+    --pwt-color-secondary-40: rgb(59, 89, 108) !important;
+    --pwt-color-secondary-30: rgb(44, 67, 81) !important;
+    --pwt-color-secondary-20: rgb(30, 44, 54) !important;
+    --pwt-color-secondary-15: rgb(22, 33, 40) !important;
+    --pwt-color-secondary-10: rgb(15, 22, 27) !important;
+    --pwt-color-secondary-5: rgb(7, 11, 14) !important;
+    --pwt-color-secondary-0: rgb(0, 0, 0) !important;
+
+    /* Tertiary — ESXi chart purple (#7664a3) */
+    --pwt-color-tertiary-100: rgb(255, 255, 255) !important;
+    --pwt-color-tertiary-99: rgb(252, 251, 253) !important;
+    --pwt-color-tertiary-95: rgb(238, 236, 244) !important;
+    --pwt-color-tertiary-90: rgb(221, 216, 232) !important;
+    --pwt-color-tertiary-80: rgb(186, 178, 209) !important;
+    --pwt-color-tertiary-70: rgb(152, 139, 186) !important;
+    --pwt-color-tertiary-60: rgb(118, 100, 163) !important;
+    --pwt-color-tertiary-50: rgb(98, 83, 136) !important;
+    --pwt-color-tertiary-40: rgb(79, 67, 109) !important;
+    --pwt-color-tertiary-30: rgb(59, 50, 82) !important;
+    --pwt-color-tertiary-20: rgb(39, 33, 54) !important;
+    --pwt-color-tertiary-15: rgb(30, 25, 41) !important;
+    --pwt-color-tertiary-10: rgb(20, 17, 27) !important;
+    --pwt-color-tertiary-5: rgb(10, 8, 14) !important;
+    --pwt-color-tertiary-0: rgb(0, 0, 0) !important;
+
+    /* Success — ESXi success (#237347), chart-2 60 */
+    --pwt-color-success-100: rgb(255, 255, 255) !important;
+    --pwt-color-success-99: rgb(250, 252, 251) !important;
+    --pwt-color-success-95: rgb(228, 240, 236) !important;
+    --pwt-color-success-90: rgb(201, 224, 217) !important;
+    --pwt-color-success-80: rgb(146, 193, 179) !important;
+    --pwt-color-success-70: rgb(92, 162, 141) !important;
+    --pwt-color-success-60: rgb(38, 131, 103) !important;
+    --pwt-color-success-50: rgb(36, 123, 87) !important;
+    --pwt-color-success-40: rgb(35, 115, 71) !important;
+    --pwt-color-success-30: rgb(26, 86, 53) !important;
+    --pwt-color-success-20: rgb(18, 58, 36) !important;
+    --pwt-color-success-15: rgb(13, 43, 27) !important;
+    --pwt-color-success-10: rgb(9, 29, 18) !important;
+    --pwt-color-success-5: rgb(4, 14, 9) !important;
+    --pwt-color-success-0: rgb(0, 0, 0) !important;
+
+    /* Error — ESXi error (#bd333b), chart-5 60 */
+    --pwt-color-error-100: rgb(255, 255, 255) !important;
+    --pwt-color-error-99: rgb(254, 250, 251) !important;
+    --pwt-color-error-95: rgb(248, 232, 234) !important;
+    --pwt-color-error-90: rgb(240, 210, 213) !important;
+    --pwt-color-error-80: rgb(225, 165, 170) !important;
+    --pwt-color-error-70: rgb(210, 120, 128) !important;
+    --pwt-color-error-60: rgb(195, 75, 86) !important;
+    --pwt-color-error-50: rgb(192, 63, 72) !important;
+    --pwt-color-error-40: rgb(189, 51, 59) !important;
+    --pwt-color-error-30: rgb(142, 38, 44) !important;
+    --pwt-color-error-20: rgb(94, 26, 30) !important;
+    --pwt-color-error-15: rgb(71, 19, 22) !important;
+    --pwt-color-error-10: rgb(47, 13, 15) !important;
+    --pwt-color-error-5: rgb(24, 6, 7) !important;
+    --pwt-color-error-0: rgb(0, 0, 0) !important;
+
+    /* Warning — ESXi warning (#946000), chart-4 60 */
+    --pwt-color-warning-100: rgb(255, 255, 255) !important;
+    --pwt-color-warning-99: rgb(253, 252, 249) !important;
+    --pwt-color-warning-95: rgb(246, 239, 226) !important;
+    --pwt-color-warning-90: rgb(237, 222, 196) !important;
+    --pwt-color-warning-80: rgb(219, 190, 137) !important;
+    --pwt-color-warning-70: rgb(201, 157, 78) !important;
+    --pwt-color-warning-60: rgb(183, 124, 19) !important;
+    --pwt-color-warning-50: rgb(166, 110, 10) !important;
+    --pwt-color-warning-40: rgb(148, 96, 0) !important;
+    --pwt-color-warning-30: rgb(111, 72, 0) !important;
+    --pwt-color-warning-20: rgb(74, 48, 0) !important;
+    --pwt-color-warning-15: rgb(56, 36, 0) !important;
+    --pwt-color-warning-10: rgb(37, 24, 0) !important;
+    --pwt-color-warning-5: rgb(18, 12, 0) !important;
+    --pwt-color-warning-0: rgb(0, 0, 0) !important;
+
+    /* Neutral — ESXi surfaces: elevated 99, bg-base 95, panel-heading 90, border 80, border-strong 70, text-disabled 60, text-muted 50, text-dim 30, text 10 */
+    --pwt-color-neutral-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-99: rgb(238, 240, 245) !important;
+    --pwt-color-neutral-95: rgb(227, 230, 237) !important;
+    --pwt-color-neutral-90: rgb(210, 216, 226) !important;
+    --pwt-color-neutral-80: rgb(185, 193, 206) !important;
+    --pwt-color-neutral-70: rgb(139, 155, 169) !important;
+    --pwt-color-neutral-60: rgb(116, 128, 141) !important;
+    --pwt-color-neutral-50: rgb(82, 96, 108) !important;
+    --pwt-color-neutral-40: rgb(77, 90, 102) !important;
+    --pwt-color-neutral-30: rgb(72, 84, 95) !important;
+    --pwt-color-neutral-20: rgb(60, 70, 80) !important;
+    --pwt-color-neutral-15: rgb(54, 63, 72) !important;
+    --pwt-color-neutral-10: rgb(48, 56, 64) !important;
+    --pwt-color-neutral-5: rgb(24, 28, 32) !important;
+    --pwt-color-neutral-0: rgb(0, 0, 0) !important;
+
+    /* Neutral Alt — ESXi outer frame and borders: bg-surface 90, grid-alt 95, border 80, border-strong 70, frame 40, header-hover 20 */
+    --pwt-color-neutral-alt-100: rgb(255, 255, 255) !important;
+    --pwt-color-neutral-alt-99: rgb(247, 248, 250) !important;
+    --pwt-color-neutral-alt-95: rgb(216, 221, 230) !important;
+    --pwt-color-neutral-alt-90: rgb(204, 209, 220) !important;
+    --pwt-color-neutral-alt-80: rgb(185, 193, 206) !important;
+    --pwt-color-neutral-alt-70: rgb(139, 155, 169) !important;
+    --pwt-color-neutral-alt-60: rgb(115, 135, 150) !important;
+    --pwt-color-neutral-alt-50: rgb(90, 114, 131) !important;
+    --pwt-color-neutral-alt-40: rgb(66, 94, 112) !important;
+    --pwt-color-neutral-alt-30: rgb(54, 86, 106) !important;
+    --pwt-color-neutral-alt-20: rgb(43, 78, 100) !important;
+    --pwt-color-neutral-alt-15: rgb(46, 67, 82) !important;
+    --pwt-color-neutral-alt-10: rgb(48, 56, 64) !important;
+    --pwt-color-neutral-alt-5: rgb(24, 28, 32) !important;
+    --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
+}
+
+/* ===== Semantic Color Remapping (light surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-neutral: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-container: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-neutral-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface: var(--pwt-color-neutral-95) !important;
+    --pwt-color-on-dark-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-dark-surface-container: var(--pwt-color-neutral-90) !important;
+    --pwt-color-on-dark-surface-container: var(--pwt-color-neutral-10) !important;
+    --pwt-color-neutral-alt: var(--pwt-color-neutral-alt-90) !important;
+    --pwt-color-on-neutral-alt: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-neutral-alt-container: var(--pwt-color-neutral-alt-95) !important;
+    --pwt-color-on-neutral-alt-container: var(--pwt-color-neutral-alt-20) !important;
+    --pwt-color-background: var(--pwt-color-neutral-alt-90) !important;
+    --pwt-color-inverse-surface: var(--pwt-color-secondary-40) !important;
+    --pwt-color-on-inverse-surface: var(--pwt-color-neutral-99) !important;
+    --pwt-color-border: var(--pwt-color-neutral-alt-80) !important;
+    --pwt-color-shadow: rgba(27, 43, 58, 0.2) !important;
+    --pwt-color-primary: var(--pwt-color-primary-40) !important;
+    --pwt-color-on-primary: var(--pwt-color-primary-100) !important;
+    --pwt-color-primary-container: var(--pwt-color-primary-90) !important;
+    --pwt-color-on-primary-container: var(--pwt-color-primary-10) !important;
+    background: var(--pwt-color-neutral-alt-90) !important;
+    color: var(--pwt-color-neutral-10) !important;
+    color-scheme: light !important;
+}
+
+body {
+    background-color: var(--pwt-color-neutral-alt-90) !important;
+}
+
+/* ===== Logo — swap to dark variant for light background ===== */
+img[src*="proxmox_logo_white"] {
+    content: url("/images/proxmox_logo.svg") !important;
+}

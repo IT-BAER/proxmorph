@@ -12,7 +12,7 @@ Complete gallery of all available ProxMorph themes for Proxmox VE, PBS, and PDM.
 
 Theme by [@rufftruffles](https://github.com/rufftruffles).
 
-An ESXi-inspired light theme for Proxmox VE with slate headers, Clarity City typography, outlined icons and coordinated charts. Includes an optional resource-tree toggle. Tested on PVE 8.4 and deployed on PVE 9.2; PBS is unvalidated and PDM is unsupported.
+An ESXi-inspired light theme for Proxmox VE with slate headers, Clarity City typography, outlined icons and coordinated charts. Includes an optional resource-tree toggle. Tested on PVE 8.4 and PVE 9.2, and on PBS 4.2 (header, navigation tree, dashboard columns and the tree toggle). The PDM variant carries the palette only, without the Clarity City fonts, and has not been checked on a PDM host.
 
 ![ESXi Light with synthetic preview data](screenshots/esxi-light.png)
 

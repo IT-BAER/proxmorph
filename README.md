@@ -21,7 +21,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 
 ## 🎨 Themes
 
-**24 themes** across 10 collections (23 on PDM; ESXi Light is PVE-focused, PBS unvalidated, no PDM variant). Featured themes below. [**View Full Gallery →**](THEMES.md)
+**24 themes** across 10 collections on PVE, PBS and PDM. Featured themes below. [**View Full Gallery →**](THEMES.md)
 
 <table>
   <tr>
@@ -68,7 +68,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 | UniFi | Dark, Light, OLED |
 | GitHub Dark | Single theme |
 | Blue Slate | Single theme |
-| ESXi Light (by [@rufftruffles](https://github.com/rufftruffles)) | Single theme (PVE, bundled Clarity City fonts) |
+| ESXi Light (by [@rufftruffles](https://github.com/rufftruffles)) | Single theme (PVE and PBS with bundled Clarity City fonts; PDM palette only, untested) |
 
 </details>
 

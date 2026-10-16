@@ -80,33 +80,33 @@ a { color: var(--pm-accent); }
 a:hover { color: var(--pm-accent-hover); }
 ::selection { color: #103f58; background: #cae5f2; }
 
-/* 02 / Native application header. :has targets the stable versioninfo anchor. */
-.x-plain:has(#versioninfo) {
+/* 02 / Native application header. :has targets the versioninfo anchor: id on PVE, auto id on PBS. */
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) {
     background-color: var(--pm-header);
     background-image: linear-gradient(128deg, transparent 0 23%, #ffffff0d 23% 28%, transparent 28% 37%, #ffffff09 37% 41%, transparent 41%), linear-gradient(105deg, #4b6b80, #345367 72%);
     padding: 6px 12px;
     border-bottom: 1px solid #2b4557;
 }
-#versioninfo { color: var(--pm-header-text); font-weight: 400; }
-.x-plain:has(#versioninfo) img[src*="proxmox_logo"],
-.x-plain:has(#versioninfo) a[style*="proxmox_logo"] { filter: brightness(0) invert(1); }
-.x-plain:has(#versioninfo) .x-btn {
+#versioninfo, [id^="versioninfo-"] { color: var(--pm-header-text); font-weight: 400; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) img[src*="proxmox_logo"],
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) a[style*="proxmox_logo"] { filter: brightness(0) invert(1); }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-btn {
     background: transparent;
     border-color: #698393;
     border-radius: var(--pm-radius-sm);
 }
-.x-plain:has(#versioninfo) .x-btn-inner,
-.x-plain:has(#versioninfo) .x-btn-icon-el,
-.x-plain:has(#versioninfo) .x-btn-wrap-default-small.x-btn-arrow-right::after {
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-btn-inner,
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-btn-icon-el,
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-btn-wrap-default-small.x-btn-arrow-right::after {
     color: var(--pm-header-text);
 }
-.x-plain:has(#versioninfo) .x-btn-over { background: var(--pm-header-hover); border-color: #a0bfce; }
-#userinfo { background: var(--pm-header-hover) !important; border-color: #698393 !important; }
-.x-plain:has(#versioninfo) .x-form-trigger-wrap { background: #21495f; border-color: #698393; }
-.x-plain:has(#versioninfo) .x-form-text { color: #ffffff; background: transparent; }
-.x-plain:has(#versioninfo) .x-form-text::placeholder { color: #c4d6e1; opacity: 1; }
-.x-plain:has(#versioninfo) .x-form-trigger { color: #d1e5ee; background-color: transparent; }
-.x-plain:has(#versioninfo) .x-form-trigger-wrap-focus { border-color: #89cce9; box-shadow: 0 0 0 1px #89cce9; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-btn-over { background: var(--pm-header-hover); border-color: #a0bfce; }
+#userinfo, .x-border-item:has([id^="versioninfo-"]) .x-btn:has(.fa-user) { background: var(--pm-header-hover) !important; border-color: #698393 !important; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-form-trigger-wrap { background: #21495f; border-color: #698393; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-form-text { color: #ffffff; background: transparent; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-form-text::placeholder { color: #c4d6e1; opacity: 1; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-form-trigger { color: #d1e5ee; background-color: transparent; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-form-trigger-wrap-focus { border-color: #89cce9; box-shadow: 0 0 0 1px #89cce9; }
 
 /* 03 / Panels and headers. Borders distinguish surfaces without changing geometry. */
 .x-panel-default, .x-panel-default-framed, .x-panel-body-default-framed {
@@ -346,7 +346,8 @@ body:has(#pveloginrealm) { background: var(--pm-bg-surface); }
 .x-splitter:hover { background: #bed7e5; }
 .x-splitter-active, .x-resizable-handle-over { background-color: #78acc5; }
 .x-panel-header-default-collapsed { background: var(--pm-bg-surface); }
-.x-scroller, .x-grid-view, .x-boundlist-list-ct { scrollbar-color: #a8bac6 #f3f6f8; scrollbar-width: auto; }
+/* Inherit from html so the ExtJS scrollbar probe and every real scroller get the same width; Chrome ignores ::-webkit-scrollbar wherever scrollbar-color applies. */
+html { scrollbar-color: #a8bac6 #f3f6f8; scrollbar-width: auto; }
 ::-webkit-scrollbar { width: 12px; height: 12px; }
 ::-webkit-scrollbar-track { background: #f3f6f8; }
 ::-webkit-scrollbar-thumb { background: #a8bac6; border: 3px solid #f3f6f8; border-radius: 8px; }
@@ -366,7 +367,7 @@ a:focus-visible, button:focus-visible {
     outline: 2px solid var(--pm-accent);
     outline-offset: 2px;
 }
-.x-plain:has(#versioninfo) .x-btn-focus { outline-color: #8ed9f7; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) .x-btn-focus { outline-color: #8ed9f7; }
 .x-btn, .x-tab, .x-menu-item, .x-treelist-row { transition: background-color 120ms ease, border-color 120ms ease; }
 @media (prefers-reduced-motion: reduce) {
     .x-btn, .x-tab, .x-menu-item, .x-treelist-row { transition: none; }
@@ -390,8 +391,8 @@ a:focus-visible, button:focus-visible {
 .x-tree-panel .x-grid-item-selected .x-tree-icon { color: #f4f8fb; }
 .x-grid-header-ct, .x-column-header { background-image: none; }
 .x-column-header-text, .x-toolbar-text-default { font-weight: 500; }
-.x-plain:has(#versioninfo) a { color: #f4f8fb; }
-.x-plain:has(#versioninfo) a:hover { color: #ffffff; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) a { color: #f4f8fb; }
+:is(.x-plain, .x-border-item):has(#versioninfo, [id^="versioninfo-"]) a:hover { color: #ffffff; }
 /* Preserve readable disabled and nested-navigation states on gray surfaces. */
 .x-item-disabled .x-form-text { color: #65717c; }
 .x-treelist-item-selected > .x-treelist-row > .x-treelist-item-wrap > .x-treelist-item-icon { color: #f4f8fb; }

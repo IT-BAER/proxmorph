@@ -28,8 +28,11 @@
         const active = getComputedStyle(document.documentElement)
             .getPropertyValue('--pm-esxi-active').trim() === '1';
         if (!sidebar && active) {
-            const west = Ext.ComponentQuery.query('viewport > [region=west]')[0];
-            const header = Ext.getCmp('userinfo')?.ownerCt;
+            // PVE's workspace is a viewport; PBS's main view is a plain container
+            // with the viewport plugin, so fall back to the only west/north regions.
+            const CQ = Ext.ComponentQuery;
+            const west = CQ.query('viewport > [region=west]')[0] || CQ.query('[region=west]')[0];
+            const header = CQ.query('viewport > [region=north]')[0] || CQ.query('[region=north]')[0];
             if (!west || !header || !west.rendered) return;
             // Set the guard before insert() can trigger another layout.
             sidebar = { west };

@@ -870,7 +870,7 @@ install_pdm_themes() {
         for css_file in "${PDM_THEMES_DIR}"/theme-*.css; do
             if [[ -f "$css_file" ]]; then
                 local css_name=$(basename "$css_file")
-                echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/${css_name}\" class=\"proxmorph-theme\" disabled>" >> "$tmpblock"
+                echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/${css_name}\" class=\"proxmorph-theme\" data-title=\"$(get_theme_title "$css_file")\" disabled>" >> "$tmpblock"
             fi
         done
 
@@ -1067,7 +1067,8 @@ if [ "\$needs_repatch" = "true" ]; then
             for css_file in "\${PDM_THEMES_DIR}"/theme-*.css; do
                 if [ -f "\$css_file" ]; then
                     css_name=\$(basename "\$css_file")
-                    echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/\${css_name}\" class=\"proxmorph-theme\" disabled>" >> "\$tmpblock"
+                    css_title=\$(head -1 "\$css_file" | sed -n 's|^/\*!\(.*\)\*/.*|\1|p')
+                    echo "<link rel=\"stylesheet\" href=\"/proxmorph-themes/\${css_name}\" class=\"proxmorph-theme\" data-title=\"\${css_title}\" disabled>" >> "\$tmpblock"
                 fi
             done
             if [ -f "\$DEFAULT_THEME_FILE" ]; then
