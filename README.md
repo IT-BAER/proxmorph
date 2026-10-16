@@ -1,7 +1,5 @@
 # ProxMorph
 
-Local addition: [ESXi Light theme, preview, installation and rollback](ESXI_LIGHT.md).
-
 Custom themes for Proxmox VE (PVE), Proxmox Backup Server (PBS), and Proxmox Datacenter Manager (PDM) that integrate with the native Color Theme selector.
 
 ## ✨ Features

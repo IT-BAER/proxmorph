@@ -14,8 +14,6 @@ An ESXi-inspired light theme for Proxmox VE with slate headers, Clarity City typ
 
 ![ESXi Light with synthetic preview data](screenshots/esxi-light.png)
 
-[Theme details, preview setup and additive installation](ESXI_LIGHT.md)
-
 <details>
 <summary>More ESXi Light screenshots: collapsed tree, VMs and dialogs</summary>
 
