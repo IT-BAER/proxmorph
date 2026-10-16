@@ -1,0 +1,22 @@
+{
+  "repository": "https://github.com/vmware-archive/clarity-city",
+  "revision": "f2ecc978bb5048cf8c3508ea61ec66ca2014ee19",
+  "files": {
+    "LICENSE": {
+      "path": "LICENSE",
+      "sha256": "d436bf503f181b254215d988e8794c2a84deca8eddc2ef9e40c83f96865a32e5"
+    },
+    "NOTICE.md": {
+      "path": "NOTICE.md",
+      "sha256": "1a3841ff4967ffa327c70ac5e505948de80e24a91765c29648cdd858c0e0d783"
+    },
+    "ClarityCity-Regular.woff2": {
+      "path": "Webfonts/WOFF2/ClarityCity-Regular.woff2",
+      "sha256": "656d37063eabc2b869dd05b34417d92d093262212aabb3aa1d4b9617cd405841"
+    },
+    "ClarityCity-SemiBold.woff2": {
+      "path": "Webfonts/WOFF2/ClarityCity-SemiBold.woff2",
+      "sha256": "5bfac0705efaa4874648f3428dbb9fdcd9ada1415f045e0c4dc01bb9fc325943"
+    }
+  }
+}

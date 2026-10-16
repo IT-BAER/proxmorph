@@ -1,0 +1,22 @@
+{
+  "reference": "Owner ESXi 8 Update 3 browser UI",
+  "views": [
+    "Host summary",
+    "Virtual Machines",
+    "VM Edit settings (canceled without changes)"
+  ],
+  "observed": {
+    "font": "Metropolis",
+    "body_size_px": 12,
+    "action_accent": "#0072a3",
+    "selected_navigation": "rgba(70,92,106,0.9)",
+    "panel_background": "rgba(208,209,220,0.9)",
+    "header_height_px": 35
+  },
+  "adaptation": [
+    "Embedded Clarity City from VMware original publisher",
+    "Solid gray surfaces and stronger link contrast",
+    "Native Ext JS layout and workflow retained",
+    "No host mutations"
+  ]
+}

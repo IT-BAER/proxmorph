@@ -55,3 +55,9 @@ test-*.css
 *-test.css
 generate-variants.ps1
 docs/component-inventory.md
+
+# ESXi theme local browser assets and generated evidence
+preview/live/
+preview/vendor/
+preview/evidence/
+preview/*.deb
