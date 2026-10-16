@@ -8,6 +8,7 @@ Custom themes for Proxmox VE (PVE), Proxmox Backup Server (PBS), and Proxmox Dat
 - **Auto-Patch on Updates** - Automatically re-applies themes after product updates
 - **Hybrid Engine** - CSS for styling + JavaScript for dynamic chart patching
 - **Server-Side Default Theme** - Pick a default for browsers that have not chosen one yet; a user's own selection always wins
+- **Automatic Light/Dark** - Opt-in "(Auto)" entries per collection that follow the system color scheme live (PVE, PBS)
 - **Hardware Sensor Monitoring** - Optional CPU/storage temps, fan speeds, and UPS status on node Summary dashboard (PVE)
 - **Easy Installation** - Single command installation for PVE, PBS, and PDM
 
@@ -132,6 +133,16 @@ Checksum verification still runs, against your mirrored `SHA256SUMS`.
 2. Click username → Color Theme
 3. Select a ProxMorph theme
 
+### Automatic light/dark switching
+
+Opt in once per host, then pick an "(Auto)" entry in the Color Theme dialog:
+
+```bash
+./install.sh auto-theme enable
+```
+
+Each entry is a small generated stylesheet that imports the light or dark member of a collection through the browser's `prefers-color-scheme`, so the theme follows the system setting live, without a reload. Pairs: UniFi (UniFi Light / UniFi), UniFi OLED (UniFi Light / UniFi OLED), Nord, Gruvbox, Solarized and Catppuccin (Latte / Mocha). The entries survive ProxMorph and Proxmox updates while enabled; `./install.sh auto-theme disable` removes them again. They also work as server-side default, for example `./install.sh default-theme unifi-auto`. Not available on PDM.
+
 ## 💻 Commands
 
 | Command | Description |
@@ -145,6 +156,7 @@ Checksum verification still runs, against your mirrored `SHA256SUMS`.
 | `./install.sh check` | Check whether a newer release is available |
 | `./install.sh sensors [enable\|disable\|detect\|configure\|status]` | Manage hardware sensor display (PVE only; default `status`) |
 | `./install.sh default-theme <key\|none>` | Set a server-side default theme for new browsers (user choice always wins) |
+| `./install.sh auto-theme [enable\|disable\|status]` | Add or remove "(Auto)" dropdown entries that follow the system light/dark setting (PVE, PBS; default `status`) |
 | `./install.sh` | Shows Menu to manage|
 
 ## 🔍 What the installer changes on your system

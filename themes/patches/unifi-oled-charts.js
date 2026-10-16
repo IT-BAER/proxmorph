@@ -95,7 +95,10 @@
      */
     function isUnifiThemeActive() {
         // Check for the presence of the UniFi theme stylesheet
-        return !!document.querySelector('link[href*="theme-unifi-oled.css"]');
+        return !!document.querySelector('link[href*="theme-unifi-oled.css"]')
+            // UniFi OLED (Auto) imports this theme while the OS prefers a dark scheme
+            || (!!document.querySelector('link[href*="theme-unifi-oled-auto.css"]')
+                && window.matchMedia('(prefers-color-scheme: dark)').matches);
     }
 
     /**

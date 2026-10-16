@@ -95,7 +95,10 @@
      */
     function isUnifiThemeActive() {
         // Check for the presence of the UniFi theme stylesheet
-        return !!document.querySelector('link[href*="theme-unifi.css"]');
+        return !!document.querySelector('link[href*="theme-unifi.css"]')
+            // UniFi (Auto) imports this theme while the OS prefers a dark scheme
+            || (!!document.querySelector('link[href*="theme-unifi-auto.css"]')
+                && window.matchMedia('(prefers-color-scheme: dark)').matches);
     }
 
     /**

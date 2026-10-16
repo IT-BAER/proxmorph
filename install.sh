@@ -414,6 +414,114 @@ remove_js_patches() {
     fi
 }
 
+# --- Automatic light/dark themes (issue #53) ---
+AUTO_THEME_FILE="/etc/proxmorph/auto-themes"
+# key:Title:light-key:dark-key. Each pair becomes theme-<key>-auto.css, a stylesheet
+# that imports the light or dark member by prefers-color-scheme. Keys must fit
+# pveproxy's cookie filter: lowercase kebab-case, segments of at most 10 chars.
+AUTO_THEME_PAIRS="unifi:UniFi:unifi-light:unifi
+unifi-oled:UniFi OLED:unifi-light:unifi-oled
+nord:Nord:nord-light:nord-dark
+gruvbox:Gruvbox:gruvbox-light:gruvbox-dark
+solarized:Solarized:solarized-light:solarized-dark
+catppuccin:Catppuccin:catppuccin-latte:catppuccin-mocha"
+
+auto_themes_enabled() {
+    [[ -f "$AUTO_THEME_FILE" ]]
+}
+
+# Write theme-<key>-auto.css into $1 for every pair whose members exist there.
+# Prints each generated key on stdout; warnings go to stderr.
+generate_auto_themes() {
+    local dir="$1" key title light dark
+    while IFS=: read -r key title light dark; do
+        [[ -z "$key" ]] && continue
+        if [[ ! -f "${dir}/theme-${light}.css" || ! -f "${dir}/theme-${dark}.css" ]]; then
+            print_warning "Skipping ${title} (Auto): theme-${light}.css or theme-${dark}.css not in ${dir}" >&2
+            continue
+        fi
+        printf '/*!%s (Auto)*/\n@import url("theme-%s.css?ver=%s") (prefers-color-scheme: light);\n@import url("theme-%s.css?ver=%s") (prefers-color-scheme: dark);\n' \
+            "$title" "$light" "$VERSION" "$dark" "$VERSION" > "${dir}/theme-${key}-auto.css"
+        chmod 644 "${dir}/theme-${key}-auto.css"
+        echo "${key}-auto"
+    done <<< "$AUTO_THEME_PAIRS"
+}
+
+# Generate into the live themes dir, mirror into the cache (the apt hook
+# re-registers from there) and register each entry in the native theme_map.
+apply_auto_themes() {
+    local key
+    for key in $(generate_auto_themes "$THEMES_DIR"); do
+        if [[ -d "${INSTALL_DIR}/themes" ]]; then
+            cp "${THEMES_DIR}/theme-${key}.css" "${INSTALL_DIR}/themes/"
+        fi
+        if [[ -f "$PROXMOXLIB_JS" ]]; then
+            patch_theme_map "$key" "$(get_theme_title "${THEMES_DIR}/theme-${key}.css")"
+        fi
+    done
+}
+
+remove_auto_themes() {
+    local key title light dark
+    while IFS=: read -r key title light dark; do
+        [[ -z "$key" ]] && continue
+        rm -f "${THEMES_DIR}/theme-${key}-auto.css" "${INSTALL_DIR}/themes/theme-${key}-auto.css"
+        if [[ -f "$PROXMOXLIB_JS" ]]; then
+            sed -i "/^[[:space:]]*\"${key}-auto\": /d" "$PROXMOXLIB_JS"
+        fi
+    done <<< "$AUTO_THEME_PAIRS"
+}
+
+# CLI: ./install.sh auto-theme [status|enable|disable|toggle]
+manage_auto_theme() {
+    local action="${1:-status}"
+    if [[ "$action" == "toggle" ]]; then
+        if auto_themes_enabled; then action="disable"; else action="enable"; fi
+    fi
+
+    case "$action" in
+        status)
+            if auto_themes_enabled; then
+                print_info "Automatic light/dark themes: enabled"
+                local f
+                for f in "${THEMES_DIR}"/theme-*-auto.css; do
+                    [[ -f "$f" ]] && print_theme "  $(get_theme_key "$f"): $(get_theme_title "$f")"
+                done
+            else
+                print_info "Automatic light/dark themes: disabled"
+            fi
+            print_info "Usage: $0 auto-theme <enable|disable|status>"
+            return 0
+            ;;
+        enable)
+            if [[ "$PRODUCT" == "PDM" ]]; then
+                print_error "Automatic light/dark themes are not available on PDM"
+                exit 1
+            fi
+            if ! ls "${THEMES_DIR}"/theme-*.css >/dev/null 2>&1; then
+                print_error "No ProxMorph themes installed - run '$0 install' first"
+                exit 1
+            fi
+            mkdir -p "$(dirname "$AUTO_THEME_FILE")"
+            : > "$AUTO_THEME_FILE"
+            apply_auto_themes
+            print_status "Automatic light/dark themes enabled: pick an '(Auto)' entry under username → Color Theme"
+            ;;
+        disable)
+            rm -f "$AUTO_THEME_FILE"
+            remove_auto_themes
+            print_status "Automatic light/dark themes disabled"
+            ;;
+        *)
+            print_error "Unknown action '${action}'. Usage: $0 auto-theme <enable|disable|status>"
+            exit 1
+            ;;
+    esac
+
+    print_info "Restarting ${PROXY_SERVICE} service in background..."
+    nohup systemctl restart "${PROXY_SERVICE}" &>/dev/null &
+}
+
 # --- Server-side default theme (issue #52) ---
 
 # Print configured default theme key (empty if none)
@@ -1719,6 +1827,11 @@ install_themes() {
     # Install JavaScript patches (chart colors, etc.)
     install_js_patches
 
+    # Regenerate automatic light/dark themes (if enabled)
+    if auto_themes_enabled && [[ "$PRODUCT" != "PDM" ]]; then
+        apply_auto_themes
+    fi
+
     # Re-apply server-side default theme (if configured)
     inject_default_theme
 
@@ -1817,6 +1930,7 @@ uninstall_themes() {
     # Remove server-side default theme
     remove_default_theme_injection
     rm -f "$DEFAULT_THEME_FILE"
+    rm -f "$AUTO_THEME_FILE"
 
     # Remove sensor patches
     remove_sensors
@@ -1934,6 +2048,8 @@ show_status() {
         echo -e "  Default:    ${YELLOW}Not set${NC}"
     fi
     
+    manage_auto_theme status
+
     # Sensor status (PVE only)
     if [[ "$PRODUCT" == "PVE" ]]; then
         manage_sensors status
@@ -1955,9 +2071,10 @@ show_menu() {
     echo "  6) Show status"
     [[ "$PRODUCT" == "PVE" ]] && echo "  7) Manage sensors"
     echo "  8) Set default theme (server-side)"
+    echo "  9) Toggle automatic light/dark themes"
     echo "  0) Exit"
     echo ""
-    read -p "Enter choice [0-8]: " choice
+    read -p "Enter choice [0-9]: " choice
 
     case $choice in
         1) install_latest ;;
@@ -1973,6 +2090,7 @@ show_menu() {
             read -p "Enter theme key (or 'none' to clear, empty to cancel): " dt_key
             [[ -n "$dt_key" ]] && manage_default_theme "$dt_key"
             ;;
+        9) manage_auto_theme toggle ;;
         0) exit 0 ;;
         *) print_error "Invalid option" ; show_menu ;;
     esac
@@ -2011,6 +2129,9 @@ main() {
             ;;
         default-theme)
             manage_default_theme "${2:-}"
+            ;;
+        auto-theme)
+            manage_auto_theme "${2:-status}"
             ;;
         *)
             show_menu
