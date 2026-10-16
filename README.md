@@ -9,6 +9,7 @@ Custom themes for Proxmox VE (PVE), Proxmox Backup Server (PBS), and Proxmox Dat
 - **Hybrid Engine** - CSS for styling + JavaScript for dynamic chart patching
 - **Server-Side Default Theme** - Pick a default for browsers that have not chosen one yet; a user's own selection always wins
 - **Automatic Light/Dark** - Opt-in "(Auto)" entries per collection that follow the system color scheme live (PVE, PBS)
+- **Custom UI Font** - Any font family on top of any theme, from an installed system font or an embedded WOFF2/TTF, with the icon fonts left untouched (PVE, PBS)
 - **Hardware Sensor Monitoring** - Optional CPU/storage temps, fan speeds, and UPS status on node Summary dashboard (PVE)
 - **Easy Installation** - Single command installation for PVE, PBS, and PDM
 
@@ -67,7 +68,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 | UniFi | Dark, Light, OLED |
 | GitHub Dark | Single theme |
 | Blue Slate | Single theme |
-| ESXi Light | Single theme (PVE, bundled Clarity City fonts) |
+| ESXi Light (by [@rufftruffles](https://github.com/rufftruffles)) | Single theme (PVE, bundled Clarity City fonts) |
 
 </details>
 
@@ -143,6 +144,24 @@ Opt in once per host, then pick an "(Auto)" entry in the Color Theme dialog:
 
 Each entry is a small generated stylesheet that imports the light or dark member of a collection through the browser's `prefers-color-scheme`, so the theme follows the system setting live, without a reload. Pairs: UniFi (UniFi Light / UniFi), UniFi OLED (UniFi Light / UniFi OLED), Nord, Gruvbox, Solarized and Catppuccin (Latte / Mocha). The entries survive ProxMorph and Proxmox updates while enabled; `./install.sh auto-theme disable` removes them again. They also work as server-side default, for example `./install.sh default-theme unifi-auto`. Not available on PDM.
 
+### Custom UI font
+
+Replace the UI text font for every theme without touching the icon fonts:
+
+```bash
+./install.sh font Inter https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.5/files/inter-latin-400-normal.woff2
+```
+
+```bash
+./install.sh font "Segoe UI"
+```
+
+```bash
+./install.sh font none
+```
+
+A font file (`.woff2`, `.woff`, `.ttf` or `.otf`; a local path, or an https URL fetched once on the host; up to 4 MB) is embedded into a generated stylesheet, so browsers never load anything from the internet. With only a family name, the font has to be installed on the viewing machine. The stylesheet targets the ExtJS text selectors only, never `.fa`, `.x-fa` or the tree expanders, so FontAwesome and the status glyphs keep working, and it is linked after the active theme, so it also applies on top of ESXi Light's bundled Clarity City. The setting lives in `/etc/proxmorph/font` and survives ProxMorph and Proxmox updates. Not available on PDM.
+
 ## 💻 Commands
 
 | Command | Description |
@@ -157,6 +176,7 @@ Each entry is a small generated stylesheet that imports the light or dark member
 | `./install.sh sensors [enable\|disable\|detect\|configure\|status]` | Manage hardware sensor display (PVE only; default `status`) |
 | `./install.sh default-theme <key\|none>` | Set a server-side default theme for new browsers (user choice always wins) |
 | `./install.sh auto-theme [enable\|disable\|status]` | Add or remove "(Auto)" dropdown entries that follow the system light/dark setting (PVE, PBS; default `status`) |
+| `./install.sh font [<family> [file\|url] \| none]` | Set or clear a custom UI text font, icon-safe (PVE, PBS; no argument shows the current setting) |
 | `./install.sh` | Shows Menu to manage|
 
 ## 🔍 What the installer changes on your system
@@ -165,7 +185,7 @@ Run as root, `install.sh` makes only these changes, all reversible with `./insta
 
 - **Themes:** copies `theme-*.css` into the product's widget-toolkit themes directory.
 - **Theme registration:** `sed`-patches the `theme_map` in `proxmoxlib.js` so the themes appear in the native Color Theme selector.
-- **Index template:** injects `<script>` / `<link>` tags into the product index template for the JS patches and (PDM) theme links.
+- **Index template:** injects `<script>` / `<link>` tags into the product index template for the JS patches, the optional default theme and custom font, and (PDM) theme links. Those two settings live under `/etc/proxmorph/`.
 - **Persistence:** installs an APT hook at `/etc/apt/apt.conf.d/99proxmorph` that runs `/opt/proxmorph/post-update.sh` to re-apply the patches after a Proxmox update. The hook re-patches from the local `/opt/proxmorph` copy only; it downloads nothing.
 - **Sensors (PVE, optional):** if you enable sensor display, edits `Nodes.pm` to expose `lm-sensors` data.
 
