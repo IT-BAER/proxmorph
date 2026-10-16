@@ -7,6 +7,7 @@ Custom themes for Proxmox VE (PVE), Proxmox Backup Server (PBS), and Proxmox Dat
 - **Native Integration** - Themes appear in built-in Color Theme dropdown (PVE, PBS, and PDM)
 - **Auto-Patch on Updates** - Automatically re-applies themes after product updates
 - **Hybrid Engine** - CSS for styling + JavaScript for dynamic chart patching
+- **Server-Side Default Theme** - Pick a default for browsers that have not chosen one yet; a user's own selection always wins
 - **Hardware Sensor Monitoring** - Optional CPU/storage temps, fan speeds, and UPS status on node Summary dashboard (PVE)
 - **Easy Installation** - Single command installation for PVE, PBS, and PDM
 
@@ -18,7 +19,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 
 ## 🎨 Themes
 
-**23 themes** across 9 collections. Featured themes below — [**View Full Gallery →**](THEMES.md)
+**24 themes** across 10 collections (23 on PDM; ESXi Light is PVE-focused, PBS unvalidated, no PDM variant). Featured themes below. [**View Full Gallery →**](THEMES.md)
 
 <table>
   <tr>
@@ -40,7 +41,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
       <h3>Catppuccin Mocha</h3>
       <img src="screenshots/catppuccin-mocha.png" alt="Catppuccin Mocha Theme" width="100%">
       <br>
-      <i>Darkest Catppuccin flavor — deep warm tones</i>
+      <i>Darkest Catppuccin flavor, deep warm tones</i>
     </td>
     <td width="50%" align="center">
       <h3>Nord Dark</h3>
@@ -61,10 +62,11 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 | Nord | Dark, Light |
 | Gruvbox | Dark, Light |
 | Solarized | Dark, Light |
-| Tokyo Night | — |
+| Tokyo Night | Single theme |
 | UniFi | Dark, Light, OLED |
-| GitHub Dark | — |
-| Blue Slate | — |
+| GitHub Dark | Single theme |
+| Blue Slate | Single theme |
+| ESXi Light | Single theme (PVE, bundled Clarity City fonts) |
 
 </details>
 
@@ -134,10 +136,14 @@ Checksum verification still runs, against your mirrored `SHA256SUMS`.
 
 | Command | Description |
 |---------|-------------|
-| `./install.sh install` | Install themes |
+| `./install.sh install` | Install themes (fetches the latest release when no local theme files are present) |
+| `./install.sh update [version]` or `bash <(curl -fsSL https://raw.githubusercontent.com/IT-BAER/proxmorph/main/install.sh) update` | Download a release from GitHub (latest, or the given version) and install its themes |
+| `./install.sh reinstall` | Re-apply themes and patches, e.g. after a Proxmox update |
 | `./install.sh uninstall` | Remove themes |
-| `./install.sh update` or `bash <(curl -fsSL https://raw.githubusercontent.com/IT-BAER/proxmorph/main/install.sh) update` | Updates (latest from GitHub) and install the latest themes |
+| `./install.sh list` | List available themes and whether each is installed |
 | `./install.sh status` | Show installation status |
+| `./install.sh check` | Check whether a newer release is available |
+| `./install.sh sensors [enable\|disable\|detect\|configure\|status]` | Manage hardware sensor display (PVE only; default `status`) |
 | `./install.sh default-theme <key\|none>` | Set a server-side default theme for new browsers (user choice always wins) |
 | `./install.sh` | Shows Menu to manage|
 
@@ -185,10 +191,10 @@ stores its palette in `rgb()` while PVE/PBS uses hex.
 
 If themes don't appear after installation:
 
-1. **Clear browser cache** — Press Ctrl+Shift+R (hard refresh)
-2. **Run verify check** — Run `./install.sh` and select option 7 (Verify installation)
-3. **Check installation status** — Run `./install.sh status`
-4. **Restart proxy service** — Run `systemctl restart pveproxy` (PVE), `systemctl restart proxmox-backup-proxy` (PBS), or `systemctl restart proxmox-datacenter-api` (PDM)
+1. **Clear browser cache**: Press Ctrl+Shift+R (hard refresh)
+2. **Reinstall the themes**: Run `./install.sh reinstall`
+3. **Check installation status**: Run `./install.sh status`
+4. **Restart proxy service**: Run `systemctl restart pveproxy` (PVE), `systemctl restart proxmox-backup-proxy` (PBS), or `systemctl restart proxmox-datacenter-api` (PDM)
 
 ### Cloudflare Tunnel caching issues
 
@@ -201,7 +207,7 @@ If you access Proxmox through a **Cloudflare Tunnel**, themes may not load due t
 5. Set **Cache eligibility** to **Bypass cache**
 6. Save and deploy the rule
 
-See [Issue #13](https://github.com/IT-BAER/proxmorph/issues/13) for more details — thanks to [@gioxx](https://github.com/gioxx) for the solution!
+See [Issue #13](https://github.com/IT-BAER/proxmorph/issues/13) for more details. Thanks to [@gioxx](https://github.com/gioxx) for the solution!
 
 ## ℹ️ How It Works
 
