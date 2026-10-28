@@ -5,6 +5,7 @@
  * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  *         Invalid form fields show their red border again (base border-color rule hid it)
+ *         Primary button hover/pressed use this palette's accent shades (Dracula purple leftovers)
  */
 
 /* =====================================================
@@ -841,7 +842,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-btn-default-small.x-btn-over,
 .x-keyboard-mode .x-btn-default-small.x-btn-focus {
-    background-color: #caa9fa !important;
+    background-color: #479cd9 !important;
     box-shadow: 0 0 0 3px var(--sol-accent-subtle) !important;
 }
 
@@ -851,7 +852,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-btn-default-small.x-btn.x-btn-pressed {
-    background-color: #a986f0 !important;
+    background-color: #217ab9 !important;
 }
 
 /* Button height consistency — 28px with vertical centering */
@@ -2034,7 +2035,7 @@ span.proxmox-tag-light {
 }
 
 .x-btn.x-btn-default-small:has(.fa-check):not(.x-btn-disabled):hover {
-    background-color: #caa9fa !important;
+    background-color: #479cd9 !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check) .x-btn-inner {

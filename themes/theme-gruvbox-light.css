@@ -8,6 +8,7 @@
  *         Invalid form fields show their red border again (base border-color rule hid it)
  *         Unchecked checkbox/radio border uses the dim text color (the panel border color was almost invisible)
  *         Links and info text use Gruvbox faded blue #076678 (yellow accent was 2.2:1 on cream)
+ *         Primary button hover/pressed use this palette's accent shades (Dracula purple leftovers)
  */
 
 /* =====================================================
@@ -741,7 +742,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-btn-default-small.x-btn-over,
 .x-keyboard-mode .x-btn-default-small.x-btn-focus {
-    background-color: #caa9fa !important;
+    background-color: #dda842 !important;
     box-shadow: 0 0 0 3px var(--grv-accent-subtle) !important;
 }
 
@@ -751,7 +752,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-btn-default-small.x-btn.x-btn-pressed {
-    background-color: #a986f0 !important;
+    background-color: #bd871d !important;
 }
 
 /* Button height consistency — 28px with vertical centering */
@@ -1934,7 +1935,7 @@ span.proxmox-tag-light {
 }
 
 .x-btn.x-btn-default-small:has(.fa-check):not(.x-btn-disabled):hover {
-    background-color: #caa9fa !important;
+    background-color: #dda842 !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check) .x-btn-inner {
