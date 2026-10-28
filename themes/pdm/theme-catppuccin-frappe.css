@@ -2,7 +2,7 @@
 /*
  * ProxMorph PDM Theme: Catppuccin Frappé
  * Overrides the PWT Material Design tonal color system with Catppuccin Frappé palette
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ProxMorph / Catppuccin Community Palette
  *
  * ─── Catppuccin Frappé Palette ────────────────────────────────
@@ -152,6 +152,11 @@
     --pwt-color-neutral-alt-5: rgb(16, 18, 26) !important;
     --pwt-color-neutral-alt-0: rgb(0, 0, 0) !important;
 }
+
+/* ===== Semantic Color Remapping (darker surfaces) ===== */
+:root.pwt-dark-mode {
+    --pwt-color-surface: var(--pwt-color-neutral-10) !important;
+    --pwt-color-on-surface: var(--pwt-color-neutral-95) !important;
     --pwt-color-surface-container: var(--pwt-color-neutral-15) !important;
     --pwt-color-on-surface-container: var(--pwt-color-neutral-95) !important;
     --pwt-color-neutral: var(--pwt-color-neutral-15) !important;
