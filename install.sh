@@ -550,9 +550,48 @@ FONT_SELECTORS='html, body, body.x-body, .x-body,
 .x-datepicker-column-header, .x-datepicker-date, .x-monthpicker-item,
 .x-fieldset-header-default > .x-fieldset-header-text, .x-fieldset-header-text,
 .x-tip-body-default, .x-legend-item'
+FONT_FALLBACK='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
+# PDM sets "Roboto Flex" rule by rule in its Yew stylesheets, which the WASM app loads after
+# our <link>; print each such selector html-prefixed so the override outranks it.
+PDM_FONT_AWK='BEGIN { RS = "}" }
+/Roboto Flex/ && !/@font-face/ {
+    n = split($0, part, "{"); m = split(part[n - 1], sel, ",")
+    for (i = 1; i <= m; i++) {
+        s = sel[i]; gsub(/^[ \t\n]+|[ \t\n]+$/, "", s)
+        if (s == "") continue
+        s = (s ~ /^:root/) ? "html" s : "html " s
+        if (!seen[s]++) out = out (out == "" ? "" : ",\n") s
+    }
+}
+END { if (out != "") print out }'
 
 font_configured() {
     [[ -f "$FONT_FILE" ]]
+}
+
+# Comments in the Yew CSS contain braces, so strip them before splitting on "}".
+pdm_font_selectors() {
+    perl -0pe 's{/\*.*?\*/}{}gs' "$PDM_MANAGER_DIR"/*-yew-style.css 2>/dev/null | awk "$PDM_FONT_AWK"
+}
+
+# Print the typography rule for family $1. PDM's own font rules are partly !important,
+# so its override is too, and Roboto Flex's opsz/wdth variation values are reset.
+font_rule() {
+    if [[ "$PRODUCT" == "PDM" ]]; then
+        printf '%s {\n    font-family: "%s", %s !important;\n    font-variation-settings: normal !important;\n}\n' \
+            "$(pdm_font_selectors)" "$1" "$FONT_FALLBACK"
+    else
+        printf '%s {\n    font-family: "%s", %s;\n}\n' "$FONT_SELECTORS" "$1" "$FONT_FALLBACK"
+    fi
+}
+
+# PDM selectors change between releases: rebuild the rule from the installed Yew
+# stylesheets, keeping the header and the embedded @font-face.
+refresh_pdm_font_css() {
+    [[ -n "$(pdm_font_selectors)" ]] || return 0
+    local tmp=$(mktemp)
+    { grep -E '^(/\*|@font-face)' "$FONT_CSS"; font_rule "$(cat "$FONT_FILE")"; } > "$tmp"
+    mv "$tmp" "$FONT_CSS"
 }
 
 # Print the stylesheet for family $1, embedding font file $2 when given.
@@ -570,8 +609,7 @@ generate_font_css() {
         printf '@font-face { font-family: "%s"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("data:%s;base64,%s") format("%s"); }\n' \
             "$family" "$mime" "$(base64 -w0 "$file")" "$fmt"
     fi
-    printf '%s {\n    font-family: "%s", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;\n}\n' \
-        "$FONT_SELECTORS" "$family"
+    font_rule "$family"
 }
 
 remove_font_injection() {
@@ -584,20 +622,26 @@ remove_font_injection() {
 
 # Copy the kept stylesheet into the served themes dir and link it before </head>.
 # That places it after the theme <link>, so it wins ties without !important.
+# PDM: served from proxmorph-themes, linked at the end of the ProxMorph PDM block.
 apply_font() {
     font_configured && [[ -f "$FONT_CSS" ]] || return 0
-    [[ "$PRODUCT" == "PDM" ]] && return 0
-    mkdir -p "$THEMES_DIR"
-    cp "$FONT_CSS" "${THEMES_DIR}/${FONT_LIVE_NAME}"
-    chmod 644 "${THEMES_DIR}/${FONT_LIVE_NAME}"
-    [[ -f "$INDEX_TEMPLATE" ]] || return 0
+    local live_dir="$THEMES_DIR" web_path="$THEME_WEB_PATH" anchor="</head>"
+    if [[ "$PRODUCT" == "PDM" ]]; then
+        refresh_pdm_font_css
+        live_dir="$PDM_THEMES_DIR" web_path="/proxmorph-themes"
+        grep -qF "$PDM_CSS_MARKER_END" "$INDEX_TEMPLATE" 2>/dev/null && anchor="$PDM_CSS_MARKER_END"
+    fi
+    mkdir -p "$live_dir"
+    cp "$FONT_CSS" "${live_dir}/${FONT_LIVE_NAME}"
+    chmod 644 "${live_dir}/${FONT_LIVE_NAME}"
+    grep -qF "$anchor" "$INDEX_TEMPLATE" 2>/dev/null || return 0
     remove_font_injection
     local stamp=$(stat -c %Y "$FONT_CSS" 2>/dev/null || date +%s)
     local tmpblock=$(mktemp)
     printf '%s\n<link rel="stylesheet" type="text/css" href="%s/%s?v=%s">\n%s\n' \
-        "$FONT_MARKER" "$THEME_WEB_PATH" "$FONT_LIVE_NAME" "$stamp" "$FONT_MARKER_END" > "$tmpblock"
+        "$FONT_MARKER" "$web_path" "$FONT_LIVE_NAME" "$stamp" "$FONT_MARKER_END" > "$tmpblock"
     local tmpout=$(mktemp)
-    awk -v blockfile="$tmpblock" 'BEGIN{done=0; while((getline line < blockfile)>0) block=block (block?"\n":"") line} !done && /<\/head>/{print block; done=1} {print}' "$INDEX_TEMPLATE" > "$tmpout"
+    awk -v blockfile="$tmpblock" -v anchor="$anchor" 'BEGIN{done=0; while((getline line < blockfile)>0) block=block (block?"\n":"") line} !done && index($0, anchor){print block; done=1} {print}' "$INDEX_TEMPLATE" > "$tmpout"
     mv "$tmpout" "$INDEX_TEMPLATE"
     chmod 644 "$INDEX_TEMPLATE"
     rm -f "$tmpblock"
@@ -605,7 +649,7 @@ apply_font() {
 
 remove_font() {
     remove_font_injection
-    rm -f "${THEMES_DIR}/${FONT_LIVE_NAME}" "$FONT_FILE" "$FONT_CSS"
+    rm -f "${THEMES_DIR}/${FONT_LIVE_NAME}" "${PDM_THEMES_DIR}/${FONT_LIVE_NAME}" "$FONT_FILE" "$FONT_CSS"
 }
 
 # CLI: ./install.sh font [<family> [file|https-url] | none]
@@ -622,10 +666,6 @@ manage_font() {
         print_info "Usage: $0 font <family> [font.woff2|.woff|.ttf|.otf|https://...]   |   $0 font none"
         return 0
     fi
-    if [[ "$PRODUCT" == "PDM" ]]; then
-        print_error "Custom UI fonts are not available on PDM"
-        exit 1
-    fi
     if [[ "$family" == "none" ]]; then
         remove_font
         print_status "Custom UI font removed"
@@ -633,6 +673,10 @@ manage_font() {
         local family_re='^[A-Za-z0-9][A-Za-z0-9 _-]{0,63}$'
         if ! [[ "$family" =~ $family_re ]]; then
             print_error "Font family must be 1-64 letters, digits, spaces, '-' or '_' (got '${family}')"
+            exit 1
+        fi
+        if [[ "$PRODUCT" == "PDM" && -z "$(pdm_font_selectors)" ]]; then
+            print_error "No font rules found in ${PDM_MANAGER_DIR}/*-yew-style.css"
             exit 1
         fi
         local file="" tmp=""
@@ -916,6 +960,9 @@ JSBLOCK
         print_warning "$(basename "$INDEX_TEMPLATE") not found — PDM themes may not load"
     fi
 
+    # The block was rebuilt without the font link; put it back (if configured)
+    apply_font
+
     print_status "PDM themes installed — ${theme_count} theme(s)"
 }
 
@@ -963,6 +1010,7 @@ JS_PATCH_MARKER_END="${JS_PATCH_MARKER_END}"
 PDM_CSS_MARKER="${PDM_CSS_MARKER}"
 PDM_CSS_MARKER_END="${PDM_CSS_MARKER_END}"
 PDM_THEMES_DIR="${PDM_THEMES_DIR}"
+PDM_MANAGER_DIR="${PDM_MANAGER_DIR}"
 DEFAULT_THEME_FILE="${DEFAULT_THEME_FILE}"
 DEFAULT_THEME_MARKER="${DEFAULT_THEME_MARKER}"
 DEFAULT_THEME_MARKER_END="${DEFAULT_THEME_MARKER_END}"
@@ -972,6 +1020,9 @@ FONT_CSS="${FONT_CSS}"
 FONT_LIVE_NAME="${FONT_LIVE_NAME}"
 FONT_MARKER="${FONT_MARKER}"
 FONT_MARKER_END="${FONT_MARKER_END}"
+FONT_FILE="${FONT_FILE}"
+FONT_FALLBACK='${FONT_FALLBACK}'
+PDM_FONT_AWK='${PDM_FONT_AWK}'
 
 # Set themes source based on product
 if [ "\$PRODUCT" = "PDM" ]; then
@@ -1092,6 +1143,20 @@ if [ "\$needs_repatch" = "true" ]; then
 </script>
 JSBLK
             echo "<script src=\"/js/proxmorph/pdm-theme-selector.js\"></script>" >> "\$tmpblock"
+            # Custom UI font: same rule as install.sh font_rule(), re-extracted because
+            # the PDM update that replaced index.hbs may have changed the Yew selectors
+            if [ -f "\$FONT_CSS" ] && [ -f "\$FONT_FILE" ]; then
+                pdm_sel=\$(perl -0pe 's{/\*.*?\*/}{}gs' "\$PDM_MANAGER_DIR"/*-yew-style.css 2>/dev/null | awk "\$PDM_FONT_AWK")
+                if [ -n "\$pdm_sel" ]; then
+                    f_tmp=\$(mktemp)
+                    { grep -E '^(/\*|@font-face)' "\$FONT_CSS"; printf '%s {\n    font-family: "%s", %s !important;\n    font-variation-settings: normal !important;\n}\n' "\$pdm_sel" "\$(cat "\$FONT_FILE")" "\$FONT_FALLBACK"; } > "\$f_tmp"
+                    mv "\$f_tmp" "\$FONT_CSS"
+                fi
+                cp "\$FONT_CSS" "\${PDM_THEMES_DIR}/\$FONT_LIVE_NAME"
+                chmod 644 "\${PDM_THEMES_DIR}/\$FONT_LIVE_NAME"
+                printf '%s\n<link rel="stylesheet" type="text/css" href="/proxmorph-themes/%s?v=%s">\n%s\n' "\$FONT_MARKER" "\$FONT_LIVE_NAME" "\$(stat -c %Y "\$FONT_CSS")" "\$FONT_MARKER_END" >> "\$tmpblock"
+                log "Re-applied custom font for PDM"
+            fi
             echo "\$PDM_CSS_MARKER_END" >> "\$tmpblock"
             tmpout=\$(mktemp)
             awk -v blockfile="\$tmpblock" 'BEGIN{done=0; while((getline line < blockfile)>0) block=block (block?"\n":"") line} !done && /<\/head>/{print block; done=1} {print}' "\$INDEX_TEMPLATE" > "\$tmpout"
@@ -2246,7 +2311,7 @@ show_status() {
     fi
     
     manage_auto_theme status
-    [[ "$PRODUCT" != "PDM" ]] && manage_font
+    manage_font
 
     # Sensor status (PVE only)
     if [[ "$PRODUCT" == "PVE" ]]; then
@@ -2270,7 +2335,7 @@ show_menu() {
     [[ "$PRODUCT" == "PVE" ]] && echo "  7) Manage sensors"
     echo "  8) Set default theme (server-side)"
     echo "  9) Toggle automatic light/dark themes"
-    [[ "$PRODUCT" != "PDM" ]] && echo "  f) Set custom UI font"
+    echo "  f) Set custom UI font"
     echo "  0) Exit"
     echo ""
     read -p "Enter choice [0-9, f]: " choice
