@@ -1,6 +1,6 @@
 /*
  * ProxMorph PDM Theme Selector Patch
- * Version: 1.0.0
+ * Version: 1.0.1
  *
  * Injects ProxMorph theme options into PDM's native Theme dialog dropdown.
  * Uses MutationObserver to detect when the dialog opens and adds custom
@@ -134,7 +134,7 @@
         sepTd.setAttribute('colspan', '2');
         sepTd.style.cssText = 'padding:4px 0;border-top:1px solid var(--pwt-color-neutral-40,#555);';
         var sepDiv = document.createElement('div');
-        sepDiv.style.cssText = 'font-size:11px;color:var(--pwt-color-neutral-60,#999);padding:2px 8px;';
+        sepDiv.style.cssText = 'font-size:11px;color:var(--pwt-color-on-surface,#999);padding:2px 8px;';
         sepDiv.textContent = 'ProxMorph Themes';
         sepTd.appendChild(sepDiv);
         sepRow.appendChild(sepTd);
