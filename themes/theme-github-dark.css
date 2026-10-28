@@ -6,6 +6,7 @@
  *
  * v2.2.24: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
+ *         Invalid form fields show their red border again (base border-color rule hid it)
  * v2.2.23: Redesign tab indicator — position ::after at bottom:0 (inside tab box)
  *         instead of bottom:-2px (outside, clipped by ExtJS containers). Remove
  *         margin-bottom:-2px hack that caused layout shifts on click. Add overflow:
@@ -924,6 +925,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: var(--gh-accent-emphasis) !important;
     box-shadow: 0 0 0 3px var(--gh-accent-subtle) !important;
+}
+
+/* Invalid fields: keep the red border ExtJS sets (the border-color rule above would hide it) */
+.x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
+    border-color: var(--gh-danger-fg) !important;
 }
 
 .x-form-item-label-default,

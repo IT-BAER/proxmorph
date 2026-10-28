@@ -5,6 +5,7 @@
  * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  *         On-accent text and checkbox tick #282828 (was #fbf1c7, 2.2:1 on the #d79921 accent)
  *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
+ *         Invalid form fields show their red border again (base border-color rule hid it)
  */
 
 /* =====================================================
@@ -915,6 +916,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: var(--grv-purple) !important;
     box-shadow: 0 0 0 3px var(--grv-accent-subtle) !important;
+}
+
+/* Invalid fields: keep the red border ExtJS sets (the border-color rule above would hide it) */
+.x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
+    border-color: var(--grv-red) !important;
 }
 
 .x-form-item-label-default,
