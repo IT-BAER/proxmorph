@@ -5,6 +5,7 @@
  * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  *         Invalid form fields show their red border again (base border-color rule hid it)
+ *         Unchecked checkbox/radio border uses the dim text color (the panel border color was almost invisible)
  */
 
 /* =====================================================
@@ -1058,7 +1059,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-radio, .x-form-radio-default {
     background-image: none !important;
     background-color: var(--tn-surface0) !important;
-    border: 1.5px solid var(--tn-overlay0) !important;
+    border: 1.5px solid var(--tn-overlay1) !important;
     width: 16px !important;
     height: 16px !important;
     display: inline-block !important;

@@ -6,6 +6,7 @@
  *         On-accent text and checkbox tick #282828 (was #fbf1c7, 2.2:1 on the #d79921 accent)
  *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  *         Invalid form fields show their red border again (base border-color rule hid it)
+ *         Unchecked checkbox/radio border uses the dim text color (the panel border color was almost invisible)
  */
 
 /* =====================================================
@@ -956,7 +957,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-radio, .x-form-radio-default {
     background-image: none !important;
     background-color: var(--grv-surface0) !important;
-    border: 1.5px solid var(--grv-overlay0) !important;
+    border: 1.5px solid var(--grv-overlay1) !important;
     width: 16px !important;
     height: 16px !important;
     display: inline-block !important;
