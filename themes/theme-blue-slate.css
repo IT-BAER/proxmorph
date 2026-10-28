@@ -2,8 +2,9 @@
 /*
  * ProxMorph Theme: Blue Slate
  * A clean, minimal dark theme with blue accent - Tailwind Slate palette
- * Version: 2.0.0
+ * Version: 2.0.1
  *
+ * v2.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  * v2.0.0: Complete overhaul - ported all Tier 2 fixes from Dracula reference
  *         - Global border-radius architecture (reset/re-apply)
  *         - FontAwesome tool icons, button 28px height, icon alignment
@@ -1916,9 +1917,13 @@ a.x-monthpicker-item-inner:hover, div.x-datepicker-date:hover {
     background: var(--pm-bg-base);
 }
 
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--pm-border) var(--pm-bg-base);
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force
+   native scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--pm-border) var(--pm-bg-base);
+    }
 }
 
 /* ===== SELECTION HIGHLIGHT ===== */

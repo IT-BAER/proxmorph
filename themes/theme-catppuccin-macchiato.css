@@ -2,9 +2,10 @@
 /*
  * ProxMorph Theme: Catppuccin Macchiato
  * Soothing pastel theme for Proxmox VE — the medium-contrast dark flavor of Catppuccin
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ProxMorph / Catppuccin Community Palette
  *
+ * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  * v1.0.0: Initial release - Tier 2 production (generated from Mocha v1.3.0)
  *         Catppuccin Mocha palette, border-radius architecture (ported from UniFi),
  *         custom checkboxes/radios, full grid styling, progress bar states,
@@ -2144,10 +2145,13 @@ div.x-datepicker-date:hover {
     background: var(--ctp-base);
 }
 
-/* Firefox scrollbar */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--ctp-surface2) var(--ctp-base);
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force
+   native scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--ctp-surface2) var(--ctp-base);
+    }
 }
 
 /* =====================================================

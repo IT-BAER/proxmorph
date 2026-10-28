@@ -2,9 +2,10 @@
 /*
  * ProxMorph Theme: Dracula Cyan
  * The canonical dark theme with Cyan accent — ported from the Dracula specification
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ProxMorph / Dracula Theme (https://draculatheme.com)
  *
+ * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  * v1.0.0: Initial release — Tier 2 baseline with all fixes
  *         - Full Dracula palette with derived shades
  *         - All component sections ported from UniFi/Catppuccin reference
@@ -2140,10 +2141,13 @@ div.x-datepicker-date:hover {
     background: var(--drac-base);
 }
 
-/* Firefox scrollbar */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--drac-surface2) var(--drac-base);
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force
+   native scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--drac-surface2) var(--drac-base);
+    }
 }
 
 /* =====================================================

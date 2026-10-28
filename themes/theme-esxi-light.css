@@ -1,8 +1,10 @@
 /*!ESXi Light*/
-/* ProxMorph ESXi Light 1.1.4
+/* ProxMorph ESXi Light 1.1.5
  * An independent ESXi/Clarity-inspired skin for the native Proxmox VE UI.
  * Layout, visibility, status glyphs and console palettes remain application-owned.
  * Clarity City fonts are embedded locally. No remote assets or layout-position overrides.
+ *
+ * v1.1.5: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  */
 :root {
     color-scheme: light;
@@ -346,8 +348,9 @@ body:has(#pveloginrealm) { background: var(--pm-bg-surface); }
 .x-splitter:hover { background: #bed7e5; }
 .x-splitter-active, .x-resizable-handle-over { background-color: #78acc5; }
 .x-panel-header-default-collapsed { background: var(--pm-bg-surface); }
-/* Inherit from html so the ExtJS scrollbar probe and every real scroller get the same width; Chrome ignores ::-webkit-scrollbar wherever scrollbar-color applies. */
-html { scrollbar-color: #a8bac6 #f3f6f8; scrollbar-width: auto; }
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force native
+   scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) { html { scrollbar-color: #a8bac6 #f3f6f8; } }
 ::-webkit-scrollbar { width: 12px; height: 12px; }
 ::-webkit-scrollbar-track { background: #f3f6f8; }
 ::-webkit-scrollbar-thumb { background: #a8bac6; border: 3px solid #f3f6f8; border-radius: 8px; }

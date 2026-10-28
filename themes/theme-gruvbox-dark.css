@@ -1,4 +1,9 @@
 /*!Gruvbox Dark*/
+/*
+ * Version: 1.0.1
+ *
+ * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ */
 
 /* =====================================================
    CSS VARIABLES
@@ -2103,10 +2108,13 @@ div.x-datepicker-date:hover {
     background: var(--grv-base);
 }
 
-/* Firefox scrollbar */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--grv-surface2) var(--grv-base);
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force
+   native scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--grv-surface2) var(--grv-base);
+    }
 }
 
 /* =====================================================
