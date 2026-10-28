@@ -9,7 +9,7 @@ Custom themes for Proxmox VE (PVE), Proxmox Backup Server (PBS), and Proxmox Dat
 - **Hybrid Engine** - CSS for styling + JavaScript for dynamic chart patching
 - **Server-Side Default Theme** - Pick a default for browsers that have not chosen one yet; a user's own selection always wins
 - **Automatic Light/Dark** - Opt-in "(Auto)" entries per collection that follow the system color scheme live (PVE, PBS)
-- **Custom UI Font** - Any font family on top of any theme, from an installed system font or an embedded WOFF2/TTF, with the icon fonts left untouched (PVE, PBS)
+- **Custom UI Font** - Any font family on top of any theme, from an installed system font or an embedded WOFF2/WOFF/TTF/OTF file, with the icon fonts left untouched (PVE, PBS, PDM)
 - **Hardware Sensor Monitoring** - Optional CPU/storage temps, fan speeds, and UPS status on node Summary dashboard (PVE)
 - **Easy Installation** - Single command installation for PVE, PBS, and PDM
 
@@ -68,7 +68,7 @@ Comparison between default Proxmox Dark theme and UniFi theme:
 | UniFi | Dark, Light, OLED |
 | GitHub Dark | Single theme |
 | Blue Slate | Single theme |
-| ESXi Light (by [@rufftruffles](https://github.com/rufftruffles)) | Single theme (PVE and PBS with bundled Clarity City fonts; PDM palette only, untested) |
+| ESXi Light (by [@rufftruffles](https://github.com/rufftruffles)) | Single theme (PVE and PBS with bundled Clarity City fonts; PDM palette only) |
 
 </details>
 
@@ -160,7 +160,7 @@ Replace the UI text font for every theme without touching the icon fonts:
 ./install.sh font none
 ```
 
-A font file (`.woff2`, `.woff`, `.ttf` or `.otf`; a local path, or an https URL fetched once on the host; up to 4 MB) is embedded into a generated stylesheet, so browsers never load anything from the internet. With only a family name, the font has to be installed on the viewing machine. The stylesheet targets the ExtJS text selectors only, never `.fa`, `.x-fa` or the tree expanders, so FontAwesome and the status glyphs keep working, and it is linked after the active theme, so it also applies on top of ESXi Light's bundled Clarity City. The setting lives in `/etc/proxmorph/font` and survives ProxMorph and Proxmox updates. Not available on PDM.
+A font file (`.woff2`, `.woff`, `.ttf` or `.otf`; a local path, or an https URL fetched once on the host; up to 4 MB) is embedded into a generated stylesheet, so browsers never load anything from the internet. With only a family name, the font has to be installed on the viewing machine. The stylesheet targets the ExtJS text selectors only, never `.fa`, `.x-fa` or the tree expanders, so FontAwesome and the status glyphs keep working, and it is linked after the active theme, so it also applies on top of ESXi Light's bundled Clarity City. The setting lives in `/etc/proxmorph/font` and survives ProxMorph and Proxmox updates. On PDM, which sets its font rule by rule, the selectors are read from the installed PDM stylesheets each time the font is applied and again after every PDM update, so the font also follows changes in new PDM releases.
 
 ## 💻 Commands
 
@@ -176,7 +176,7 @@ A font file (`.woff2`, `.woff`, `.ttf` or `.otf`; a local path, or an https URL 
 | `./install.sh sensors [enable\|disable\|detect\|configure\|status]` | Manage hardware sensor display (PVE only; default `status`) |
 | `./install.sh default-theme <key\|none>` | Set a server-side default theme for new browsers (user choice always wins) |
 | `./install.sh auto-theme [enable\|disable\|status]` | Add or remove "(Auto)" dropdown entries that follow the system light/dark setting (PVE, PBS; default `status`) |
-| `./install.sh font [<family> [file\|url] \| none]` | Set or clear a custom UI text font, icon-safe (PVE, PBS; no argument shows the current setting) |
+| `./install.sh font [<family> [file\|url] \| none]` | Set or clear a custom UI text font, icon-safe (no argument shows the current setting) |
 | `./install.sh` | Shows Menu to manage|
 
 ## 🔍 What the installer changes on your system
