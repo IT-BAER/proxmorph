@@ -5,6 +5,7 @@
  * Version: 2.0.1
  *
  * v2.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  * v2.0.0: Complete overhaul - ported all Tier 2 fixes from Dracula reference
  *         - Global border-radius architecture (reset/re-apply)
  *         - FontAwesome tool icons, button 28px height, icon alignment
@@ -211,6 +212,12 @@ canvas.x-surface-canvas, .x-surface-canvas, .x-draw-component canvas,
 .x-mask {
     background-color: rgba(15, 23, 42, 0.6) !important;
     backdrop-filter: blur(4px);
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no dark mask overlay) */
+.x-item-disabled.x-masked-relative>.x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
 }
 
 .x-mask-msg {

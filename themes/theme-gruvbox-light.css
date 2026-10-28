@@ -4,6 +4,7 @@
  *
  * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
  *         On-accent text and checkbox tick #282828 (was #fbf1c7, 2.2:1 on the #d79921 accent)
+ *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  */
 
 /* =====================================================
@@ -317,6 +318,12 @@ div.x-border-layout-ct {
 .x-mask {
     background-color: rgba(30, 31, 41, 0.6) !important;
     backdrop-filter: blur(4px);
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no dark mask overlay) */
+.x-item-disabled.x-masked-relative>.x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
 }
 
 .x-mask-msg {

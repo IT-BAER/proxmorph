@@ -6,6 +6,7 @@
  * Author: ProxMorph / Catppuccin Community Palette
  *
  * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  * v1.0.0: Initial release - Tier 2 production (generated from Mocha v1.3.0)
  *         Catppuccin Mocha palette, border-radius architecture (ported from UniFi),
  *         custom checkboxes/radios, full grid styling, progress bar states,
@@ -354,6 +355,12 @@ div.x-border-layout-ct {
 .x-mask {
     background-color: rgba(35, 38, 52, 0.6) !important;
     backdrop-filter: blur(4px);
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no dark mask overlay) */
+.x-item-disabled.x-masked-relative>.x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
 }
 
 .x-mask-msg {

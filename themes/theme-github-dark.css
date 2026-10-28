@@ -5,6 +5,7 @@
  * Version: 2.2.24
  *
  * v2.2.24: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  * v2.2.23: Redesign tab indicator — position ::after at bottom:0 (inside tab box)
  *         instead of bottom:-2px (outside, clipped by ExtJS containers). Remove
  *         margin-bottom:-2px hack that caused layout shifts on click. Add overflow:
@@ -361,6 +362,12 @@ canvas.x-surface,
    ===================================================== */
 .x-mask {
     background-color: rgba(1, 4, 9, 0.5) !important;
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no dark mask overlay) */
+.x-item-disabled.x-masked-relative>.x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
 }
 
 .x-tool .x-mask {
