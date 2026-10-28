@@ -7,6 +7,7 @@
  *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
  *         Invalid form fields show their red border again (base border-color rule hid it)
  *         Unchecked checkbox/radio border uses the dim text color (the panel border color was almost invisible)
+ *         Links and info text use Gruvbox faded blue #076678 (yellow accent was 2.2:1 on cream)
  */
 
 /* =====================================================
@@ -58,7 +59,7 @@
     --grv-accent-muted: rgba(128, 128, 128, 0.4);
     --grv-accent-subtle: rgba(128, 128, 128, 0.15);
 
-    --grv-cyan: var(--pm-accent);
+    --grv-cyan: #076678; /* faded blue: links/info text on cream (the yellow accent is 2.2:1) */
     --grv-green: var(--pm-success);
     --grv-orange: var(--pm-warning);
     --grv-pink: var(--pm-accent);
