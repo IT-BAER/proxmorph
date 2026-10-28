@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Automatic light/dark.** `./install.sh auto-theme enable` adds "(Auto)" entries for UniFi, UniFi OLED, Nord, Gruvbox, Solarized and Catppuccin. Each entry follows the system color scheme live, without a reload, and the UniFi chart colors follow it too. `disable` removes the entries. PVE and PBS ([#53](https://github.com/IT-BAER/proxmorph/issues/53)).
 - **Custom UI font.** `./install.sh font <family> [file|url]` sets the text font for every theme. A WOFF2, WOFF, TTF or OTF file (local path or https URL, up to 4 MB) is embedded into the generated stylesheet, so browsers load nothing from the internet; with a family name only, the font must be installed on the viewing machine. Only the text selectors are targeted, so FontAwesome and the status icons keep working. On PDM the selectors are read from the installed PDM stylesheets and refreshed after PDM updates. `./install.sh font none` removes it. PVE, PBS and PDM ([#58](https://github.com/IT-BAER/proxmorph/issues/58)).
 
+### Fixed
+
+- **PDM: apt hook copied the theme selector script to `/`.** The generated `post-update.sh` used `PDM_JS_PATCHES_DIR` without defining it, so after a PDM update it put `pdm-theme-selector.js` into the root directory instead of the PDM patches directory.
+
 ### Changed
 
 - **PDM theme selector shows the theme's display name** from its `/*!Name*/` header, for example "PM: ESXi Light" instead of a name built from the file name.

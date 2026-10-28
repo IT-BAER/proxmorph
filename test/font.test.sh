@@ -227,7 +227,14 @@ sed -i "s|^LOG_FILE=.*|LOG_FILE=\"${work}/hook.log\"|" "$POST_INVOKE_SCRIPT"
 sed -i '/<!-- ProxMorph PDM Theme -->/,/<!-- \/ProxMorph PDM Theme -->/d' "$INDEX_TEMPLATE"
 rm -f "$pdm_live"
 printf '.pwt-new-in-update{font-family:"Roboto Flex"}\n' >> "${PDM_MANAGER_DIR}/crisp-yew-style.css"
+mkdir -p "${INSTALL_DIR}/themes/patches"
+printf '/* selector */\n' > "${INSTALL_DIR}/themes/patches/pdm-theme-selector.js"
+rm -rf "$PDM_JS_PATCHES_DIR"
+check "PDM: hook knows the PDM JS patches dir" "yes" \
+      "$(grep -q "^PDM_JS_PATCHES_DIR=\"${PDM_JS_PATCHES_DIR}\"" "$POST_INVOKE_SCRIPT" && echo yes || echo no)"
 bash "$POST_INVOKE_SCRIPT" >/dev/null 2>&1
+check "PDM hook: selector patch restored to its dir" "yes" \
+      "$([[ -f "${PDM_JS_PATCHES_DIR}/pdm-theme-selector.js" ]] && echo yes || echo no)"
 check "PDM hook: theme block back" "1" "$(grep -c '<!-- ProxMorph PDM Theme -->' "$INDEX_TEMPLATE")"
 check "PDM hook: font link back" "1" "$(grep -c '<!-- ProxMorph Font -->' "$INDEX_TEMPLATE")"
 check "PDM hook: live stylesheet back" "yes" "$(cmp -s "$FONT_CSS" "$pdm_live" && echo yes || echo no)"
