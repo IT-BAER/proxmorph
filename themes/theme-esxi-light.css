@@ -5,6 +5,7 @@
  * Clarity City fonts are embedded locally. No remote assets or layout-position overrides.
  *
  * v1.1.5: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ *         Keyboard-focused tabs keep their colors (stock focus blue made the active tab label 2.1:1)
  */
 :root {
     color-scheme: light;
@@ -196,6 +197,9 @@ a:hover { color: var(--pm-accent-hover); }
 .x-tab-over.x-tab-default { background: #eef5f8; }
 .x-tab.x-tab-active.x-tab-default { background: var(--pm-bg-base); border-color: transparent; box-shadow: inset 0 -3px var(--pm-accent); }
 .x-tab.x-tab-active.x-tab-default .x-tab-inner-default, .x-tab.x-tab-active.x-tab-default .x-tab-icon-el-default { color: var(--pm-accent); font-weight: 600; }
+/* Keyboard focus keeps the tab colors (the focus outline marks it); stock Crisp paints #3892d4 under the accent text. */
+.x-keyboard-mode .x-tab.x-tab-default.x-tab-focus { background: transparent; }
+.x-keyboard-mode .x-tab.x-tab-active.x-tab-default.x-tab-focus { background: var(--pm-bg-base); }
 .x-tab-disabled .x-tab-inner-default { color: var(--pm-text-disabled); }
 .x-tab-default-left.x-tab-active { box-shadow: inset 3px 0 var(--pm-accent); }
 .x-tab-default-right.x-tab-active { box-shadow: inset -3px 0 var(--pm-accent); }
@@ -390,6 +394,7 @@ a:focus-visible, button:focus-visible {
 .x-window .x-toolbar-footer .x-btn-inner { letter-spacing: .65px; font-size: 11px; text-transform: uppercase; }
 .x-window .x-tab.x-tab-active.x-tab-default { background: var(--pm-accent); box-shadow: none; border-color: var(--pm-accent); border-radius: 3px 3px 0 0; }
 .x-window .x-tab.x-tab-active.x-tab-default .x-tab-inner-default { color: #ffffff; }
+.x-keyboard-mode .x-window .x-tab.x-tab-active.x-tab-default.x-tab-focus { background: var(--pm-accent); }
 .x-window .x-tab-inner-default { letter-spacing: .35px; }
 .x-tree-panel .x-grid-item-selected .x-tree-icon { color: #f4f8fb; }
 .x-grid-header-ct, .x-column-header { background-image: none; }
