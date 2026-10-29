@@ -3,7 +3,7 @@
  * ProxMorph PDM Theme: UniFi OLED
  * Generated from theme-unifi.css by tools/gen-oled.sh. Do not edit by hand; re-run the generator to re-sync.
  * Overrides the PWT Material Design tonal color system with UniFi palette
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ProxMorph / Ubiquiti Design System
  *
  * ─── UniFi Palette ─────────────────────────────────────────────
@@ -190,4 +190,9 @@
 
 body {
     background-color: rgb(0, 0, 0) !important;
+}
+
+/* ===== Sorted column header — stock 0.7 opacity on the primary color is too faint on this palette ===== */
+.pwt-datatable-header-item.sorted .pwt-datatable-header-content {
+    opacity: 1 !important;
 }

@@ -2,9 +2,12 @@
 /*
  * ProxMorph Theme: Catppuccin Mocha
  * Soothing pastel theme for Proxmox VE — the original dark flavor of Catppuccin
- * Version: 1.3.0
+ * Version: 1.3.1
  * Author: ProxMorph / Catppuccin Community Palette
  *
+ * v1.3.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
+ *         Invalid form fields show their red border again (base border-color rule hid it)
  * v1.3.0: Tier 2 baseline fixes — ported from UniFi reference
  *         - Console/Terminal: monitor border, install mask styling
  *         - Charts: RRD panel backgrounds, canvas transparency, chart text fills
@@ -381,6 +384,12 @@ div.x-border-layout-ct {
 .x-mask {
     background-color: rgba(17, 17, 27, 0.6) !important;
     backdrop-filter: blur(4px);
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no dark mask overlay) */
+.x-item-disabled.x-masked-relative>.x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
 }
 
 .x-mask-msg {
@@ -1075,6 +1084,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: var(--ctp-mauve) !important;
     box-shadow: 0 0 0 3px var(--ctp-accent-subtle) !important;
+}
+
+/* Invalid fields: keep the red border ExtJS sets (the border-color rule above would hide it) */
+.x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
+    border-color: var(--ctp-red) !important;
 }
 
 .x-form-item-label-default,
@@ -2172,10 +2186,13 @@ div.x-datepicker-date:hover {
     background: var(--ctp-base);
 }
 
-/* Firefox scrollbar */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--ctp-surface2) var(--ctp-base);
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force
+   native scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--ctp-surface2) var(--ctp-base);
+    }
 }
 
 /* =====================================================

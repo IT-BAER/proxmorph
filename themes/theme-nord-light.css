@@ -1,4 +1,13 @@
 /*!Nord Light*/
+/*
+ * Version: 1.0.1
+ *
+ * v1.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
+ *         Invalid form fields show their red border again (base border-color rule hid it)
+ *         Unchecked checkbox/radio border uses the dim text color (the panel border color was almost invisible)
+ *         Primary button hover/pressed use this palette's accent shades (Dracula purple leftovers)
+ */
 
 /* =====================================================
    CSS VARIABLES
@@ -311,6 +320,12 @@ div.x-border-layout-ct {
 .x-mask {
     background-color: rgba(30, 31, 41, 0.6) !important;
     backdrop-filter: blur(4px);
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no dark mask overlay) */
+.x-item-disabled.x-masked-relative>.x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
 }
 
 .x-mask-msg {
@@ -725,7 +740,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-btn-default-small.x-btn-over,
 .x-keyboard-mode .x-btn-default-small.x-btn-focus {
-    background-color: #caa9fa !important;
+    background-color: #506e92 !important;
     box-shadow: 0 0 0 3px var(--nord-accent-subtle) !important;
 }
 
@@ -735,7 +750,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 }
 
 .x-btn-default-small.x-btn.x-btn-pressed {
-    background-color: #a986f0 !important;
+    background-color: #445d7c !important;
 }
 
 /* Button height consistency — 28px with vertical centering */
@@ -904,6 +919,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
     box-shadow: 0 0 0 3px var(--nord-accent-subtle) !important;
 }
 
+/* Invalid fields: keep the red border ExtJS sets (the border-color rule above would hide it) */
+.x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
+    border-color: var(--nord-red) !important;
+}
+
 .x-form-item-label-default,
 .x-form-cb-label-default {
     color: var(--nord-text) !important;
@@ -937,7 +957,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-radio, .x-form-radio-default {
     background-image: none !important;
     background-color: var(--nord-surface0) !important;
-    border: 1.5px solid var(--nord-overlay0) !important;
+    border: 1.5px solid var(--nord-overlay1) !important;
     width: 16px !important;
     height: 16px !important;
     display: inline-block !important;
@@ -1913,7 +1933,7 @@ span.proxmox-tag-light {
 }
 
 .x-btn.x-btn-default-small:has(.fa-check):not(.x-btn-disabled):hover {
-    background-color: #caa9fa !important;
+    background-color: #506e92 !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check) .x-btn-inner {
@@ -2000,10 +2020,13 @@ div.x-datepicker-date:hover {
     background: var(--nord-base);
 }
 
-/* Firefox scrollbar */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--nord-surface2) var(--nord-base);
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force
+   native scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--nord-surface2) var(--nord-base);
+    }
 }
 
 /* =====================================================

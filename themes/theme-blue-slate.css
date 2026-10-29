@@ -2,8 +2,12 @@
 /*
  * ProxMorph Theme: Blue Slate
  * A clean, minimal dark theme with blue accent - Tailwind Slate palette
- * Version: 2.0.0
+ * Version: 2.0.1
  *
+ * v2.0.1: Standard scrollbar props only in Firefox; in Chrome they made ExtJS wrap two-column Summary/dashboard layouts to one column at non-100% display scaling
+ *         Disabled toolbar labels (System Log Since/Until) no longer hidden under the dark blur mask
+ *         Invalid form fields show their red border again (base border-color rule hid it)
+ *         Primary button hover uses the dark accent (white on the light accent was 2.5:1)
  * v2.0.0: Complete overhaul - ported all Tier 2 fixes from Dracula reference
  *         - Global border-radius architecture (reset/re-apply)
  *         - FontAwesome tool icons, button 28px height, icon alignment
@@ -210,6 +214,12 @@ canvas.x-surface-canvas, .x-surface-canvas, .x-draw-component canvas,
 .x-mask {
     background-color: rgba(15, 23, 42, 0.6) !important;
     backdrop-filter: blur(4px);
+}
+
+/* Disabled field-groups: keep the native "reduced opacity" look (no dark mask overlay) */
+.x-item-disabled.x-masked-relative>.x-mask {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
 }
 
 .x-mask-msg {
@@ -644,7 +654,7 @@ div[id^="pveResourceTree"] .x-grid-cell {
 
 .x-btn-default-small.x-btn-over,
 .x-keyboard-mode .x-btn-default-small.x-btn-focus {
-    background-color: var(--pm-accent-light) !important;
+    background-color: var(--pm-accent-dark) !important;
     box-shadow: 0 0 0 3px var(--pm-accent-subtle) !important;
 }
 
@@ -804,6 +814,11 @@ div[id^="pveResourceTree"] .x-grid-cell {
 .x-form-trigger-wrap-default.x-form-trigger-wrap-focus {
     border-color: var(--pm-accent) !important;
     box-shadow: 0 0 0 3px var(--pm-accent-subtle) !important;
+}
+
+/* Invalid fields: keep the red border ExtJS sets (the border-color rule above would hide it) */
+.x-form-trigger-wrap-default.x-form-trigger-wrap-invalid {
+    border-color: var(--pm-error) !important;
 }
 
 .x-form-item-label-default, .x-form-cb-label-default {
@@ -1712,7 +1727,7 @@ span.proxmox-tag-dark, span.proxmox-tag-light {
 }
 
 .x-btn.x-btn-default-small:has(.fa-check):not(.x-btn-disabled):hover {
-    background-color: var(--pm-accent-light) !important;
+    background-color: var(--pm-accent-dark) !important;
 }
 
 .x-btn.x-btn-default-small:has(.fa-check) .x-btn-inner {
@@ -1916,9 +1931,13 @@ a.x-monthpicker-item-inner:hover, div.x-datepicker-date:hover {
     background: var(--pm-bg-base);
 }
 
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--pm-border) var(--pm-bg-base);
+/* Standard scrollbar props only where ::-webkit-scrollbar is unsupported (Firefox): in Chrome they force
+   native scrollbars with a fractional width that ExtJS under-reserves, wrapping column layouts. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--pm-border) var(--pm-bg-base);
+    }
 }
 
 /* ===== SELECTION HIGHLIGHT ===== */

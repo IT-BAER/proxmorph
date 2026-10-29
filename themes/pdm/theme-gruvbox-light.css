@@ -2,7 +2,7 @@
 /*
  * ProxMorph PDM Theme: Gruvbox Light
  * Overrides the PWT Material Design tonal color system with Gruvbox Light palette
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ProxMorph / Gruvbox (https://github.com/morhetz/gruvbox)
  *
  * ─── Gruvbox Light Palette ────────────────────────────────────
@@ -191,4 +191,9 @@ body {
 /* ===== Logo — swap to dark variant for light background ===== */
 img[src*="proxmox_logo_white"] {
     content: url("/images/proxmox_logo.svg") !important;
+}
+
+/* ===== Sorted column header — stock 0.7 opacity on the primary color is too faint on this palette ===== */
+.pwt-datatable-header-item.sorted .pwt-datatable-header-content {
+    opacity: 1 !important;
 }

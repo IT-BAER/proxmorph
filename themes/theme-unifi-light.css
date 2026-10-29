@@ -2,7 +2,7 @@
 /*
  * ProxMorph Theme: UniFi Light
  * Light variant of the UniFi Network Application theme
- * Version: 5.94
+ * Version: 5.95
  * Author: OiCkilL / N.E.S.T. / Dr. Dranglog
  * 
  * UniFi Color Palette (extracted from live instance):
@@ -1430,7 +1430,7 @@ div[id^="pveLogView-"] .x-grid-cell-inner,
 
 .x-grid-empty {
     background-color: #FFFFFF;
-    color: #A0A3AB;
+    color: #585C66;
 }
 
 /* =====================================================
@@ -2774,11 +2774,11 @@ svg text {
     color: rgba(0, 0, 0, 0.75) !important;
 }
 
-/* Selected items should be white */
+/* Selected rows sit on a light blue tint: keep their text dark */
 .x-grid-item-selected .x-grid-cell-inner,
 .x-treelist-item-selected .x-treelist-item-text,
 .x-tree-selected .x-tree-node-text {
-    color: #ffffff !important;
+    color: #111217 !important;
 }
 
 /* =====================================================
@@ -3299,10 +3299,10 @@ html {
     color: var(--pm-error) !important;
 }
 
-/* Selected item text should be white */
+/* Selected resource-tree rows sit on a light tint: keep their text dark */
 .x-grid-item-selected .x-tree-node-text,
 .x-grid-item-focused .x-tree-node-text {
-    color: #FFFFFF !important;
+    color: #1A1C21 !important;
 }
 
 /* Selected item icons should be blue */
