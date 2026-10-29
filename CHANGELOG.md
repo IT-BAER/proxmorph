@@ -5,7 +5,9 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.9.0] - 2026-10-29
+
+**Upgrading from 2.8.2 or older:** `./install.sh update` runs the old installer, which labels the install with its own version, so `status` still shows the old version although the 2.9.0 themes are in place. Run `./install.sh update` a second time, or update with the one-liner from the README.
 
 ### Added
 
@@ -16,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **PDM: apt hook copied the theme selector script to `/`.** The generated `post-update.sh` used `PDM_JS_PATCHES_DIR` without defining it, so after a PDM update it put `pdm-theme-selector.js` into the root directory instead of the PDM patches directory.
+- **`update` could leave the host without the apt hook script.** The installer emptied `/opt/proxmorph` before extracting the new release. When extraction failed, for example in an unprivileged container that cannot apply the archive's file owners, `post-update.sh` was gone and the next Proxmox update did not re-apply the themes. The release is now extracted first, without restoring file owners, and the installed version stays in place if that fails.
+- **Theme visual audit.** ExtJS two-column layouts no longer wrap at scaling other than 100 %. Disabled toolbar labels stay readable, invalid form fields show their red border again, and unchecked checkboxes are visible in Gruvbox, Nord and Tokyo Night. Primary buttons use palette hover colors in seven themes, including a readable Blue Slate hover. UniFi Light shows dark text on selected grid and tree rows and readable empty-grid text. Gruvbox Light uses dark text on accents and readable link and info text. ESXi Light keeps its tab colors under keyboard focus. On PDM, the sorted column header is readable in Gruvbox Light, ESXi Light and UniFi, the "ProxMorph Themes" heading in the Theme dialog is readable, and Catppuccin Frappe and Macchiato have their semantic color block back.
+- **Sensor hints named a command that does not exist.** Three messages pointed to `install.sh manage-sensors`; they now name `install.sh sensors enable` and `install.sh sensors configure`.
 
 ### Changed
 
