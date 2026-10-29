@@ -201,10 +201,17 @@ download_release() {
     fi
     print_status "Checksum verified"
 
-    # Extract to install directory
+    # Extract beside the download first: the cache holds post-update.sh for the apt
+    # hook, so a failed extract must leave it intact. Unprivileged CTs cannot chown.
+    mkdir -p "${tmp_dir}/x"
+    if ! tar -xzf "${tmp_dir}/${archive}" --no-same-owner -C "${tmp_dir}/x"; then
+        print_error "Could not extract ${archive}, keeping the installed version"
+        rm -rf "$tmp_dir"
+        exit 1
+    fi
     mkdir -p "$INSTALL_DIR"
     rm -rf "${INSTALL_DIR:?}"/*
-    tar -xzf "${tmp_dir}/${archive}" -C "$INSTALL_DIR"
+    cp -a "${tmp_dir}/x/." "$INSTALL_DIR/"
     rm -rf "$tmp_dir"
 
     # Save version info
@@ -1715,7 +1722,7 @@ patch_cluster_sensors() {
     read -p "Deploy sensor patch to remote nodes? [Y/n]: " deploy_choice
     case "$deploy_choice" in
         [Nn]|[Nn][Oo])
-            print_info "Skipping remote nodes. Run 'install.sh manage-sensors enable' on each node individually."
+            print_info "Skipping remote nodes. Run 'install.sh sensors enable' on each node individually."
             return 0
             ;;
     esac
@@ -1793,7 +1800,7 @@ install_sensors() {
                     configure_sensor_filter
                     ;;
                 *)
-                    print_info "Showing all sensors (can be configured later with: install.sh manage-sensors)"
+                    print_info "Showing all sensors (can be configured later with: install.sh sensors configure)"
                     ;;
             esac
             patch_cluster_sensors
@@ -1860,7 +1867,7 @@ manage_sensors() {
                 exit 1
             fi
             if ! check_sensors; then
-                print_error "Sensors are not enabled. Enable them first with: install.sh manage-sensors enable"
+                print_error "Sensors are not enabled. Enable them first with: install.sh sensors enable"
                 exit 1
             fi
             configure_sensor_filter
