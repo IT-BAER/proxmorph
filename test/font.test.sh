@@ -37,6 +37,7 @@ THEMES_DIR="${WIDGET_TOOLKIT_DIR}/themes"
 PROXMOXLIB_JS="${WIDGET_TOOLKIT_DIR}/proxmoxlib.js"
 INSTALL_DIR="${work}/opt"
 POST_INVOKE_SCRIPT="${INSTALL_DIR}/post-update.sh"
+APT_HOOK_FILE="${work}/99proxmorph"   # install_apt_hook writes it; never the real /etc/apt
 INDEX_TEMPLATE="${work}/live/index.html.tpl"
 FONT_FILE="${work}/etc/font"
 FONT_CSS="${work}/etc/font.css"
@@ -221,6 +222,8 @@ printf '#!/bin/bash\n# stale hook from an older installer\n' > "$POST_INVOKE_SCR
 manage_font "Inter" "$fixture" >/dev/null 2>&1
 check "setting a font refreshes an existing hook" "yes" \
       "$(grep -q 'FONT_MARKER=' "$POST_INVOKE_SCRIPT" && echo yes || echo no)"
+check "refreshed apt hook config stays in the sandbox" "yes" \
+      "$([[ "$APT_HOOK_FILE" == "${work}/"* && -f "$APT_HOOK_FILE" ]] && echo yes || echo no)"
 sed -i "s|^LOG_FILE=.*|LOG_FILE=\"${work}/hook.log\"|" "$POST_INVOKE_SCRIPT"
 remove_font_injection >/dev/null 2>&1
 rm -f "${THEMES_DIR}/proxmorph-font.css"
