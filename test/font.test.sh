@@ -40,6 +40,7 @@ POST_INVOKE_SCRIPT="${INSTALL_DIR}/post-update.sh"
 INDEX_TEMPLATE="${work}/live/index.html.tpl"
 FONT_FILE="${work}/etc/font"
 FONT_CSS="${work}/etc/font.css"
+FONT_LIB_DIR="${work}/etc/fonts"
 systemctl() { :; }   # install.sh restarts the proxy; nothing to restart here
 mkdir -p "$THEMES_DIR" "${INSTALL_DIR}/themes"
 printf 'Ext.define("x", {\n        theme_map: {\n\t"blue-slate": "Blue Slate",\n        },\n});\n' > "$PROXMOXLIB_JS"
@@ -105,8 +106,115 @@ check "system font: still one marker block" "1" "$(grep -c '<!-- ProxMorph Font 
 # --- 5. input validation (run in subshells: the CLI exits on error) -----------
 ( manage_font 'Bad"Name' >/dev/null 2>&1 ); check "family with quote is rejected" "1" "$?"
 ( manage_font 'Fine' "${work}/missing.woff2" >/dev/null 2>&1 ); check "missing font file is rejected" "1" "$?"
-( manage_font 'Fine' "${work}/proxmoxlib.js.txt" >/dev/null 2>&1 ); check "unknown extension is rejected" "1" "$?"
+printf 'plain text\n' > "${work}/notes.txt"
+( manage_font 'Fine' "${work}/notes.txt" >/dev/null 2>&1 ); check "text file is rejected" "1" "$?"
 check "rejected calls do not change the setting" "Segoe UI" "$(cat "$FONT_FILE")"
+
+# --- 5b. font file contents (issue #61): the bytes decide, not the name ---------
+css_before="$(md5sum < "$FONT_CSS")"
+printf '<!DOCTYPE html>\n<html><body>GitHub blob page</body></html>\n' > "${work}/Inter.woff2"
+( manage_font 'Inter' "${work}/Inter.woff2" >/dev/null 2>&1 ); check "HTML named .woff2 is rejected" "1" "$?"
+head -c 64 /dev/urandom | tr '\000wOT' 'xxxx' > "${work}/Noise.ttf"
+( manage_font 'Noise' "${work}/Noise.ttf" >/dev/null 2>&1 ); check "random bytes named .ttf are rejected" "1" "$?"
+check "rejected contents keep the setting" "Segoe UI" "$(cat "$FONT_FILE")"
+check "rejected contents keep the stylesheet" "$css_before" "$(md5sum < "$FONT_CSS")"
+# name, signature bytes, expected MIME and format() hint; every name lies about the type
+while IFS='|' read -r name sig mime fmt; do
+    printf "${sig}rest-of-font" > "${work}/${name}"
+    manage_font 'Sig' "${work}/${name}" >/dev/null 2>&1
+    check "signature of ${name} embeds as ${fmt}" "1" \
+          "$(grep -c "src: url(\"data:${mime};base64,[^\"]*\") format(\"${fmt}\")" "$FONT_CSS")"
+done << 'SIGS'
+woff2-bytes.ttf|wOF2|font/woff2|woff2
+woff-bytes.otf|wOFF|font/woff|woff
+truetype-bytes.woff2|\x00\x01\x00\x00|font/ttf|truetype
+apple-truetype-bytes.woff|true|font/ttf|truetype
+opentype-bytes.ttf|OTTO|font/otf|opentype
+SIGS
+printf 'wOF2no-extension' > "${work}/InterVariable"
+manage_font 'NoExt' "${work}/InterVariable" >/dev/null 2>&1
+check "font file without extension is accepted" "NoExt" "$(cat "$FONT_FILE")"
+# A GitHub blob URL answers 200 with an HTML page, so curl -f succeeds.
+curl() { printf '<!DOCTYPE html>\n<html>blob view</html>\n' > "${@: -1}"; }
+msg="$( ( manage_font 'Web' 'https://github.com/o/r/blob/main/Inter.woff2' ) 2>&1 )"; rc=$?
+unset -f curl
+check "HTML download is rejected" "1" "$rc"
+check "error names the web page" "yes" "$(grep -q 'web page (HTML)' <<<"$msg" && echo yes || echo no)"
+check "error points to the raw file link" "yes" "$(grep -q 'raw link' <<<"$msg" && echo yes || echo no)"
+check "HTML download keeps the setting" "NoExt" "$(cat "$FONT_FILE")"
+
+# --- 5c. font library (issue #62): embedded fonts are kept per family -------------
+face() { # family, base64, mime, format: the exact @font-face line the installer writes
+    printf '@font-face { font-family: "%s"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("data:%s;base64,%s") format("%s"); }' "$1" "$3" "$2" "$4"
+}
+manage_font "Inter" "$fixture" >/dev/null 2>&1
+check "embedded font is saved to the library" "1" \
+      "$(grep -cxF "$(face Inter "$fixture_b64" font/woff2 woff2)" "${FONT_LIB_DIR}/Inter.css" 2>/dev/null)"
+fixture2="${work}/Ubuntu-Regular.ttf"
+printf '\x00\x01\x00\x00ubuntu-bytes' > "$fixture2"
+fixture2_b64="$(base64 -w0 "$fixture2")"
+manage_font "Ubuntu" "$fixture2" >/dev/null 2>&1
+check "second font is active" "Ubuntu" "$(cat "$FONT_FILE")"
+manage_font "Inter" >/dev/null 2>&1
+check "family without source switches to the saved font" "Inter" "$(cat "$FONT_FILE")"
+check "switched font is embedded from the library" "1" \
+      "$(grep -cxF "$(face Inter "$fixture_b64" font/woff2 woff2)" "$FONT_CSS")"
+check "switched stylesheet has no other @font-face" "1" "$(grep -c '@font-face' "$FONT_CSS")"
+check "switched stylesheet is served" "yes" \
+      "$(cmp -s "$FONT_CSS" "${THEMES_DIR}/proxmorph-font.css" && echo yes || echo no)"
+check "both fonts stay saved" "2" "$(ls "$FONT_LIB_DIR" | grep -cE '^(Inter|Ubuntu)\.css$')"
+status_out="$(manage_font 2>&1)"
+check "status names the saved fonts" "1" "$(grep -c 'Saved fonts: .*Ubuntu' <<<"$status_out")"
+list_out="$(manage_font list 2>&1)"
+check "list marks the active font" "1" "$(grep -cx '  \* Inter (active)' <<<"$list_out")"
+check "list shows the other saved font" "1" "$(grep -cx '    Ubuntu' <<<"$list_out")"
+check "list does not change the setting" "Inter" "$(cat "$FONT_FILE")"
+# CSS family names are case-insensitive, so the library is too.
+manage_font "ubuntu" >/dev/null 2>&1
+check "other case switches to the saved font" "Ubuntu" "$(cat "$FONT_FILE")"
+check "other case embeds the saved font" "1" \
+      "$(grep -cxF "$(face Ubuntu "$fixture2_b64" font/ttf truetype)" "$FONT_CSS")"
+manage_font "INTER" "$fixture" >/dev/null 2>&1
+check "reinstall in other case keeps one saved copy" "1" "$(ls "$FONT_LIB_DIR" | grep -ci '^inter\.css$')"
+manage_font "Inter" "$fixture" >/dev/null 2>&1
+( manage_font remove UBUNTU >/dev/null 2>&1 ); check "remove of a saved font succeeds in any case" "0" "$?"
+check "remove deletes the saved copy" "no" "$([[ -f "${FONT_LIB_DIR}/Ubuntu.css" ]] && echo yes || echo no)"
+check "removing an inactive font keeps the active one" "Inter" "$(cat "$FONT_FILE")"
+( manage_font remove Ubuntu >/dev/null 2>&1 ); check "remove of an unknown font is rejected" "1" "$?"
+printf 'keep\n' > "${work}/etc/outside.css"
+( manage_font remove '../outside' >/dev/null 2>&1 ); check "remove rejects a path as family" "1" "$?"
+check "remove never touches files outside the library" "yes" "$([[ -f "${work}/etc/outside.css" ]] && echo yes || echo no)"
+manage_font none >/dev/null 2>&1
+check "none turns the font off" "no" "$([[ -f "$FONT_FILE" ]] && echo yes || echo no)"
+check "none keeps the library" "yes" "$([[ -f "${FONT_LIB_DIR}/Inter.css" ]] && echo yes || echo no)"
+manage_font "Inter" >/dev/null 2>&1
+check "saved font comes back after none" "1" "$(grep -c '@font-face { font-family: "Inter";' "$FONT_CSS")"
+( manage_font remove Inter >/dev/null 2>&1 )
+check "removing the active font turns the font off" "no" "$([[ -f "$FONT_FILE" ]] && echo yes || echo no)"
+check "removing the active font unlinks it" "0" "$(grep -c '<!-- ProxMorph Font -->' "$INDEX_TEMPLATE")"
+check "removing the active font deletes its copy" "no" "$([[ -f "${FONT_LIB_DIR}/Inter.css" ]] && echo yes || echo no)"
+manage_font "Inter" "$fixture" >/dev/null 2>&1
+saved_before="$(md5sum < "${FONT_LIB_DIR}/Inter.css")"
+( manage_font "Inter" "${work}/Inter.woff2" >/dev/null 2>&1 )   # the HTML page from 5b
+check "failed reinstall keeps the saved copy" "$saved_before" "$(md5sum < "${FONT_LIB_DIR}/Inter.css")"
+check "failed reinstall keeps the active font" "1" "$(grep -c '@font-face { font-family: "Inter";' "$FONT_CSS")"
+mkdir -p "${FONT_LIB_DIR}/Broken.css.tmp"   # a directory: writing the library entry fails
+( manage_font "Broken" "$fixture" >/dev/null 2>&1 ); check "failed library write is an error" "1" "$?"
+check "failed library write keeps the active font" "Inter" "$(cat "$FONT_FILE")"
+check "failed library write saves nothing" "no" "$([[ -f "${FONT_LIB_DIR}/Broken.css" ]] && echo yes || echo no)"
+rmdir "${FONT_LIB_DIR}/Broken.css.tmp"
+
+# A 2.9.0 install has an embedded font.css but no library yet.
+manage_font none >/dev/null 2>&1
+{ echo '/* old header */'; face Legacy "$fixture_b64" font/woff2 woff2; echo; font_rule Legacy; } > "$FONT_CSS"
+echo "Legacy" > "$FONT_FILE"
+manage_font >/dev/null 2>&1
+check "status does not migrate" "no" "$([[ -f "${FONT_LIB_DIR}/Legacy.css" ]] && echo yes || echo no)"
+list_out="$(manage_font list 2>&1)"
+check "next font command saves a 2.9.0 font" "1" \
+      "$(grep -cxF "$(face Legacy "$fixture_b64" font/woff2 woff2)" "${FONT_LIB_DIR}/Legacy.css" 2>/dev/null)"
+check "migrated font is listed as active" "1" "$(grep -cx '  \* Legacy (active)' <<<"$list_out")"
+manage_font none >/dev/null 2>&1
 
 # --- 6. apt hook restores the link and the live file after a template reset ----
 printf '#!/bin/bash\n# stale hook from an older installer\n' > "$POST_INVOKE_SCRIPT"
@@ -212,6 +320,13 @@ check "PDM: font link sits inside the PDM block" "yes" \
 
 manage_default_theme unifi >/dev/null 2>&1
 check "PDM: rebuilding the theme block keeps one font link" "1" "$(grep -c '<!-- ProxMorph Font -->' "$INDEX_TEMPLATE")"
+
+manage_font "Ubuntu" "$fixture2" >/dev/null 2>&1
+manage_font "Inter" >/dev/null 2>&1
+check "PDM: switch back embeds the saved font" "1" \
+      "$(grep -cxF "$(face Inter "$fixture_b64" font/woff2 woff2)" "$FONT_CSS")"
+check "PDM: switched font gets the PDM rule" "1" "$(grep -c 'font-family: "Inter", .* !important;' "$FONT_CSS")"
+check "PDM: switched stylesheet is served" "yes" "$(cmp -s "$FONT_CSS" "$pdm_live" && echo yes || echo no)"
 
 mv "${PDM_MANAGER_DIR}/desktop-yew-style.css" "${work}/desktop.bak"
 mv "${PDM_MANAGER_DIR}/crisp-yew-style.css" "${work}/crisp.bak"

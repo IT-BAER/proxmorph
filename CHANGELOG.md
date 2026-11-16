@@ -5,6 +5,18 @@ All notable changes to ProxMorph will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Font library.** Every embedded font is saved in `/etc/proxmorph/fonts/`. `./install.sh font <family>` switches back to a saved font without downloading it again, `./install.sh font list` shows the saved fonts and `./install.sh font remove <family>` deletes one. `font none` turns the custom font off and keeps the saved fonts; `uninstall` removes them. Names match regardless of case, like CSS font families. A font embedded with 2.9.0 is saved on the next `font` command. Idea by [@HyperNova7326](https://github.com/HyperNova7326) ([#62](https://github.com/IT-BAER/proxmorph/issues/62)).
+
+### Fixed
+
+- **UniFi themes: misaligned confirm dialogs.** In UniFi, UniFi Light and UniFi OLED the close button sat in the middle of the header and short messages wrapped onto a second line. The open animation no longer scales the window while ExtJS measures it, and message boxes keep their ExtJS size instead of the forced 295 px minimum. Root cause and fix by [@Prince11592](https://github.com/Prince11592) ([#60](https://github.com/IT-BAER/proxmorph/issues/60)).
+- **Custom font: web pages were embedded as fonts.** A URL that answers with an HTML page and HTTP 200, such as a GitHub `blob` link, was embedded and reported as success. The installer now checks the file signature, accepts only WOFF2, WOFF, TrueType and OpenType, and names an HTML page as such with a hint to use the raw link. The file type comes from the content, so the file name no longer needs a font extension. Idea by [@HyperNova7326](https://github.com/HyperNova7326) ([#61](https://github.com/IT-BAER/proxmorph/issues/61)).
+- **PDM: `uninstall` left the custom font in place.** It now removes the font setting and its link, as on PVE and PBS.
+
 ## [2.9.0] - 2026-10-29
 
 **Upgrading from 2.8.2 or older:** `./install.sh update` runs the old installer, which labels the install with its own version, so `status` still shows the old version although the 2.9.0 themes are in place. Run `./install.sh update` a second time, or update with the one-liner from the README.

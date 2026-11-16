@@ -157,10 +157,18 @@ Replace the UI text font for every theme without touching the icon fonts:
 ```
 
 ```bash
+./install.sh font list
+```
+
+```bash
+./install.sh font remove Inter
+```
+
+```bash
 ./install.sh font none
 ```
 
-A font file (`.woff2`, `.woff`, `.ttf` or `.otf`; a local path, or an https URL fetched once on the host; up to 4 MB) is embedded into a generated stylesheet, so browsers never load anything from the internet. With only a family name, the font has to be installed on the viewing machine. The stylesheet targets the ExtJS text selectors only, never `.fa`, `.x-fa` or the tree expanders, so FontAwesome and the status glyphs keep working, and it is linked after the active theme, so it also applies on top of ESXi Light's bundled Clarity City. The setting lives in `/etc/proxmorph/font` and survives ProxMorph and Proxmox updates. On PDM, which sets its font rule by rule, the selectors are read from the installed PDM stylesheets each time the font is applied and again after every PDM update, so the font also follows changes in new PDM releases.
+A font file (WOFF2, WOFF, TrueType or OpenType, checked by its content; a local path, or an https URL that points directly to the file, fetched once on the host; up to 4 MB) is embedded into a generated stylesheet, so browsers never load anything from the internet. A web page instead of a font, for example a GitHub `blob` link, is rejected; use the raw link. Every embedded font is saved in `/etc/proxmorph/fonts/`, so `./install.sh font Inter` switches back to a saved font without downloading it again, `font list` shows the saved fonts and `font remove` deletes one (names match regardless of case). `font none` turns the custom font off and keeps the saved fonts. With only a family name and no saved copy, the font has to be installed on the viewing machine. The stylesheet targets the ExtJS text selectors only, never `.fa`, `.x-fa` or the tree expanders, so FontAwesome and the status glyphs keep working, and it is linked after the active theme, so it also applies on top of ESXi Light's bundled Clarity City. The setting lives in `/etc/proxmorph/font` and survives ProxMorph and Proxmox updates. On PDM, which sets its font rule by rule, the selectors are read from the installed PDM stylesheets each time the font is applied and again after every PDM update, so the font also follows changes in new PDM releases.
 
 ## 💻 Commands
 
@@ -176,7 +184,7 @@ A font file (`.woff2`, `.woff`, `.ttf` or `.otf`; a local path, or an https URL 
 | `./install.sh sensors [enable\|disable\|detect\|configure\|status]` | Manage hardware sensor display (PVE only; default `status`) |
 | `./install.sh default-theme <key\|none>` | Set a server-side default theme for new browsers (user choice always wins) |
 | `./install.sh auto-theme [enable\|disable\|status]` | Add or remove "(Auto)" dropdown entries that follow the system light/dark setting (PVE, PBS; default `status`) |
-| `./install.sh font [<family> [file\|url] \| none]` | Set or clear a custom UI text font, icon-safe (no argument shows the current setting) |
+| `./install.sh font [<family> [file\|url] \| list \| remove <family> \| none]` | Set, switch or clear a custom UI text font, icon-safe; embedded fonts are saved for switching (no argument shows the current setting) |
 | `./install.sh` | Shows Menu to manage|
 
 ## 🔍 What the installer changes on your system
