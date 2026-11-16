@@ -2,7 +2,7 @@
 /*
  * ProxMorph Theme: UniFi
  * Authentic recreation of Ubiquiti UniFi Network Application UI
- * Version: 5.94
+ * Version: 5.95
  * Author: N.E.S.T. / Dr. Dranglog
  * 
  * UniFi Color Palette (extracted from live instance):
@@ -201,6 +201,11 @@ th,
 .x-window {
     border-radius: 8px !important;
     overflow: hidden !important;
+}
+
+/* Message boxes keep their ExtJS size: ExtJS places the close tool and the
+   text with inline px for that width, so a wider frame misaligns them. */
+.x-window:not(.x-message-box) {
     min-width: 295px !important;
     /* v5.85: Match Proxmox default to prevent scrollbars */
 }
@@ -208,16 +213,16 @@ th,
 /* v5.86: Fix dialog header/body not matching dialog width when min-width is applied
    Root cause: ExtJS sets inline width on header/body that's smaller than min-width forces.
    Solution: Force header/body to use 100% width so they inherit parent's computed width. */
-.x-window > .x-window-header,
-.x-window > .x-window-body,
-.x-window > .x-window-bodyWrap,
-.x-window-bodyWrap > .x-window-body {
+.x-window:not(.x-message-box) > .x-window-header,
+.x-window:not(.x-message-box) > .x-window-body,
+.x-window:not(.x-message-box) > .x-window-bodyWrap,
+.x-window:not(.x-message-box) .x-window-bodyWrap > .x-window-body {
     width: 100% !important;
 }
 
 /* Ensure box containers inside header use full width */
-.x-window-header > .x-box-inner,
-.x-window-header > .x-box-inner > .x-box-target {
+.x-window:not(.x-message-box) .x-window-header > .x-box-inner,
+.x-window:not(.x-message-box) .x-window-header > .x-box-inner > .x-box-target {
     width: 100% !important;
 }
 
@@ -3656,16 +3661,17 @@ body .x-window .x-panel .x-panel-bodyWrap>.x-tab-bar+.x-panel-body.x-panel-body-
    This is a pure CSS theme - no JavaScript modifications.
    ===================================================== */
 
-/* Opening animation keyframe */
+/* Opening animation keyframe. No scale(): ExtJS measures shrink-wrapped windows
+   with getBoundingClientRect() while this runs, and a scale shrinks the result. */
 @keyframes modalFadeIn {
     from {
         opacity: 0;
-        transform: scale(0.95) translateY(-10px);
+        transform: translateY(-10px);
     }
 
     to {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: translateY(0);
     }
 }
 
